@@ -206,8 +206,8 @@ aaa
 \section{Introduction} \label{sec:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
+Over the past years an increasing interest raised for computational methods that can solve both compressible and incompressible flows. In engineering applications, there is often the need to solve for complex flows where a near incompressible regime or low Mach flow coexists with a supersonic flow domain. For example, such flow are encountered in aerodynamic in the study of airships. In the nuclear industry, flows are nearly the incompressible regime but compressible effects cannot be neglected because of the heat source and thus needs to be accurately resolved. \\
+Because of the hyperbolic nature of the flow equations, numerical methods are required in order to accurately resolve shocks that can form during transonic and supersonic flows. Numerous numerical methods are available in the literature: flux-limiter, pressure-based viscosity method, Lapidus method, the entropy-viscosity method among others. These numerical methods are usually tested and developed using simple equation of states and for transonic and supersonic flows where the disparity between the acoustic waves and the fluid speed is not large since the Mach number is of order one.  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Entropy Viscosity Method} \label{sec:entro_visc}
@@ -217,24 +217,65 @@ aaa
 %===================================================================================================
 \subsection{Background} 
 %===================================================================================================
-
+In this section, the entropy-based viscosity method \cite{jlg1, jlg2, jlg3} is recalled for the multi-D Euler equations (with constant area $A$) \cite{valentin}. As mentioned in \sct{sec:intro} the entropy-based viscosity method consists of adding dissipative terms, with a viscosity coefficient modulated by the entropy production which allows high-order accuracy when the solution is smooth. Thus, two questions arise: (i) how are the viscosity dissipative terms derived and (ii) how to numerically compute the entropy production. Answers to the first question can be found in \cite{jlg} by Guermond et al., that details the proof leading to the derivation of the artificial dissipative terms (\eqt{eq:euler_visc}) consistent with the entropy minimum principle theorem. The viscous regularization obtained is valid for any equation of state as long as the opposite of the physical entropy function is convex.
+\begin{equation}
+\label{eq:euler_visc}
+\left\{ 
+\begin{array}{lll}
+\partial_t \left( \rho \right) + \div \left( \rho \vec{u} \right) = \div \left( \kappa \grad \rho \right) \\
+\partial_t \left( \rho \vec{u} \right) + \div \left( \rho \vec{u} \otimes \vec{u} + P \mathbf{I} \right) = \div \left( \mu \rho \grad \vec{u}  + \kappa \vec{u} \otimes \grad \rho \right)  \\
+\partial_t \left( \rho E \right) + \div \left[ \vec{u} \left( \rho E + P \right) \right] = \div \left( \kappa \grad \left( \rho e \right) + \frac{1}{2}|| \vec{u} ||^2 \kappa \grad \rho +  \rho \mu \vec{u} \grad \vec{u}  \right) \\
+P = P\left( \rho, e \right)
+\end{array}
+\right.
+\end{equation}
+where $\kappa$ and $\mu$ are local positive viscosity coefficients. \\
+The existence of a specific entropy $s$, function of the density $\rho$ and the internal energy $e$ is assumed. Convexity of $-s$ with respect to $e$ and $1/\rho$ is required, along with the following equality verified by the partial derivatives of $s$ : $P \partial_e s + \rho^2 \partial_{\rho} s = 0$.\\
+One crucial step remains a definition for the local viscosity coefficients $\mu$ and $\kappa$. In the current version of the method, $\kappa$ and $\mu$ are set equal, so that the above viscous regularization (\eqt{eq:euler_visc}) is equivalent to the parabolic regularization \cite{Parabolic}. The current definition includes a first-order viscosity coefficient referred to with the subscript $max$, and a high-order viscosity coefficient referred to with the subscript $e$. The first-order viscosity coefficients $\mu_{max}$ and $\kappa_{max}$ are proportional to the local largest eigenvalue $|| \vec{u} || + c $ and equivalent to an upwind-scheme, when used, which is known to be over-dissipative and monotone \cite{Toro}: 
+\begin{equation}
+\mu_{max}(\vec{r}, t) = \kappa_{max}(\vec{r}, t) = \frac{h}{2} \left( || \vec{u} || + c \right),
+\end{equation}
+where $h$ is the spatial grid size. \\
+The second-order viscosity coefficients $\kappa_e$ and $\mu_e$ are set proportional to the entropy production that is evaluated by computing the local entropy residual $D_e$. It also includes the interfacial jump of the entropy flux $J$ that will allow to detect any discontinuities other than shocks:
+\begin{equation}
+\label{eq:ent_visc_coeff}
+\mu_e(\vec{r},t) = \kappa_e(\vec{r},t) = h^2 \frac{\max\left( | D_e(\vec{r},t) |, J \right)}{|| s - \bar{s} ||_{\infty}} \text{ with } D_e(\vec{r}, t) = \partial_t s + \vec{u} \cdot \grad s
+\end{equation}
+where $|| \cdot ||_{\infty}$ and $\bar{\cdot}$ denote the infinite norm operator and the average operator over the entire computational domain, respectively. The definition of the jump $J$ is discretization-dependent and examples of definition can be found in \cite{valentin} for DGFEM. The denominator $|| s - \bar{s} ||_{\infty}$ is used for dimensionality purposes and should not be of the same order as $h$, on penalty of loosing the high-order accuracy. Currently, there are no theoretical justification for choosing the denominator. \\
+The definition of the viscosity coefficients $\mu$ and $\kappa$ is function of the first- and second-order viscosity coefficients as follows:
+\begin{equation}
+\mu(\vec{r},t) = \min\left( \mu_e(\vec{r},t), \mu_{max}(\vec{r},t) \right) \text{ and } \kappa(\vec{r},t) = \min\left( \kappa_e(\vec{r},t), \kappa_{max}(\vec{r},t) \right).
+\end{equation}
+This definition allows the following properties.
+In shock regions, the second-order viscosity coefficient experiences a peak because of entropy production, and thus, saturates to the first-order viscosity that is known to be over-dissipative and will smooth out oscillations. Anywhere else, the entropy production being small, the viscosity coefficients $\mu$ and $\kappa$ are of order $h^2$.\\
+Using the above definition of the entropy-based viscosity method, high-order accuracy was demonstrated and excellent results were obtained with 1-D Sod shock tubes and various 2-D tests \cite{jlg1, jlg2, valentin}.
 %===================================================================================================
 \subsection{Issues in the Low-Mach Regime} 
 %===================================================================================================
-
-
+In the Low-Mach Regime, the flow is known to be isentropic resulting in very little entropy production. Since the entropy viscosity method is directly based on the evaluation of the local entropy production, it will be interested to study how the entropy viscosity coefficients $\mu$ and $\kappa$ scale in the low Mach regime. Mathematically, it means that the entropy residual $D_e$ will be very small, so will be the denominator $|| s - \bar{s} ||_{\infty}$, thus making the ratio, used in the definition of viscosity coefficients, undetermined $\frac{D_e}{|| s - \bar{s} ||_{\infty}}$.  Therefore, the current definition of the viscosity coefficients seem unadapted to subsonic flow and could lead to ill-scaled dissipative terms. A solution would be to recast the entropy residual as a function of other variables in order to have more freedom in the choice of the normalization parameter.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{All-speed Reformulation of Entropy Viscosity Method} \label{sec:extension}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+In this section, it is shown how the entropy residual $D_e$ can be recast as a function of the pressure, the density and the speed of sound. Then, an low Mach asymptotic study of the multi-D Euler equations is performed in order to derive the correct normalization parameter. 
 %===================================================================================================
 \subsection{New Entropy Production Residual} 
 %===================================================================================================
-
+The first step in defining a viscosity coefficient that behaves well in the low mach limit is to recast the entropy residual in terms of thermodynamic variables:
+\begin{equation}
+\label{eq:ent_res}
+D_e(\vec{r},t) = \partial_t s + \vec{u} \cdot \grad s = \frac{s_e}{P_e} \left( \underbrace{\frac{d P}{dt} - c^2 \frac{d \rho}{dt}}_{\tilde{D}_e(\vec{r},t)} \right),
+\end{equation} 
+where $\frac{d \cdot}{dt}$ denotes the material or total derivative, and $P_e$ is the partial derivative of pressure with respect to internal energy. The steps that lead to the new formulation of the entropy residual $D_e$ can be found in APPENDIX. \\
+The entropy residual $D_e$ and $\tilde{D}_e$ are proportional to each other and therefore will experience the same variation when taking the absolute value. Thus,  locally evaluating $\tilde{D}_e$ instead of $D_e$ should allow us to measure the entropy production point wise. This new expression given in \eqt{eq:ent_res} has multiple advantages:
+\begin{itemize}
+\item an analytical expression of the entropy function is not longer needed: the entropy residual $\tilde{D}_e$ is evaluated using the local values of the pressure, the density and the speed of sound. Deriving an entropy function for some complex equation of states can be difficult.
+\item with the proposed expression of the entropy residual function of pressure and density, additional normalizations suitable for low Mach flows of the entropy residual can be devised. Examples include the pressure itself, or combination of the density, the speed of sound and the norm of the velocity: $\rho c^2$, $\rho c || \vec{u} ||$ and $\rho || \vec{u} ||^2$. An asymptotic study on the model of \cite{LowMach1, LowMach2, LowMach3} involving the dissipative terms should give us a theoretical justification for the denominator to use.
+\end{itemize}
+%The idea is to avoid computing an entropy function that can be difficult to obtain for complex equations of state. In addition, this formulation seems to be more suitable in the low Mach limit. In the \sct{sec:intro}, it was mentioned the importance of having well-scaled dissipative terms, allowing the numerical solution to converge to the physical solution. The current definition of the high-order viscosity coefficients (\eqt{eq:ent_visc_coeff}) is not necessarily adapted to low Mach flows that are by definition isentropic: the entropy residual $D_e$ will be very small, so will be the denominator $||s-\bar{s}||_{\infty}$, thus making the ratio undetermined.  
 %===================================================================================================
-\subsection{other ???} 
+\subsection{Low-Mach asymptotic study of the multi-D Euler equations} 
 %===================================================================================================
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -242,24 +283,41 @@ aaa
 \section{Solution Techniques Spatial and Temporal Discretizations} \label{sec:solution_tech}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+In order to detail the partial and temporal discretization used for this study, the system of equations presented in \sct{sec:intro}  is considered under the following form:
+\begin{equation}
+\label{eq:form}
+\partial_t U + \div F\left( U \right) = S
+\end{equation}
+where $U$ is the vector solution, $F$ is a conservative vector flux and $S$ is a vector source that can contain some relaxation source terms and non-conservative terms.
 %===================================================================================================
 \subsection{Spatial and Temporal Discretizations} \label{sec:disc}
 %===================================================================================================
-
+The system of equation given in \eqt{eq:form} is discretized using a continuous Galerkin finite element method and high-order temporal integrators provided by the MOOSE framework.
 %---------------------------------------------------------------------------------------------------
 \subsubsection{CFEM} 
 %---------------------------------------------------------------------------------------------------
-
+In order to apply the continuous finite element method, \eqt{eq:form} is multiplied by a smooth test function $\phi$, integrated by part and each integral is split onto each finite element $e$ of the discrete mesh $\Omega$ bounded by $\partial \Omega$, to obtain a weak solution:
+\begin{equation}
+\sum_e \int_{e} \partial_t U \phi - \sum_e \int_{e} F(U) \cdot \grad \phi + \int_{\partial \Omega} F(U) \vec{n} \phi - \sum_e \int_{e} S \phi = 0
+\end{equation}
+The integrals over the elements $e$ are evaluated using quadrature-point rules. The Moose framework provides a wide range of test function and quadrature rules: trapezoidal and Gauss rules among others. Linear Lagrange polynomials will be used as test functions and should ensure second-order convergence for smooth functions. The order of convergence will be demonstrated.
 %---------------------------------------------------------------------------------------------------
-\subsubsection{Time} 
+\subsubsection{Temporal integrator} 
 %---------------------------------------------------------------------------------------------------
-
-%===================================================================================================
+The MOOSE framework offers both first- and second-order explicit and implicit temporal integrators. In all of the numerical examples presented in \sct{sec:results}, the time-dependent term $\int_{e} \partial_t U \phi$ will be evaluated using the second-order temporal integrator BDF2. By considering three converged solutions, $U^{n-1}$, $U^n$ and $U^{n+1}$ at three different time $t^{n-1}$, $t^n$ and $t^{n+1}$, respectively, it yields:
+\begin{eqnarray}
+\label{eq:BDF2}
+\int_{e} \partial_t U \phi = \omega_0 U^{n+1}  + \omega_1 U^n + \omega_2 U^{n-1} \\
+\text{with }\omega_0 = \text{, } \omega_1 = \text{ and } \omega_2 = \nonumber
+\end{eqnarray}
+%---------------------------------------------------------------------------------------------------
+\subsection{Boundary conditions} \label{sec:bc}
+%---------------------------------------------------------------------------------------------------
+The boundary conditions will be treated by either using Dirichlet or Neumann conditions. The multi-D Euler equations are wave-dominated systems that require great care when dealing with boundary conditions. It is often recommended to use the characteristic equations to compute the correct flux at the boundaries. Our implementation of the boundary conditions will follow the method described in \cite{SEM} that was developed for Ideal Gas and Stiffened Gas equation of states. For each numerical solution presented in \sct{sec:results}, the type of boundary conditions used will be specified. 
+%---------------------------------------------------------------------------------------------------
 \subsection{Solver} \label{sec:solver}
-%===================================================================================================
-
-MOOSE etc.
+%---------------------------------------------------------------------------------------------------
+A Free-Jacobian-Newton-Krylov (FJNK) method is used to solve for the solution at each time step.  
  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
