@@ -252,7 +252,7 @@ Using the above definition of the entropy-based viscosity method, high-order acc
 %===================================================================================================
 \subsection{Issues in the Low-Mach Regime} 
 %===================================================================================================
-In the Low-Mach Regime, the flow is known to be isentropic resulting in very little entropy production. Since the entropy viscosity method is directly based on the evaluation of the local entropy production, it will be interested to study how the entropy viscosity coefficients $\mu$ and $\kappa$ scale in the low Mach regime. Mathematically, it means that the entropy residual $D_e$ will be very small, so will be the denominator $|| s - \bar{s} ||_{\infty}$, thus making the ratio, used in the definition of viscosity coefficients, undetermined $\frac{D_e}{|| s - \bar{s} ||_{\infty}}$.  Therefore, the current definition of the viscosity coefficients seem unadapted to subsonic flow and could lead to ill-scaled dissipative terms. A solution would be to recast the entropy residual as a function of other variables in order to have more freedom in the choice of the normalization parameter.
+In the Low-Mach Regime, the flow is known to be isentropic resulting in very little entropy production. Since the entropy viscosity method is directly based on the evaluation of the local entropy production, it will be interested to study how the entropy viscosity coefficients $\mu$ and $\kappa$ scale in the low Mach regime. Mathematically, it means that the entropy residual $D_e$ will be very small, so will be the denominator $|| s - \bar{s} ||_{\infty}$, thus making the ratio, used in the definition of the viscosity coefficients \eqt{eq:ent_visc_coeff}, undetermined.  Therefore, the current definition of the viscosity coefficients seems unadapted to subsonic flow and could lead to ill-scaled dissipative terms. A solution would be to recast the entropy residual as a function of other variables in order to have more freedom in the choice of the normalization parameter. The idea is to still define the viscosity coefficient proportional to the entropy residual that is a good indicator of the flow type (subsonic or supersonic).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{All-speed Reformulation of Entropy Viscosity Method} \label{sec:extension}
@@ -278,25 +278,25 @@ The viscosity coefficients $\mu$ and $\kappa$ are defined proportional to the ne
 \mu \left( \vec(r),t \right) = \kappa \left( \vec(r),t \right) = h^2 \frac{\max \left( \tilde{D}_e, J \right)}{n(P)}
 \end{equation}
 where $n(P)$ is a normalization parameter to determine and all other variables were defined previously. \\
-As mentioned earlier, the normalization parameter $n(P)$ must be of the same units as the pressure for the viscosity coefficients to have the unit of a dynamic viscosity $(m^2 / s)$. As mentioned earlier, multiples options are available to us ($P$, $\rho c^2$, $\rho c || \vec{u} ||$ and $\rho || \vec{u} ||^2$). The choice of the normalization parameter cannot be random if the definition of the viscosity coefficient is wanter to be well-scaled for a wide range of Mach numbers. For example, by choosing $n(P) = \rho || \vec{u} ||^2$, the viscosity coefficient will become very large as the Mach number decreases which would be unnecessary since the equations will not develop any shock or discontinuity. Therefore, it is proposed to carry, in \sct{sec:lowMach}, a low-Mach asymptotic study of the multi-D Euler equations in order to determine the correct expression for the normalization parameter $n(P)$.
+As mentioned earlier, the normalization parameter $n(P)$ must be of the same units as the pressure for the viscosity coefficients to have the unit of a dynamic viscosity $(m^2 / s)$. Multiples options are available to us ($P$, $\rho c^2$, $\rho c || \vec{u} ||$ and $\rho || \vec{u} ||^2$). The choice of the normalization parameter cannot be random if the definition of the viscosity coefficient is wanter to be well-scaled for a wide range of Mach numbers. For example, by choosing $n(P) = \rho || \vec{u} ||^2$, the viscosity coefficient will become very large as the Mach number decreases which would be unnecessary since the equations will not develop any shock or discontinuity. Therefore, it is proposed to carry, in \sct{sec:lowMach}, a low-Mach asymptotic study of the multi-D Euler equations in order to determine the correct expression for the normalization parameter $n(P)$.
 %The idea is to avoid computing an entropy function that can be difficult to obtain for complex equations of state. In addition, this formulation seems to be more suitable in the low Mach limit. In the \sct{sec:intro}, it was mentioned the importance of having well-scaled dissipative terms, allowing the numerical solution to converge to the physical solution. The current definition of the high-order viscosity coefficients (\eqt{eq:ent_visc_coeff}) is not necessarily adapted to low Mach flows that are by definition isentropic: the entropy residual $D_e$ will be very small, so will be the denominator $||s-\bar{s}||_{\infty}$, thus making the ratio undetermined.  
 %===================================================================================================
 \subsection{Low-Mach asymptotic study of the multi-D Euler equations} \label{sec:lowMach}
 %===================================================================================================
-The asymptotic study requires the multi-D Euler equations to be non dimensionalized: the objective is to make the Mach number appears and thus, use a polynomial expansion of the variables as a function of the Mach number in order to derive the leading, first- and second-order equations. Before detailing the steps of the asymptotic method, let us have a closer look at the system of equations under consideration. The initial system of equations is composed of the multi-D Euler equations. For stability purpose, artificial dissipative terms are added to each equation as explained in \sct{sec:entro_visc}. The resulting system of equations is alike the multi-D Navier-Stokes equations in a sense that it contains second-order derivative terms. Thus, it would be interesting to look at the steps employed in the study of the asymptotic study of the multi-D Navier-Stokes equations in order to understand how the dissipative terms are treated. Fortunately, this process is well-documented in the literature (REFS) for both multi-D Euler equations and Navier-Stokes equations. This work is mainly inspired of (REF) that focuses on the asymptotic study in the low Mach regime of Navier-Stokes equations. During the derivation, the reader has to keep in mind that the objective of this section is to derive a normalization parameter for the definition of the viscosity coefficients so that the multi-D Euler equations degenerate to the incompressible system of equations, which implies that the dissipative terms are well-scaled. The details of the step by step process can be found in APPENDIX. In this section, only the continuity equation is considered for simplicity. \\
-The following non-dimensionalized variables are used:
+The asymptotic study requires the multi-D Euler equations to be non dimensionalized: the objective is to make the Mach number appears and thus, use a polynomial expansion of the variables as a function of the Mach number in order to derive the leading, first- and second-order equations. Before detailing the steps of the asymptotic method, let us have a closer look at the system of equations under consideration. The initial system of equations is composed of the multi-D Euler equations. For stability purpose, artificial dissipative terms are added to each equation as explained in \sct{sec:entro_visc}. The resulting system of equations is alike the multi-D Navier-Stokes equations in a sense that it contains second-order derivative terms. Thus, it would be interesting to look at the steps employed in the study of the asymptotic study of the multi-D Navier-Stokes equations in order to understand how the dissipative terms are treated. Fortunately, this process is well-documented in the literature (REFS) for both multi-D Euler equations and Navier-Stokes equations. The work presented here is mainly inspired of (REF) that focuses on the asymptotic study in the low Mach regime of Navier-Stokes equations. During the derivation, the reader has to keep in mind that the objective of this section is to derive a normalization parameter for the definition of the viscosity coefficients so that the multi-D Euler equations degenerate to the incompressible system of equations, which implies that the dissipative terms are well-scaled. The full derivation that leads to the final result can be found in APPENDIX. In this section, only the main steps are recalled. \\
+To express \eqt{eq:euler_visc} in dimensionless variables, the following definitions are used
 \begin{eqnarray}
 \rho &=& \frac{\rho^*}{\rho_{\infty}} \text{, } P = \frac{P^*}{\rho_{\infty}c^2_{\infty}} \text{, } \mu = \frac{\mu^*}{\mu_{\infty}} \text{, } \text{, }  E = \frac{E^*}{c^2_{\infty} } \text{, } 
 \mu = \frac{\mu^*}{\mu_{\infty}} \text{, }\nonumber \\
  \kappa &=& \frac{\kappa^*}{\kappa_{\infty}} \text{, }
 x = \frac{x^*}{L_{\infty}} \text{, } t = \frac{t^*}{L_{\infty} / u_{\infty}} \text{, } u = \frac{u^*}{u_{\infty}}\nonumber
 \end{eqnarray}
-where  the subscript $\infty$ denotes far field or stagnation quantities. The reference quantities are chosen such that the non dimensional flow quantities are of order one for any low reference-Mach number
+where  the subscript $\infty$ and the upper script $*$ denote far field or stagnation quantities and the dimensionless variables, respectively. The reference quantities are chosen such that the non dimensional flow quantities are of order one for any low reference-Mach number
 \begin{equation}
 M_{\infty} = \frac{u^*_{\infty}}{c*_{\infty}}
 \end{equation}
 where $c^*_{\infty}$ is a reference value for the speed of sound.\\
-Then, using the non dimensional quantities and the multi-D Euler equations from  \eqt{eq:Euler_eq1} , the following non dimensional form is obtained:
+Then, using the non dimensional quantities and the multi-D Euler equations from \eqt{eq:euler_visc} , the following non dimensional form is obtained:
  \begin{equation}
 \label{eq:Euler_eq2}
 \left\{ 
@@ -304,8 +304,8 @@ Then, using the non dimensional quantities and the multi-D Euler equations from 
 \partial_t \rho+ \nabla \left(  \rho \vec{u}  \right) = \frac{1}{Re_{\infty} Pr_{\infty}} \nabla \cdot ( \kappa \nabla \rho )\nonumber\\
 \partial_t \left( \rho \vec{u} \right) + \nabla \left( \rho \vec{u}\otimes \vec{u} \right) + \frac{1}{M_{\infty}^2}\nabla \left( P \right) = \frac{1}{Re_{\infty}}\nabla \left( \rho \mu \nabla \vec{u} \right) + \frac{1}{Re_{\infty} Pr_{\infty}} \nabla \cdot (\vec{u}\otimes \kappa \nabla \rho )\\
 \partial_t \left( \rho E \right) + \nabla \cdot \left[ \vec{u} \left( \rho E + P \right) \right] = \frac{1}{Re_{\infty} Pr_{\infty}} \nabla \cdot(\kappa \nabla(\rho e)) + \frac{\tilde{M_{\infty}}^2}{Re_{\infty}}\nabla \cdot \left( \vec{u} \rho \mu \nabla \vec{u} \right) \nonumber \\
-+ \frac{M^2}{2 Re_{\infty} Pr_{\infty}} \nabla \cdot (\kappa u^2 \nabla \rho) \nonumber \\
-P = \left( \gamma-1 \right) \left( \rho E + M^2 \rho u^2 \right)\nonumber
++ \frac{M_{\infty}^2}{2 Re_{\infty} Pr_{\infty}} \nabla \cdot (\kappa u^2 \nabla \rho) \nonumber \\
+P = \left( \gamma-1 \right) \left( \rho E + M_{\infty}^2 \rho u^2 \right)\nonumber
 \end{array}
 \right.
 \end{equation}
@@ -315,7 +315,34 @@ where the \emph{numerical} Reynolds $(Re_{\infty})$ and Prandtl $(Pr_{\infty})$ 
 Re_{\infty} = \frac{u_{\infty} L_{\infty}}{\mu_{\infty}} \text{ and }
 Pr_{\infty} = \frac{\mu_{\infty}}{\kappa_{\infty}} \nonumber \text{.}
 \end{eqnarray}
-Since it is chosen to have the same definition for both $\mu$ and $\kappa$ the numerical Prandtl number is unconditionally equal to one: $Pr_{\infty} = 1$. 
+Since it is chosen to have the same definition for both $\mu$ and $\kappa$ the numerical Prandtl number is unconditionally equal to one: $Pr_{\infty} = 1$. //
+Once the dimensionless equations are obtained, the next step consists of expanding each variable in term of the Mach number (example given in \eqt{eq:expansion} for the pressure $P$) in order to derive the leading, first- and second-order equations. 
+\begin{equation}
+\label{eq:expansion}
+P(\vec{r}, t) = P_0(\vec{r}, t) + P_1(\vec{r}, t) M_{\infty} + P_2(\vec{r}, t) M_{\infty}^2 + \dots \text{ with } M_{\infty} \to 0
+\end{equation}
+Before deriving the leading-order equation, a choice needs to be made on how the numerical Reynolds number scales. Multiple options are available to us and a few example are given: $Re_{\infty} = M_{\infty}$, or $Re_{\infty} = M_{\infty}^{-1}$ or $Re_{\infty} = 1$. Let us assume for academy purpose that the numerical Reynolds number scales as the inverse of the Mach number square:  $Re_{\infty} = M_{\infty}^{-2}$. The best way to evaluate the impact of this choice on the equations, is to look at the momentum equation and try to derive the order $M_{\infty}^{-2}$:
+\begin{equation}
+\label{eq:mom_leading_wrong}
+\grad P_0 = \div (\rho_0 \mu_0 \grad \vec{u}_0 + \vec{u}_0 \otimes \grad \rho_0 )
+\end{equation}
+which is known to be (REF)
+\begin{equation}
+\label{eq:mom_leading_right}
+\grad P_0 = 0 
+\end{equation}
+It is clear that \eqt{eq:mom_leading_wrong} and \eqt{eq:mom_leading_right} will not yield the same result. The same conclusion is drawn when deriving the order $M_{\infty}^{-1}$ of the momentum equation, making our initial assumption not suitable. From the above result, it is understood that the numerical Reynolds number has to scale as one so that it does not affect the orders $M_{\infty}^{-2}$ and $M_{\infty}^{-1}$ of the momentum equations: $Re_{\infty} = 1$. Thus, with such assumption, \eqt{eq:Euler_eq2} implies:
+ \begin{eqnarray}
+ \text{At order $M_{\infty}^{-2}$:} \nonumber\\
+ \grad P_0 = 0  \nonumber\\
+ \text{At order $M_{\infty}^{-1}$:} \nonumber\\
+ \grad P_1 = 0  \nonumber \\
+ \text{At leading-order:} \nonumber\\
+ \partial_t \rho_0 + \div ( \rho_0 \vec{u}_0 ) = \div ( \kappa_0 \grad \rho_0 ) \nonumber \\
+ \partial_t (\rho_0 \vec{u}_0) + \div ( \rho_0 \vec{u}_0 \otimes \vec{u}_0) + \grad P_2 = \div (\rho_0 \mu_0 \grad \vec{u}_0 + \vec{u}_0 \otimes \grad \rho_0 ) \nonumber \\
+ \partial_t(\rho_0 E_0) + \div \left[ \vec{u}_0 (\rho_0 E_0 + P_0) \right] = \div(\kappa_0 \grad(\rho_0 e_0)) \nonumber
+ \end{eqnarray}
+ Under this form, the dissipative terms are well-scaled and should not alter the physical solution in the asymptotic limit.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Solution Techniques Spatial and Temporal Discretizations} \label{sec:solution_tech}
