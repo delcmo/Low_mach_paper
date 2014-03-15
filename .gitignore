@@ -35,3 +35,4 @@
 *.spl
 *.zip
 *.gz
+.DS_Store

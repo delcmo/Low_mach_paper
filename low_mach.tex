@@ -44,9 +44,10 @@
 
 %% if you use PostScript figures in your article
 %% use the graphics package for simple commands
-\usepackage{subfigure}
-
+\usepackage{float}
 \usepackage{color}
+\usepackage{caption}
+\usepackage{subcaption}
 %% or use the graphicx package for more complicated commands
 \usepackage{graphicx}
 %% or use the epsfig package if you prefer to use the old commands
@@ -61,7 +62,6 @@
 \usepackage{amstext}
 \usepackage{amsbsy}
 \usepackage{mathbbol} 
-
 %% The lineno packages adds line numbers. Start line numbering with
 %% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
 %% for the whole article with \linenumbers.
@@ -466,13 +466,138 @@ A Free-Jacobian-Newton-Krylov (FJNK) method is used to solve for the solution at
 \section{Numerical Results} \label{sec:results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-This section aims at validating our approach detailed in \sct{sec:lowMach} for deriving a viscosity coefficient that behaves well in the asymptotic limit. It is proposed to run both $1$- and $2$-D simulations. The $1$-D simulations consist of liquid water and steam flowing in a convergent-divergent nozzle. Numerical results for the challenging Leblanc shock tube are also shown (REF). Subsonic flows of a gas over a $2$-D cylinder and a hump are simulated and results are shown for various far-field Mach numbers. Numerical results of a supersonic flow in a compression corner are provided to illustrate the capabilities of the new definition in the supersonic case. Convergence studies are performed when an analytical solution is available. For each simulation, informations relative to the boundary conditions and the equation of state will be provided.
+This section aims at validating our approach detailed in \sct{sec:lowMach} that focused on deriving a viscosity coefficient behaving well in the asymptotic limit. It is proposed to run both $1$- and $2$-D simulations. The $1$-D simulations consist of liquid water and steam flowing in a convergent-divergent nozzle. This test is interesting for multiple reasons: a steady-state is reached, it can be performed for liquid and gas phases and an analytical solution of the steady-state solution is available. Numerical results for the challenging Leblanc shock tube are also shown (REF). Subsonic flows of a gas over a $2$-D cylinder and a hump are simulated and results are shown for various far-field Mach numbers. Numerical results of a supersonic flow in a compression corner are provided to illustrate the capabilities of the new definition in the supersonic case. Convergence studies are performed when an analytical solution is available. For each simulation, informations relative to the boundary conditions and the equation of state will be provided. All of the numerical solution presented in this section are run with the second-order temporal integrator $BDF2$ and linear polynomials test function and integrated with a Gauss second-order quadrature rule. 
 %---------------------------------------------------------------------------------------------------
 \subsection{Liquid water in a $1$-D divergent-convergent nozzle} \label{sec:liquid_nozzle}
 %---------------------------------------------------------------------------------------------------
+The liquid water phase is simulated using the Stiffened gas equation of state (REF). The following parameters are used:\\
+The simulation consists of a $1$ convergent-divergent nozzle with the following equation, $A(x) = 1 + 0.5 \cos(2 \pi x / L)$, where $L=1m$ is the length of the nozzle. At the inlet, a stagnation pressure boundary condition is used: the stagnation pressure and temperature are set to $P_0 = 1 MPa$ and $T_0 = 453 K$, respectively. At the outlet, only the static pressure is specified, $P_s = 0.5MPa$. Details about the theory related to the inlet and outlet boundary conditions can be found in (REFS). Initially, the temperature is uniform and set equal to the stagnation temperature and the pressure linearly decreases from the stagnation pressure to the static one. Finally, the liquid is assumed at rest. The Stiffened Gas equation of state is used to model liquid water with the parameters provided in \tbl{tbl:stff_gas_eos_liq}.
+\begin{table}[H]
+\begin{center}
+ \caption{\label{tbl:stff_gas_eos_liq} Stiffened Gas Equation of State parameters for liquid water.}
+ \begin{tabular}{|c|c|c|c|}
+ \hline
+$\gamma$ & $C_v$ $(J\cdot kg^{-1} \cdot K^{-1})$ & $P_{\infty}$ $(Pa)$ & $q$ $(J \cdot kg^{-1})$ \\
+ \hline
+2.35 & 1816 & $10^9$ & $-1167.10^3$   \\
+  \hline
+\end{tabular}
+\end{center}
+\end{table}
+Plots of the pressure, velocity and density are given at steady-state and during the transient. The viscosity coefficients are also plotted but only at steady-state. Since a steady-state analytical solution is available to us (REF), a convergence study is performed in order to demonstrate the accuracy of the entropy viscosity method. For the liquid phase, the solution corresponds to a low-Mach regime case: the flow is isentropic and the final solution does not display any shock or discontinuity. This is a good test to assess the behavior of the new definition of the viscosity coefficient proposed in \eqt{eq:final_def_visc_coeff}.\\
+Plots of the velocity, pressure, density and viscosity coefficients at steady-state are given in \fig{fig:1d_nozzle_liq_vel}, \fig{fig:1d_nozzle_liq_density}, \fig{fig:1d_nozzle_liq_press} and \fig{fig:1d_nozzle_liq_visc}, respectively. The exact solution is also plotted for comparison. The mesh used is uniform and has $50$ cells. The final solution being smooth, a coarse mesh should be sufficient to capture the main features.
+\begin{figure}[H]
+        \centering
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{liquid_velocity_numerical_and_exact_50.png}
+                \caption{Velocity solution at steady-state.}
+                \label{fig:1d_nozzle_liq_vel}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{liquid_density_numerical_and_exact_50.png}
+                \caption{Density solution at steady-state}
+                \label{fig:1d_nozzle_liq_density}
+        \end{subfigure}
+         %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{liquid_pressure_numerical_and_exact_50.png}
+                \caption{Pressure solution at steady-state.}
+                \label{fig:1d_nozzle_liq_press}
+        \end{subfigure}
+          %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{liquid_pressure_numerical_and_exact_50.png}
+                \caption{Viscosity coefficients at steady-state.}
+                \label{fig:1d_nozzle_liq_visc}
+        \end{subfigure}
+        \caption{Steady-state solution for liquid phase in a $1$-D convergent-divergent nozzle with an uniform mesh of $50$ cells.}\label{fig:1d_liq_nozzle}
+\end{figure}
+The numerical and exact solutions of the velocity, pressure and density given in \fig{fig:1d_liq_nozzle} for a fairly coarse mesh perfectly overlap. The second-order viscosity coefficient  is very small compare to the first-order one as expected, since the numerical solution is smooth as shown in \fig{fig:1d_nozzle_liq_visc}. A study convergence was performed using the exact solution as a reference: the L$2$ norm of the error and the corresponding convergence rates are computed at steady-state on various uniform mesh from $4$ to $256$ cells. The results for linear polynomials $\mathbb{Q}_1$ is reported in \tbl{tbl:l2_norm_liq}.
+\begin{table}[H]
+\begin{center}
+ \caption{\label{tbl:l2_norm_liq} L$2$ norm of the error for the liquid phase in a $1$-D convergent-divergent nozzle at steady-state.}
+ \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+ \hline
+   cells & density & rate & pressure & rate & velocity & rate \\
+ \hline
+$4$ &   $3.106397$ $10^{-1}$ & $-$ & $5.254445$ $10^{5}$ & $-$ & $3.288543$                   & $-$\\
+  \hline
+$8$  &  $7.491623$ $10^{-2}$ & $4.14$ & $1.636966$ $10^{5}$ & $3.21$ & $1.823880$                   & $1.80$\\
+   \hline
+$16$ & $2.079858$ $10^{-2}$ & $3.60$ & $4.627338$ $10^{4}$ & $3.54$ & $4.990605$ $10^{-1}$ & $3.65$\\
+ \hline
+$32$ & $5.329627$ $10^{-3}$ & $3.90$ & $1.180287$ $10^{4}$ & $3.92$ & $1.261018$ $10^{-1}$ & $3.96$\\
+ \hline
+$64$ & $1.341583$ $10^{-3}$ & $3.97$ & $2.967104$ $10^{3}$ & $3.98$ & $3.160914$ $10^{-2}$ & $3.99$\\
+ \hline
+$128$&$3.359766$ $10^{-4}$ & $3.99$ & $7.428087$ $10^{2}$ & $3.99$ & $7.907499$ $10^{-3}$ & $3.99$\\
+ \hline
+$256$&$8.403859$ $10^{-5}$& $3.99$ & $1.857861$ $10^{2}$ & $3.99$ & $1.977292$ $10^{-3}$ & $3.99$\\
+ \hline
+\end{tabular}
+\end{center}
+\nonumber
+\end{table}
+It is observed that the L$2$-norm of the error is divided by $4$ every time the mesh is uniformly refined: this proves (i) the second-order accuracy and (ii) that the entropy viscosity method does not affect the convergence rate when the solution is smooth. 
 %---------------------------------------------------------------------------------------------------
 \subsection{Steam in a $1$-D divergent-convergent nozzle} \label{sec:steam_nozzle}
 %---------------------------------------------------------------------------------------------------
+The results of this section are obtained using the exact same $1$-D geometry, initial condition and boundary conditions as in \sct{sec:liquid_nozzle}. The Stiffened gas equation of state is still used but with different parameters that are given in \tbl{tbl:stff_gas_eos_vap}. 
+\begin{table}[H]
+\begin{center}
+ \caption{\label{tbl:stff_gas_eos_vap} Stiffened Gas Equation of State parameters for steam.}
+ \begin{tabular}{|c|c|c|c|}
+ \hline
+$\gamma$ & $C_v$ $(J\cdot kg^{-1} \cdot K^{-1})$ & $P_{\infty}$ $(Pa)$ & $q$ $(J \cdot kg^{-1})$ \\
+ \hline
+1.43 & 1040 & 0 & $2030.10^3$   \\
+ \hline
+\end{tabular}
+\end{center}
+\end{table}
+The pressure difference applied between the inlet and outlet will make the steam accelerates through the nozzle and result in the formation of shock in the divergent part. The behavior is different from what is observed for the liquid water phase in \sct{sec:liquid_nozzle} because of the liquid to gas density ratio that is of $1000$. The objective of this section is to show that using the new definition of the viscosity coefficient in \eqt{eq:final_def_visc_coeff}, the shock can be correctly resolved and all spurious oscillations removed to capture the main features.
+\begin{figure}[H]
+        \centering
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{vapor_velocity_numerical_and_exact_1600.png}
+                \caption{Velocity solution at steady-state.}
+                \label{fig:1d_nozzle_vap_vel}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{vapor_density_numerical_and_exact_1600.png}
+                \caption{Density solution at steady-state}
+                \label{fig:1d_nozzle_vap_density}
+        \end{subfigure}
+         %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{vapor_pressure_numerical_and_exact_1600.png}
+                \caption{Pressure solution at steady-state.}
+                \label{fig:1d_nozzle_vap_press}
+        \end{subfigure}
+          %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{vapor_pressure_numerical_and_exact_1600.png}
+                \caption{Viscosity coefficients at steady-state.}
+                \label{fig:1d_nozzle_vap_visc}
+        \end{subfigure}
+        \caption{Steady-state solution for vapor phase in a $1$-D convergent-divergent nozzle.}\label{fig:1d_vap_nozzle}
+\end{figure}
 %---------------------------------------------------------------------------------------------------
 \subsection{Leblanc shock tube} \label{sec:Leblanc}
 %---------------------------------------------------------------------------------------------------
@@ -482,10 +607,61 @@ This section aims at validating our approach detailed in \sct{sec:lowMach} for d
 %---------------------------------------------------------------------------------------------------
 \subsection{Subsonic flow over a $2$-D hump} \label{sec:hump}
 %---------------------------------------------------------------------------------------------------
+\begin{figure}[H]
+        \centering
+        \begin{subfigure}[b]{0.6\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{Hump2D_mach_0p01.png}
+                \caption{Isomach at steady-state.}
+                \label{fig:2d_hump_mach_0p01}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.6\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{Hump2D_mach_0p0001.png}
+                \caption{Isomach at steady-state.}
+                \label{fig:2d_hump_mach_0p0001}
+        \end{subfigure}
+         %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.6\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{Hump2D_mach_0p0000001.png}
+                \caption{Isomach at steady-state.}
+                \label{fig:2d_hump_mach_0p0000001}
+        \end{subfigure}
+        \caption{Steady-state solution for a flow in a $2$-D compression corner.}\label{fig:2d_hump}
+\end{figure}
 %---------------------------------------------------------------------------------------------------
 \subsection{Supersonic flow in a compression corner} \label{sec:corner}
 %---------------------------------------------------------------------------------------------------
-
+\begin{figure}[H]
+        \centering
+        \begin{subfigure}[b]{0.56\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{CompressionCorner2D_mach.png}
+                \caption{Mach solution at steady-state.}
+                \label{fig:2d_corner_mach}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{CompressionCorner2D_isomach.png}
+                \caption{Isomach at steady-state}
+                \label{fig:2d_corner_isomach}
+        \end{subfigure}
+         %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{CompressionCorner2D_viscosity.png}
+                \caption{Viscosity coefficient at steady-state.}
+                \label{fig:2d_corner_visc}
+        \end{subfigure}
+        \caption{Steady-state solution for a flow in a $2$-D compression corner.}\label{fig:2d_corner}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions} \label{sec:ccl}
