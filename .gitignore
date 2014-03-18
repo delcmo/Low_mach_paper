@@ -36,3 +36,5 @@
 *.zip
 *.gz
 .DS_Store
+Plots
+.bib

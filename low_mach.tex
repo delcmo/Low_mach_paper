@@ -494,7 +494,7 @@ Plots of the velocity, pressure, density and viscosity coefficients at steady-st
                 \caption{Velocity solution at steady-state.}
                 \label{fig:1d_nozzle_liq_vel}
         \end{subfigure}%
-        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+        %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
@@ -502,6 +502,7 @@ Plots of the velocity, pressure, density and viscosity coefficients at steady-st
                 \caption{Density solution at steady-state}
                 \label{fig:1d_nozzle_liq_density}
         \end{subfigure}
+        
          %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.495\textwidth}
@@ -514,13 +515,13 @@ Plots of the velocity, pressure, density and viscosity coefficients at steady-st
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{liquid_pressure_numerical_and_exact_50.png}
+                \includegraphics[width=\textwidth]{liquid_viscosity_numerical50.png}
                 \caption{Viscosity coefficients at steady-state.}
                 \label{fig:1d_nozzle_liq_visc}
         \end{subfigure}
         \caption{Steady-state solution for liquid phase in a $1$-D convergent-divergent nozzle with an uniform mesh of $50$ cells.}\label{fig:1d_liq_nozzle}
 \end{figure}
-The numerical and exact solutions of the velocity, pressure and density given in \fig{fig:1d_liq_nozzle} for a fairly coarse mesh perfectly overlap. The second-order viscosity coefficient  is very small compare to the first-order one as expected, since the numerical solution is smooth as shown in \fig{fig:1d_nozzle_liq_visc}. A study convergence was performed using the exact solution as a reference: the L$2$ norm of the error and the corresponding convergence rates are computed at steady-state on various uniform mesh from $4$ to $256$ cells. The results for linear polynomials $\mathbb{Q}_1$ is reported in \tbl{tbl:l2_norm_liq}.
+The numerical and exact solutions of the velocity, pressure and density given in \fig{fig:1d_liq_nozzle} for a fairly coarse mesh ($50$ cells) perfectly overlap: it is noted the symmetry of the numerical solution with respect to the nozzle throat located in $x=0.5m$. The second-order viscosity coefficient  is very small compare to the first-order one as expected, since the numerical solution is smooth as shown in \fig{fig:1d_nozzle_liq_visc}. A study convergence was performed using the exact solution as a reference: the L$2$ norm of the error and the corresponding convergence rates are computed at steady-state on various uniform mesh from $4$ to $256$ cells. The results for linear polynomials $\mathbb{Q}_1$ is reported in \tbl{tbl:l2_norm_liq}.
 \begin{table}[H]
 \begin{center}
  \caption{\label{tbl:l2_norm_liq} L$2$ norm of the error for the liquid phase in a $1$-D convergent-divergent nozzle at steady-state.}
@@ -530,23 +531,23 @@ The numerical and exact solutions of the velocity, pressure and density given in
  \hline
 $4$ &   $3.106397$ $10^{-1}$ & $-$ & $5.254445$ $10^{5}$ & $-$ & $3.288543$                   & $-$\\
   \hline
-$8$  &  $7.491623$ $10^{-2}$ & $4.14$ & $1.636966$ $10^{5}$ & $3.21$ & $1.823880$                   & $1.80$\\
+$8$  &  $7.491623$ $10^{-2}$ & $2.07$ & $1.636966$ $10^{5}$ & $1.60$ & $1.823880$                   & $0.90$\\
    \hline
-$16$ & $2.079858$ $10^{-2}$ & $3.60$ & $4.627338$ $10^{4}$ & $3.54$ & $4.990605$ $10^{-1}$ & $3.65$\\
+$16$ & $2.079858$ $10^{-2}$ & $1.80$ & $4.627338$ $10^{4}$ & $1.75$ & $4.990605$ $10^{-1}$ & $1.83$\\
  \hline
-$32$ & $5.329627$ $10^{-3}$ & $3.90$ & $1.180287$ $10^{4}$ & $3.92$ & $1.261018$ $10^{-1}$ & $3.96$\\
+$32$ & $5.329627$ $10^{-3}$ & $1.90$ & $1.180287$ $10^{4}$ & $1.92$ & $1.261018$ $10^{-1}$ & $1.93$\\
  \hline
-$64$ & $1.341583$ $10^{-3}$ & $3.97$ & $2.967104$ $10^{3}$ & $3.98$ & $3.160914$ $10^{-2}$ & $3.99$\\
+$64$ & $1.341583$ $10^{-3}$ & $1.94$ & $2.967104$ $10^{3}$ & $1.98$ & $3.160914$ $10^{-2}$ & $1.99$\\
  \hline
-$128$&$3.359766$ $10^{-4}$ & $3.99$ & $7.428087$ $10^{2}$ & $3.99$ & $7.907499$ $10^{-3}$ & $3.99$\\
+$128$&$3.359766$ $10^{-4}$ & $1.99$ & $7.428087$ $10^{2}$ & $1.99$ & $7.907499$ $10^{-3}$ & $1.99$\\
  \hline
-$256$&$8.403859$ $10^{-5}$& $3.99$ & $1.857861$ $10^{2}$ & $3.99$ & $1.977292$ $10^{-3}$ & $3.99$\\
+$256$&$8.403859$ $10^{-5}$& $1.99$ & $1.857861$ $10^{2}$ & $1.99$ & $1.977292$ $10^{-3}$ & $1.99$\\
  \hline
 \end{tabular}
 \end{center}
 \nonumber
 \end{table}
-It is observed that the L$2$-norm of the error is divided by $4$ every time the mesh is uniformly refined: this proves (i) the second-order accuracy and (ii) that the entropy viscosity method does not affect the convergence rate when the solution is smooth. 
+It is observed that the convergence rate for the L$2$ norm of the error is $2$: the entropy viscosity method conserves the high-order accuracy when the numerical solution is smooth, and the new definition of the entropy viscosity coefficient seems to behave as expected in the low Mach limit.
 %---------------------------------------------------------------------------------------------------
 \subsection{Steam in a $1$-D divergent-convergent nozzle} \label{sec:steam_nozzle}
 %---------------------------------------------------------------------------------------------------
@@ -563,7 +564,7 @@ $\gamma$ & $C_v$ $(J\cdot kg^{-1} \cdot K^{-1})$ & $P_{\infty}$ $(Pa)$ & $q$ $(J
 \end{tabular}
 \end{center}
 \end{table}
-The pressure difference applied between the inlet and outlet will make the steam accelerates through the nozzle and result in the formation of shock in the divergent part. The behavior is different from what is observed for the liquid water phase in \sct{sec:liquid_nozzle} because of the liquid to gas density ratio that is of $1000$. The objective of this section is to show that using the new definition of the viscosity coefficient in \eqt{eq:final_def_visc_coeff}, the shock can be correctly resolved and all spurious oscillations removed to capture the main features.
+The pressure difference applied between the inlet and outlet will make the steam accelerates through the nozzle and result in the formation of shock in the divergent part. The behavior is different from what is observed for the liquid water phase in \sct{sec:liquid_nozzle} because of the liquid to gas density ratio that is of $1000$. The objective of this section is to show that using the new definition of the viscosity coefficient in \eqt{eq:final_def_visc_coeff}, the shock can be correctly resolved and all spurious oscillations removed. The steady-state numerical solution is shown in \fig{fig:1d_vap_nozzle} and was run with a mesh of $1600$ cells.
 \begin{figure}[H]
         \centering
         \begin{subfigure}[b]{0.495\textwidth}
@@ -572,7 +573,7 @@ The pressure difference applied between the inlet and outlet will make the steam
                 \caption{Velocity solution at steady-state.}
                 \label{fig:1d_nozzle_vap_vel}
         \end{subfigure}%
-        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+        %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
@@ -580,6 +581,7 @@ The pressure difference applied between the inlet and outlet will make the steam
                 \caption{Density solution at steady-state}
                 \label{fig:1d_nozzle_vap_density}
         \end{subfigure}
+        
          %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.495\textwidth}
@@ -592,42 +594,160 @@ The pressure difference applied between the inlet and outlet will make the steam
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{vapor_pressure_numerical_and_exact_1600.png}
+                \includegraphics[width=\textwidth]{vapor_viscosity_numerical1600.png}
                 \caption{Viscosity coefficients at steady-state.}
                 \label{fig:1d_nozzle_vap_visc}
         \end{subfigure}
         \caption{Steady-state solution for vapor phase in a $1$-D convergent-divergent nozzle.}\label{fig:1d_vap_nozzle}
 \end{figure}
+The steady-state solution of the density, velocity and pressure are given in \fig{fig:1d_nozzle_vap_vel}, \fig{fig:1d_nozzle_vap_density} and \fig{fig:1d_nozzle_vap_press}. The steady-solution displays a shock around $x=0.8m$ and match the exact solution. In \fig{fig:1d_nozzle_vap_visc}, the first- and second-order viscosity coefficients are log plotted at steady-state: the second-order viscosity coefficient is peaked in the shock region around $x-0.8m$ as expected, and saturate to the first-order viscosity coefficient. The profile also displays another peak at $x=0.5m$ that corresponds to the position of the sonic point for a $1$-D convergent-divergent nozzle: this particular point is known to develop small instabilities that are detected when computing the jumps of the pressure and density gradients. Anywhere else, the second-order viscosity coefficient is small. In order to prove convergence of the numerical solution of the exact solution, a convergence study was performed. Because of the presence of a shock, second-order accuracy cannot be achieved. However, the convergence rate is known and expected to be of $1/2$ when computing the L$2$ norm of the error. Results are provided in ...
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{vapor_velocity_fo_and_ev_400.png}
+\caption{Velocity profile at steady-state with the first- and second-order viscosity for a mesh with $400$ cells.}
+\label{fig:1d_nozzle_vap_fo_ev}
+\end{figure}
+In \fig{fig:1d_nozzle_vap_fo_ev}, the steady-state velocity profile is plotted when using the first- and second-order viscosity coefficients: the main difference between the two numerical solution is in the resolution of the shock around $x=0.8m$. The first-order viscosity coefficient is by definition more dissipative and will smooth out the solution. In the other hand, the high-order viscosity better resolves the shock and allow high-order accuracy away from the shock region. It is also noted that the numerical solution obtained with the first-order viscosity coefficient is satisfying: this is due to the nature of the solution that contains a standing shock, and thus, will force the shock formation. 
 %---------------------------------------------------------------------------------------------------
 \subsection{Leblanc shock tube} \label{sec:Leblanc}
 %---------------------------------------------------------------------------------------------------
+\begin{table}[H]
+\begin{center}
+ \caption{\label{tbl:l2_norm_leblanc} L$2$ norm of the error for the $1$-D Leblanc test at $t=4.s$.}
+ \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+ \hline
+   cells & density & rate & pressure & rate & velocity & rate \\
+ \hline
+$500$ &   $3.106397$ $10^{-1}$ & $-$ & $5.254445$ $10^{5}$ & $-$ & $3.288543$                   & $-$\\
+  \hline
+$1000$  &  $7.491623$ $10^{-2}$ & $0.64781$ & $1.636966$ $10^{5}$ & $0.58793$ & $1.823880$                   & $0.89392$\\
+   \hline
+$2000$ & $2.079858$ $10^{-2}$ & $0.70756$ & $4.627338$ $10^{4}$ & $0.53448$ & $0.53448$ $10^{-1}$ & $0.77533$\\
+ \hline
+$3000$ & $5.329627$ $10^{-3}$ & $0.64117$ & $1.180287$ $10^{4}$ & $0.58506$ & $0.58506$ $10^{-1}$ & $0.72276$\\
+ \hline
+$4000$ & $1.341583$ $10^{-3}$ & $0.58965$ & $2.967104$ $10^{3}$ & $0.56103$ & $0.56103$ $10^{-2}$ & $0.60112$\\
+ \hline
+$5000$&$3.359766$ $10^{-4}$ & $0.54925$ & $7.428087$ $10^{2}$ & $0.55095$ & $0.55095$ $10^{-3}$ & $0.55351$\\
+ \hline
+$6000$&$8.403859$ $10^{-5}$& $0.31882$ & $1.857861$ $10^{2}$ & $0.44813$ & $0.44813$ $10^{-3}$ & $0.15305$\\
+ \hline
+ $7000$&$8.403859$ $10^{-5}$& $0.51148$ & $1.857861$ $10^{2}$ & $0.52587$ & $0.52587$ $10^{-3}$ & $0.50216$\\
+ \hline
+ $8000$&$8.403859$ $10^{-5}$& $0.50469$ & $1.857861$ $10^{2}$ & $0.52459$ & $0.52459$ $10^{-3}$ & $0.50189$\\
+ \hline
+ $9000$&$8.403859$ $10^{-5}$& $0.51019$ & $1.857861$ $10^{2}$ & $0.51622$ & $0.51622$ $10^{-3}$ & $0.52773$\\
+ \hline
+\end{tabular}
+\end{center}
+\nonumber
+\end{table}
+\begin{figure}[H]
+        \centering
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{Leblanc_exact_and_numerical_stt_density_6000.png}
+                \caption{Density solution at $t=4.0s$.}
+                \label{fig:1d_leblanc_vel}
+        \end{subfigure}%
+        %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{Leblanc_exact_and_numerical_stt_velocity_6000.png}
+                \caption{Velocity solution at $t=4.0s$}
+                \label{fig:1d_leblanc_density}
+        \end{subfigure}
+        
+         %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{Leblanc_exact_and_numerical_stt_pressure_6000.png}
+                \caption{Pressure solution at $t=4.0s$.}
+                \label{fig:1d_leblanc_press}
+        \end{subfigure}
+          %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{Leblanc_viscosity_numerical_6000.png}
+                \caption{Viscosity coefficients at $t=4.0s$.}
+                \label{fig:1d_leblanc_visc}
+        \end{subfigure}
+        \caption{Steady-state solution for vapor phase in a $1$-D convergent-divergent nozzle.}\label{fig:1d_lebalnc}
+\end{figure}
 %---------------------------------------------------------------------------------------------------
 \subsection{Subsonic flow over a $2$-D cylinder} \label{sec:cylinder}
 %---------------------------------------------------------------------------------------------------
+\begin{figure}[H]
+        \centering
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{CylinderMach1em4.png}
+                \caption{Velocity solution at steady-state.}
+                \label{fig:cyl_1em4}
+        \end{subfigure}%
+        %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{CylinderMach1em5.png}
+                \caption{Density solution at steady-state}
+                \label{fig:cyl_1em5}
+        \end{subfigure}
+        
+         %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{CylinderMach1em6.png}
+                \caption{Presolution at steady-state.}
+                \label{fig:cyl_1em6}
+        \end{subfigure}
+          %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{CylinderMach1em6.png}
+                \caption{Viscosity coefficients.}
+                \label{fig:cyl_1em7}
+        \end{subfigure}
+        \caption{Steady-state solution for vapor phase in a $1$-D convergent-divergent nozzle.}\label{fig:cylinder}
+\end{figure}
 %---------------------------------------------------------------------------------------------------
 \subsection{Subsonic flow over a $2$-D hump} \label{sec:hump}
 %---------------------------------------------------------------------------------------------------
 \begin{figure}[H]
         \centering
-        \begin{subfigure}[b]{0.6\textwidth}
+        \begin{subfigure}[b]{0.5\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{Hump2D_mach_0p01.png}
                 \caption{Isomach at steady-state.}
                 \label{fig:2d_hump_mach_0p01}
         \end{subfigure}%
-        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
           %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.6\textwidth}
+        \begin{subfigure}[b]{0.5\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{Hump2D_mach_0p0001.png}
+                \includegraphics[width=\textwidth]{Hump2D_mach_0p001.png}
+                \caption{Isomach at steady-state.}
+                \label{fig:2d_hump_mach_0p001}
+        \end{subfigure}%
+        
+        %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{Hump2D_mach_1em4.png}
                 \caption{Isomach at steady-state.}
                 \label{fig:2d_hump_mach_0p0001}
         \end{subfigure}
          %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
           %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.6\textwidth}
+        \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{Hump2D_mach_0p0000001.png}
+                \includegraphics[width=\textwidth]{Hump2D_mach_1em7.png}
                 \caption{Isomach at steady-state.}
                 \label{fig:2d_hump_mach_0p0000001}
         \end{subfigure}
@@ -644,7 +764,7 @@ The pressure difference applied between the inlet and outlet will make the steam
                 \caption{Mach solution at steady-state.}
                 \label{fig:2d_corner_mach}
         \end{subfigure}%
-        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+        %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.5\textwidth}
                 \centering
@@ -652,6 +772,7 @@ The pressure difference applied between the inlet and outlet will make the steam
                 \caption{Isomach at steady-state}
                 \label{fig:2d_corner_isomach}
         \end{subfigure}
+        
          %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.5\textwidth}
@@ -684,8 +805,41 @@ The pressure difference applied between the inlet and outlet will make the steam
 
 \bibliographystyle{unsrt}
 \bibliography{low_mach}
-
-
+\begin{thebibliography}{11}
+  \bibitem{valentin}
+  \emph{Implementation of the entropy viscosity method with the discontinuous Galerkin method},
+  Valentin Zingan, Jean-Luc Guermond, Jim Morel, Bojan Popov, Volume 253, 1 January 2013, Pages 479-490
+ 
+    \bibitem{jlg}
+  \emph{Viscous regularization of the Euler equations and entropy principles},
+  Jean-Luc Guermond and Bojan Popov, under review.
+  
+    \bibitem{jlg1}
+  {\em Entropy viscosity method for nonlinear conservation laws}, 
+  Jean-Luc Guermond, R. Pasquetti, B. Popov, J. Comput. Phys., 230 (2011) 4248-4267.
+  
+    \bibitem{jlg2}
+  {\em Entropy Viscosity Method for High-Order Approximations of Conservation Laws}, 
+  J-L. Guermond, R. Pasquetti, 
+  Lecture Notes in Computational Science and Engineering, Springer, Volume 76, (2011) 411-418.
+  
+   \bibitem{jlg3}
+ \emph{Entropy-based nonlinear viscosity for Fourrier approximations of conservation laws}, 
+ J.-L. Guermond, R. Pasquetti, C.R. Math. Acad. Sci. Paris 346 (2008) 801Ð806.
+  
+   \bibitem{SEM}
+  \emph{The discrete equation method (DEM) for fully compressible, two-phase flows in ducts of spatially varying cross-section.}
+  R.Berry, R.Saurel, O. LeMetayer,
+  Nuclear Engineering and Design 240 (2010) 3797-3818.
+  
+  \bibitem{Toro}
+  \emph{Riemann Solvers and numerical methods for fluid dynamics.}
+  E.F. Toro, $2^{nd}$ Edition, Springer.  
+  
+      \bibitem{Parabolic}
+  \emph{On positivity preserving finite volume schemes for Euler equations},
+  Perthane B. and Shu C-W., Numer. Math., 73(1):119-130, 1996.
+\end{thebibliography}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
