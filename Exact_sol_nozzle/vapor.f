@@ -1,8 +1,8 @@
        program exact
        implicit real*8(a-h,o-z)
-       parameter(im=6401,ieq=4)
+       parameter(im=1281,ieq=4)
        dimension xx(im),surf(im)
-       open(unit=100,file='exact_vapor_6400.txt',status='unknown')
+       open(unit=100,file='exact_vapor_1280.txt',status='unknown')
        data iconvd/1/,inj/0/
 c
        gamma=1.34d0

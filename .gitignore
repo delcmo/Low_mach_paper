@@ -37,4 +37,4 @@
 *.gz
 .DS_Store
 Plots
-.bib
+*.txt
