@@ -126,8 +126,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 
- 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frontmatter}
 
@@ -209,17 +207,30 @@ aaa
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Over the past years an increasing interest raised for computational methods that can solve both compressible and incompressible flows. In engineering applications, there is often the need to solve for complex flows where a near incompressible regime or low Mach flow coexists with a supersonic flow domain. For example, such flow are encountered in aerodynamic in the study of airships. In the nuclear industry, flows are nearly the incompressible regime but compressible effects cannot be neglected because of the heat source and thus needs to be accurately resolved. \\
-Because of the hyperbolic nature of the flow equations, numerical methods are required in order to accurately resolve shocks that can form during transonic and supersonic flows. Numerous numerical methods are available in the literature: flux-limiter, pressure-based viscosity method, Lapidus method, the entropy-viscosity method among others. These numerical methods are usually tested and developed using simple equation of states and for transonic and supersonic flows where the disparity between the acoustic waves and the fluid speed is not large since the Mach number is of order one.  
+When solving the multi-D Euler equations for a wide range of Mach numbers, multiple problems have to address: stability, accuracy and acceleration of the convergence in the low Mach regime. Because of the hyperbolic nature of the equations, shocks can form during transonic and supersonic flows, and require the use of the numerical methods in order to stabilize the scheme and correctly resolve the discontinuities. The literature offers a wide range of stabilization methods: flux-limiter, pressure-based viscosity method, Lapidus method, the entropy-viscosity method among others. These numerical methods are usually tested and developed using simple equation of states and for transonic and supersonic flows where the disparity between the acoustic waves and the fluid speed is not large since the Mach number is of order one. This approach leads to a well-known accuracy problem in the low Mach regime where the fluid velocity is smaller that the speed of sound by multiple order of magnitude. The numerical dissipative terms become ill-scaled in the low Mach regime, 
+\\ 
+Because of the hyperbolic nature of the flow equations, numerical methods are required in order to accurately resolve shocks that can form during transonic and supersonic flows. Numerous numerical methods are available in the literature: flux-limiter, pressure-based viscosity method, Lapidus method, the entropy-viscosity method among others.  This approach often leads to issues in the low Mach regime where the fluid velocity is smaller by multiple order of magnitude.  
+\begin{equation}
+\label{eq:euler_eq}
+\left\{ 
+\begin{array}{lll}
+\partial_t \left( \rho \right) + \div \left( \rho \vec{u} \right) = 0\\
+\partial_t \left( \rho \vec{u} \right) + \div \left( \rho \vec{u} \otimes \vec{u} + P \mathbf{I} \right) = 0\\
+\partial_t \left( \rho E \right) + \div \left[ \vec{u} \left( \rho E + P \right) \right] = 0 \\
+P = P\left( \rho, e \right)
+\end{array}
+\right.
+\end{equation}
+where $\rho$, $\rho \vec{u}$ and $\rho E$ are the density, the momentum and the total energy, respectively, and will be referred to as the conservative variables. The pressure $P$ is computed with an equation of state expressed in function of the density $\rho$ and the specific internal energy $e$. The tensor product $\vec{a} \otimes \vec{b}$ is taken with the following convention: $(\vec{a} \otimes \vec{b})_{i,j} = a_i b_j$. Lastly, the terms $\partial_t$, $\grad$, $\div$ and $\mathbf{I}$ denote the temporal derivative, the gradient and divergent operators, and the identity tensor, respectively. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The Entropy Viscosity Method} \label{sec:entro_visc}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %===================================================================================================
 \subsection{Background} \label{sec:background}
 %===================================================================================================
-In this section, the entropy-based viscosity method \cite{jlg1, jlg2, jlg3} is recalled for the multi-D Euler equations (with constant area $A$) \cite{valentin}. As mentioned in \sct{sec:intro} the entropy-based viscosity method consists of adding dissipative terms, with a viscosity coefficient modulated by the entropy production which allows high-order accuracy when the solution is smooth. Thus, two questions arise: (i) how are the viscosity dissipative terms derived and (ii) how to numerically compute the entropy production. Answers to the first question can be found in \cite{jlg} by Guermond et al., that details the proof leading to the derivation of the artificial dissipative terms (\eqt{eq:euler_visc}) consistent with the entropy minimum principle theorem. The viscous regularization obtained is valid for any equation of state as long as the opposite of the physical entropy function is convex.
+In this section, the entropy-based viscosity method \cite{jlg1, jlg2, jlg3} is recalled for the multi-D Euler equations (with constant area $A$) \cite{valentin}. As mentioned in \sct{sec:intro} the entropy-based viscosity method consists of adding dissipative terms, with a viscosity coefficient modulated by the entropy production which allows high-order accuracy when the solution is smooth. Thus, two questions arise: (i) how are the viscosity dissipative terms derived and (ii) how to numerically compute the entropy production. Answers to the first question can be found in \cite{jlg} by Guermond et al., that details the proof leading to the derivation of the artificial dissipative terms (\eqt{eq:euler_visc}) consistent with the entropy minimum principle theorem. The viscous regularization obtained is valid for any equation of state as long as the opposite of the physical entropy function, $s$, is convex with respect to the internal energy $e$ and the specific volume $1/\rho$. As for the entropy production, it is locally evaluated by computing the local entropy residual $D_e(\vec{x},t)$ defined in \eqt{eq:ent_visc_coeff}, that is peaked in shocks.
 \begin{equation}
 \label{eq:euler_visc}
 \left\{ 
@@ -231,13 +242,13 @@ P = P\left( \rho, e \right)
 \end{array}
 \right.
 \end{equation}
-where $\kappa$ and $\mu$ are local positive viscosity coefficients. \\
-The existence of a specific entropy $s$, function of the density $\rho$ and the internal energy $e$ is assumed. Convexity of $-s$ with respect to $e$ and $1/\rho$ is required, along with the following equality verified by the partial derivatives of $s$ : $P \partial_e s + \rho^2 \partial_{\rho} s = 0$.\\
-One crucial step remains a definition for the local viscosity coefficients $\mu$ and $\kappa$. In the current version of the method, $\kappa$ and $\mu$ are set equal, so that the above viscous regularization (\eqt{eq:euler_visc}) is equivalent to the parabolic regularization \cite{Parabolic}. The current definition includes a first-order viscosity coefficient referred to with the subscript $max$, and a high-order viscosity coefficient referred to with the subscript $e$. The first-order viscosity coefficients $\mu_{max}$ and $\kappa_{max}$ are proportional to the local largest eigenvalue $|| \vec{u} || + c $ and equivalent to an upwind-scheme, when used, which is known to be over-dissipative and monotone \cite{Toro}: 
+where $\kappa$ and $\mu$ are local positive viscosity coefficients. $\grad^s \vec{u}$ denotes the symmetric gradient operator that guarantees the method to be rotational invariant \cite{jlg}.\\
+In the current version of the method, $\kappa$ and $\mu$ are set equal, so that the above viscous regularization (\eqt{eq:euler_visc}) is equivalent to the parabolic regularization \cite{Parabolic} when considering the $1$-D form of the equation. The current definition includes a first-order viscosity coefficient referred to with the subscript $max$, and a high-order viscosity coefficient referred to with the subscript $e$. The first-order viscosity coefficients $\mu_{max}$ and $\kappa_{max}$ are proportional to the local largest eigenvalue $|| \vec{u} || + c $ and equivalent to an upwind-scheme (see \eqt{eq:fo}), when used, which is known to be over-dissipative and monotone \cite{Toro}: 
 \begin{equation}
+\label{eq:fo}
 \mu_{max}(\vec{r}, t) = \kappa_{max}(\vec{r}, t) = \frac{h}{2} \left( || \vec{u} || + c \right),
 \end{equation}
-where $h$ is the spatial grid size. \\
+where $h$ is defined as the ratio of the grid size to the polynomial order of the test functions used. \\
 The second-order viscosity coefficients $\kappa_e$ and $\mu_e$ are set proportional to the entropy production that is evaluated by computing the local entropy residual $D_e$. It also includes the interfacial jump of the entropy flux $J$ that will allow to detect any discontinuities other than shocks:
 \begin{equation}
 \label{eq:ent_visc_coeff}
@@ -254,12 +265,16 @@ Using the above definition of the entropy-based viscosity method, high-order acc
 %===================================================================================================
 \subsection{Issues in the Low-Mach Regime} 
 %===================================================================================================
-In the Low-Mach Regime, the flow is known to be isentropic resulting in very little entropy production. Since the entropy viscosity method is directly based on the evaluation of the local entropy production, it will be interested to study how the entropy viscosity coefficients $\mu$ and $\kappa$ scale in the low Mach regime. Mathematically, it means that the entropy residual $D_e$ will be very small, so will be the denominator $|| s - \bar{s} ||_{\infty}$, thus making the ratio, used in the definition of the viscosity coefficients \eqt{eq:ent_visc_coeff}, undetermined.  Therefore, the current definition of the viscosity coefficients seems unadapted to subsonic flow and could lead to ill-scaled dissipative terms. A solution would be to recast the entropy residual as a function of other variables in order to have more freedom in the choice of the normalization parameter. The idea is to still define the viscosity coefficient proportional to the entropy residual that is a good indicator of the flow type (subsonic or supersonic).
+In the Low-Mach Regime, the flow is known to be isentropic resulting in very little entropy production. Since the entropy viscosity method is directly based on the evaluation of the local entropy production, it will be interested to study how the entropy viscosity coefficients $\mu$ and $\kappa$ scale in the low Mach regime. Mathematically, it means that the entropy residual $D_e$ will be very small, so will be the denominator $|| s - \bar{s} ||_{\infty}$, thus making the ratio, used in the definition of the viscosity coefficients \eqt{eq:ent_visc_coeff}, undetermined.  Therefore, the current definition of the viscosity coefficients seems unadapted to subsonic flow and could lead to ill-scaled dissipative terms. A solution would be to recast the entropy residual as a function of other variables in order to have more freedom in the choice of the normalization parameter. 
+With this approach, the viscosity coefficients are still defined proportional to the entropy residual that is a good indicator of the flow type (subsonic, transonic and supersonic flow). Plus, a different normalization parameter could be chosen, based on a low Mach asymptotic study so that the viscosity coefficients are well-scaled in the low Mach asymptotic limit (see \sct{sec:extension}).
+%The idea is to still define the viscosity coefficient proportional to the entropy residual since it is a good indicator of the flow type (subsonic or supersonic).
 %===================================================================================================
 \subsection{The dissipative-terms for the multi-D Euler equations with variable area} 
 %===================================================================================================
-One of the focus of this paper is to investigate the application of the entropy viscosity method to the multi-D Euler equations with variable area: first, the dissipative terms are derived following (REF), and, the viscosity coefficients are defined. The full derivation can be found in APPENDIX and only the main steps are given here. The objective here is to assess wether or not the entropy viscosity method will accurately resolve a flow in a $1$-D convergent-divergent nozzle (REFS with mine). In \sct{sec:results}, $1$-D results for liquid water in a nozzle are shown. This test is interested for two reasons: (i) the flow under consideration is subsonic which is the focus of this paper, and, (ii) the flow reaches a steady-state and an exact-solution can be derived for this particular case (REF). Thus, a convergence study will be performed in order to show second-order accuracy. \\
-The multi-D Euler equations degenerate to the multi-D Euler equations given in \eqt{eq:euler_visc} when assuming constant area. The main difference lies in the momentum equation that contains a non-conservative terms in the right-hand side. For the purpose of this paper, the variable area is denoted by $A(\vec{r})$ and is only spatial dependent. The multi-D Euler equations with variable area are recalled (REF):
+One of the focus of this paper is to investigate the application of the entropy viscosity method to the multi-D Euler equations with variable area. The variable area version of the Euler equations is mostly used in $1$-D and $2$-D for obvious reasons, and differs from \eqt{eq:euler_eq} by the momentum equation as shown in \eqt{eq:euler_variable_A}, that contains a non-conservative term proportional to the area gradient. For the purpose of this paper, the variable area is assumed to be a smooth function and only spatial dependent. An example can be found in (REF) where a fluid flows through a $1$-D convergent-divergent nozzle and reaches a steady-state solution.
+%The objective here is to assess wether or not the entropy viscosity method will accurately resolve a flow in a $1$-D convergent-divergent nozzle. 
+%first, the dissipative terms are derived following (REF), and, the viscosity coefficients are defined. The full derivation can be found in APPENDIX and only the main steps are given here. The objective here is to assess wether or not the entropy viscosity method will accurately resolve a flow in a $1$-D convergent-divergent nozzle (REFS with mine). In \sct{sec:results}, $1$-D results for liquid water in a nozzle are shown. This test is interested for two reasons: (i) the flow under consideration is subsonic which is the focus of this paper, and, (ii) the flow reaches a steady-state and an exact-solution can be derived for this particular case (REF). Thus, a convergence study will be performed in order to show second-order accuracy. \\
+%The multi-D Euler equations degenerate to the multi-D Euler equations given in \eqt{eq:euler_visc} when assuming constant area. The main difference lies in the momentum equation that contains a non-conservative terms in the right-hand side. For the purpose of this paper, the variable area is denoted by $A(\vec{r})$ and is only spatial dependent. The multi-D Euler equations with variable area are recalled (REF):
 \begin{equation}
 \label{eq:euler_variable_A}
 \left\{ 
@@ -270,11 +285,13 @@ The multi-D Euler equations degenerate to the multi-D Euler equations given in \
 \end{array}
 \right.
 \end{equation}
-This system (\eqt{eq:euler_variable_A}) admits the following entropy equation with the same entropy function as defined previously in \sct{sec:background}:
-\begin{equation}
-\rho A \left( \partial_t s + \vec{u} \cdot \grad s \right) = 0 \nonumber
-\end{equation}
-Once again, by adding dissipative terms in each equation of \eqt{eq:euler_variable_A}, the entropy equation is modified and by invoking the entropy minimum principle, adequate definition of the dissipative terms are derived as shown in \eqt{eq:euler_variable_A_bis}:
+The application of the entropy viscosity method to the above system of equations is expected to be straightforward since it degenerates to the \eqt{eq:euler_eq} when assuming a constant area. Details of the derivations of the dissipative terms are available to the reader in APPENDIX and are very similar to what was done in \cite{jlg}: an entropy residual is derived without the dissipative terms. Then, the same entropy residual is re-derived after adding dissipative terms to each equation of the system given in \eqt{eq:euler_variable_A}, and the entropy minimum principle is used as a condition to obtain a definition for each of the dissipative terms. The final result including the dissipative terms is given in \eqt{eq:euler_variable_A_bis}:
+%The first step in the application of the entropy viscosity method, consists in determining whether or not the above system of equations admits an entropy residual. 
+%This system (\eqt{eq:euler_variable_A}) admits the following entropy equation with the same entropy function as defined previously in \sct{sec:background}:
+%\begin{equation}
+%\rho A \left( \partial_t s + \vec{u} \cdot \grad s \right) = 0 \nonumber
+%\end{equation}
+%Once again, by adding dissipative terms in each equation of \eqt{eq:euler_variable_A}, the entropy equation is modified and by invoking the entropy minimum principle, adequate definition of the dissipative terms are derived as shown in \eqt{eq:euler_variable_A_bis}:
 \begin{equation}
 \label{eq:euler_variable_A_bis}
 \left\{ 
@@ -285,18 +302,18 @@ Once again, by adding dissipative terms in each equation of \eqt{eq:euler_variab
 \end{array}
 \right.
 \end{equation}
-The dissipative terms are very similar to the ones obtained for the multi-D Euler equations: each dissipative flux is multiplied by the variable area $A$ in order to  ensure conservation of the flux. When assuming a constant area, \eqt{eq:euler_visc} is retrieved.\\
-The definition of the viscosity coefficients is explained in \sct{sec:lowMach}. It is expected to have the same definition of the viscosity coefficients between the multi-D Euler equations with variable and constant area. This assumption is justified by the entropy residual for the variable area case: it can be obtained by simply multiplying the entropy residual of \eqt{eq:ent_visc_coeff} by the area $A$. Thus, the variations of the entropy residual should be identical.  
+The dissipative terms are very similar to the ones obtained for the multi-D Euler equations: each dissipative flux is multiplied by the variable area $A$ in order to  ensure conservation of the flux. When assuming a constant area, \eqt{eq:euler_visc} is retrieved. The definition of the viscosity coefficients $\mu$ and $\kappa$ is explained in \sct{sec:lowMach}.
+%It is expected to have the same definition of the viscosity coefficients between the multi-D Euler equations with variable and constant area. This assumption is justified by the entropy residual for the variable area case: it can be obtained by simply multiplying the entropy residual of \eqt{eq:ent_visc_coeff} by the area $A$. Thus, the variations of the entropy residual should be identical.  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{All-speed Reformulation of the Entropy Viscosity Method} \label{sec:extension}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-In this section, it is shown how the entropy residual $D_e$ can be recast as a function of the pressure, the density and the speed of sound. Then, an low Mach asymptotic study of the multi-D Euler equations is performed in order to derive the correct normalization parameter. 
+In this section, it is shown how the entropy residual $D_e$ can be recast as a function of the pressure, the density and the speed of sound. Then, a low Mach asymptotic study of the multi-D Euler equations is performed in order to derive the correct normalization parameter. 
 %===================================================================================================
 \subsection{New Entropy Production Residual} 
 %===================================================================================================
-The first step in defining a viscosity coefficient that behaves well in the low mach limit is to recast the entropy residual in terms of thermodynamic variables:
+The first step in defining a viscosity coefficient that behaves well in the low mach limit is to recast the entropy residual in terms of the thermodynamic variables as shown in \eqt{eq:ent_res}:
 \begin{equation}
 \label{eq:ent_res}
 D_e(\vec{r},t) = \partial_t s + \vec{u} \cdot \grad s = \frac{s_e}{P_e} \left( \underbrace{\frac{d P}{dt} - c^2 \frac{d \rho}{dt}}_{\tilde{D}_e(\vec{r},t)} \right),
@@ -427,7 +444,7 @@ These viscosity coefficients are valid for both the multi-D Euler equations with
 \section{Solution Techniques Spatial and Temporal Discretizations} \label{sec:solution_tech}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-In order to detail the partial and temporal discretization used for this study, the system of equations presented in \sct{sec:intro}  is considered under the following form:
+In order to detail the partial and temporal discretization used for this study, the system of equations \eqt{eq:euler_variable_A_bis} is considered under the following form for simplicity:
 \begin{equation}
 \label{eq:form}
 \partial_t U + \div F\left( U \right) = S
@@ -451,29 +468,47 @@ The integrals over the elements $e$ are evaluated using quadrature-point rules. 
 The MOOSE framework offers both first- and second-order explicit and implicit temporal integrators. In all of the numerical examples presented in \sct{sec:results}, the time-dependent term $\int_{e} \partial_t U \phi$ will be evaluated using the second-order temporal integrator BDF2. By considering three converged solutions, $U^{n-1}$, $U^n$ and $U^{n+1}$ at three different time $t^{n-1}$, $t^n$ and $t^{n+1}$, respectively, it yields:
 \begin{eqnarray}
 \label{eq:BDF2}
-\int_{e} \partial_t U \phi = \omega_0 U^{n+1}  + \omega_1 U^n + \omega_2 U^{n-1} \\
-\text{with }\omega_0 = \text{, } \omega_1 = \text{ and } \omega_2 = \nonumber
+\int_{e} \partial_t U \phi &=& \int_{e} \left( \omega_0 U^{n+1}  + \omega_1 U^n + \omega_2 U^{n-1} \right) \phi\\
+\text{with }\omega_0 &=&\frac{2\Delta t^{n+1}+\Delta t^n}{\Delta t^{n+1} \left( \Delta t^{n+1}+\Delta t^n \right)} \text{, } \nonumber \\
+\omega_1 &=& -\frac{\Delta t^{n+1}+\Delta t^n}{\Delta t^{n+1} \Delta t^n}\nonumber \\
+\text{ and } \omega_2 &=& \frac{\Delta t^{n+1}}{\Delta t^n \left( \Delta t^{n+1} + \Delta t^n \right)} \nonumber
 \end{eqnarray}
+where $\Delta t^{n} = t^n-t^{n-1}$ and $\Delta t^{n+1} = t^{n+1}-t^{n}$.
 %---------------------------------------------------------------------------------------------------
 \subsection{Boundary conditions} \label{sec:bc}
 %---------------------------------------------------------------------------------------------------
-The boundary conditions will be treated by either using Dirichlet or Neumann conditions. The multi-D Euler equations are wave-dominated systems that require great care when dealing with boundary conditions. It is often recommended to use the characteristic equations to compute the correct flux at the boundaries. Our implementation of the boundary conditions will follow the method described in \cite{SEM} that was developed for Ideal Gas and Stiffened Gas equation of states. For each numerical solution presented in \sct{sec:results}, the type of boundary conditions used will be specified. 
+The boundary conditions will be treated by either using Dirichlet or Neumann conditions. The multi-D Euler equations are wave-dominated systems that require great care when dealing with boundary conditions. It is often recommended to use the characteristic equations to compute the correct flux at the boundaries. Our implementation of the boundary conditions will follow the method described in \cite{SEM} that was developed for Ideal Gas and Stiffened Gas equation of states. For each numerical solution presented in \sct{sec:results}, the type of boundary conditions used will be specified: supersonic inlet, subsonic inlet (stagnation pressure boundary), supersonic outlet and subsonic inlet (static pressure boundary).
 %---------------------------------------------------------------------------------------------------
 \subsection{Solver} \label{sec:solver}
 %---------------------------------------------------------------------------------------------------
-A Free-Jacobian-Newton-Krylov (FJNK) method is used to solve for the solution at each time step.  
- 
+A Free-Jacobian-Newton-Krylov (FJNK) method is used to solve for the solution at each time step. The jacobian matrix of the discretized equations was derived by hand, hard coded and used as a preconditioner. This method requires the partial derivative of the pressure with respect to the conservative variables to be known. The contribution of the artificial dissipative terms to the jacobian matrix is simplified by assuming constant viscosity coefficients as shown in \eqt{eq:jac_diss_term} for the dissipative terms of the continuity equation:
+\begin{equation}
+\label{eq:jac_diss_term}
+\frac{\partial}{\partial U_i} \left( \kappa \grad \rho \grad \phi \right) = \kappa \frac{\partial}{\partial U_i} \left( \rho \right) \grad \phi
+\end{equation}  
+where $U_i$ denotes the set of conservative variables.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Numerical Results} \label{sec:results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-This section aims at validating our approach detailed in \sct{sec:lowMach} that focused on deriving a viscosity coefficient behaving well in the asymptotic limit. It is proposed to run both $1$- and $2$-D simulations. The $1$-D simulations consist of liquid water and steam flowing in a convergent-divergent nozzle. This test is interesting for multiple reasons: a steady-state is reached, it can be performed for liquid and gas phases and an analytical solution of the steady-state solution is available. Numerical results for the challenging Leblanc shock tube are also shown (REF). Subsonic flows of a gas over a $2$-D cylinder and a hump are simulated and results are shown for various far-field Mach numbers. Numerical results of a supersonic flow in a compression corner are provided to illustrate the capabilities of the new definition in the supersonic case. Convergence studies are performed when an analytical solution is available. For each simulation, informations relative to the boundary conditions and the equation of state will be provided. All of the numerical solution presented in this section are run with the second-order temporal integrator $BDF2$ and linear polynomials test function and integrated with a Gauss second-order quadrature rule. 
+This section is dedicated to presenting $1$- and $2$-D numerical results obtained by solving \eqt{eq:euler_variable_A_bis} with the entropy viscosity method. This section has two objectives: validate our new definition of the viscosity coefficients for the low Mach limit, and, make sure that the new definition can still resolve shocks.\\
+The first set of $1$-D simulations consist of liquid water and steam flowing in a convergent-divergent nozzle. This test is interesting for multiple reasons: a steady-state is reached (some stabilization methods are known to have difficulties to reach a steady-state (REF)), it can be performed for liquid and gas phases, and, an analytical solution of the steady-state solution is available which allow for convergence study. The $1$-D Leblanc shock tube test (REF) (in a straight pipe) is also performed (REF) and consists of a flow developing shocks. A convergence study will be performed in order to demonstrate convergence of the numerical solution to the exact solution.\\ 
+This section also included $2$-D simulations from subsonic to supersonic flows. Subsonic flows of a gas over a $2$-D cylinder and a hump are simulated and results are shown for various far-field Mach numbers. Numerical results of a supersonic flow in a compression corner are provided to illustrate the capabilities of the new definition in the supersonic case. Convergence studies are performed when an analytical solution is available. \\
+For each simulation, informations relative to the boundary conditions and the equation of state will be provided. All of the numerical solution presented in this section are run with the second-order temporal integrator $BDF2$ and linear polynomials test functions. The integrals are numerically computed using a second-order Gauss quadrature rule. \\
+The numerical results presented in \sct{sec:results} are all run using either the Ideal Gas or Stiffened Gas equation of state (REF). A generic formulation is recalled in \eqt{eq:eos}.
+\begin{equation}
+\label{eq:eos}
+P = (\gamma-1) \rho (e-q) - \gamma P_{\infty}
+\end{equation}
+where the parameters $q$ and $P_{\infty}$ are fluid dependent and will be specified in time. \eqt{eq:eos} degenerates to the Ideal Gas equation of state by setting $q$ and $P_{\infty}$ to zero. The Ideal and Stiffened Gas equation of states have a convex entropy $s$ (REF):
+\begin{equation}
+s = C_v \ln \left( \frac{P+P_{\infty}}{\rho^{\gamma-1}} \right) \nonumber
+\end{equation}
 %---------------------------------------------------------------------------------------------------
 \subsection{Liquid water in a $1$-D divergent-convergent nozzle} \label{sec:liquid_nozzle}
 %---------------------------------------------------------------------------------------------------
-The liquid water phase is simulated using the Stiffened gas equation of state (REF). The following parameters are used:\\
-The simulation consists of a $1$ convergent-divergent nozzle with the following equation, $A(x) = 1 + 0.5 \cos(2 \pi x / L)$, where $L=1m$ is the length of the nozzle. At the inlet, a stagnation pressure boundary condition is used: the stagnation pressure and temperature are set to $P_0 = 1 MPa$ and $T_0 = 453 K$, respectively. At the outlet, only the static pressure is specified, $P_s = 0.5MPa$. Details about the theory related to the inlet and outlet boundary conditions can be found in (REFS). Initially, the temperature is uniform and set equal to the stagnation temperature and the pressure linearly decreases from the stagnation pressure to the static one. Finally, the liquid is assumed at rest. The Stiffened Gas equation of state is used to model liquid water with the parameters provided in \tbl{tbl:stff_gas_eos_liq}.
+The simulation consists of liquid water flowing through a $1$-D convergent-divergent nozzle with the following equation, $A(x) = 1 + 0.5 \cos(2 \pi x / L)$, where $L=1m$ is the length of the nozzle. At the inlet,  the stagnation pressure and temperature are set to $P_0 = 1 MPa$ and $T_0 = 453 K$, respectively. At the outlet, only the static pressure is specified: $P_s = 0.5MPa$. Details about the theory related to the inlet and outlet boundary conditions can be found in (REFS). Initially, the temperature is uniform and set equal to the stagnation temperature and the pressure linearly decreases from the stagnation pressure to the static one. Finally, the liquid is assumed at rest. The Stiffened Gas equation of state is used to model the liquid water with the parameters provided in \tbl{tbl:stff_gas_eos_liq}.
 \begin{table}[H]
 \begin{center}
  \caption{\label{tbl:stff_gas_eos_liq} Stiffened Gas Equation of State parameters for liquid water.}
@@ -486,8 +521,9 @@ $\gamma$ & $C_v$ $(J\cdot kg^{-1} \cdot K^{-1})$ & $P_{\infty}$ $(Pa)$ & $q$ $(J
 \end{tabular}
 \end{center}
 \end{table}
-Plots of the pressure, velocity and density are given at steady-state and during the transient. The viscosity coefficients are also plotted but only at steady-state. Since a steady-state analytical solution is available to us (REF), a convergence study is performed in order to demonstrate the accuracy of the entropy viscosity method. For the liquid phase, the solution corresponds to a low-Mach regime case: the flow is isentropic and the final solution does not display any shock or discontinuity. This is a good test to assess the behavior of the new definition of the viscosity coefficient proposed in \eqt{eq:final_def_visc_coeff}.\\
-Plots of the velocity, pressure, density and viscosity coefficients at steady-state are given in \fig{fig:1d_nozzle_liq_vel}, \fig{fig:1d_nozzle_liq_density}, \fig{fig:1d_nozzle_liq_press} and \fig{fig:1d_nozzle_liq_visc}, respectively. The exact solution is also plotted for comparison. The mesh used is uniform and has $50$ cells. The final solution being smooth, a coarse mesh should be sufficient to capture the main features.
+Because of the low pressure difference between the inlet and the outlet, and the large value of $P_{\infty}$, the flow remains subsonic and thus, should not display any shock. Enthalpy and entropy are conserved through the nozzle, and these conservation relations are used to determine the exact solution at steady-state (REF).
+Plots of the velocity, density and pressure are given at steady-state in \fig{fig:1d_nozzle_liq_vel}, \fig{fig:1d_nozzle_liq_density}, \fig{fig:1d_nozzle_liq_press}, respectively, along with the exact solution for comparison. The viscosity coefficients are also plotted in \fig{fig:1d_nozzle_liq_visc}. The mesh used is uniform and has $50$ cells.
+%Since a steady-state analytical solution is available to us (REF), a convergence study is performed in order to demonstrate the accuracy of the entropy viscosity method by computing the L$1$ and L$2$ norms of the error between the numerical and exact solutions.
 \begin{figure}[H]
         \centering
         \begin{subfigure}[b]{0.495\textwidth}
@@ -504,7 +540,6 @@ Plots of the velocity, pressure, density and viscosity coefficients at steady-st
                 \caption{Density solution at steady-state}
                 \label{fig:1d_nozzle_liq_density}
         \end{subfigure}
-        
          %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.495\textwidth}
@@ -523,7 +558,34 @@ Plots of the velocity, pressure, density and viscosity coefficients at steady-st
         \end{subfigure}
         \caption{Steady-state solution for liquid phase in a $1$-D convergent-divergent nozzle with an uniform mesh of $50$ cells.}\label{fig:1d_liq_nozzle}
 \end{figure}
-The numerical and exact solutions of the velocity, pressure and density given in \fig{fig:1d_liq_nozzle} for a fairly coarse mesh ($50$ cells) perfectly overlap: it is noted that the numerical solution is symmetric with respect to the nozzle throat located in $x=0.5m$. The second-order viscosity coefficient  is very small compare to the first-order one as expected: (i) the numerical solution is smooth as shown in \fig{fig:1d_nozzle_liq_visc} and (ii) the flow is in a low Mach regime and thus isentropic . A convergence study was performed using the exact solution as a reference: the L$2$ norm of the error and the corresponding convergence rates are computed at steady-state on various uniform mesh from $4$ to $256$ cells. The results for linear polynomials $\mathbb{Q}_1$ is reported in \tbl{tbl:l2_norm_liq}.
+The numerical and exact solutions of the velocity, pressure and density given in \fig{fig:1d_liq_nozzle} for a fairly coarse mesh ($50$ cells) perfectly overlap: it is noted that the numerical solution is symmetric with respect to the nozzle throat located in $x=0.5m$. The second-order viscosity coefficient  is very small compare to the first-order one as expected: (i) the numerical solution is smooth as shown in \fig{fig:1d_nozzle_liq_visc} and (ii) the flow is in a low Mach regime and thus isentropic . A convergence study was performed using the exact solution as a reference: the L$1$ and L$2$ norms of the error and the corresponding convergence rates are computed at steady-state on various uniform mesh from $4$ to $256$ cells. The results for linear polynomials $\mathbb{Q}_1$ are reported in \tbl{tbl:l1_norm_liq} and \tbl{tbl:l2_norm_liq} for the primitive variables: density, velocity and pressure.
+\begin{table}[H]
+\begin{center}
+ \caption{\label{tbl:l1_norm_liq} L$1$ norm of the error for the liquid phase in a $1$-D convergent-divergent nozzle at steady-state.}
+ \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+ \hline
+   cells & density & rate & pressure & rate & velocity & rate \\
+ \hline
+$4$ &   $2.8037$ $10^{-1}$ & $-$ & $8.4705e$ $10^{5}$ & $-$ & $7.2737$                   & $-$\\
+  \hline
+$8$  &  $1.3343$ $10^{-1}$ & $1.0713$ & $4.7893e$ $10^{5}$ & $0.24227$ & $6.1493$                   & $0.074683$\\
+   \hline
+$16$ & $2.9373$ $10^{-2}$ & $2.1835$ & $1.0613e$ $10^{5}$ & $2.3247$ & $1.2275$& $2.4501$\\
+ \hline
+$32$ & $5.1120$ $10^{-3}$ & $2.5225$ & $1.8446$ $10^{4}$ & $2.6959$ & $1.8943$ $10^{-1}$ & $3.0966$\\
+ \hline
+$64$ & $1.0558$ $10^{-3}$ & $2.2755$ & $3.7938$ $10^{3}$ & $2.3207$ & $3.7919$ $10^{-2}$ & $2.3323$\\
+ \hline
+$128$&$2.3712$ $10^{-4}$ & $2.1547$ & $8.4471$ $10^{2}$ & $2.0624$ & $8.5517$ $10^{-3}$ & $2.0473$\\
+ \hline
+$256$&$5.6058$ $10^{-5}$& $2.0806$ & $1.9839$ $10^{2}$ & $2.0478$ & $2.0475$ $10^{-3}$ & $1.9833$\\
+ \hline
+ $512$&$1.3278$ $10^{-5}$& $2.0778$ & $46.622$ & $2.0478$ & $4.9516$ $10^{-4}$ & $1.9669$\\
+ \hline
+\end{tabular}
+\end{center}
+\nonumber
+\end{table}
 \begin{table}[H]
 \begin{center}
  \caption{\label{tbl:l2_norm_liq} L$2$ norm of the error for the liquid phase in a $1$-D convergent-divergent nozzle at steady-state.}
@@ -545,15 +607,17 @@ $128$&$3.359766$ $10^{-4}$ & $1.99$ & $7.428087$ $10^{2}$ & $1.99$ & $7.907499$ 
  \hline
 $256$&$8.403859$ $10^{-5}$& $1.99$ & $1.857861$ $10^{2}$ & $1.99$ & $1.977292$ $10^{-3}$ & $1.99$\\
  \hline
+ $512$&$2.10075$ $10^{-5}$& $1.99$ & $27.048$ & $1.99$ & $4.9516$ $10^{-4}$ & $1.99$\\
+ \hline
 \end{tabular}
 \end{center}
 \nonumber
 \end{table}
-It is observed that the convergence rate for the L$2$ norm of the error is $2$: the entropy viscosity method conserves the high-order accuracy when the numerical solution is smooth, and the new definition of the entropy viscosity coefficient seems to behave as expected in the low Mach limit.
+It is observed that the convergence rate for the L$1$ and L$2$ norm of the error is $2$: the entropy viscosity method conserves the high-order accuracy when the numerical solution is smooth, and the new definition of the entropy viscosity coefficient seems to behave as expected in the low Mach limit.
 %---------------------------------------------------------------------------------------------------
 \subsection{Steam in a $1$-D divergent-convergent nozzle} \label{sec:steam_nozzle}
 %---------------------------------------------------------------------------------------------------
-The results of this section are obtained using the exact same $1$-D geometry, initial condition and boundary conditions as in \sct{sec:liquid_nozzle}. The Stiffened gas equation of state is still used but with different parameters that are given in \tbl{tbl:stff_gas_eos_vap}. 
+Instead of liquid water, we now simulate a flow of steam using the exact same $1$-D geometry, initial conditions and boundary conditions as in \sct{sec:liquid_nozzle}. The Stiffened gas equation of state is still used but with different parameters that are given in \tbl{tbl:stff_gas_eos_vap}: steam is a gas and compressible effects will become dominant. 
 \begin{table}[H]
 \begin{center}
  \caption{\label{tbl:stff_gas_eos_vap} Stiffened Gas Equation of State parameters for steam.}
@@ -566,7 +630,7 @@ $\gamma$ & $C_v$ $(J\cdot kg^{-1} \cdot K^{-1})$ & $P_{\infty}$ $(Pa)$ & $q$ $(J
 \end{tabular}
 \end{center}
 \end{table}
-The pressure difference applied between the inlet and outlet will make the steam accelerates through the nozzle and result in the formation of shock in the divergent part. The behavior is different from what is observed for the liquid water phase in \sct{sec:liquid_nozzle} because of the liquid to gas density ratio that is of $1000$. The objective of this section is to show that using the new definition of the viscosity coefficient in \eqt{eq:final_def_visc_coeff}, the shock can be correctly resolved without spurious oscillation. The steady-state numerical solution is shown in \fig{fig:1d_vap_nozzle} and was run with a mesh of $1600$ cells.
+The pressure difference applied between the inlet and outlet is large enough to make the steam accelerates through the nozzle and result in the formation of shock in the divergent part. The behavior is different from what is observed for the liquid water phase in \sct{sec:liquid_nozzle} because of the liquid to gas density ratio that is of $1000$. Even though a shock forms, an exact solution at steady-state is still available (REF). The objective of this section is to show that using the new definition of the viscosity coefficient in \eqt{eq:final_def_visc_coeff}, the shock can be correctly resolved without spurious oscillation. The steady-state numerical solution is shown in \fig{fig:1d_vap_nozzle} and was run with a mesh of $1600$ cells.
 \begin{figure}[H]
         \centering
         \begin{subfigure}[b]{0.495\textwidth}
@@ -602,14 +666,69 @@ The pressure difference applied between the inlet and outlet will make the steam
         \end{subfigure}
         \caption{Steady-state solution for vapor phase in a $1$-D convergent-divergent nozzle.}\label{fig:1d_vap_nozzle}
 \end{figure}
-The steady-state solution of the density, velocity and pressure are given in \fig{fig:1d_nozzle_vap_vel}, \fig{fig:1d_nozzle_vap_density} and \fig{fig:1d_nozzle_vap_press}. The steady-solution displays a shock around $x=0.8m$ and match the exact solution. In \fig{fig:1d_nozzle_vap_visc}, the first- and second-order viscosity coefficients are log plotted at steady-state: the second-order viscosity coefficient is peaked in the shock region around $x-0.8m$ as expected, and saturate to the first-order viscosity coefficient. The profile also displays another peak at $x=0.5m$ that corresponds to the position of the sonic point for a $1$-D convergent-divergent nozzle: this particular point is known to develop small instabilities that are detected when computing the jumps of the pressure and density gradients. Anywhere else, the second-order viscosity coefficient is small. In order to prove convergence of the numerical solution to the exact solution, a convergence study was performed. Because of the presence of a shock, second-order accuracy cannot be achieved. However, the convergence rate is known and expected to be of $1/2$ when computing the L$2$ norm of the error. Results are provided in ...
+The steady-state solution of the density, velocity and pressure are given in \fig{fig:1d_nozzle_vap_vel}, \fig{fig:1d_nozzle_vap_density} and \fig{fig:1d_nozzle_vap_press}. The steady-solution displays a shock around $x=0.8m$ and match the exact solution. In \fig{fig:1d_nozzle_vap_visc}, the first- and second-order viscosity coefficients are log plotted at steady-state: the second-order viscosity coefficient is peaked in the shock region around $x=0.8m$ as expected, and saturate to the first-order viscosity coefficient. The profile also displays another peak at $x=0.5m$ that corresponds to the position of the sonic point for a $1$-D convergent-divergent nozzle: this particular point is known to develop small instabilities that are detected when computing the jumps of the pressure and density gradients. Anywhere else, the second-order viscosity coefficient is small. In order to prove convergence of the numerical solution to the exact solution, a convergence study is performed. Because of the presence of a shock, second-order accuracy cannot be achieved. However, the convergence rate is known and expected to be of $1$ and $1/2$ when computing the L$1$ and L$2$ norms of the error, respectively. Results are reported in \tbl{tbl:l1_norm_vap} and \tbl{tbl:l2_norm_vap} for the primitive variables: density, velocity and pressure.
+\begin{table}[H]
+\begin{center}
+ \caption{\label{tbl:l1_norm_vap} L$1$ norm of the error for the vapor phase in a $1$-D convergent-divergent nozzle at steady-state.}
+ \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+ \hline
+   cells & density & rate & pressure & rate & velocity & rate \\
+ \hline
+$5$ &   $0.72562$ $10^{-1}$ & $-$ & $1.5657$ $10^{5}$ & $-$ & $173.69$                   & $-$\\
+  \hline
+$10$  &  $0.4165$ $10^{-1}$ & $0.80088$ & $9.6741$ $10^{4}$ & $0.63425$ & $120.69$ & $0.52519$\\
+   \hline
+$20$ & $0.20675$ $10^{-1}$ & $1.0104$ & $4.9193$ $10^{4}$ & $0.96971$ & $72.149$& $0.74228$\\
+ \hline
+$40$ & $0.093703$ $10^{-1}$ & $1.1417$ & $2.0103$ $10^{4}$ & $0.72728$ & $34.716$& $1.0554$\\
+ \hline
+$80$ & $0.047328$ $10^{-1}$ & $0.9854$ & $1.0208$ $10^{4}$ & $0.9777$ & $16.082$& $1.1101$\\
+ \hline
+$160$&$0.023965$ $10^{-2}$ & $0.9817$ & $5.1969$ $10^{3}$ & $0.9739$ & $7.9573$& $1.0150$\\
+ \hline
+$320$&$0.020768$ $10^{-2}$& $0.9886$ & $2.5116$ $10^{3}$ & $1.0490$ & $3.7812$& $1.0734$\\
+ \hline
+ $640$&$0.0059715$ $10^{-2}$& $1.0160$ & $1.2754$ $10^{3}$ & $0.9776$ & $1.8353$& $1.0428$\\
+ \hline
+\end{tabular}
+\end{center}
+\nonumber
+\end{table}
+\begin{table}[H]
+\begin{center}
+ \caption{\label{tbl:l2_norm_vap} L$2$ norm of the error for the vapor phase in a $1$-D convergent-divergent nozzle at steady-state.}
+ \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+ \hline
+   cells & density & rate & pressure & rate & velocity & rate \\
+ \hline
+$5$ &   $9.7144$ $10^{-1}$ & $-$ & $2.0215$ $10^{5}$ & $-$ & $236.94$                   & $-$\\
+  \hline
+$10$  &  $5.9718$ $10^{-1}$ & $0.70195$ & $1.3024$ $10^{5}$ & $0.63425$ & $166.56$ & $0.50854$\\
+   \hline
+$20$ & $2.9503$ $10^{-1}$ & $1.0173$ & $6.6503$ $10^{4}$ & $0.96971$ & $103.36$& $0.68831$\\
+ \hline
+$40$ & $1.8193$ $10^{-1}$ & $0.69747$ & $4.0171$ $10^{4}$ & $0.72728$ & $66.374$& $0.6390$\\
+ \hline
+$80$ & $1.3366$ $10^{-1}$ & $0.44485$ & $2.3163$ $10^{4}$ & $0.43576$ & $42.981$& $0.62692$\\
+ \hline
+$160$&$9.6638$ $10^{-2}$ & $0.46790$ & $1.7263$ $10^{4}$ & $0.42413$ & $31.717$& $0.43844$\\
+ \hline
+$320$&$7.0896$ $10^{-2}$& $0.44688$ & $1.2763$ $10^{4}$ & $0.43571$ & $23.138$& $0.45499$\\
+ \hline
+ $640$&$5.2191$ $10^{-2}$& $0.44190$ & $9.4217$ $10^{3}$ & $0.43790$ & $16.910$& $0.45238$\\
+ \hline
+\end{tabular}
+\end{center}
+\nonumber
+\end{table}
+The convergence rates for the L$1$ and L$2$ norms of the error are close to the theoretical values which prove convergence of the numerical solution to the exact solution.\\
+It is also interesting to investigate the effect of the first-order viscosity onto the steady-state solution. In \fig{fig:1d_nozzle_vap_fo_ev}, the steady-state velocity profile is plotted when using the first- and second-order viscosity coefficients: the main difference between the two numerical solution is in the resolution of the shock around $x=0.8m$. The first-order viscosity coefficient is by definition more dissipative and will smooth out the solution. In the other hand, the high-order viscosity better resolves the shock and allow high-order accuracy away from the shock region. It is also noted that the numerical solution obtained with the first-order viscosity coefficient is satisfying: this is due to the nature of the solution that contains a standing shock, and thus, will force the shock to form even with large artificial dissipation. 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{vapor_velocity_fo_and_ev_400.png}
 \caption{Velocity profile at steady-state with the first- and second-order viscosity for a mesh with $400$ cells.}
 \label{fig:1d_nozzle_vap_fo_ev}
 \end{figure}
-In \fig{fig:1d_nozzle_vap_fo_ev}, the steady-state velocity profile is plotted when using the first- and second-order viscosity coefficients: the main difference between the two numerical solution is in the resolution of the shock around $x=0.8m$. The first-order viscosity coefficient is by definition more dissipative and will smooth out the solution. In the other hand, the high-order viscosity better resolves the shock and allow high-order accuracy away from the shock region. It is also noted that the numerical solution obtained with the first-order viscosity coefficient is satisfying: this is due to the nature of the solution that contains a standing shock, and thus, will force the shock to form. 
 %---------------------------------------------------------------------------------------------------
 \subsection{Leblanc shock tube} \label{sec:Leblanc}
 %---------------------------------------------------------------------------------------------------
@@ -630,7 +749,7 @@ left & $1.$ & $0.$ & $0.1$ \\
 \nonumber
 \end{table}
 This test is computationally challenging because of the large left to right pressure ratio.
-The computational domain consists of a $1$-D pipe of length $L=9m$ with an interface located at $x=2m$. At $t=0.s$, the interface is removed, allowing the fluid to move. The numerical solution is run until $t=4.s$ and the density, velocity and pressure profiles are given in \fig{fig:1d_leblanc_vel}, \fig{fig:1d_leblanc_density} and \fig{fig:1d_leblanc_press}, respectively. The viscosity coefficients are also plotted in \fig{fig:1d_leblanc_visc}. These plots were obtained with a mesh of $6000$ cells and a constant time step $\Delta t = 10^{-3}s.$.
+The computational domain consists of a $1$-D pipe of length $L=9m$ with an interface located at $x=2m$. At $t=0.s$, the interface is removed, allowing the fluid to move. The numerical solution is run until $t=4.s$ and the density, momentum and total energy profiles are given in \fig{fig:1d_leblanc_vel}, \fig{fig:1d_leblanc_density} and \fig{fig:1d_leblanc_press}, respectively, along with the exact solution. The viscosity coefficients are also plotted in \fig{fig:1d_leblanc_visc}. These plots were  run with three different uniform mesh of $800$, $3200$ and $6000$ cells and a constant time step $\Delta t = 10^{-3}s.$.
 \begin{figure}[H]
         \centering
         \begin{subfigure}[b]{0.495\textwidth}
@@ -643,7 +762,7 @@ The computational domain consists of a $1$-D pipe of length $L=9m$ with an inter
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{Leblanc_exact_and_numerical_stt_velocity_6000.png}
+                \includegraphics[width=\textwidth]{Leblanc_exact_and_numerical_stt_momentum_6000.png}
                 \caption{Velocity profile.}
                 \label{fig:1d_leblanc_density}
         \end{subfigure}
@@ -652,7 +771,7 @@ The computational domain consists of a $1$-D pipe of length $L=9m$ with an inter
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{Leblanc_exact_and_numerical_stt_pressure_6000.png}
+                \includegraphics[width=\textwidth]{Leblanc_exact_and_numerical_stt_total_energy_6000.png}
                 \caption{Pressure profile.}
                 \label{fig:1d_leblanc_press}
         \end{subfigure}
@@ -666,35 +785,82 @@ The computational domain consists of a $1$-D pipe of length $L=9m$ with an inter
         \end{subfigure}
         \caption{Numerical solution for the $1$-D Leblanc shock tube at $t=4.s$.}\label{fig:1d_lebalnc}
 \end{figure}
- The pressure, density and velocity profiles given in \fig{fig:1d_lebalnc} do not display any oscillations. In \fig{fig:1d_leblanc_press} and \fig{fig:1d_leblanc_density}, the shock region is zoomed in for better resolution: the shock is well resolved and no oscillation is observed. It is also observed that the shock position is function of the mesh and converges to the exact position when refining the mesh. The contact wave is shown in \fig{fig:1d_leblanc_density} at $x=4.5m$. The second-order viscosity coefficient profile is shown in \fig{fig:1d_leblanc_visc} and behaves as expected: it saturates to the first-order viscosity in the shock region and thus prevent oscillations from forming. In the contact wave at $x=4.5m$, a smaller peak is observed that is due to the presence of the jumps in the definition of the second-order viscosity coefficient (\eqt{eq:final_def_visc_coeff}).  \\
-Once again, a convergence study is performed in order to prove convergence of the numerical solution to the exact solution. As for the vapor phase in the $1$-D nozzle (\sct{sec:steam_nozzle}), the expected convergence rate for the L$2$ and L$1$ norms of the error are $1/2$ and $1$, respectively. The exact solution was obtained by running a $1$-D Riemann solver and used as a reference solution to compute the L$2$ and L$1$-norms given in \tbl{tbl:l2_norm_leblanc}.
+ The density, momentum and total energy profiles given in \fig{fig:1d_lebalnc} do not display any oscillations. In \fig{fig:1d_leblanc_density}, the shock region is zoomed in for better resolution: the shock is well resolved and do not show any oscillation. It is also observed that the shock position of the numerical solution converges to the exact position when refining the mesh. The contact wave is shown in \fig{fig:1d_leblanc_density} at $x=4.5m$. The second-order viscosity coefficient profile is shown in \fig{fig:1d_leblanc_visc} and behaves as expected: it saturates to the first-order viscosity in the shock region and thus prevent oscillations from forming. In the contact wave at $x=4.5m$, a smaller peak is observed that is due to the presence of the jumps in the definition of the second-order viscosity coefficient (\eqt{eq:final_def_visc_coeff}).  \\
+Once again, a convergence study is performed in order to prove convergence of the numerical solution to the exact solution. As for the vapor phase in the $1$-D nozzle (\sct{sec:steam_nozzle}), the expected convergence rate for the L$1$ and L$2$ norms of the error are $1$ and $1/2$, respectively. The exact solution was obtained by running a $1$-D Riemann solver and used as a reference solution to compute the L$1$ and L$2$-norms of the error that are reported in \tbl{tbl:l1_norm_leblanc} and \tbl{tbl:l2_norm_leblanc} for the conservative variables: density, momentum and total energy.
+\begin{table}[H]
+\begin{center}
+ \caption{\label{tbl:l1_norm_leblanc} L$1$ norm of the error for the $1$-D Leblanc test at $t=4.s$.}
+ \begin{tabular}{|c|c|c|c|c|c|c|}
+ \hline
+   cells & density & rate & momentum & rate \\
+ \hline
+$100$ &   $1.0354722$ $10^{-2}$ & $-$ & $3.5471714$ $10^{-3}$ & $-$ \\
+  \hline
+$200$  &  $7.2680512$ $10^{-3}$ & $0.51064841$ & $2.5933119$ $10^{-3}$ & $0.45187331$ \\
+   \hline
+$400$ & $5.0825628$ $10^{-3}$   & $0.51601245$ & $2.0668092$ $10^{-3}$ & $0.32739054$ \\
+ \hline
+$800$ & $3.4025056$ $10^{-3}$   & $0.57895861$ & $1.4793838$ $10^{-3}$ & $0.48240884$ \\
+ \hline
+$1600$ & $2.1649953$ $10^{-3}$  & $0.65223363$ & $9.7152832$ $10^{-4}$ & $0.6066684$ \\
+ \hline
+$3200$&$1.2465433$ $10^{-3}$    & $0.79643094$ & $5.5937409$ $10^{-4}$ & $0.79644263$ \\
+ \hline
+$6400$& $6.4476928$ $10^{-4}$    & $0.95107804$ & $3.0244198$ $10^{-4}$ & $0.88715502$ \\
+ \hline
+ $12800$&$3.3950948$ $10^{-4}$  & $0.92533116$ & $1.5958118$ $10^{-4}$ & $0.9223679$ \\
+ \hline
+ \end{tabular}
+ \begin{tabular}{|c|c|c|}
+\hline
+cells & total energy & rate \\ \hline
+ $100$ & $0.0014033046$                   & $-$\\ \hline
+  $200$  & $9.8611746$ $10^{-4}$& $0.5089968$\\ \hline
+  $400$ & $7.7844421$ $10^{-4}$ & $0.34116585$\\ \hline
+  $800$ & $5.5702549$ $10^{-4}$ & $0.48285029$\\ \hline
+  $1600$ & $3.5720171$ $10^{-4}$ & $0.64100438$\\ \hline
+  $3200$ & $2.0491799$ $10^{-4}$ & $0.80169235$\\ \hline
+  $6400$ & $1.0914891$ $10^{-4}$ & $0.90874889$\\ \hline
+   $12800$&$5.7909794$ $10^{-5}$ & $0.91441847$\\ \hline
+\end{tabular}
+\end{center}
+\nonumber
+\end{table}
 \begin{table}[H]
 \begin{center}
  \caption{\label{tbl:l2_norm_leblanc} L$2$ norm of the error for the $1$-D Leblanc test at $t=4.s$.}
- \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+ \begin{tabular}{|c|c|c|c|c|c|c|}
  \hline
-   cells & density & rate & pressure & rate & velocity & rate \\
+   cells & density & rate & momentum & rate \\
  \hline
-$500$ &   $3.106397$ $10^{-1}$ & $-$ & $5.254445$ $10^{5}$ & $-$ & $3.288543$                   & $-$\\
+$100$ &   $5.7187851$ $10^{-3}$ & $-$ & $1.7767236$ $10^{-3}$ & $-$ \\
   \hline
-$1000$  &  $7.491623$ $10^{-2}$ & $0.64781$ & $1.636966$ $10^{5}$ & $0.58793$ & $1.823880$                   & $0.89392$\\
+$200$  &  $3.8995238$ $10^{-3}$ & $0.55241073$ & $1.4913161$ $10^{-3}$ & $0.25263314$ \\
    \hline
-$2000$ & $2.079858$ $10^{-2}$ & $0.70756$ & $4.627338$ $10^{4}$ & $0.53448$ & $0.53448$ $10^{-1}$ & $0.77533$\\
+$400$ & $2.8103526$ $10^{-3}$   & $0.4725468$ & $1.3305301$ $10^{-3}$ & $0.164585$ \\
  \hline
-$3000$ & $5.329627$ $10^{-3}$ & $0.64117$ & $1.180287$ $10^{4}$ & $0.58506$ & $0.58506$ $10^{-1}$ & $0.72276$\\
+$800$ & $2.1081933$ $10^{-3}$   & $0.41474398$ & $1.1398931$ $10^{-3}$ & $0.22310254$ \\
  \hline
-$4000$ & $1.341583$ $10^{-3}$ & $0.58965$ & $2.967104$ $10^{3}$ & $0.56103$ & $0.56103$ $10^{-2}$ & $0.60112$\\
+$1600$ & $1.5731052$ $10^{-3}$  & $0.42239201$ & $9.0394227$ $10^{-4}$ & $0.33459602$ \\
  \hline
-$5000$&$3.359766$ $10^{-4}$ & $0.54925$ & $7.428087$ $10^{2}$ & $0.55095$ & $0.55095$ $10^{-3}$ & $0.55351$\\
+$3200$&$1.0610667$ $10^{-3}$    & $0.56809979$ & $6.2735595$ $10^{-4}$ & $0.52694639$ \\
  \hline
-$6000$&$8.403859$ $10^{-5}$& $0.31882$ & $1.857861$ $10^{2}$ & $0.44813$ & $0.44813$ $10^{-3}$ & $0.15305$\\
+$6400$&$7.3309974$ $10^{-4}$    & $0.53343397$ & $4.4545754$ $10^{-4}$ & $0.49399631$ \\
  \hline
- $7000$&$8.403859$ $10^{-5}$& $0.51148$ & $1.857861$ $10^{2}$ & $0.52587$ & $0.52587$ $10^{-3}$ & $0.50216$\\
+ $12800$&$5.1020991$ $10^{-4}$  & $0.52291857$ & $3.1266758$ $10^{-4}$ & $0.5106583$ \\
  \hline
- $8000$&$8.403859$ $10^{-5}$& $0.50469$ & $1.857861$ $10^{2}$ & $0.52459$ & $0.52459$ $10^{-3}$ & $0.50189$\\
- \hline
- $9000$&$8.403859$ $10^{-5}$& $0.51019$ & $1.857861$ $10^{2}$ & $0.51622$ & $0.51622$ $10^{-3}$ & $0.52773$\\
- \hline
+\end{tabular}
+\begin{tabular}{|c|c|c|}
+\hline
+cells & total energy & rate \\ \hline
+$100$ & $7.6112265$  $10^{-4}$& $-$\\ \hline
+$200$ & $5.5497308$ $10^{-4}$& $0.45571115$\\ \hline
+$400$ & $4.6063172$ $10^{-4}$ & $0.26880405$\\ \hline
+$800$ & $3.7798953$ $10^{-4}$ & $0.28526749$\\ \hline
+$1600$ & $2.9584646$ $10^{-4}$ & $0.35349763$\\ \hline
+$3200$ & $2.054455$ $10^{-4}$ & $0.52609289$\\ \hline
+$6400$ & $1.4670834$ $10^{-4}$ & $0.48580482$\\ \hline
+$12800$ & $1.0299897$ $10^{-5}$ & $0.51032105$\\  \hline
 \end{tabular}
 \end{center}
 \nonumber
@@ -751,21 +917,32 @@ where $\tilde{P}$ and $M_{\infty}$ are the pressure fluctuations and the inlet M
 %---------------------------------------------------------------------------------------------------
 \subsection{Subsonic flow over a $2$-D hump} \label{sec:hump}
 %---------------------------------------------------------------------------------------------------
+This is a another example of an internal flow configuration. It consist of a channel of height $L=1$ $m$ and length $3L$, with a circular bump of length $L$ and thickness $0.1L$. The bump is located on the bottom wall at a distance $L$ from the inlet. The system is initialized with an uniform pressure $P=101325$ $Pa$ and temperature $T=300$ $K$. The initial velocity is computed from the Mach number, $M$, the pressure, the temperature and the Ideal Gas equation of state with the heat capacity $C_v = 717$ $J/kg-K$ and the heat capacity ratio $\gamma=1.4$. At the inlet, a subsonic stagnation boundary condition is used: the stagnation pressure and temperature are computed using the following relations, valid for the Stiffened and Ideal gas equation of states:
+\begin{equation}
+\label{eq:stagnation_relations}
+\left\{
+\begin{array}{l}
+P_0 = P\left( 1 + \frac{\gamma-1}{2} M^2 \right)^{\frac{\gamma-1}{\gamma}} \\
+T_0 = T\left( 1 + \frac{\gamma-1}{2} M^2 \right)
+\end{array}
+\right.
+\end{equation}
+The static pressure $P_s = 101325$ $Pa$ is set at the subsonic outlet. An uniform grid is used to get the numerical solution until steady-state is reached. The results are shown in \fig{fig:2d_hump_mach_0p7}, \fig{fig:2d_hump_mach_0p01}, \fig{fig:2d_hump_mach_0p0001} and \fig{fig:2d_hump_mach_0p0000001} for the inlet Mach numbers $M=0.7$, $M=0.01$, $M=10^{-4}$ and $M=10^{-7}$, respectively. It is expected that, within the low Mach number range, the solution does not depend on the Mach number and is identical to the solution obtained with an incompressible flow code. On the other hand, for a flow at $M=0.7$, the compressible effects become more important and shock can form.
 \begin{figure}[H]
         \centering
         \begin{subfigure}[b]{0.5\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{Hump2D_mach_0p01.png}
-                \caption{Isomach at steady-state.}
-                \label{fig:2d_hump_mach_0p01}
+                \includegraphics[width=\textwidth]{Hump2D_mach_0p7.png}
+                \caption{Mach $0.7$: iso-Mach lines at steady-state.}
+                \label{fig:2d_hump_mach_0p7}
         \end{subfigure}%
           %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.5\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{Hump2D_mach_0p001.png}
-                \caption{Isomach at steady-state.}
-                \label{fig:2d_hump_mach_0p001}
+                \includegraphics[width=\textwidth]{Hump2D_mach_0p01.png}
+                \caption{Mach $10^{-2}$: iso-Mach lines at steady-state.}
+                \label{fig:2d_hump_mach_0p01}
         \end{subfigure}%
         
         %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
@@ -773,7 +950,7 @@ where $\tilde{P}$ and $M_{\infty}$ are the pressure fluctuations and the inlet M
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{Hump2D_mach_1em4.png}
-                \caption{Isomach at steady-state.}
+                \caption{Mach $10^{-5}$: iso-Mach lines at steady-state.}
                 \label{fig:2d_hump_mach_0p0001}
         \end{subfigure}
          %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
@@ -781,14 +958,36 @@ where $\tilde{P}$ and $M_{\infty}$ are the pressure fluctuations and the inlet M
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{Hump2D_mach_1em7.png}
-                \caption{Isomach at steady-state.}
+                \caption{Mach $10^{-7}$: iso-Mach lines at steady-state.}
                 \label{fig:2d_hump_mach_0p0000001}
         \end{subfigure}
-        \caption{Steady-state solution for a flow in a $2$-D compression corner.}\label{fig:2d_hump}
+        \caption{Steady-state solution for a $2$-D flow over a circular bump.}\label{fig:2d_hump}
 \end{figure}
+The results showed in \fig{fig:2d_hump_mach_0p01}, \fig{fig:2d_hump_mach_0p0001} and \fig{fig:2d_hump_mach_0p0000001} correspond to the low Mach regime. The iso-Mach lines are drawn ranging from the minimum and the maximum of each legend with 50 intervals. The steady-state solution is symmetric and does not depend on the value of the inlet Mach number as expected. \\
+In \fig{fig:2d_hump_mach_0p7}, the steady-state numerical solution develops a shock: the compressibility effect are no longer negligible. The iso-Mach lines are also plotted with $50$ intervals and ranging from $0.4$ to $1.6$. The shock is well resolved and does not display any instability or spurious oscillation. \\
+The results presented in \fig{fig:2d_hump} were obtained with the new definition of the viscosity coefficient (see \eqt{eq:final_def_visc_coeff}), and, illustrate the capabilities of the entropy-viscosity method to adapt to the type of flow (subsonic and transonic flows) without using any tuning parameters, but by just evaluating the entropy residual that is an indicator of the entropy production.    
 %---------------------------------------------------------------------------------------------------
 \subsection{Supersonic flow in a compression corner} \label{sec:corner}
 %---------------------------------------------------------------------------------------------------
+This is an example of a supersonic flow over a wedge of angle $15^{\circ}$: an oblique shock is generated at steady-state. The Mach number upstream of the shock is fixed to $M=2.5$. The initial conditions are uniform: the pressure and temperature are set to $P=101325$ $Pa$ and $T=300$ $K$, respectively. The velocity is computed from the upstream Mach number and using the Ideal Gas equation of state with the same parameters as in \sct{sec:hump}. The code is run until steady-state. An analytical solution for this supersonic flow is available and give the downstream to upstream pressure, entropy and Mach number ratios (REF). The analytical and numerical ratios are given in see in \tbl{tbl:corner_exact_sol}. 
+\begin{table}[H]
+\begin{center}
+ \caption{\label{tbl:corner_exact_sol} Analytical solution for the supersonic flow on an edge eat $15^{\circ}$ at $M=2.5$.}
+ \begin{tabular}{|c|c|c|}
+ \hline
+   & analytical & numerical \\
+    & downstream to upstream ratio & downstream to upstream ratio \\
+ \hline
+Pressure & 2.47 & \\
+  \hline
+Mach number  &  0.74 & \\
+   \hline
+  Entropy & 1.03 & \\ \hline 
+\end{tabular}
+\end{center}
+\nonumber
+\end{table}
+The inlet is supersonic and therefore, the pressure, temperature and velocity have to be specified using Dirichlet boundary conditions. The outlet remains subsonic and only the back pressure is set to $P_b=101325$ $Pa$.
 \begin{figure}[H]
         \centering
         \begin{subfigure}[b]{0.56\textwidth}
@@ -816,6 +1015,8 @@ where $\tilde{P}$ and $M_{\infty}$ are the pressure fluctuations and the inlet M
         \end{subfigure}
         \caption{Steady-state solution for a flow in a $2$-D compression corner.}\label{fig:2d_corner}
 \end{figure}
+The steady-state numerical solution is given in \eqt{fig:2d_corner}: the Mach number, the iso-Mach lines and the viscosity coefficients are plotted in \fig{fig:2d_corner_mach}, \fig{fig:2d_corner_isomach} and \fig{fig:2d_corner_visc}, respectively. The steady-state solution is formed of two regions of constant states, separated by the oblique shock. The iso-Mach lines (see \fig{fig:2d_corner_isomach}) range from $1.6$ to $2.5$ with $20$ intervals. In \fig{fig:2d_corner_visc}, the viscosity coefficient is large in the shock, small anywhere else, and thus, behaves as expected. At the corner of the edge at $x=0.0$ $m$, the viscosity coefficient is peaked because of the treatment of the wall boundary condition: at this particular node, the normal is not well defined and can cause numerical errors. \\
+Overall, the numerical solution does not show any oscillations and match the analytical solution, and the shock is well resolved.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions} \label{sec:ccl}
