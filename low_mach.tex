@@ -402,10 +402,7 @@ f(M) \to 1 \text{ as } M \geq 1
 \end{array}
 \right.
 \end{equation} 
-The choice of the function $f(M)$ is not fixed and a few examples are available in the literature. (REF) proposed the simple definition $f(M) = \min (M,1)$ which meets the conditions of \eqt{eq:fM_def}. Another definition for $f(M)$ was proposed by \cite{Roe}:
-\begin{equation}
-f(M) = 
-\end{equation} 
+The choice of the function $f(M)$ is not fixed and a few examples are available in the literature. A simple definition is $f(M) = \min (M,1)$ which meets the conditions of \eqt{eq:fM_def}. Another definition for $f(M)$ was proposed by \cite{Roe}.
 All of the numerical results presented in \sct{sec:results} were obtained by using $f(M) = \min (M,1)$ which is simple to implement. A convergence test for a subsonic flow over a $2$-D cylinder will show that this definition of $f(M)$ yields the correct behavior in the asymptotic limit.
 The definition of the high-order viscosity coefficient $\mu_e(\vec{r},t)$ should behave well for complex flow where a near incompressible regime coexists with a supersonic flow domain since $f(M)$ is function of the local Mach number. \\
 For clarity purpose, the full definition of the viscosity coefficient $\mu(\vec{r},t)$ is recalled:
@@ -490,7 +487,7 @@ s = C_v \ln \left( \frac{P+P_{\infty}}{\rho^{\gamma-1}} \right) \nonumber
 %---------------------------------------------------------------------------------------------------
 \subsection{Liquid water in a $1$-D divergent-convergent nozzle} \label{sec:liquid_nozzle}
 %---------------------------------------------------------------------------------------------------
-The simulation consists of liquid water flowing through a $1$-D convergent-divergent nozzle with the following equation, $A(x) = 1 + 0.5 \cos(2 \pi x / L)$, where $L=1m$ is the length of the nozzle. At the inlet,  the stagnation pressure and temperature are set to $P_0 = 1 MPa$ and $T_0 = 453 K$, respectively. At the outlet, only the static pressure is specified: $P_s = 0.5MPa$. Details about the theory related to the inlet and outlet boundary conditions can be found in (REFS). Initially, the temperature is uniform and set equal to the stagnation temperature and the pressure linearly decreases from the stagnation pressure to the static one. Finally, the liquid is assumed at rest. The Stiffened Gas equation of state is used to model the liquid water with the parameters provided in \tbl{tbl:stff_gas_eos_liq}.
+The simulation consists of liquid water flowing through a $1$-D convergent-divergent nozzle with the following equation, $A(x) = 1 + 0.5 \cos(2 \pi x / L)$, where $L=1m$ is the length of the nozzle. At the inlet,  the stagnation pressure and temperature are set to $P_0 = 1 MPa$ and $T_0 = 453 K$, respectively. At the outlet, only the static pressure is specified: $P_s = 0.5MPa$. Details about the theory related to the inlet and outlet boundary conditions can be found in \cite{SEM}. Initially, the temperature is uniform and set equal to the stagnation temperature and the pressure linearly decreases from the stagnation pressure to the static one. Finally, the liquid is assumed at rest. The Stiffened Gas equation of state is used to model the liquid water with the parameters provided in \tbl{tbl:stff_gas_eos_liq}.
 \begin{table}[H]
 \begin{center}
  \caption{\label{tbl:stff_gas_eos_liq} Stiffened Gas Equation of State parameters for liquid water.}
@@ -503,7 +500,7 @@ $\gamma$ & $C_v$ $(J\cdot kg^{-1} \cdot K^{-1})$ & $P_{\infty}$ $(Pa)$ & $q$ $(J
 \end{tabular}
 \end{center}
 \end{table}
-Because of the low pressure difference between the inlet and the outlet, and the large value of $P_{\infty}$, the flow remains subsonic and thus, should not display any shock. Enthalpy and entropy are conserved through the nozzle, and these conservation relations are used to determine the exact solution at steady-state (REF).
+Because of the low pressure difference between the inlet and the outlet, and the large value of $P_{\infty}$, the flow remains subsonic and thus, should not display any shock. Enthalpy and entropy are conserved through the nozzle, and these conservation relations are used to determine the exact solution at steady-state \cite{nozzle_exact}.
 Plots of the velocity, density and pressure are given at steady-state in \fig{fig:1d_nozzle_liq_vel}, \fig{fig:1d_nozzle_liq_density}, \fig{fig:1d_nozzle_liq_press}, respectively, along with the exact solution for comparison. The viscosity coefficients are also plotted in \fig{fig:1d_nozzle_liq_visc}. The mesh used is uniform and has $50$ cells.
 %Since a steady-state analytical solution is available to us (REF), a convergence study is performed in order to demonstrate the accuracy of the entropy viscosity method by computing the L$1$ and L$2$ norms of the error between the numerical and exact solutions.
 \begin{figure}[H]
@@ -612,7 +609,7 @@ $\gamma$ & $C_v$ $(J\cdot kg^{-1} \cdot K^{-1})$ & $P_{\infty}$ $(Pa)$ & $q$ $(J
 \end{tabular}
 \end{center}
 \end{table}
-The pressure difference applied between the inlet and outlet is large enough to make the steam accelerates through the nozzle and result in the formation of shock in the divergent part. The behavior is different from what is observed for the liquid water phase in \sct{sec:liquid_nozzle} because of the liquid to gas density ratio that is of $1000$. Even though a shock forms, an exact solution at steady-state is still available (REF). The objective of this section is to show that using the new definition of the viscosity coefficient in \eqt{eq:final_def_visc_coeff}, the shock can be correctly resolved without spurious oscillation. The steady-state numerical solution is shown in \fig{fig:1d_vap_nozzle} and was run with a mesh of $1600$ cells.
+The pressure difference applied between the inlet and outlet is large enough to make the steam accelerates through the nozzle and result in the formation of shock in the divergent part. The behavior is different from what is observed for the liquid water phase in \sct{sec:liquid_nozzle} because of the liquid to gas density ratio that is of $1000$. Even though a shock forms, an exact solution at steady-state is still available \cite{nozzle_exact}. The objective of this section is to show that using the new definition of the viscosity coefficient in \eqt{eq:final_def_visc_coeff}, the shock can be correctly resolved without spurious oscillation. The steady-state numerical solution is shown in \fig{fig:1d_vap_nozzle} and was run with a mesh of $1600$ cells.
 \begin{figure}[H]
         \centering
         \begin{subfigure}[b]{0.495\textwidth}
@@ -647,7 +644,7 @@ The pressure difference applied between the inlet and outlet is large enough to 
         \end{subfigure}
         \caption{Steady-state solution for vapor phase in a $1$-D convergent-divergent nozzle.}\label{fig:1d_vap_nozzle}
 \end{figure}
-The steady-state solution of the density, velocity and pressure are given in \fig{fig:1d_nozzle_vap_vel}, \fig{fig:1d_nozzle_vap_density} and \fig{fig:1d_nozzle_vap_press}. The steady-solution displays a shock around $x=0.8m$ and match the exact solution. In \fig{fig:1d_nozzle_vap_visc}, the first- and second-order viscosity coefficients are log plotted at steady-state: the second-order viscosity coefficient is peaked in the shock region around $x=0.8m$ as expected, and saturate to the first-order viscosity coefficient. The profile also displays another peak at $x=0.5m$ that corresponds to the position of the sonic point for a $1$-D convergent-divergent nozzle: this particular point is known to develop small instabilities that are detected when computing the jumps of the pressure and density gradients. Anywhere else, the second-order viscosity coefficient is small. In order to prove convergence of the numerical solution to the exact solution, a convergence study is performed. Because of the presence of a shock, second-order accuracy cannot be achieved. However, the convergence rate is known and expected to be of $1$ and $1/2$ when computing the L$1$ and L$2$ norms of the error, respectively. Results are reported in \tbl{tbl:l1_norm_vap} and \tbl{tbl:l2_norm_vap} for the primitive variables: density, velocity and pressure.
+The steady-state solution of the density, velocity and pressure are given in \fig{fig:1d_nozzle_vap_vel}, \fig{fig:1d_nozzle_vap_density} and \fig{fig:1d_nozzle_vap_press}. The steady-solution displays a shock around $x=0.8m$ and match the exact solution. In \fig{fig:1d_nozzle_vap_visc}, the first- and second-order viscosity coefficients are log plotted at steady-state: the second-order viscosity coefficient is peaked in the shock region around $x=0.8m$ as expected, and saturate to the first-order viscosity coefficient. The profile also displays another peak at $x=0.5m$ that corresponds to the position of the sonic point for a $1$-D convergent-divergent nozzle: this particular point is known to develop small instabilities that are detected when computing the jumps of the pressure and density gradients. Anywhere else, the second-order viscosity coefficient is small. In order to prove convergence of the numerical solution to the exact solution, a convergence study is performed. Because of the presence of a shock, second-order accuracy cannot be achieved. However, the convergence rate of a numerical solution containing a shock  is known and expected to be of $1$ and $1/2$ when computing the L$1$ and L$2$ norms of the error, respectively (see Theorem 9.3 in \cite{convergence_book}). Results are reported in \tbl{tbl:l1_norm_vap} and \tbl{tbl:l2_norm_vap} for the primitive variables: density, velocity and pressure.
 \begin{table}[H]
 \begin{center}
  \caption{\label{tbl:l1_norm_vap} L$1$ norm of the error for the vapor phase in a $1$-D convergent-divergent nozzle at steady-state.}
@@ -869,41 +866,41 @@ T_0 = T\left( 1 + \frac{\gamma-1}{2} M^2 \right)
 \end{array}
 \right.
 \end{equation}
-The static pressure $P_s = 101325$ $Pa$ is set at the subsonic outlet and a static pressure boundary type is used. The implementation of the pressure boundary conditions is done on the model of \cite{SEM}. A solid wall boundary condition is set for the top and bottom walls of the computational domain: the normal velocity is zero since no mass can penetrate the sold body. The mesh is made of triangular cells.\\
-The steady-state for Mach numbers ranging from $M_{\infty} = 10^{-3}$ to $M_{\infty} = 10^{-7}$ is shown in \fig{fig:cylinder}. The iso-Mach lines are drawn with $50$ intervals ranging from $10^{-8}$ to $M_{\infty}$, and allow to assess the symmetry of the numerical solution.
+The static pressure $P_s = 101325$ $Pa$ is set at the subsonic outlet and a static pressure boundary type is used. The implementation of the pressure boundary conditions is done on the model of \cite{SEM}. A solid wall boundary condition is set for the top and bottom walls of the computational domain: the normal velocity is zero since no mass can penetrate the solid body. The mesh is made of triangular cells.\\
+The steady-state for Mach numbers ranging from $M_{\infty} = 10^{-3}$ to $M_{\infty} = 10^{-7}$ is shown in \fig{fig:cylinder}. The iso-Mach lines are drawn with $50$ intervals ranging from $10^{-8}$ to $2M_{\infty}$, and allow to assess the symmetry of the numerical solution.
 \begin{figure}[H]
         \centering
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{CylinderMach1em4.png}
-                \caption{Velocity solution at steady-state.}
-                \label{fig:cyl_1em4}
+                \includegraphics[width=\textwidth]{CylinderMach1em3.png}
+                \caption{Steady-state solution at $M_{\infty}=10^{-3}$.}
+                \label{fig:cyl_1em3}
         \end{subfigure}%
         %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{CylinderMach1em5.png}
-                \caption{Density solution at steady-state}
-                \label{fig:cyl_1em5}
+                \includegraphics[width=\textwidth]{CylinderMach1em4.png}
+                \caption{Steady-state solution at $M_{\infty}=10^{-4}$.}
+                \label{fig:cyl_1em4}
         \end{subfigure}    
          %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{CylinderMach1em6.png}
-                \caption{Presolution at steady-state.}
-                \label{fig:cyl_1em6}
+                \includegraphics[width=\textwidth]{CylinderMach1em5.png}
+                \caption{Steady-state solution at $M_{\infty}=10^{-5}$.}
+                \label{fig:cyl_1em5}
         \end{subfigure}
           %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{CylinderMach1em6.png}
-                \caption{Viscosity coefficients.}
+                \includegraphics[width=\textwidth]{CylinderMach1em7.png}
+                \caption{Steady-state solution at $M_{\infty}=10^{-7}$.}
                 \label{fig:cyl_1em7}
         \end{subfigure}
-        \caption{Steady-state solution for vapor phase in a $1$-D convergent-divergent nozzle.}\label{fig:cylinder}
+        \caption{Steady-state solution for a subsonic flow over a $2$-D cylinder.}\label{fig:cylinder}
 \end{figure}
 In \tbl{tbl:velocity_ratio}, the velocity at the top of the cylinder and at the inlet are given for the different values of the Mach number presented in \fig{fig:cylinder}. The ratio of the inlet velocity to the velocity at the top of cylinder is also computed and is very close to $2$ as expected.
 \begin{table}[H]
@@ -967,7 +964,7 @@ The results presented in \fig{fig:2d_hump} were obtained with the new definition
 %---------------------------------------------------------------------------------------------------
 \subsection{Supersonic flow in a compression corner} \label{sec:corner}
 %---------------------------------------------------------------------------------------------------
-This is an example of a supersonic flow over a wedge of angle $15^{\circ}$ where an oblique shock is generated at steady-state. The Mach number upstream of the shock is fixed to $M=2.5$. The initial conditions are uniform: the pressure and temperature are set to $P=101325$ $Pa$ and $T=300$ $K$, respectively. The initial velocity is computed from the upstream Mach number and using the Ideal Gas equation of state with the same parameters as in \sct{sec:hump}. The code is run until steady-state. An analytical solution for this supersonic flow is available and give the downstream to upstream pressure, entropy and Mach number ratios \cite{CompressionCorner}. The analytical and numerical ratios are given in see in \tbl{tbl:corner_exact_sol}. 
+This is an example of a supersonic flow over a wedge of angle $15^{\circ}$ where an oblique shock is generated at steady-state. The Mach number upstream of the shock is fixed to $M=2.5$. The initial conditions are uniform: the pressure and temperature are set to $P=101325$ $Pa$ and $T=300$ $K$, respectively. The initial velocity is computed from the upstream Mach number and using the Ideal Gas equation of state with the same parameters as in \sct{sec:hump}. The code is run until steady-state. An analytical solution for this supersonic flow is available and give the downstream to upstream pressure, entropy and Mach number ratios \cite{CompressionCorner}. The analytical and numerical ratios are given in see in \tbl{tbl:corner_exact_sol}, and are very close. 
 \begin{table}[H]
 \begin{center}
  \caption{\label{tbl:corner_exact_sol} Analytical solution for the supersonic flow on an edge eat $15^{\circ}$ at $M=2.5$.}
@@ -988,7 +985,7 @@ Mach number  &  0.74 & 0.741\\
 The inlet is supersonic and therefore, the pressure, temperature and velocity are specified using Dirichlet boundary conditions. The outlet is also supersonic and none of the characteristics enter the domain through this boundary: the values will be computed by the implicit solver.
 \begin{figure}[H]
         \centering
-        \begin{subfigure}[b]{0.56\textwidth}
+        \begin{subfigure}[b]{0.52\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{CompressionCorner2D_mach.png}
                 \caption{Mach solution at steady-state.}
@@ -996,7 +993,7 @@ The inlet is supersonic and therefore, the pressure, temperature and velocity ar
         \end{subfigure}%
           %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
           %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.5\textwidth}
+        \begin{subfigure}[b]{0.52\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{CompressionCorner2D_viscosity.png}
                 \caption{Viscosity coefficient at steady-state.}
@@ -1005,10 +1002,10 @@ The inlet is supersonic and therefore, the pressure, temperature and velocity ar
         
         %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
           %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.5\textwidth}
+        \begin{subfigure}[b]{0.49\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{CompressionCorner2D_isomach.png}
-                \caption{Isomach at steady-state}
+                \includegraphics[width=\textwidth]{mach_number_pressure.png}
+                \caption{Pressure and Mach number profiles at steady-state}
                 \label{fig:2d_corner_isomach}
         \end{subfigure}        
           %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
@@ -1032,6 +1029,7 @@ Overall, the numerical solution does not show any oscillations, match the analyt
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Acknowledgments} 
+The authors would like to thank Bojan Popov and Jean Luc Guermond for the many fruitful discussions.  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
