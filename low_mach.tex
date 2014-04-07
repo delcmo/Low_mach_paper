@@ -1057,6 +1057,77 @@ Then, the result follows.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 \section{Derivation of the dissipative terms for the multi-D Euler equations with variable area using the entropy minimum principle:} \label{app:diss_terms}
+The multi-D Euler equations with variable area are recalled here:
+\begin{equation}
+\label{app:euler_variable_A}
+\left\{ 
+\begin{array}{lll}
+\partial_t \left( \rho A \right) + \div \left( \rho \vec{u} A \right) = 0 \\
+\partial_t \left( \rho \vec{u} A \right) + \div \left[A\left( \rho \vec{u} \otimes \vec{u} + P \mathbf{I} \right) \right] = P \grad A \\
+\partial_t \left( \rho E \right) + \div \left[ \vec{u} \left( \rho E + P \right) \right] = 0
+\end{array}
+\right. \nonumber
+\end{equation}
+Assuming the existence of an entropy $s$ function of the density $\rho$ and the internal energy $e$, the above system of equations admits the following entropy residual \cite{Toro}:
+\begin{equation}
+A \rho \left( \partial_t s + \vec{u} \cdot \div s \right) \geq 0 \nonumber \\
+\end{equation}
+when assuming $Ps_e + \rho^2 s_{\rho} =0$. An entropy function $s$ verifying this equation is also a solution of the second thermodynamic law for a reversible system, $T ds = de - \frac{P}{\rho^2} d \rho$, which implies $s_e = T^{-1} \geq 0$. \\
+In order to apply the entropy viscosity method, dissipative terms are added to each equation. Then, the entropy residual is derived again: extra terms due to the dissipative terms will appear in the left-hand side. In order to prove the minimum entropy principle, these extra terms are either recast as conservative term, or shown to be positive. \\ 
+The multi-D Euler equations with variable area with dissipative terms, yield:
+\begin{equation}
+\label{app:euler_variable_A_diss}
+\left\{ 
+\begin{array}{lll}
+\partial_t \left( \rho A \right) + \div \left( \rho \vec{u} A \right) = \div f \\
+\partial_t \left( \rho \vec{u} A \right) + \div \left[A\left( \rho \vec{u} \otimes \vec{u} + P \mathbf{I} \right) \right] = P \grad A + \div g \\
+\partial_t \left( \rho E \right) + \div \left[ \vec{u} \left( \rho E + P \right) \right] = \div h
+\end{array}
+\right. 
+\end{equation}
+where $f$, $g$ and $h$ are the dissipative terms to derive. Starting from the modified system of equations given in \eqt{app:euler_variable_A_diss}, the entropy residual is derived again:
+\begin{eqnarray}
+\label{eq:ent_res_app}
+A \rho \left( \partial_t s + \vec{u} \cdot \div s \right) &=& s_e \left[ \div h + g \grad u + \left( \frac{u^2}{2}-e \right) \div f \right] \nonumber\\
+&+& \rho s_{\rho} \div f
+\end{eqnarray}
+The next step consists of choosing a definition for each of the dissipative terms so that the left hand-side is proven positive. The right hand-side of \eqt{eq:ent_res_app} can be simplified using the following relations, $g = A \mu \grad^s \vec{u} + \vec{u} \otimes f$ and $h = \tilde{h} + \vec{u} \cdot g - 0.5 || \vec{u} ||^2 f$, which yields:
+\begin{eqnarray}
+\label{eq:ent_res_app2}
+A \rho \left( \partial_t s + \vec{u} \cdot \div s \right) &=& s_e \left[ \div \tilde{h}-e \div f \right] + \rho s_{\rho} \div f  + A s_e \mu \grad \vec{u}^s \grad \vec{u}\nonumber
+\end{eqnarray}
+The right hand-side is now integrated by part:
+\begin{eqnarray}
+\label{eq:ent_res_app3}
+A \rho \left( \partial_t s + \vec{u} \cdot \div s \right) &=& \div \left[ s_e \tilde{h}-s_e e f  + \rho s_{\rho} f \right] -\nonumber \\
+\div \tilde{h} \grad s_e  &-& f \grad (e s_e) -  f \grad ( \rho s_{\rho} ) + A s_e \mu \grad \vec{u}^s \grad \vec{u} \nonumber
+\end{eqnarray}
+where $\grad^s$ is the symmetric gradient. The term $A s_e \mu \grad \vec{u}^s \grad \vec{u}$ is positive and thus, does not need any further modification. It remains to treat the other terms of the right hand-side that we now call $rhs$:
+\begin{equation}
+rhs = \div \left[ s_e \tilde{h}-s_e e f  + \rho s_{\rho} f \right] - \div \tilde{h} \grad s_e  - f \grad (e s_e) - f \grad ( \rho s_{\rho} ) \nonumber
+\end{equation}
+The first term of $rhs$ is a conservative terms. By choosing carefully a definition for $\tilde{h}$ and $f$, the conservative term can be expressed as a function of the entropy $s$. It is also required to include the variable area in the choice of the dissipative terms so that when assuming constant area, the regular multi-D Euler equations are recovered. The following definitions for $\tilde{h}$ and $f$ are chosen:
+\begin{equation}
+\tilde{h} = A \kappa \grad ( \rho e ) \text{ and } f = A \kappa \grad \rho, \nonumber 
+\end{equation}
+which yields, using the chain rule:
+\begin{equation}
+rhs = \div ( A \kappa \grad s ) - A \kappa \underbrace{\left[ \grad (\rho e) \grad s_e  + \grad \rho \grad (e s_e) +  \grad ( \rho s_{\rho} )  \right]}_{\mathbf{Q}} \nonumber
+\end{equation}
+It remains to treat the term $\mathbf{Q}$ that can be recast under a quadratic form, following the work done in \cite{jlg}:
+\begin{eqnarray}
+\mathbf{Q} &=& X^t \Sigma X \nonumber \\
+\text{with } X &=& \begin{bmatrix}
+\grad \rho \\
+\grad e 
+\end{bmatrix}
+\text{and } \Sigma = \begin{bmatrix}
+       \partial_{\rho} (\rho^2 \partial_{\rho} s) & \partial_{\rho,e} s  \\[0.3em]
+       \partial_{\rho,e} s & \partial_{e,e} s           \\[0.3em]
+     \end{bmatrix} \nonumber 
+\end{eqnarray}
+The matrix $\Sigma$ is symmetric and identical to the matrix obtained in \cite{jlg}. The sign of the quadratic form can be simply determined by studying the positiveness of the matrix $\Sigma$. In this particular case, it is required to prove that the matrix is negative definite: the quadratic form is in the right hand-side and is preceded of a negative sign. According to \cite{jlg}, the convexity of the opposite of the entropy function $s$ with respect to the internal energy $e$ and the specific volume $1/ \rho$ is sufficient to ensure that the matrix $\Sigma$ is negative definite. \\
+Thus, the right hand-side of the entropy residual \eqt{eq:ent_res_app}, are now either recast as conservative terms, or known to be positive. Following the work done by \cite{jlg}, the entropy minimum principle holds.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
