@@ -118,7 +118,7 @@
 \newcommand{\tf}{b}
 
 \newcommand{\tcr}[1]{\textcolor{red}{#1}}
-\newcommand{\mt}[1]{\marginpar{ {\tiny #1}}}
+\newcommand{\mt}[1]{\marginpar{ {\tiny \tcr{#1} }}}
 
 \bibliographystyle{elsarticle-num}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -152,7 +152,8 @@
 %% \fntext[label3]{}
 %-------------------------
 %-------------------------
-\title{Extension of the entropy viscosity method to the low Mach regime for the multi-D Euler equations (with variable area).}
+\title{Extension of the entropy viscosity method to the low Mach regime for the multi-dimensional Euler equations\\
+\tcr{Entropy-based viscous regularization for the multi-dimensional Euler equations in low-Mach regimes}}
 %-------------------------
 %-------------------------
 \author{Marc O. Delchini\fnref{label1}}
@@ -173,7 +174,11 @@
 %-------------------------
 %-------------------------
 \begin{abstract}
-The entropy viscosity method, introduced by Guermond et al. \cite{jlg1, jlg2}, is applied to the multi-D Euler equations with variable area for subsonic and supersonic flows. The entropy minimum principle is used to derive the dissipative terms for the mutli-D Euler equations with variable area on the model of \cite{jlg}. It is also shown that the current definition of the viscosity coefficients (\cite{jlg1}) is un-adpated to subsonic flow and thus requires a fix. A low Mach asymptotic study is performed to derive a new definition for the viscosity coefficients that are well-scaled in the low Mach regime. Multiple $1$- and $2$-D tests are run with the Ideal and Stiffened Gas equation of state: flow in a convergent-divergent nozzle, Leblanc shock tube, subsonic flow over a $2$-D cylinder and circular hump, and supersonic flow in a compression corner. These tests allow to validate our new approach. Convergence studies are performed when an analytical solution is available for the $1$-D case. 
+The entropy viscosity method, introduced by Guermond et al. \cite{jlg1, jlg2}, is extended to the multi-dimensional Euler equations for both subsonic (very low Mach numbers) and supersonic flows. 
+We show that the current definition of the viscosity coefficients \cite{jlg1} is not adapted to low-Mach flows and we provide a robust alternate definition valid for any Mach number value. The new definitions are derived from a low-Mach asymptotic study. 
+In addition, the entropy minimum principle is used to derive the viscous regularization terms for Euler equations with variable area for nozzle flow problems. 
+Various $1$- and $2$-D numerical tests are presented : flow in a convergent-divergent nozzle, Leblanc shock tube, subsonic flow around a $2$-D cylinder and over a circular hump, and supersonic flow in a compression corner. Convergence studies are performed using analytical solutions in $1$-D. 
+Both the ideal gas and stiffened gas equations of state are employed.
 \end{abstract}
 %-------------------------
 %-------------------------
