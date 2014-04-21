@@ -696,14 +696,14 @@ $320$&$7.0896$ $10^{-2}$& $0.44688$ & $1.2763$ $10^{4}$ & $0.43571$ & $23.138$& 
 \end{center}
 \nonumber
 \end{table}
-The convergence rates for the L$1$ and L$2$ norms of the error are close to the theoretical values which prove convergence of the numerical solution to the exact solution.\\
-It is also interesting to investigate the effect of the first-order viscosity onto the steady-state solution. In \fig{fig:1d_nozzle_vap_fo_ev}, the steady-state velocity profile is plotted when using the first- and second-order viscosity coefficients: the main difference between the two numerical solution is in the resolution of the shock around $x=0.8m$. The first-order viscosity coefficient is by definition more dissipative and will smooth out the solution. In the other hand, the high-order viscosity better resolves the shock and allow high-order accuracy away from the shock region. It is also noted that the numerical solution obtained with the first-order viscosity coefficient is satisfying: this is due to the nature of the solution that contains a standing shock, and thus, will force the shock to form even with large artificial dissipation. 
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{vapor_velocity_fo_and_ev_400.png}
-\caption{Velocity profile at steady-state with the first- and second-order viscosity for a mesh with $400$ cells.}
-\label{fig:1d_nozzle_vap_fo_ev}
-\end{figure}
+The convergence rates for the L$1$ and L$2$ norms of the error are close to the theoretical values which prove convergence of the numerical solution to the exact solution.
+%It is also interesting to investigate the effect of the first-order viscosity onto the steady-state solution. In \fig{fig:1d_nozzle_vap_fo_ev}, the steady-state velocity profile is plotted when using the first- and second-order viscosity coefficients: the main difference between the two numerical solution is in the resolution of the shock around $x=0.8m$. The first-order viscosity coefficient is by definition more dissipative and will smooth out the solution. In the other hand, the high-order viscosity better resolves the shock and allow high-order accuracy away from the shock region. It is also noted that the numerical solution obtained with the first-order viscosity coefficient is satisfying: this is due to the nature of the solution that contains a standing shock, and thus, will force the shock to form even with large artificial dissipation. 
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=\textwidth]{vapor_velocity_fo_and_ev_400.png}
+%\caption{Velocity profile at steady-state with the first- and second-order viscosity for a mesh with $400$ cells.}
+%\label{fig:1d_nozzle_vap_fo_ev}
+%\end{figure}
 %---------------------------------------------------------------------------------------------------
 \subsection{Leblanc shock tube} \label{sec:Leblanc}
 %---------------------------------------------------------------------------------------------------
@@ -738,7 +738,7 @@ The computational domain consists of a $1$-D pipe of length $L=9m$ with an inter
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{Leblanc_exact_and_numerical_stt_momentum_6000.png}
-                \caption{Velocity profile.}
+                \caption{Momentum profile.}
                 \label{fig:1d_leblanc_density}
         \end{subfigure}
          %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
@@ -746,7 +746,7 @@ The computational domain consists of a $1$-D pipe of length $L=9m$ with an inter
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{Leblanc_exact_and_numerical_stt_total_energy_6000.png}
-                \caption{Pressure profile.}
+                \caption{Total energy profile.}
                 \label{fig:1d_leblanc_press}
         \end{subfigure}
           %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
@@ -760,6 +760,7 @@ The computational domain consists of a $1$-D pipe of length $L=9m$ with an inter
         \caption{Numerical solution for the $1$-D Leblanc shock tube at $t=4.s$.}\label{fig:1d_lebalnc}
 \end{figure}
  The density, momentum and total energy profiles given in \fig{fig:1d_lebalnc} do not display any oscillations. In \fig{fig:1d_leblanc_density}, the shock region is zoomed in for better resolution: the shock is well resolved and do not show any oscillation. It is also observed that the shock position of the numerical solution converges to the exact position when refining the mesh. The contact wave is shown in \fig{fig:1d_leblanc_density} at $x=4.5m$. The second-order viscosity coefficient profile is shown in \fig{fig:1d_leblanc_visc} and behaves as expected: it saturates to the first-order viscosity in the shock region and thus prevent oscillations from forming. In the contact wave at $x=4.5m$, a smaller peak is observed that is due to the presence of the jumps in the definition of the second-order viscosity coefficient (\eqt{eq:final_def_visc_coeff}).  \\
+ %For each plot in \fig{fig:1d_lebalnc}, the numerical solution run the first-order viscosity is also plotted: it is observed that the 
 Once again, a convergence study is performed in order to prove convergence of the numerical solution to the exact solution. As for the vapor phase in the $1$-D nozzle (\sct{sec:steam_nozzle}), the expected convergence rate for the L$1$ and L$2$ norms of the error are $1$ and $1/2$, respectively. The exact solution was obtained by running a $1$-D Riemann solver and used as a reference solution to compute the L$1$ and L$2$-norms of the error that are reported in \tbl{tbl:l1_norm_leblanc} and \tbl{tbl:l2_norm_leblanc} for the conservative variables: density, momentum and total energy.
 \begin{table}[H]
 \begin{center}
