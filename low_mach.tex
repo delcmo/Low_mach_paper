@@ -152,8 +152,8 @@
 %% \fntext[label3]{}
 %-------------------------
 %-------------------------
-\title{Extension of the entropy viscosity method to the low Mach regime for the multi-dimensional Euler equations\\
-\tcr{Entropy-based viscous regularization for the multi-dimensional Euler equations in low-Mach regimes}}
+%\title{Extension of the entropy viscosity method to the low Mach regime for the multi-dimensional Euler equations\\
+\title{Entropy-based viscous regularization for the multi-dimensional Euler equations in low-Mach regimes}
 %-------------------------
 %-------------------------
 \author{Marc O. Delchini\fnref{label1}}
@@ -969,7 +969,11 @@ The results presented in \fig{fig:2d_hump} were obtained with the new definition
 %---------------------------------------------------------------------------------------------------
 \subsection{Supersonic flow in a compression corner} \label{sec:corner}
 %---------------------------------------------------------------------------------------------------
-This is an example of a supersonic flow over a wedge of angle $15^{\circ}$ where an oblique shock is generated at steady-state. The Mach number upstream of the shock is fixed to $M=2.5$. The initial conditions are uniform: the pressure and temperature are set to $P=101325$ $Pa$ and $T=300$ $K$, respectively. The initial velocity is computed from the upstream Mach number and using the Ideal Gas equation of state with the same parameters as in \sct{sec:hump}. The code is run until steady-state. An analytical solution for this supersonic flow is available and give the downstream to upstream pressure, entropy and Mach number ratios \cite{CompressionCorner}. The analytical and numerical ratios are given in see in \tbl{tbl:corner_exact_sol}, and are very close. 
+This is an example of a supersonic flow over a wedge of angle $15^{\circ}$ where an oblique shock is generated at steady-state. The Mach number upstream of the shock is fixed to $M=2.5$. The initial conditions are uniform: the pressure and temperature are set to $P=101325$ $Pa$ and $T=300$ $K$, respectively. The initial velocity is computed from the upstream Mach number and using the Ideal Gas equation of state with the same parameters as in \sct{sec:hump}. The code is run until steady-state. From the oblique shock theory \cite{CompressionCorner}, an analytical solution for this supersonic flow is available and give the downstream to upstream pressure, entropy and Mach number ratios. The analytical and numerical ratios are given in \tbl{tbl:corner_exact_sol}, and are very close. The shock wave angle at steady-state is also known and given by the so-called $\theta -\beta -M$ relation:
+\begin{equation}
+\tan \theta = 2 \cot \beta \frac{M^2 \sin^2 \beta -1}{M^2 \left(\gamma+\cos^2 (2\beta)\right)+2} \nonumber
+\end{equation}
+where $\theta$, $\beta$ and $M$ denote the wedge angle, the shock wave angle and the upstream Mach number, respectively. For the example under consideration with an inlet Mach number of $2.5$, the exact value of the shock wave angle is of $36.94^{\circ}$ at steady-state. From \fig{fig:2d_corner_mach}, the numerical value of the shock wave angle can be measured and is found equal to $36.9^{\circ}$: the numerical and exact values are very close.
 \begin{table}[H]
 \begin{center}
  \caption{\label{tbl:corner_exact_sol} Analytical solution for the supersonic flow on an edge eat $15^{\circ}$ at $M=2.5$.}
@@ -982,7 +986,8 @@ Pressure & 2.47 & 2.467\\
   \hline
 Mach number  &  0.74 & 0.741\\
    \hline
-  Entropy & 1.03 & 1.026\\ \hline 
+  Entropy & 1.03 & 1.026\\ 
+  \hline 
 \end{tabular}
 \end{center}
 \nonumber
