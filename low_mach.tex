@@ -304,7 +304,7 @@ The entropy residual $D_e$ and $\tilde{D}_e$ are proportional to each other and 
 \item with the proposed expression of the entropy residual function of pressure and density, additional normalizations suitable for low Mach flows of the entropy residual can be devised. Examples include the pressure itself, or combination of the density, the speed of sound and the norm of the velocity: $\rho c^2$, $\rho c || \vec{u} ||$ and $\rho || \vec{u} ||^2$. 
 \end{itemize}
 The viscosity coefficients $\mu$ and $\kappa$ are now defined proportional to the new entropy residual $\tilde{D}_e$ on the model of \eqt{eq:ent_visc_coeff} as follows:
-\begin{equation}
+\begin{equation}\label{eq:norm_param}
 \mu \left( \vec(r),t \right) = \kappa \left( \vec(r),t \right) = h^2 \frac{\max \left( \tilde{D}_e, J \right)}{n(P)}
 \end{equation}
 where $n(P)$ is a normalization parameter to determine and all other variables were defined previously. \\
@@ -312,7 +312,7 @@ As mentioned earlier, the normalization parameter $n(P)$ must be of the same uni
 %===================================================================================================
 \subsection{Low-Mach asymptotic study of the multi-D Euler equations} \label{sec:lowMach}
 %===================================================================================================
-The asymptotic study requires the multi-D Euler equations to be non dimensionalized: the objective is to make the Mach number appears and thus, use a polynomial expansion of the variables as a function of the Mach number in order to derive the leading, first- and second-order equations. Before detailing the steps of the asymptotic method, let us have a closer look at the system of equations under consideration. The initial system of equations is composed of the multi-D Euler equations. For stability purpose, artificial dissipative terms are added to each equation as explained in \sct{sec:entro_visc}. The resulting system of equations is alike the multi-D Navier-Stokes equations in a sense that it contains second-order derivative terms. Thus, it would be interesting to look at the steps employed in the asymptotic study of the multi-D Navier-Stokes equations in order to understand how the dissipative terms are treated. Fortunately, this process is well-documented in the literature \cite{LowMach1, LowMach2, LowMach3} for both multi-D Euler equations and Navier-Stokes equations. The work presented here is mainly inspired of \cite{Muller} that focuses on the asymptotic study in the low Mach regime of Navier-Stokes equations. During the derivation, the reader has to keep in mind that the objective of this section is to derive a normalization parameter for the definition of the viscosity coefficients so that the multi-D Euler equations degenerate to the incompressible system of equations, which implies that the dissipative terms are well-scaled. The main steps of the derivation are presented in the following of this section: \\
+The asymptotic study requires the multi-D Euler equations to be non dimensionalized: the objective is to make the Mach number appears and thus, use a polynomial expansion of the variables as a function of the Mach number in order to derive the leading, first- and second-order equations. Before detailing the steps of the asymptotic method, let us have a closer look at the system of equations under consideration. The initial system of equations is composed of the multi-D Euler equations. For stability purpose, artificial dissipative terms are added to each equation as explained in \sct{sec:entro_visc}. The resulting system of equations is alike the multi-D Navier-Stokes equations in a sense that it contains second-order derivative terms. Thus, it would be interesting to look at the steps employed in the asymptotic study of the multi-D Navier-Stokes equations in order to understand how the dissipative terms are treated. Fortunately, this process is well-documented in the literature \cite{LowMach1, LowMach2, LowMach3} for both multi-D Euler equations and Navier-Stokes equations. The work presented here is mainly inspired of \cite{Muller} that focuses on the asymptotic study in the low Mach regime of Navier-Stokes equations. During the derivation, the reader has to keep in mind that the objective of this section is to derive the scaling of the normalization parameter $n(P)$ involved in the definition of the viscosity coefficients given in \eqt{eq:ent_visc_coeff}, so that the multi-D Euler equations degenerate to the incompressible system of equations, which implies that the dissipative terms are well-scaled. The main steps of the derivation are presented in the following of this section.\\
 To express \eqt{eq:euler_visc} in dimensionless variables, the following dimensional variables are introduced:
 \begin{eqnarray}
 \label{eq:norm_param}
@@ -331,11 +331,11 @@ Then, using the non dimensional quantities and the multi-D Euler equations from 
 \label{eq:Euler_eq2}
 \left\{ 
 \begin{array}{l}
-\partial_t \rho+ \nabla \left(  \rho \vec{u}  \right) = \frac{1}{Re_{\infty} Pr_{\infty}} \nabla \cdot ( \kappa \nabla \rho )\nonumber\\
+\partial_t \rho+ \nabla \left(  \rho \vec{u}  \right) = \frac{1}{Re_{\infty} Pr_{\infty}} \nabla \cdot ( \kappa \nabla \rho )\\
 \partial_t \left( \rho \vec{u} \right) + \nabla \left( \rho \vec{u}\otimes \vec{u} \right) + \frac{1}{M_{\infty}^2}\nabla \left( P \right) = \frac{1}{Re_{\infty}}\nabla \left( \rho \mu \nabla \vec{u} \right) + \frac{1}{Re_{\infty} Pr_{\infty}} \nabla \cdot (\vec{u}\otimes \kappa \nabla \rho )\\
-\partial_t \left( \rho E \right) + \nabla \cdot \left[ \vec{u} \left( \rho E + P \right) \right] = \frac{1}{Re_{\infty} Pr_{\infty}} \nabla \cdot(\kappa \nabla(\rho e)) + \frac{\tilde{M_{\infty}}^2}{Re_{\infty}}\nabla \cdot \left( \vec{u} \rho \mu \nabla \vec{u} \right) \nonumber \\
-+ \frac{M_{\infty}^2}{2 Re_{\infty} Pr_{\infty}} \nabla \cdot (\kappa u^2 \nabla \rho) \nonumber \\
-P = \left( \gamma-1 \right) \left( \rho E + M_{\infty}^2 \rho u^2 \right)\nonumber
+\partial_t \left( \rho E \right) + \nabla \cdot \left[ \vec{u} \left( \rho E + P \right) \right] = \frac{1}{Re_{\infty} Pr_{\infty}} \nabla \cdot(\kappa \nabla(\rho e)) + \frac{\tilde{M_{\infty}}^2}{Re_{\infty}}\nabla \cdot \left( \vec{u} \rho \mu \nabla \vec{u} \right)  \\
++ \frac{M_{\infty}^2}{2 Re_{\infty} Pr_{\infty}} \nabla \cdot (\kappa u^2 \nabla \rho) \\
+P = \left( \gamma-1 \right) \left( \rho E + M_{\infty}^2 \rho u^2 \right)
 \end{array}
 \right.
 \end{equation}
@@ -345,48 +345,110 @@ where the \emph{numerical} Reynolds $(Re_{\infty})$ and Prandtl $(Pr_{\infty})$ 
 Re_{\infty} = \frac{u_{\infty} L_{\infty}}{\mu_{\infty}} \text{ and }
 Pr_{\infty} = \frac{\mu_{\infty}}{\kappa_{\infty}} \text{.}
 \end{eqnarray}
-Since it is chosen to have the same definition for both $\mu$ and $\kappa$ the numerical Prandtl number is unconditionally equal to one: $Pr_{\infty} = 1$. \\
+%Since it is chosen to have the same definition for both $\mu$ and $\kappa$ the numerical Prandtl number is unconditionally equal to one: $Pr_{\infty} = 1$. \\
 Once the dimensionless equations are obtained, the next step consists of expanding each variable in term of the Mach number (example given in \eqt{eq:expansion} for the pressure $P$) in order to derive the leading, first- and second-order equations. 
 \begin{equation}
 \label{eq:expansion}
 P(\vec{r}, t) = P_0(\vec{r}, t) + P_1(\vec{r}, t) M_{\infty} + P_2(\vec{r}, t) M_{\infty}^2 + \dots \text{ with } M_{\infty} \to 0
 \end{equation}
-Before deriving the leading-order equation, a choice needs to be made on how the numerical Reynolds number scales. Multiple options are available to us and a few example are given: $Re_{\infty} = M_{\infty}$, or $Re_{\infty} = M_{\infty}^{-1}$ or $Re_{\infty} = 1$. Let us assume for academy purpose that the numerical Reynolds number scales as the inverse of the Mach number square:  $Re_{\infty} = M_{\infty}^{-2}$. The best way to evaluate the impact of this choice on the equations, is to look at the momentum equation and try to derive the order $M_{\infty}^{-2}$:
-\begin{equation}
-\label{eq:mom_leading_wrong}
-\grad P_0 = \div (\rho_0 \mu_0 \grad \vec{u}_0 + \vec{u}_0 \otimes \grad \rho_0 )
+From \eqt{eq:Euler_eq2}, it is observed that the scaling of the Reynolds and Prandtl numbers will affect the asymptotic equations because of the dissipative terms. By studying the effect of the dissipative terms onto the asymptotic equations, the scaling of the viscosity coefficients $\mu$ and $\kappa$ can be determined so that the pressure and velocity fluctuations remain of the order of the Mach number square and the Mach number, respectively. For the purpose of this section it is assumed that the Reynolds and Prandtl numbers scale as the Mach number to the power $n$ and $m$, respectively: $Re_{\infty} = M_{\infty}^n$ and $Pr_{\infty} = M_{\infty}^m$ with $\left\{ n,m \right\} \in Z^2$. Different values for the pair $\left\{ n,m \right\}$ are investigated. It is also noted that having $n=m$ is equivalent to setting the viscosity coefficients $\mu$ and $\kappa$ equal. The objective of this investigation is to make a choice on the scaling of the Reynolds and Prandtl numbers, obtain the corresponding asymptotic equations, and determine whether or not the low Mach asymptotic limit is preserved. Since the Reynolds and Prandtl numbers are function of the viscosity coefficients and thus, of the normalization parameter $n(P)$ defined in \eqt{eq:norm_param}, a scaling for the function $n(P)$ will be derived as well. 
+\begin{itemize}
+\item $Re_{\infty} = Pr_{\infty} = 1$ or $m=n=0$:\\
+Using the assumption $m=n=0$, the system of equation given in \eqt{eq:Euler_eq2} becomes:
+ \begin{equation}
+\label{eq:Euler_eq2}
+\left\{ 
+\begin{array}{lll}
+\partial_t \rho+ \nabla \left(  \rho \vec{u}  \right) &=& \nabla \cdot ( \kappa \nabla \rho )\\
+\partial_t \left( \rho \vec{u} \right) + \nabla \left( \rho \vec{u}\otimes \vec{u} \right) + \frac{1}{M_{\infty}^2}\nabla \left( P \right) &=& \\
+&&\nabla \left( \rho \mu \nabla^s \vec{u} \right) + \nabla \cdot (\vec{u}\otimes \kappa \nabla \rho )\\
+\partial_t \left( \rho E \right) + \nabla \cdot \left[ \vec{u} \left( \rho E + P \right) \right] &=& \\
+&&\nabla \cdot(\kappa \nabla(\rho e)) + M_{\infty}^2 \nabla \cdot \left( \vec{u} \rho \mu \nabla^s \vec{u} \right)  \\
++ M_{\infty}^2 \nabla \cdot (\kappa u^2 \nabla \rho) \\
+P = \left( \gamma-1 \right) \left( \rho E + M_{\infty}^2 \rho u^2 \right)
+\end{array}
+\right.
 \end{equation}
-which is known to be (\cite{LowMach3})
-\begin{equation}
-\label{eq:mom_leading_right}
-\grad P_0 = 0 
-\end{equation}
-It is clear that \eqt{eq:mom_leading_wrong} and \eqt{eq:mom_leading_right} will not yield the same result. The same conclusion is drawn when deriving the order $M_{\infty}^{-1}$ of the momentum equation, making our initial assumption not suitable. From the above result, it is understood that the numerical Reynolds number has to scale as one so that it does not affect the orders $M_{\infty}^{-2}$ and $M_{\infty}^{-1}$ of the momentum equations: $Re_{\infty} = 1$. Thus, with such assumption, \eqt{eq:Euler_eq2} implies:
- \begin{eqnarray}
- \text{At order $M_{\infty}^{-2}$:} \nonumber\\
+The following asymptotic equations are obtained:
+%Before deriving the leading-order equation, a choice needs to be made on how the numerical Reynolds number scales. Multiple options are available to us and a few example are given: $Re_{\infty} = M_{\infty}$, or $Re_{\infty} = M_{\infty}^{-1}$ or $Re_{\infty} = 1$. Let us assume for academy purpose that the numerical Reynolds number scales as the inverse of the Mach number square:  $Re_{\infty} = M_{\infty}^{-2}$. The best way to evaluate the impact of this choice on the equations, is to look at the momentum equation and try to derive the order $M_{\infty}^{-2}$:
+%\begin{equation}
+%\label{eq:mom_leading_wrong}
+%\grad P_0 = \div (\rho_0 \mu_0 \grad \vec{u}_0 + \vec{u}_0 \otimes \grad \rho_0 )
+%\end{equation}
+%which is known to be (\cite{LowMach3})
+%\begin{equation}
+%\label{eq:mom_leading_right}
+%\grad P_0 = 0 
+%\end{equation}
+%It is clear that \eqt{eq:mom_leading_wrong} and \eqt{eq:mom_leading_right} will not yield the same result. The same conclusion is drawn when deriving the order $M_{\infty}^{-1}$ of the momentum equation, making our initial assumption not suitable. From the above result, it is understood that the numerical Reynolds number has to scale as one so that it does not affect the orders $M_{\infty}^{-2}$ and $M_{\infty}^{-1}$ of the momentum equations: $Re_{\infty} = 1$. Thus, with such assumption, \eqt{eq:Euler_eq2} implies:
+ \begin{eqnarray}\label{eq:asympt_equ1}
+ \text{At order $M_{\infty}^{-2}$:} && \nonumber\\
  \grad P_0 &=& 0  \nonumber\\
- \text{At order $M_{\infty}^{-1}$:} \nonumber\\
+ \text{At order $M_{\infty}^{-1}$:} && \nonumber\\
  \grad P_1 &=& 0  \nonumber \\
- \text{At leading-order:} \nonumber\\
+ \text{At order $1$:} && \nonumber\\
  \partial_t \rho_0 &+& \div ( \rho_0 \vec{u}_0 ) = \div ( \kappa_0 \grad \rho_0 ) \nonumber \\
- \partial_t (\rho_0 \vec{u}_0) &+& \div ( \rho_0 \vec{u}_0 \otimes \vec{u}_0) + \grad P_2 = \div (\rho_0 \mu_0 \grad \vec{u}_0 + \vec{u}_0 \otimes \grad \rho_0 ) \nonumber \\
+ \partial_t (\rho_0 \vec{u}_0) &+& \div ( \rho_0 \vec{u}_0 \otimes \vec{u}_0) + \grad P_2 = \div (\rho_0 \mu_0 \grad^s \vec{u}_0 + \kappa_0 \vec{u}_0 \otimes \grad \rho_0 ) \nonumber \\
  \partial_t(\rho_0 E_0) &+& \div \left[ \vec{u}_0 (\rho_0 E_0 + P_0) \right] = \div(\kappa_0 \grad(\rho_0 e_0)) \nonumber
  \end{eqnarray}
- Under this form, the dissipative terms only affect the leading-order equations in the asymptotic limit.\\
-It is now determined that the numerical Reynolds number $Re_{\infty}$ has to scale as one. Following \eqt{eq:ref_numb}, $Re_{\infty}$ is a function of the $\mu_{\infty}$, and thus $n_P$. It can be shown using \eqt {eq:norm_param} and the definitions of $\tilde{D}$ given in \eqt{eq:ent_res} that:
+From the first two asymptotic equations, it is concluded that the leading- and first-order pressure are constant in space. Thus, the pressure fluctuation will be of order to the Mach number square as required: $P(\vec{x},t) = P_0(t) + M_{\infty}^2 \cdot P_2(\vec{x},t)$ where $P_1$ subsumed in $P_0$. It remains to investigate how the velocity fluctuations scale as a function of the Mach number. Using the equation of state to relate the leading-order pressure to the total and internal energy, the first-order energy equation can be recast as follows: 
+\begin{equation}\label{eq:energy_fo}
+ (\gamma-1) \partial_tP_0 + \gamma \div \left( \vec{u}_0 P_0\right) = (\gamma-1)\div(\kappa_0 \grad P_0)
+\end{equation}
+Remembering that $\grad P_0 = 0$,  \eqt{eq:energy_fo} becomes:
+\begin{equation}\label{eq:divu0}
+-\frac{1}{\gamma P_0}\frac{dP_0}{dt} = \div \vec{u}_0
+\end{equation}
+that degenerates into the classical divergent constraint for incompressible flow, $\div \vec{u}_0 = 0$, when assuming a constant background pressure $P_0$ or at steady-state. Thus, at steady-state, the velocity fluctuations will be of the order of the Mach number. \\
+The above results show that the choice $Re_{\infty} = Pr_{\infty} = 1$ conserves the low Mach asymptotic limit. Thus, it remains to determine the scaling of the normalization parameter $n(P)$. In the case under consideration, the viscosity coefficients $\mu$ and $\kappa$ are set equal. Using the definition of the viscosity coefficient in \eqt{eq:norm_param} it can be shown that:
 \begin{equation}
 \label{eq:norm_relation}
-\mu_{\infty} = \frac{ \rho_{\infty} c_{\infty}^2 u_{\infty} L }{ n_{P,\infty} }
+\mu_{\infty} = \frac{ \rho_{\infty} c_{\infty}^2 u_{\infty} L }{ n_{P,\infty} } 
 \end{equation}
-where $n_{P,\infty}$ is the far-field quantity for the normalization parameter $n_P$. Substituing \eqt{eq:norm_relation} into \eqt{eq:ref_numb} and remembering that the numerical Reynolds number scales as one, it yields:
+where $n_{P,\infty}$ is the far-field quantity for the normalization parameter $n_P$. Substituing \eqt{eq:norm_relation} into \eqt{eq:ref_numb} and remembering that the numerical Reynolds number scales as one by assumption, it yields:
 \begin{equation}
 \label{eq:norm_relation_bis}
 n_{P,\infty} = \rho_{\infty} c_{\infty}^2
 \end{equation}
 \eqt{eq:norm_relation_bis} tells us that in the asymptotic limit, the normalization parameter $n_P$ scales as $\rho_{\infty} c_{\infty}^2$ which leaves us with two options:
-either $n_P = \rho c^2$ or $n_P = P$. The choice was made to use $n_P = \rho c^2$ in the asymptotic limit: it was found to behave well and the pressure can become locally negative and null in some particular case as shown in \sct{sec:results}. This normalization parameter is only valid in the asymptotic limit and the purpose of this paper is to define a viscosity coefficient $\mu$ that is valid for a wide range of Mach numbers. Thus, it is proposed to define the high-order viscosity coefficient $\mu_e$ as follows:
+either $n_P = \rho c^2$ or $n_P = P$. The choice was made to use $n_P = \rho c^2$ in the low Mach asymptotic limit: it was found to behave well and the pressure can become locally negative and null in some particular case as shown in \sct{sec:results}.
+\item $Re_{\infty} = Pr_{\infty} = M_{\infty}$ or $m=n=1$:\\
+The reasoning leading to the derivation of the asymptotic equations is similar to the previous case. Thus, only the mains step are given. The asymptotic equations obtained with the condition $Re_{\infty} = Pr_{\infty} = M_{\infty}$ are the following:
+ \begin{eqnarray}\label{eq:asympt_equ2}
+ \text{At order $M_{\infty}^{-2}$:} && \nonumber\\
+ \grad P_0 &=& 0  \nonumber\\
+ \text{At order $M_{\infty}^{-1}$:} && \nonumber\\
+ \grad P_1 &=& \div (\mu_0 \rho_0 \grad^s \vec{u}_0 + \kappa_0 \vec{u}_0 \grad \rho_0 ) \nonumber \\
+ \text{At order $1$:} && \nonumber\\
+ \partial_t \rho_0 &+& \div ( \rho_0 \vec{u}_0 ) = \div ( \kappa \grad \rho )_1 \nonumber \\
+ \partial_t (\rho_0 \vec{u}_0) &+& \div ( \rho_0 \vec{u}_0 \otimes \vec{u}_0) + \grad P_2 = \div (\rho \mu \grad^s \vec{u} +\kappa \vec{u} \otimes \grad \rho )_1 \nonumber \\
+ \partial_t(\rho_0 E_0) &+& \div \left[ \vec{u}_0 (\rho_0 E_0 + P_0) \right] = \div(\kappa \grad(\rho e))_1 \nonumber
+ \end{eqnarray}
+Unlike the previous case, only the leading-order pressure $P_0$ is spatially constant. Thus, the pressure fluctuations are expected to be of the order of the Mach number instead of the Mach number square as predicted: $P(\vec{x},t) = P_0(t) + M_{\infty} P_1(\vec{x},t)  + M_{\infty}^2 P_2(\vec{x},t)$. Using the equation of state, the order $1$ of the energy equation can be recast as follows:
 \begin{equation}
-\mu_e = h^2 \frac{\max (\tilde{D}_e, J)}{(1-f(M) )\rho c^2 + f(M) \rho || \vec{u} ||^2}
+(\gamma-1) \partial_t P_0 + \gamma P_0 \div \vec{u}_0 = (\gamma-1) \div \left( \kappa_0 \grad P_1 \right)
+\end{equation}
+Thus, at steady-state, in the presence of pressure fluctuation in the first-order pressure $P_1$, the divergence constraint from the asymptotic analysis $\div \vec{u}_0=0$ is not satisfied. By choosing the Reynolds and Prandtl numbers equal to the Mach number, the multi-D Euler equations do not seem to converge to the incompressible equations in the low Mach asymptotic limit. The scaling of the normalization parameters that matches the condition $Re_{\infty} = Pr_{\infty} = M_{\infty}$ is derived on the same model as before:
+\begin{equation}
+\label{eq:norm_relation_bis2}
+n_{P,\infty} = \rho_{\infty} u_{\infty} c_{\infty} 
+\end{equation}
+which imposes $n(P) = \rho c || \vec{u} ||$.
+\item $Re_{\infty} = M_{\infty}$ and $Pr_{\infty} = 1$ or $m=1$ and $n=0$:\\
+For this particular case, the viscosity coefficients $\mu$ and $\kappa$ are not set equal. Therefore, two normalization parameters have to be determined. The details of the derivation are given in appendix (not done yet). The correct low Mach asymptotic limit was recovered with the choice $Re_{\infty} = M_{\infty}$ and $Pr_{\infty} = 1$.
+\end{itemize}
+%\begin{equation}
+%\left\{
+%\begin{array}{ll}
+%\partial_t \rho_0 + \vec{u}_0 \grad \rho_0 = \div ( \kappa_0 \grad \rho_0 ) \nonumber \\
+%\rho_0 \left( \partial_t \vec{u}_0 + \vec{u}_0 \div \vec{u}_0 \right)  + \grad P_2 = \div (\rho_0 \mu_0 \grad \vec{u}_0 + \vec{u}_0 \otimes \grad \rho_0 )  \nonumber \\
+%\end{array}
+%\right.
+%\end{equation}
+%It is now determined that the numerical Reynolds number $Re_{\infty}$ has to scale as one. Following \eqt{eq:ref_numb}, $Re_{\infty}$ is a function of the $\mu_{\infty}$, and thus $n_P$. It can be shown using \eqt {eq:norm_param} and the definitions of $\tilde{D}$ given in \eqt{eq:ent_res} that:
+This normalization parameter is only valid in the asymptotic limit and the purpose of this paper is to define a viscosity coefficient $\mu$ that is valid for a wide range of Mach numbers. Thus, it is proposed to define the high-order viscosity coefficient $\mu_e$ as follows:
+\begin{equation}
+\mu_e = h^2 \frac{\max (\tilde{D}_e, J)}{(1-f(M) ) g(P) + f(M) \rho || \vec{u} ||^2}
 \end{equation} 
 where $f(M)$ is a function of the local Mach number $M$ with the following properties:
 \begin{equation}
@@ -395,6 +457,16 @@ where $f(M)$ is a function of the local Mach number $M$ with the following prope
 \begin{array}{l}
 f(M) \to 0 \text{ as } M \to 0 \\
 f(M) \to 1 \text{ as } M \geq 1 
+\end{array}
+\right.
+\end{equation} 
+and $g(P)$ has the following definition:
+\begin{equation}
+\label{eq:gP_def}
+\left\{
+\begin{array}{l}
+g(P) = \rho c^2 \text{ if } Re_{\infty} = Pr_{\infty} = 1 \\
+g(P) = \rho c || \vec{u} || \text{ if } Re_{\infty} = Pr_{\infty} = M_{\infty} 
 \end{array}
 \right.
 \end{equation} 
@@ -408,7 +480,7 @@ For clarity purpose, the full definition of the viscosity coefficient $\mu(\vec{
 \begin{array}{l}
 \mu(\vec{r},t) = \max (\mu_{max}(\vec{r},t), \mu_e (\vec{r},t)) \\
 \text{where } \mu_{max}(\vec{r},t) = \frac{h}{2} (||\vec{u}|| + c) \\
-\text{and } \mu_e(\vec{r},t) = h^2 \frac{\max (\tilde{D}_e, J)}{(1-f(M) )\rho c^2 + f(M) \rho || \vec{u} ||^2} \\
+\text{and } \mu_e(\vec{r},t) = h^2 \frac{\max (\tilde{D}_e, J)}{(1-f(M) ) g(P) + f(M) \rho || \vec{u} ||^2} \\
 \mu(\vec{r},t) = \kappa(\vec{r},t)
 \end{array}
 \right.
