@@ -67,6 +67,7 @@
 %% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
 %% for the whole article with \linenumbers.
 \usepackage{lineno}
+\usepackage{cancel}
 
 \journal{Journal of Comp. Phys.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -194,10 +195,87 @@ Both the ideal gas and stiffened gas equations of state are employed.
 \section{Introduction} \label{sec:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tcr{I think we should focus the introduction more}
+
+Incompressible flows are a particular case of compressible ones and therefore in principle, a
+compressible flow solver should be able to compute these flows. Unfortunately, there are experimental
+evidences showing that on a fixed mesh, the solutions of the compressible flow discretized
+equations are not an accurate approximation of the solutions of the incompressible model (e.g. see
+[29]). A first analysis of this problem appeared in [23] and this question has drawn a considerable
+attention [1–3,7,9,26,28,30] in the recent past. Several works have tried to explain the reasons of
+this difficulty and to construct numerical schemes valid for all Mach numbers. Some of these
+works extend to the compressible regime the numerical methods used for the computation of
+incompressible flows. Examples of these type of methods are for instance [1] or [30]. Another
+approaches rely on some modifications of high order shock capturing techniques. These approaches
+are for instance described in [2,7,22] for Roe discretization, in [3] for the HLLE scheme
+and in [28] for Flux schemes. Their principal ingredient is the use of preconditioning techniques
+originally developed for steady state computations [4,21,23] that are here selectively applied only
+to the upwind artificial viscosity.
+
+
+The efficient simulation of low Mach number flows is a subject of ongoing discussion in the
+CFD community. While the flow is expected to be incompressible, in a lot of applications
+the Mach number or the compressibility properties vary strongly in time or space. This is
+for example the case in nozzle  flow, chemically reacting flows or laminar combustion. It is
+well known that purely compressible flow solvers which were developed for transonic 
+flow produce wrong results at low Mach numbers. On the other hand, standard incompressible 
+flow solvers cannot deal with strong temperature or strong density gradients. This sets a
+demand for codes that can deal with flows at all Mach numbers.
+
+It is well known that it is difficult to solve the compressible equations for low Mach numbers.
+For an explicit scheme this is easily seen by looking at the time steps. For stability the time
+step must be chosen inversely proportional to the largest eigenvalue of the system which is
+approximately the speed of sound, c, for slow flows. However, other waves are convected at the
+fluid speed, u, which is much slower. Hence, these waves don’t change very much over a time
+step. Thus, thousands of time steps are required to reach a steady state. Should one try a
+multigrid acceleration one finds that the same disparity in wave speeds slows down the
+multigrid acceleration. With an implicit method an AD1 factorization is usually used so that
+one can easily invert the implicit factors. The use of AD1 introduces factorization errors which
+again slow down the convergence rate when there are wave speeds of very different magnitudes
+For small Mach numbers it can be shown [28,31] that the incompressible equations approximate
+the compressible equations. Hence, one needs to justify the use of the compressible
+equations for low Mach flows. We present several reasons why one would still use the
+compressible equations even though the Mach number of the flow is small.
+l There are many sophisticated compressible codes available that could be used for such
+problems especially in complicated geometries.
+l For low speed aerodynamic problems at a high angle of attack most of the flow consists of
+a low Mach number flow. However, there are localized regions containing shocks.
+l In many problems thermal effects are important and the energy equation is coupled to the
+other equations.
+
+The incompressible limit of a compressible flow is rather subtle due to the fact that the propagation rate of
+the pressure waves becomes infinite and the equations change their type. Within this limit the pressure splits up
+into a thermodynamic pressure term and a hydrodynamic pressure term. If the limit solution has constant
+temperature and density and if the boundary values satisfy the incompressibility constraint, then the
+thermodynamic pressure becomes the background pressure being constant in space and time. The hydrodynamic
+pressure appears in the incompressible equations as a sort of a Lagrangian multiplier with no connection
+to the equation of state. The asymptotic analysis of Klainerman and Majda in [9,10] gives insight into this
+limit behavior. They gave a mathematically rigorous derivation in the isentropic case. The asymptotic analysis
+was formally extended by Klein to the non-isentropic case and to multiple space scales in [11] in which he also
+gave an overview about other asymptotic considerations in this low Mach number regime. A detailed discussion
+of the incompressible limit is also given in the book of Wesseling [20].
+Numerical methods for the compressible equations may have difficulties with the zero Mach number limit
+because in the limit the speed of sound waves becomes infinite compared to the flow speed and thus leads to an
+elliptic coupling of pressure and velocity. Hence, all explicit numerical schemes become quite inefficient in the
+low Mach number regime due to their stability restriction (CFL condition). The other difficulty is that the
+pressure in the compressible equations converges to the thermodynamic pressure, which becomes the constant
+background pressure in the incompressible limit. This is the way how the equation of state for compressible
+flow is automatically satisfied and does not appear in the incompressible equations. For the compressible
+equations Bijl and Wesseling [2] introduced a splitting of the pressure into a thermodynamic and a hydrodynamic
+pressure term. Then they proposed an implicit numerical method that remains stable without reference
+to the sound velocity and which approximates the incompressible equations for Mach number zero. The constant
+thermodynamic pressure satisfies the equation of state and the hydrodynamic pressure serves as a
+Lagrangian multiplier to get the divergence-free property of the velocity. A formulation in conservative variables
+was later given in [18,20]. Similar to this approach Klein and Munz [12] and Munz et al. [13] proposed
+the multiple pressure variable (MPV) method based on the asymptotic results of Klein [11].
+
+\tcr{above are good snippets from some papers.}
+
 Over the past years an increasing interest raised for computational methods that can solve both compressible and incompressible flows. In engineering applications, there is often the need to solve for complex flows where a near incompressible regime or low Mach flow coexists with a supersonic flow domain. For example, such flow are encountered in aerodynamic in the study of airships. In the nuclear industry, flows are nearly the incompressible regime but compressible effects cannot be neglected because of the heat source and thus needs to be accurately resolved. \\
 When solving the multi-D Euler equations for a wide range of Mach numbers, multiple problems have to address: stability, accuracy and acceleration of the convergence in the low Mach regime. Because of the hyperbolic nature of the equations, shocks can form during transonic and supersonic flows, and require the use of the numerical methods in order to stabilize the scheme and correctly resolve the discontinuities. The literature offers a wide range of stabilization methods: flux-limiter \cite{FluxLimiter, FluxLimiter2}, pressure-based viscosity method (\cite{PBV_book}), Lapidus method (\cite{Lapidus_paper, LMP, Lapidus_book}), and the entropy-viscosity method(\cite{jlg1, jlg2}) among others. These numerical methods are usually developed using simple equation of states and tested for transonic and supersonic flows where the disparity between the acoustic waves and the fluid speed is not large since the Mach number is of order one. This approach leads to a well-known accuracy problem in the low Mach regime where the fluid velocity is smaller that the speed of sound by multiple order of magnitude. The numerical dissipative terms become ill-scaled in the low Mach regime and lead to the wrong numerical solution by changing the nature of the equations solved. This behavior is well documented in the literature \cite{LowMach1, LowMach2, LowMach3} and often treated by performing a low Mach asymptotic study of the multi-D Euler equation. This method was originally used \cite{LowMach1} to show convergence of the compressible multi-D Euler equations to the incompressible ones. Thus, by using the same method, the effect of the dissipative terms in the low Mach regime, can be understood and, when needed, a fix is developed in order to ensure the convergence of the equations to the correct physical solution. This approach was used as a fixing method for multiple well known stabilization methods alike Roe scheme (\cite{Roe}) and SUPG \cite{LowMach3} while preserving the original stabilization properties of shocks.  \\
 We propose, through this paper, to investigate how the entropy viscosity method, when applied to the multi-D Euler equations with variable area, behaves in the low Mach regime. This method was initially introduced by Guermond et al. to solve for the hyperbolic systems and has shown good results when used for solving the multi-D Euler equations with various discretization schemes. More importantly, it is simple to implement, can be used with unstructured grids,  and its dissipative terms are consistent with the entropy minimum principle and proven valid for any equation of state under certain conditions \cite{jlg}. \\
 This paper is organized as follows: in \sct{sec:entro_visc} the current definition of the entropy viscosity method is recalled, and inconsistency with the low Mach regime are pointed out. Since our interest is in the variable area version of the multi-D Euler equation, the reader is guided trough the steps leading to the derivation of the dissipative terms on the model of \cite{jlg}. Then in \sct{sec:extension}, a new definition of the viscosity coefficient is introduced and derived from a low Mach asymptotic study. After detailing the spatial and temporal discretization method in \sct{sec:solution_tech}, $1$- and $2$-D numerical results are presented in \sct{sec:results} for a wide range of Mach numbers: low Mach flow over a cylinder and a circular bump, and supersonic flow in a compression corner \cite{CompressionCorner}. Convergence studies are performed in $1$-D, in order to demonstrate the accuracy of the solution. \\
+\tcr{I wouldn't recall this here. Let me think about that.}\\
 For purpose of clarity, the multi-D Euler equations with variable area are recalled in \eqt{eq:euler_eq} and the corresponding variables are defined:
 \begin{equation}
 \label{eq:euler_eq}
@@ -492,6 +570,7 @@ These viscosity coefficients are valid for both the multi-D Euler equations with
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In order to detail the partial and temporal discretization used for this study, the system of equations \eqt{eq:euler_variable_A_bis} is considered under the following form for simplicity:
+\tcr{no $\div D(U) \grad U$ term here to represent the viscous regularization?}
 \begin{equation}
 \label{eq:form}
 \partial_t U + \div F\left( U \right) = S
@@ -504,7 +583,7 @@ The system of equation given in \eqt{eq:form} is discretized using a continuous 
 %---------------------------------------------------------------------------------------------------
 \subsubsection{CFEM} 
 %---------------------------------------------------------------------------------------------------
-In order to apply the continuous finite element method, \eqt{eq:form} is multiplied by a smooth test function $\phi$, integrated by part and each integral is split onto each finite element $e$ of the discrete mesh $\Omega$ bounded by $\partial \Omega$, to obtain a weak solution:
+In order to apply the continuous finite element method, \eqt{eq:form} is multiplied by a smooth test function $\phi$, integrated by parts and each integral is split onto each finite element $e$ of the discrete mesh $\Omega$ bounded by $\partial \Omega$, to obtain a weak solution:
 \begin{equation}
 \sum_e \int_{e} \partial_t U \phi - \sum_e \int_{e} F(U) \cdot \grad \phi + \int_{\partial \Omega} F(U) \vec{n} \phi - \sum_e \int_{e} S \phi = 0
 \end{equation}
@@ -512,7 +591,7 @@ The integrals over the elements $e$ are evaluated using quadrature-point rules. 
 %---------------------------------------------------------------------------------------------------
 \subsubsection{Temporal integrator} 
 %---------------------------------------------------------------------------------------------------
-The MOOSE framework offers both first- and second-order explicit and implicit temporal integrators. In all of the numerical examples presented in \sct{sec:results}, the time-dependent term $\int_{e} \partial_t U \phi$ will be evaluated using the second-order temporal integrator BDF2. By considering three solutions, $U^{n-1}$, $U^n$ and $U^{n+1}$ at three different time $t^{n-1}$, $t^n$ and $t^{n+1}$, respectively, it yields:
+The MOOSE framework offers both first- and second-order explicit and implicit temporal integrators. In all of the numerical examples presented in \sct{sec:results}, the time-dependent term $\int_{e} \partial_t U \phi$ will be evaluated using the second-order temporal integrator BDF2. By considering three solutions, $U^{n-1}$, $U^n$ and $U^{n+1}$ at three different times $t^{n-1}$, $t^n$ and $t^{n+1}$, respectively, it yields:
 \begin{eqnarray}
 \label{eq:BDF2}
 \int_{e} \partial_t U \phi &=& \int_{e} \left( \omega_0 U^{n+1}  + \omega_1 U^n + \omega_2 U^{n-1} \right) \phi\\
@@ -539,6 +618,8 @@ where $U_i$ denotes the set of conservative variables.
 \section{Numerical Results} \label{sec:results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\tcr{make sure you give the Mach number for the various problems}
+
 This section is dedicated to presenting $1$- and $2$-D numerical results obtained by solving \eqt{eq:euler_variable_A_bis} with the entropy viscosity method. This section has two objectives: validate our new definition of the viscosity coefficients for the low Mach limit, and, make sure that the new definition can still resolve shocks.\\
 The first set of $1$-D simulations consist of liquid water and steam flowing in a convergent-divergent nozzle. This test is interesting for multiple reasons: a steady-state is reached (some stabilization methods are known to have difficulties to reach a steady-state (\cite{FluxLimiter, FluxLimiter2}), it can be performed for liquid and gas phases, and, an analytical solution of the steady-state solution is available which allow for convergence study. The $1$-D Leblanc shock tube test \cite{Leblanc} (in a straight pipe) is also performed and consists of a flow developing shocks. A convergence study will be performed in order to demonstrate convergence of the numerical solution to the exact solution.\\ 
 This section also included $2$-D simulations from subsonic to supersonic flows. Subsonic flows of a gas over a $2$-D cylinder and a hump \cite{Hump} are simulated and results are shown for various far-field Mach numbers. Numerical results of a supersonic flow in a compression corner are provided to illustrate the capabilities of the new definition in the supersonic case. Convergence studies are performed when an analytical solution is available. \\
@@ -1113,7 +1194,7 @@ As future work, the entropy viscosity method will be extended to the $1$-D seven
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Acknowledgments} 
-The authors would like to thank Bojan Popov and Jean Luc Guermond for the many fruitful discussions.  
+The authors would like to thank Bojan Popov and Jean-Luc Guermond for the many fruitful discussions.  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliography{mybibfile}
@@ -1143,7 +1224,7 @@ c^2 = \left. \frac{\partial P}{\partial \rho} \right)_s = P_{\rho} - \frac{s_{\r
 \end{equation}
 using the following relations (see Appendix A.1 of \cite{jlg}):
 \begin{equation}
-P_e = \frac{1}{e_P} \text{ and } P_{\rho} = \frac{e_{\rho}}{e_P} \nonumber
+P_e = \frac{1}{e_P} \text{ and } P_{\rho} = \tcr{-}\frac{e_{\rho}}{e_P} \nonumber
 \end{equation}
 Then, the result follows.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1188,7 +1269,7 @@ The next step consists of choosing a definition for each of the dissipative term
 \label{eq:ent_res_app2}
 A \rho \left( \partial_t s + \vec{u} \cdot \div s \right) &=& s_e \left[ \div \tilde{h}-e \div f \right] + \rho s_{\rho} \div f  + A s_e \mu \grad \vec{u}^s \grad \vec{u}\nonumber
 \end{eqnarray}
-The right hand-side is now integrated by part:
+The right hand-side is now integrated by parts:
 \begin{eqnarray}
 \label{eq:ent_res_app3}
 A \rho \left( \partial_t s + \vec{u} \cdot \div s \right) &=& \div \left[ s_e \tilde{h}-s_e e f  + \rho s_{\rho} f \right] -\nonumber \\
@@ -1196,7 +1277,7 @@ A \rho \left( \partial_t s + \vec{u} \cdot \div s \right) &=& \div \left[ s_e \t
 \end{eqnarray}
 where $\grad^s$ is the symmetric gradient. The term $A s_e \mu \grad \vec{u}^s \grad \vec{u}$ is positive and thus, does not need any further modification. It remains to treat the other terms of the right hand-side that we now call $rhs$:
 \begin{equation}
-rhs = \div \left[ s_e \tilde{h}-s_e e f  + \rho s_{\rho} f \right] - \div \tilde{h} \grad s_e  - f \grad (e s_e) - f \grad ( \rho s_{\rho} ) \nonumber
+rhs = \div \left[ s_e \tilde{h}-s_e e f  + \rho s_{\rho} f \right] - \tcr{\xcancel{\div}} \tilde{h} \grad s_e  - f \grad (e s_e) - f \grad ( \rho s_{\rho} ) \nonumber
 \end{equation}
 The first term of $rhs$ is a conservative terms. By choosing carefully a definition for $\tilde{h}$ and $f$, the conservative term can be expressed as a function of the entropy $s$. It is also required to include the variable area in the choice of the dissipative terms so that when assuming constant area, the regular multi-D Euler equations are recovered. The following definitions for $\tilde{h}$ and $f$ are chosen:
 \begin{equation}
@@ -1204,7 +1285,7 @@ The first term of $rhs$ is a conservative terms. By choosing carefully a definit
 \end{equation}
 which yields, using the chain rule:
 \begin{equation}
-rhs = \div ( A \kappa \grad s ) - A \kappa \underbrace{\left[ \grad (\rho e) \grad s_e  + \grad \rho \grad (e s_e) +  \grad ( \rho s_{\rho} )  \right]}_{\mathbf{Q}} \nonumber
+rhs = \div (\tcr{\rho} A \kappa \grad s ) - A \kappa \underbrace{\left[ \grad (\rho e) \grad s_e  + \grad \rho \grad (e s_e) +  \tcr{\grad \rho} \grad ( \rho s_{\rho} )  \right]}_{\mathbf{Q}} \nonumber
 \end{equation}
 It remains to treat the term $\mathbf{Q}$ that can be recast under a quadratic form, following the work done in \cite{jlg}:
 \begin{eqnarray}
