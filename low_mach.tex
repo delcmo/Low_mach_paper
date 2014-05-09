@@ -323,14 +323,21 @@ In the current version of the method, $\kappa$ and $\mu$ are set equal, so that 
 %
 \begin{equation}
 \label{eq:fo}
-\mu_{\max}(\vec{r}, t) = \kappa_{\max}(\vec{r}, t) = \frac{h}{2} \left( || \vec{u} || + c \right),
+\mu_{\max}(\vec{r}, t) = \kappa_{\max}(\vec{r}, t) = \frac{h}{2} \left( || \vec{u}(\vec{r}) || + c(\vec{r}) \right),
 \end{equation}
 %
-where $h$ is the local grid size (for higher than linear finite element representations, $h$ is defined as the ratio of the grid size to the polynomial order of the test functions used). \\
-As stated earlier, the entropy viscosity coefficients, denoted by $\kappa_e$ and $\mu_e$, are set proportional to the entropy production evaluated by computing the local entropy residual $D_e$. Their definitions also include the inter-element jump of the entropy flux $J$; allowing for the detection of discontinuities other than shocks:
+where $h$ is the local grid size (for higher than linear finite element representations, $h$ is defined as the ratio of the grid size to the polynomial order of the test functions used). In practice, the quantities are evaluated within a given cell $K$ at quadrature points:
+%
+\begin{equation}
+\label{eq:fo_quad}
+\mu^K_{\max}(\vec{r_q}, t) = \kappa^K_{\max}(\vec{r_q}, t) = \frac{h_K}{2} \left( || \vec{u}(\vec{r_q}) || + c(\vec{r_q}) \right),
+\end{equation}
+%
+where $\vec{r_q}$ denotes the position of a quadrature point.\\
+As stated earlier, the entropy viscosity coefficients, denoted by $\kappa_e$ and $\mu_e$, are set proportional to the entropy production evaluated by computing the local entropy residual $D_e$. Their definitions also include the inter-element jump of the entropy flux $J$, thus allowing for the detection of discontinuities other than shocks:
 \begin{equation}
 \label{eq:ent_visc_coeff}
-\mu_e(\vec{r},t) = \kappa_e(\vec{r},t) = h^2 \frac{\max\left( | D_e(\vec{r},t) |, J \right)}{|| s - \bar{s} ||_{\infty}} \text{ with } D_e(\vec{r}, t) = \partial_t s + \vec{u} \cdot \grad s
+\mu^K_e(\vec{r},t) = \kappa^K_e(\vec{r},t) = h_K^2 \frac{\max\left( | D^K_e(\vec{r_q},t) |, J \right)}{|| s - \bar{s} ||_{\infty}} \text{ with } D_e(\vec{r}, t) = \partial_t s + \vec{u} \cdot \grad s
 \end{equation}
 where $|| \cdot ||_{\infty}$ and $\bar{\cdot}$ denote the infinite norm operator and the average operator over the entire computational domain, respectively. The definition of the jump $J$ is discretization-dependent and examples of definition can be found in \cite{valentin} for DGFEM. The denominator $|| s - \bar{s} ||_{\infty}$ is used for dimensionality purposes and should not be of the same order as $h$, on penalty of loosing the high-order accuracy. Currently, there are no theoretical justification for choosing the denominator. \\
 Finally, the viscosity coefficients $\mu$ and $\kappa$ are chosen as follows:
