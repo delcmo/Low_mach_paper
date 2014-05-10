@@ -382,7 +382,7 @@ The entropy residual $D_e$ and $\tilde{D}_e$ are proportional to each other and 
 \item with the proposed expression of the entropy residual function of pressure and density, additional normalizations suitable for low Mach flows of the entropy residual can be devised. Examples include the pressure itself, or combination of the density, the speed of sound and the norm of the velocity: $\rho c^2$, $\rho c || \vec{u} ||$ and $\rho || \vec{u} ||^2$. 
 \end{itemize}
 The viscosity coefficients $\mu$ and $\kappa$ are now defined proportional to the new entropy residual $\tilde{D}_e$ on the model of \eqt{eq:ent_visc_coeff} as follows:
-\begin{equation}\label{eq:norm_param}
+\begin{equation}\label{eq:visc_definition}
 \mu \left( \vec(r),t \right) = \kappa \left( \vec(r),t \right) = h^2 \frac{\max \left( \tilde{D}_e, J \right)}{n(P)}
 \end{equation}
 where $n(P)$ is a normalization parameter to determine and all other variables were defined previously. \\
@@ -434,7 +434,7 @@ From \eqt{eq:Euler_eq2}, it is observed that the scaling of the Reynolds and Pra
 \item $Re_{\infty} = Pr_{\infty} = 1$ or $m=n=0$:\\
 Using the assumption $m=n=0$, the system of equation given in \eqt{eq:Euler_eq2} becomes:
  \begin{equation}
-\label{eq:Euler_eq2}
+\label{eq:Euler_eq3}
 \left\{ 
 \begin{array}{lll}
 \partial_t \rho+ \nabla \left(  \rho \vec{u}  \right) &=& \nabla \cdot ( \kappa \nabla \rho )\\
@@ -469,7 +469,7 @@ The following asymptotic equations are obtained:
  \partial_t (\rho_0 \vec{u}_0) &+& \div ( \rho_0 \vec{u}_0 \otimes \vec{u}_0) + \grad P_2 = \div (\rho_0 \mu_0 \grad^s \vec{u}_0 + \kappa_0 \vec{u}_0 \otimes \grad \rho_0 ) \nonumber \\
  \partial_t(\rho_0 E_0) &+& \div \left[ \vec{u}_0 (\rho_0 E_0 + P_0) \right] = \div(\kappa_0 \grad(\rho_0 e_0)) \nonumber
  \end{eqnarray}
-From the first two asymptotic equations, it is concluded that the leading- and first-order pressure are constant in space. Thus, the pressure fluctuation will be of order to the Mach number square as required: $P(\vec{x},t) = P_0(t) + M_{\infty}^2 \cdot P_2(\vec{x},t)$ where $P_1$ subsumed in $P_0$. It remains to investigate how the velocity fluctuations scale as a function of the Mach number. Using the equation of state to relate the leading-order pressure to the total and internal energy, the first-order energy equation can be recast as follows: 
+From the first two asymptotic equations, it is concluded that the leading- and first-order pressure are constant in space. Thus, the pressure fluctuation will be of order to the Mach number square as required: $P(\vec{x},t) = P_0(t) + M_{\infty}^2 \cdot P_2(\vec{x},t)$ where $P_1$ subsumed in $P_0$. It remains to investigate how the velocity fluctuations scale as a function of the Mach number. Using the equation of state to relate the leading-order pressure to the total and internal energy $P_0 = (\gamma-1) \rho_0 e_0 = (\gamma-1) \rho_0 E_0$, the first-order energy equation can be recast as follows: 
 \begin{equation}\label{eq:energy_fo}
  (\gamma-1) \partial_tP_0 + \gamma \div \left( \vec{u}_0 P_0\right) = (\gamma-1)\div(\kappa_0 \grad P_0)
 \end{equation}
@@ -478,7 +478,7 @@ Remembering that $\grad P_0 = 0$,  \eqt{eq:energy_fo} becomes:
 -\frac{1}{\gamma P_0}\frac{dP_0}{dt} = \div \vec{u}_0
 \end{equation}
 that degenerates into the classical divergent constraint for incompressible flow, $\div \vec{u}_0 = 0$, when assuming a constant background pressure $P_0$ or at steady-state. Thus, at steady-state, the velocity fluctuations will be of the order of the Mach number. \\
-The above results show that the choice $Re_{\infty} = Pr_{\infty} = 1$ conserves the low Mach asymptotic limit. Thus, it remains to determine the scaling of the normalization parameter $n(P)$. In the case under consideration, the viscosity coefficients $\mu$ and $\kappa$ are set equal. Using the definition of the viscosity coefficient in \eqt{eq:norm_param} it can be shown that:
+The above results show that the choice $Re_{\infty} = Pr_{\infty} = 1$ conserves the low Mach asymptotic limit. Thus, it remains to determine the scaling of the normalization parameter $n(P)$. In the case under consideration, the viscosity coefficients $\mu$ and $\kappa$ are set equal. Using the definition of the viscosity coefficient in \eqt{eq:visc_definition} and the scaling of \eqt{eq:norm_param}, it can be shown that:
 \begin{equation}
 \label{eq:norm_relation}
 \mu_{\infty} = \frac{ \rho_{\infty} c_{\infty}^2 u_{\infty} L }{ n_{P,\infty} } 
@@ -504,9 +504,9 @@ The reasoning leading to the derivation of the asymptotic equations is similar t
  \end{eqnarray}
 Unlike the previous case, only the leading-order pressure $P_0$ is spatially constant. Thus, the pressure fluctuations are expected to be of the order of the Mach number instead of the Mach number square as predicted: $P(\vec{x},t) = P_0(t) + M_{\infty} P_1(\vec{x},t)  + M_{\infty}^2 P_2(\vec{x},t)$. Using the equation of state, the order $1$ of the energy equation can be recast as follows:
 \begin{equation}
-(\gamma-1) \partial_t P_0 + \gamma P_0 \div \vec{u}_0 = (\gamma-1) \div \left( \kappa_0 \grad P_1 \right)
+(\gamma-1) \partial_t P_0 + \gamma P_0 \div \vec{u}_0 = \div(\kappa \grad(\rho e))_1
 \end{equation}
-Thus, at steady-state, in the presence of pressure fluctuation in the first-order pressure $P_1$, the divergence constraint from the asymptotic analysis $\div \vec{u}_0=0$ is not satisfied. By choosing the Reynolds and Prandtl numbers equal to the Mach number, the multi-D Euler equations do not seem to converge to the incompressible equations in the low Mach asymptotic limit. The scaling of the normalization parameters that matches the condition $Re_{\infty} = Pr_{\infty} = M_{\infty}$ is derived on the same model as before:
+Thus, at steady-state, in the presence of pressure fluctuation in the first-order pressure $P_1$, the right hand-side is not null and, thus, the divergence constraint from the asymptotic analysis $\div \vec{u}_0=0$ is not satisfied. By choosing the Reynolds and Prandtl numbers equal to the Mach number, the multi-D Euler equations do not seem to converge to the incompressible equations in the low Mach asymptotic limit. The scaling of the normalization parameters that matches the condition $Re_{\infty} = Pr_{\infty} = M_{\infty}$ is derived on the same model as before:
 \begin{equation}
 \label{eq:norm_relation_bis2}
 n_{P,\infty} = \rho_{\infty} u_{\infty} c_{\infty} 
@@ -563,7 +563,7 @@ For clarity purpose, the full definition of the viscosity coefficient $\mu(\vec{
 \end{array}
 \right.
 \end{equation}
-These viscosity coefficients are valid for both the multi-D Euler equations with variable and constant area and are employed with the dissipative terms detailed in \eqt{eq:Euler_eq2}. The reader will notice that, through the derivation, none assumption was made on the type of equation of state besides the convexity condition on the entropy function $s$. The remaining of this paper (\sct{sec:results}) will focus on demonstrating that the definition of the viscosity coefficient given in \eqt{eq:final_def_visc_coeff} is indeed well-scaled in the asymptotic limit and that shocks are still well resolved. 
+These viscosity coefficients are valid for both the multi-D Euler equations with variable and constant area and are employed with the dissipative terms detailed in \eqt{eq:Euler_eq3}. The reader will notice that, through the derivation, none assumption was made on the type of equation of state besides the convexity condition on the entropy function $s$. The remaining of this paper (\sct{sec:results}) will focus on demonstrating that the definition of the viscosity coefficient given in \eqt{eq:final_def_visc_coeff} is indeed well-scaled in the asymptotic limit and that shocks are still well resolved. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Solution Techniques Spatial and Temporal Discretizations} \label{sec:solution_tech}
