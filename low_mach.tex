@@ -384,7 +384,11 @@ As mentioned earlier, the normalization parameter $n(P)$ must be of the same uni
 %===================================================================================================
 \subsection{Low-Mach asymptotic study of the multi-D Euler equations} \label{sec:lowMach}
 %===================================================================================================
-The asymptotic study requires the multi-D Euler equations to be non dimensionalized: the objective is to make the Mach number appears and thus, use a polynomial expansion of the variables as a function of the Mach number in order to derive the leading, first- and second-order equations. Before detailing the steps of the asymptotic method, let us have a closer look at the system of equations under consideration. The initial system of equations is composed of the multi-D Euler equations. For stability purpose, artificial dissipative terms are added to each equation as explained in \sct{sec:entro_visc}. The resulting system of equations is alike the multi-D Navier-Stokes equations in a sense that it contains second-order derivative terms. Thus, it would be interesting to look at the steps employed in the asymptotic study of the multi-D Navier-Stokes equations in order to understand how the dissipative terms are treated. Fortunately, this process is well-documented in the literature \cite{LowMach1, LowMach2, LowMach3} for both multi-D Euler equations and Navier-Stokes equations. The work presented here is mainly inspired of \cite{Muller} that focuses on the asymptotic study in the low Mach regime of Navier-Stokes equations. During the derivation, the reader has to keep in mind that the objective of this section is to derive the scaling of the normalization parameter $n(P)$ involved in the definition of the viscosity coefficients given in \eqt{eq:ent_visc_coeff}, so that the multi-D Euler equations degenerate to the incompressible system of equations, which implies that the dissipative terms are well-scaled. The main steps of the derivation are presented in the following of this section.\\
+The asymptotic study requires the multi-D Euler equations to be non dimensionalized: the objective is to make the Mach number appears and thus, use a polynomial expansion of the variables as a function of the Mach number in order to derive the leading, first- and second-order equations. Before detailing the steps of the asymptotic method, let us have a closer look at the system of equations under consideration. The initial system of equations is composed of the multi-D Euler equations. For stability purpose, artificial dissipative terms are added to each equation as explained in \sct{sec:entro_visc}. The resulting system of equations is alike the multi-D Navier-Stokes equations in a sense that it contains second-order derivative terms. Thus, it would be interesting to look at the steps employed in the asymptotic study of the multi-D Navier-Stokes equations in order to understand how the dissipative terms are treated. Fortunately, this process is well-documented in the literature \cite{LowMach1, LowMach2, LowMach3} for both multi-D Euler equations and Navier-Stokes equations. The work presented here is mainly inspired of \cite{Muller} that focuses on the asymptotic study in the low Mach regime of Navier-Stokes equations. During the derivation, the reader has to keep in mind that the objective of this section is to derive the scaling of the normalization parameter $n(P)$ involved in the definition of the viscosity coefficients given in \eqt{eq:ent_visc_coeff}, so that the multi-D Euler equations degenerate to the incompressible system of equations, which implies that the dissipative terms are well-scaled. The main steps of the derivation are presented in the following of this section and are done using the Ideal Gas equation of state for simplicity:
+\begin{equation}\label{eq:IGEOS}
+P = ( \gamma-1) \rho e
+\end{equation}
+where $\gamma$ is the heat capacity ratio.\\
 To express \eqt{eq:euler_visc} in dimensionless variables, the following dimensional variables are introduced:
 \begin{eqnarray}
 \label{eq:norm_param}
@@ -698,14 +702,14 @@ $\gamma$ & $C_v$ $(J\cdot kg^{-1} \cdot K^{-1})$ & $P_{\infty}$ $(Pa)$ & $q$ $(J
 \end{center}
 \end{table}
 Because of the low pressure difference between the inlet and the outlet, and the large value of $P_{\infty}$, the flow remains subsonic and thus, should not display any shock. Enthalpy and entropy are conserved through the nozzle, and these conservation relations are used to determine the exact solution at steady-state \cite{nozzle_exact}.
-Plots of the velocity, density and pressure are given at steady-state in \fig{fig:1d_nozzle_liq_vel}, \fig{fig:1d_nozzle_liq_density}, \fig{fig:1d_nozzle_liq_press}, respectively, along with the exact solution for comparison. The viscosity coefficients are also plotted in \fig{fig:1d_nozzle_liq_visc}. The mesh used is uniform and has $50$ cells.
+Plots of the Mach number, density and pressure are given at steady-state in \fig{fig:1d_nozzle_liq_vel}, \fig{fig:1d_nozzle_liq_density}, \fig{fig:1d_nozzle_liq_press}, respectively, along with the exact solution for comparison. The viscosity coefficients are also plotted in \fig{fig:1d_nozzle_liq_visc}. The mesh used is uniform and has $50$ cells.
 %Since a steady-state analytical solution is available to us (REF), a convergence study is performed in order to demonstrate the accuracy of the entropy viscosity method by computing the L$1$ and L$2$ norms of the error between the numerical and exact solutions.
 \begin{figure}[H]
         \centering
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{liquid_velocity_numerical_and_exact_50.png}
-                \caption{Velocity solution at steady-state.}
+                \includegraphics[width=\textwidth]{liquid_mach_numerical_and_exact_50.png}
+                \caption{Mach number solution at steady-state.}
                 \label{fig:1d_nozzle_liq_vel}
         \end{subfigure}%
         %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
@@ -813,8 +817,8 @@ The pressure difference applied between the inlet and outlet is large enough to 
         \centering
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{vapor_velocity_numerical_and_exact_1600.png}
-                \caption{Velocity solution at steady-state.}
+                \includegraphics[width=\textwidth]{vapor_mach_numerical_and_exact_1280.png}
+                \caption{Mach number solution at steady-state.}
                 \label{fig:1d_nozzle_vap_vel}
         \end{subfigure}%
         %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
@@ -843,7 +847,7 @@ The pressure difference applied between the inlet and outlet is large enough to 
         \end{subfigure}
         \caption{Steady-state solution for vapor phase in a $1$-D convergent-divergent nozzle.}\label{fig:1d_vap_nozzle}
 \end{figure}
-The steady-state solution of the density, velocity and pressure are given in \fig{fig:1d_nozzle_vap_vel}, \fig{fig:1d_nozzle_vap_density} and \fig{fig:1d_nozzle_vap_press}. The steady-solution displays a shock around $x=0.8m$ and match the exact solution. In \fig{fig:1d_nozzle_vap_visc}, the first- and second-order viscosity coefficients are log plotted at steady-state: the second-order viscosity coefficient is peaked in the shock region around $x=0.8m$ as expected, and saturate to the first-order viscosity coefficient. The profile also displays another peak at $x=0.5m$ that corresponds to the position of the sonic point for a $1$-D convergent-divergent nozzle: this particular point is known to develop small instabilities that are detected when computing the jumps of the pressure and density gradients. Anywhere else, the second-order viscosity coefficient is small. In order to prove convergence of the numerical solution to the exact solution, a convergence study is performed. Because of the presence of a shock, second-order accuracy cannot be achieved. However, the convergence rate of a numerical solution containing a shock  is known and expected to be of $1$ and $1/2$ when computing the L$1$ and L$2$ norms of the error, respectively (see Theorem 9.3 in \cite{convergence_book}). Results are reported in \tbl{tbl:l1_norm_vap} and \tbl{tbl:l2_norm_vap} for the primitive variables: density, velocity and pressure.
+The steady-state solution of the density, Mach number and pressure are given in \fig{fig:1d_nozzle_vap_vel}, \fig{fig:1d_nozzle_vap_density} and \fig{fig:1d_nozzle_vap_press}. The steady-solution displays a shock around $x=0.8m$ and match the exact solution. In \fig{fig:1d_nozzle_vap_visc}, the first- and second-order viscosity coefficients are log plotted at steady-state: the second-order viscosity coefficient is peaked in the shock region around $x=0.8m$ as expected, and saturate to the first-order viscosity coefficient. The profile also displays another peak at $x=0.5m$ that corresponds to the position of the sonic point for a $1$-D convergent-divergent nozzle: this particular point is known to develop small instabilities that are detected when computing the jumps of the pressure and density gradients. Anywhere else, the second-order viscosity coefficient is small. In order to prove convergence of the numerical solution to the exact solution, a convergence study is performed. Because of the presence of a shock, second-order accuracy cannot be achieved. However, the convergence rate of a numerical solution containing a shock  is known and expected to be of $1$ and $1/2$ when computing the L$1$ and L$2$ norms of the error, respectively (see Theorem 9.3 in \cite{convergence_book}). Results are reported in \tbl{tbl:l1_norm_vap} and \tbl{tbl:l2_norm_vap} for the primitive variables: density, velocity and pressure.
 \begin{table}[H]
 \begin{center}
  \caption{\label{tbl:l1_norm_vap} L$1$ norm of the error for the vapor phase in a $1$-D convergent-divergent nozzle at steady-state.}
@@ -1053,6 +1057,7 @@ The flow of a fluid over a $2$-D cylinder is a typical benchmark case to test th
 \item The pressure and velocity fluctuations are proportional to the inlet Mach number square and the inlet Mach number at steady-state, respectively, as follows: 
 \begin{eqnarray}
 \tilde{P} = \frac{\max(P) - \min(P)}{\max(P)}  \propto M_{\infty}^2\nonumber \\
+||\tilde{\vec{u}}|| = \frac{\max(||\vec{u}||) - \min(||\vec{u}||)}{\max(||\vec{u}||)}  \propto M_{\infty}\nonumber 
 \end{eqnarray}
 where $\tilde{P}$ and $M_{\infty}$ are the pressure fluctuations and the inlet Mach number, respectively.
 \end{itemize}
@@ -1273,7 +1278,7 @@ c^2 = \left. \frac{\partial P}{\partial \rho} \right)_s = P_{\rho} - \frac{s_{\r
 \end{equation}
 using the following relations (see Appendix A.1 of \cite{jlg}):
 \begin{equation}
-P_e = \frac{1}{e_P} \text{ and } P_{\rho} = \tcr{-}\frac{e_{\rho}}{e_P} \nonumber
+P_e = \frac{1}{e_P} \text{ and } P_{\rho} = -\frac{e_{\rho}}{e_P} \nonumber
 \end{equation}
 Then, the result follows.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
