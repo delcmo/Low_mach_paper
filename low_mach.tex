@@ -671,8 +671,6 @@ where $U_i$ denotes the set of conservative variables.
 \section{Numerical Results} \label{sec:results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\tcr{make sure you give the Mach number for the various problems}
-
 This section is dedicated to presenting $1$- and $2$-D numerical results obtained by solving \eqt{eq:euler_variable_A_bis} with the entropy viscosity method. This section has two objectives: validate our new definition of the viscosity coefficients for the low Mach limit, and, make sure that the new definition can still resolve shocks.\\
 The first set of $1$-D simulations consist of liquid water and steam flowing in a convergent-divergent nozzle. This test is interesting for multiple reasons: a steady-state is reached (some stabilization methods are known to have difficulties to reach a steady-state (\cite{FluxLimiter, FluxLimiter2}), it can be performed for liquid and gas phases, and, an analytical solution of the steady-state solution is available which allow for convergence study. The $1$-D Leblanc shock tube test \cite{Leblanc} (in a straight pipe) is also performed and consists of a flow developing shocks. A convergence study will be performed in order to demonstrate convergence of the numerical solution to the exact solution.\\ 
 This section also included $2$-D simulations from subsonic to supersonic flows. Subsonic flows of a gas over a $2$-D cylinder and a hump \cite{Hump} are simulated and results are shown for various far-field Mach numbers. Numerical results of a supersonic flow in a compression corner are provided to illustrate the capabilities of the new definition in the supersonic case. Convergence studies are performed when an analytical solution is available. \\
@@ -965,7 +963,7 @@ The computational domain consists of a $1$-D pipe of length $L=9m$ with an inter
         \end{subfigure}
         \caption{Numerical solution for the $1$-D Leblanc shock tube at $t=4.s$.}\label{fig:1d_lebalnc}
 \end{figure}
- The density, momentum and total energy profiles given in \fig{fig:1d_lebalnc} do not display any oscillations. In \fig{fig:1d_leblanc_density}, the shock region is zoomed in for better resolution: the shock is well resolved and do not show any oscillation. It is also observed that the shock position of the numerical solution converges to the exact position when refining the mesh. The contact wave is shown in \fig{fig:1d_leblanc_density} at $x=4.5m$. The second-order viscosity coefficient profile is shown in \fig{fig:1d_leblanc_visc} and behaves as expected: it saturates to the first-order viscosity in the shock region and thus prevent oscillations from forming. In the contact wave at $x=4.5m$, a smaller peak is observed that is due to the presence of the jumps in the definition of the second-order viscosity coefficient (\eqt{eq:final_def_visc_coeff}).  \\
+ The density, momentum and total energy profiles given in \fig{fig:1d_lebalnc} do not display any oscillations. In \fig{fig:1d_leblanc_density}, the shock region is zoomed in for better resolution: the shock is well resolved and do not show any oscillation. It is also observed that the shock position of the numerical solution converges to the exact position when refining the mesh. The contact wave is shown in \fig{fig:1d_leblanc_density} at $x=4.5m$. The second-order viscosity coefficient profile is shown in \fig{fig:1d_leblanc_visc} and behaves as expected: it saturates to the first-order viscosity in the shock region and thus prevent oscillations from forming. In the contact wave at $x=4.5m$, a smaller peak is observed that is due to the presence of the jumps in the definition of the second-order viscosity coefficient (\eqt{eq:final_def_visc_coeff}).  The Mach number is not plotted but is of the order of $1.3$ right before the shock and reaches a maximum value close to $5$ in the contact region.\\
  %For each plot in \fig{fig:1d_lebalnc}, the numerical solution run the first-order viscosity is also plotted: it is observed that the 
 Once again, a convergence study is performed in order to prove convergence of the numerical solution to the exact solution. As for the vapor phase in the $1$-D nozzle (\sct{sec:steam_nozzle}), the expected convergence rate for the L$1$ and L$2$ norms of the error are $1$ and $1/2$, respectively. The exact solution was obtained by running a $1$-D Riemann solver and used as a reference solution to compute the L$1$ and L$2$-norms of the error that are reported in \tbl{tbl:l1_norm_leblanc} and \tbl{tbl:l2_norm_leblanc} for the conservative variables: density, momentum and total energy.
 \begin{table}[H]
@@ -1072,12 +1070,12 @@ T_0 = T\left( 1 + \frac{\gamma-1}{2} M^2 \right)
 \right.
 \end{equation}
 The static pressure $P_s = 101325$ $Pa$ is set at the subsonic outlet and a static pressure boundary type is used. The implementation of the pressure boundary conditions is done on the model of \cite{SEM}. A solid wall boundary condition is set for the top and bottom walls of the computational domain: the normal velocity is zero since no mass can penetrate the solid body. The mesh is made of triangular cells.\\
-The steady-state for Mach numbers ranging from $M_{\infty} = 10^{-3}$ to $M_{\infty} = 10^{-7}$ is shown in \fig{fig:cylinder}. The iso-Mach lines are drawn with $50$ intervals ranging from $10^{-8}$ to $2M_{\infty}$, and allow to assess the symmetry of the numerical solution.
+The steady-state for Mach numbers ranging from $M_{\infty} = 10^{-3}$ to $M_{\infty} = 10^{-7}$ is shown in \fig{fig:cylinder}. The iso-Mach lines are drawn with $30$ intervals ranging from $2 \cdot 10^{-10}$ to $2M_{\infty}$, and allow to assess the symmetry of the numerical solution.
 \begin{figure}[H]
         \centering
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{CylinderMach1em3.png}
+                \includegraphics[width=\textwidth]{CylinderMach1em3ZoomIn.png}
                 \caption{Steady-state solution at $M_{\infty}=10^{-3}$.}
                 \label{fig:cyl_1em3}
         \end{subfigure}%
@@ -1085,7 +1083,7 @@ The steady-state for Mach numbers ranging from $M_{\infty} = 10^{-3}$ to $M_{\in
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{CylinderMach1em4.png}
+                \includegraphics[width=\textwidth]{CylinderMach1em4ZoomIn.png}
                 \caption{Steady-state solution at $M_{\infty}=10^{-4}$.}
                 \label{fig:cyl_1em4}
         \end{subfigure}    
@@ -1093,7 +1091,7 @@ The steady-state for Mach numbers ranging from $M_{\infty} = 10^{-3}$ to $M_{\in
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{CylinderMach1em5.png}
+                \includegraphics[width=\textwidth]{CylinderMach1em5ZoomIn.png}
                 \caption{Steady-state solution at $M_{\infty}=10^{-5}$.}
                 \label{fig:cyl_1em5}
         \end{subfigure}
@@ -1101,7 +1099,7 @@ The steady-state for Mach numbers ranging from $M_{\infty} = 10^{-3}$ to $M_{\in
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{CylinderMach1em7.png}
+                \includegraphics[width=\textwidth]{CylinderMach1em7ZoomIn.png}
                 \caption{Steady-state solution at $M_{\infty}=10^{-7}$.}
                 \label{fig:cyl_1em7}
         \end{subfigure}
