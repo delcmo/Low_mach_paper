@@ -195,79 +195,79 @@ Both the ideal gas and stiffened gas equations of state are employed.
 \section{Introduction} \label{sec:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\tcr{I think we should focus the introduction more}
-
-Incompressible flows are a particular case of compressible ones and therefore in principle, a
-compressible flow solver should be able to compute these flows. Unfortunately, there are experimental
-evidences showing that on a fixed mesh, the solutions of the compressible flow discretized
-equations are not an accurate approximation of the solutions of the incompressible model (e.g. see
-[29]). A first analysis of this problem appeared in [23] and this question has drawn a considerable
-attention [1–3,7,9,26,28,30] in the recent past. Several works have tried to explain the reasons of
-this difficulty and to construct numerical schemes valid for all Mach numbers. Some of these
-works extend to the compressible regime the numerical methods used for the computation of
-incompressible flows. Examples of these type of methods are for instance [1] or [30]. Another
-approaches rely on some modifications of high order shock capturing techniques. These approaches
-are for instance described in [2,7,22] for Roe discretization, in [3] for the HLLE scheme
-and in [28] for Flux schemes. Their principal ingredient is the use of preconditioning techniques
-originally developed for steady state computations [4,21,23] that are here selectively applied only
-to the upwind artificial viscosity.
-
-
-The efficient simulation of low Mach number flows is a subject of ongoing discussion in the
-CFD community. While the flow is expected to be incompressible, in a lot of applications
-the Mach number or the compressibility properties vary strongly in time or space. This is
-for example the case in nozzle  flow, chemically reacting flows or laminar combustion. It is
-well known that purely compressible flow solvers which were developed for transonic 
-flow produce wrong results at low Mach numbers. On the other hand, standard incompressible 
-flow solvers cannot deal with strong temperature or strong density gradients. This sets a
-demand for codes that can deal with flows at all Mach numbers.
-
-It is well known that it is difficult to solve the compressible equations for low Mach numbers.
-For an explicit scheme this is easily seen by looking at the time steps. For stability the time
-step must be chosen inversely proportional to the largest eigenvalue of the system which is
-approximately the speed of sound, c, for slow flows. However, other waves are convected at the
-fluid speed, u, which is much slower. Hence, these waves don’t change very much over a time
-step. Thus, thousands of time steps are required to reach a steady state. Should one try a
-multigrid acceleration one finds that the same disparity in wave speeds slows down the
-multigrid acceleration. With an implicit method an AD1 factorization is usually used so that
-one can easily invert the implicit factors. The use of AD1 introduces factorization errors which
-again slow down the convergence rate when there are wave speeds of very different magnitudes
-For small Mach numbers it can be shown [28,31] that the incompressible equations approximate
-the compressible equations. Hence, one needs to justify the use of the compressible
-equations for low Mach flows. We present several reasons why one would still use the
-compressible equations even though the Mach number of the flow is small.
-l There are many sophisticated compressible codes available that could be used for such
-problems especially in complicated geometries.
-l For low speed aerodynamic problems at a high angle of attack most of the flow consists of
-a low Mach number flow. However, there are localized regions containing shocks.
-l In many problems thermal effects are important and the energy equation is coupled to the
-other equations.
-
-The incompressible limit of a compressible flow is rather subtle due to the fact that the propagation rate of
-the pressure waves becomes infinite and the equations change their type. Within this limit the pressure splits up
-into a thermodynamic pressure term and a hydrodynamic pressure term. If the limit solution has constant
-temperature and density and if the boundary values satisfy the incompressibility constraint, then the
-thermodynamic pressure becomes the background pressure being constant in space and time. The hydrodynamic
-pressure appears in the incompressible equations as a sort of a Lagrangian multiplier with no connection
-to the equation of state. The asymptotic analysis of Klainerman and Majda in [9,10] gives insight into this
-limit behavior. They gave a mathematically rigorous derivation in the isentropic case. The asymptotic analysis
-was formally extended by Klein to the non-isentropic case and to multiple space scales in [11] in which he also
-gave an overview about other asymptotic considerations in this low Mach number regime. A detailed discussion
-of the incompressible limit is also given in the book of Wesseling [20].
-Numerical methods for the compressible equations may have difficulties with the zero Mach number limit
-because in the limit the speed of sound waves becomes infinite compared to the flow speed and thus leads to an
-elliptic coupling of pressure and velocity. Hence, all explicit numerical schemes become quite inefficient in the
-low Mach number regime due to their stability restriction (CFL condition). The other difficulty is that the
-pressure in the compressible equations converges to the thermodynamic pressure, which becomes the constant
-background pressure in the incompressible limit. This is the way how the equation of state for compressible
-flow is automatically satisfied and does not appear in the incompressible equations. For the compressible
-equations Bijl and Wesseling [2] introduced a splitting of the pressure into a thermodynamic and a hydrodynamic
-pressure term. Then they proposed an implicit numerical method that remains stable without reference
-to the sound velocity and which approximates the incompressible equations for Mach number zero. The constant
-thermodynamic pressure satisfies the equation of state and the hydrodynamic pressure serves as a
-Lagrangian multiplier to get the divergence-free property of the velocity. A formulation in conservative variables
-was later given in [18,20]. Similar to this approach Klein and Munz [12] and Munz et al. [13] proposed
-the multiple pressure variable (MPV) method based on the asymptotic results of Klein [11].
+%\tcr{I think we should focus the introduction more}
+%
+%Incompressible flows are a particular case of compressible ones and therefore in principle, a
+%compressible flow solver should be able to compute these flows. Unfortunately, there are experimental
+%evidences showing that on a fixed mesh, the solutions of the compressible flow discretized
+%equations are not an accurate approximation of the solutions of the incompressible model (e.g. see
+%[29]). A first analysis of this problem appeared in [23] and this question has drawn a considerable
+%attention [1–3,7,9,26,28,30] in the recent past. Several works have tried to explain the reasons of
+%this difficulty and to construct numerical schemes valid for all Mach numbers. Some of these
+%works extend to the compressible regime the numerical methods used for the computation of
+%incompressible flows. Examples of these type of methods are for instance [1] or [30]. Another
+%approaches rely on some modifications of high order shock capturing techniques. These approaches
+%are for instance described in [2,7,22] for Roe discretization, in [3] for the HLLE scheme
+%and in [28] for Flux schemes. Their principal ingredient is the use of preconditioning techniques
+%originally developed for steady state computations [4,21,23] that are here selectively applied only
+%to the upwind artificial viscosity.
+%
+%
+%The efficient simulation of low Mach number flows is a subject of ongoing discussion in the
+%CFD community. While the flow is expected to be incompressible, in a lot of applications
+%the Mach number or the compressibility properties vary strongly in time or space. This is
+%for example the case in nozzle  flow, chemically reacting flows or laminar combustion. It is
+%well known that purely compressible flow solvers which were developed for transonic 
+%flow produce wrong results at low Mach numbers. On the other hand, standard incompressible 
+%flow solvers cannot deal with strong temperature or strong density gradients. This sets a
+%demand for codes that can deal with flows at all Mach numbers.
+%
+%It is well known that it is difficult to solve the compressible equations for low Mach numbers.
+%For an explicit scheme this is easily seen by looking at the time steps. For stability the time
+%step must be chosen inversely proportional to the largest eigenvalue of the system which is
+%approximately the speed of sound, c, for slow flows. However, other waves are convected at the
+%fluid speed, u, which is much slower. Hence, these waves don’t change very much over a time
+%step. Thus, thousands of time steps are required to reach a steady state. Should one try a
+%multigrid acceleration one finds that the same disparity in wave speeds slows down the
+%multigrid acceleration. With an implicit method an AD1 factorization is usually used so that
+%one can easily invert the implicit factors. The use of AD1 introduces factorization errors which
+%again slow down the convergence rate when there are wave speeds of very different magnitudes
+%For small Mach numbers it can be shown [28,31] that the incompressible equations approximate
+%the compressible equations. Hence, one needs to justify the use of the compressible
+%equations for low Mach flows. We present several reasons why one would still use the
+%compressible equations even though the Mach number of the flow is small.
+%l There are many sophisticated compressible codes available that could be used for such
+%problems especially in complicated geometries.
+%l For low speed aerodynamic problems at a high angle of attack most of the flow consists of
+%a low Mach number flow. However, there are localized regions containing shocks.
+%l In many problems thermal effects are important and the energy equation is coupled to the
+%other equations.
+%
+%The incompressible limit of a compressible flow is rather subtle due to the fact that the propagation rate of
+%the pressure waves becomes infinite and the equations change their type. Within this limit the pressure splits up
+%into a thermodynamic pressure term and a hydrodynamic pressure term. If the limit solution has constant
+%temperature and density and if the boundary values satisfy the incompressibility constraint, then the
+%thermodynamic pressure becomes the background pressure being constant in space and time. The hydrodynamic
+%pressure appears in the incompressible equations as a sort of a Lagrangian multiplier with no connection
+%to the equation of state. The asymptotic analysis of Klainerman and Majda in [9,10] gives insight into this
+%limit behavior. They gave a mathematically rigorous derivation in the isentropic case. The asymptotic analysis
+%was formally extended by Klein to the non-isentropic case and to multiple space scales in [11] in which he also
+%gave an overview about other asymptotic considerations in this low Mach number regime. A detailed discussion
+%of the incompressible limit is also given in the book of Wesseling [20].
+%Numerical methods for the compressible equations may have difficulties with the zero Mach number limit
+%because in the limit the speed of sound waves becomes infinite compared to the flow speed and thus leads to an
+%elliptic coupling of pressure and velocity. Hence, all explicit numerical schemes become quite inefficient in the
+%low Mach number regime due to their stability restriction (CFL condition). The other difficulty is that the
+%pressure in the compressible equations converges to the thermodynamic pressure, which becomes the constant
+%background pressure in the incompressible limit. This is the way how the equation of state for compressible
+%flow is automatically satisfied and does not appear in the incompressible equations. For the compressible
+%equations Bijl and Wesseling [2] introduced a splitting of the pressure into a thermodynamic and a hydrodynamic
+%pressure term. Then they proposed an implicit numerical method that remains stable without reference
+%to the sound velocity and which approximates the incompressible equations for Mach number zero. The constant
+%thermodynamic pressure satisfies the equation of state and the hydrodynamic pressure serves as a
+%Lagrangian multiplier to get the divergence-free property of the velocity. A formulation in conservative variables
+%was later given in [18,20]. Similar to this approach Klein and Munz [12] and Munz et al. [13] proposed
+%the multiple pressure variable (MPV) method based on the asymptotic results of Klein [11].
 
 \tcr{above are good snippets from some papers.}
 
@@ -316,10 +316,9 @@ The derivation of the viscous regularization (dissipative terms) is carried out 
 \end{subequations}
 where $\kappa$ and $\mu$ are positive viscosity coefficients. $\grad^s \vec{u}$ denotes the symmetric gradient operator that guarantees the method to be rotationally invariant \cite{jlg}.
 
-
-The viscous regularization requires the numerical computation of viscosity coefficients, $\kappa$ and $\mu$, based on the local entropy production. These coefficients are evaluated using the local entropy residual $D_e(\vec{x},t)$ defined in \eqt{eq:ent_visc_coeff}; $D_e(\vec{x},t)$ is known to be peaked in shocks and vanishingly small elsewhere \cite{Toro}.
+The viscous regularization (\eqt{eq:euler_visc}) requires the numerical computation of viscosity coefficients. Many options are available in the literature such as Lapidus or pressure based mathod. It was chosen to define the viscosity coefficients, $\kappa$ and $\mu$, based on the local entropy production. These coefficients are evaluated using the local entropy residual $D_e(\vec{x},t)$ defined in \eqt{eq:ent_visc_coeff}; $D_e(\vec{x},t)$ is known to be peaked in shocks and vanishingly small elsewhere \cite{Toro}. 
 %
-In the current version of the method, $\kappa$ and $\mu$ are set equal, so that the above viscous regularization is equivalent to the parabolic regularization \cite{Parabolic} when considering the $1$-D form of the equation. Since $D_e(\vec{x},t)$ can be extremely larger in shocks, the definition of the viscosity includes a first-order viscosity coefficient that serves as upper bound for the entropy viscosity. The first-order viscosity coefficients, denoted by $\mu_{max}$ and $\kappa_{max}$, are chosen so that the numerical scheme is equivalent to the upwind scheme which is known to be over-dissipative and monotone\cite{Toro}.  Hence, $\mu_{\max}$ and $\kappa_{\max}$ are set proportional to the local largest eigenvalue $|| \vec{u} || + c $:
+In the current version of the method, $\kappa$ and $\mu$ are set equal. Since $D_e(\vec{x},t)$ can be extremely larger in shocks, the definition of the viscosity includes a first-order viscosity coefficient that serves as upper bound for the entropy viscosity. The first-order viscosity coefficients, denoted by $\mu_{max}$ and $\kappa_{max}$, are chosen so that the numerical scheme is equivalent to the upwind scheme which is known to be over-dissipative and monotone\cite{Toro}.  Hence, $\mu_{\max}$ and $\kappa_{\max}$ are set proportional to the local largest eigenvalue $|| \vec{u} || + c $:
 %
 \begin{equation}
 \label{eq:fo}
@@ -377,14 +376,16 @@ The entropy residual $D_e$ and $\tilde{D}_e$ are proportional to each other and 
 \end{itemize}
 The viscosity coefficients $\mu$ and $\kappa$ are now defined proportional to the new entropy residual $\tilde{D}_e$ on the model of \eqt{eq:ent_visc_coeff} as follows:
 \begin{equation}\label{eq:visc_definition}
-\mu \left( \vec(r),t \right) = \kappa \left( \vec(r),t \right) = h^2 \frac{\max \left( \tilde{D}_e, J \right)}{n(P)}
+\mu \left( \vec(r),t \right) = \kappa \left( \vec(r),t \right) = h^2 \frac{\max \left( \tilde{D}_e, J \right)}{n_P}
 \end{equation}
-where $n(P)$ is a normalization parameter to determine and all other variables were defined previously. \\
-As mentioned earlier, the normalization parameter $n(P)$ must be of the same units as the pressure for the viscosity coefficients to have the unit of a dynamic viscosity $(m^2 / s)$. Multiples options are available to us: $P$, $\rho c^2$, $\rho c || \vec{u} ||$ and $\rho || \vec{u} ||^2$. The choice of the normalization parameter cannot be random if the definition of the viscosity coefficient is wanted to be well-scaled for a wide range of Mach numbers. For example, by choosing $n(P) = \rho || \vec{u} ||^2$, the viscosity coefficient will become very large as the Mach number decreases which would be unnecessary since the equations will not develop any shock or discontinuity. Therefore, it is proposed to carry, in \sct{sec:lowMach}, a low-Mach asymptotic study of the multi-D Euler equations in order to determine the correct expression for the normalization parameter $n(P)$.
+where $n_P$ is a normalization parameter to determine and all other variables were defined previously. \\
+As mentioned earlier, the normalization parameter $n_P$ must be of the same units as the pressure for the viscosity coefficients to have the unit of a dynamic viscosity $(m^2 / s)$. Multiples options are available to us: $P$, $\rho c^2$, $\rho c || \vec{u} ||$ and $\rho || \vec{u} ||^2$. The choice of the normalization parameter cannot be random if the definition of the viscosity coefficient is wanted to be well-scaled for a wide range of Mach numbers. For example, by choosing $n_P = \rho || \vec{u} ||^2$, the viscosity coefficient will become very large as the Mach number decreases which would be unnecessary since the equations will not develop any shock or discontinuity. Therefore, it is proposed to carry, in \sct{sec:lowMach}, a low-Mach asymptotic study of the multi-D Euler equations in order to determine the correct expression for the normalization parameter $n_P$.
 %===================================================================================================
 \subsection{Low-Mach asymptotic study of the multi-D Euler equations} \label{sec:lowMach}
 %===================================================================================================
-The asymptotic study requires the multi-D Euler equations to be non dimensionalized: the objective is to make the Mach number appears and thus, use a polynomial expansion of the variables as a function of the Mach number in order to derive the leading, first- and second-order equations. Before detailing the steps of the asymptotic method, let us have a closer look at the system of equations under consideration. The initial system of equations is composed of the multi-D Euler equations. For stability purpose, artificial dissipative terms are added to each equation as explained in \sct{sec:entro_visc}. The resulting system of equations is alike the multi-D Navier-Stokes equations in a sense that it contains second-order derivative terms. Thus, it would be interesting to look at the steps employed in the asymptotic study of the multi-D Navier-Stokes equations in order to understand how the dissipative terms are treated. Fortunately, this process is well-documented in the literature \cite{LowMach1, LowMach2, LowMach3} for both multi-D Euler equations and Navier-Stokes equations. The work presented here is mainly inspired of \cite{Muller} that focuses on the asymptotic study in the low Mach regime of Navier-Stokes equations. During the derivation, the reader has to keep in mind that the objective of this section is to derive the scaling of the normalization parameter $n(P)$ involved in the definition of the viscosity coefficients given in \eqt{eq:ent_visc_coeff}, so that the multi-D Euler equations degenerate to the incompressible system of equations, which implies that the dissipative terms are well-scaled. The main steps of the derivation are presented in the following of this section and are done using the Ideal Gas equation of state for simplicity:
+The asymptotic study requires the multi-D Euler equations to be non dimensionalized: the objective is to make the Mach number appears and thus, use a polynomial expansion of the variables as a function of the Mach number in order to derive the leading, first- and second-order equations. Before detailing the steps of the asymptotic method, let us have a closer look at the system of equations under consideration. The initial system of equations is composed of the multi-D Euler equations. For stability purpose, artificial dissipative terms are added to each equation as explained in \sct{sec:entro_visc}. The resulting system of equations is alike the multi-D Navier-Stokes equations in a sense that it contains second-order derivative terms. Thus, it would be interesting to look at the steps employed in the asymptotic study of the multi-D Navier-Stokes equations in order to understand how the dissipative terms are treated. Fortunately, this process is well-documented in the literature \cite{LowMach1, LowMach2, LowMach3} for both multi-D Euler equations and Navier-Stokes equations. The work presented here is mainly inspired of \cite{Muller} that focuses on the asymptotic study in the low Mach regime of Navier-Stokes equations. During the derivation, the reader has to keep in mind that the objective of this section is to derive the scaling of the normalization parameter $n_P$ involved in the definition of the viscosity coefficients given in \eqt{eq:ent_visc_coeff}, so that the dissipative terms are well-scaled for two cases: the isentropic form of the Euler equations that degenerate to the incompressible system of equations in the low Mach limit, and the non-isentropic version of the Euler equations with the formation of shocks that need stabilization to prevent spurious oscillations from forming.
+%multi-D Euler equations degenerate to the incompressible system of equations, which implies that the dissipative terms are well-scaled. 
+The main steps of the derivation are presented in the following of this section and are done using the Ideal Gas equation of state for simplicity:
 \begin{equation}\label{eq:IGEOS}
 P = ( \gamma-1) \rho e
 \end{equation}
@@ -395,7 +396,7 @@ To express \eqt{eq:euler_visc} in dimensionless variables, the following dimensi
 \rho &=& \frac{\rho^*}{\rho_{\infty}} \text{, } P = \frac{P^*}{\rho_{\infty}c^2_{\infty}} \text{, } \mu = \frac{\mu^*}{\mu_{\infty}} \text{, } \text{, }  E = \frac{E^*}{c^2_{\infty} } \text{, } 
 \mu = \frac{\mu^*}{\mu_{\infty}} \text{, }\nonumber \\
  \kappa &=& \frac{\kappa^*}{\kappa_{\infty}} \text{, }
-x = \frac{x^*}{L_{\infty}} \text{, } t = \frac{t^*}{t_{\infty}} \text{, } u = \frac{u^*}{u_{\infty}}
+x = \frac{x^*}{L_{\infty}} \text{, } t = \frac{t^*}{L_{\infty} / u_{\infty}} \text{, } u = \frac{u^*}{u_{\infty}}
 \end{eqnarray}
 where  the subscript $\infty$ and the upper script $*$ denote the far field or stagnation quantities and the dimensionless variables, respectively. The reference quantities are chosen such that the non dimensional flow quantities are of order one for any low reference-Mach number
 \begin{equation}
@@ -404,52 +405,135 @@ M_{\infty} = \frac{u_{\infty}}{c_{\infty}}
 where $c_{\infty}$ is a reference value for the speed of sound.
 %The reference time $t_{\infty}$ will take two values: $t_{\infty} = L_{\infty} / u_{\infty}$ for fluid time scale and $t_{\infty} = M_{\infty} L_{\infty} / u_{\infty}$ for acoustic time scale. The objective is to isolate the effects of the acoustic wave in the asymptotic limit during a transient of a low Mach shock for example.
 Then, using the non dimensional quantities and the multi-D Euler equations from \eqt{eq:euler_visc} , the following non dimensional form is obtained:
- \begin{equation}
+\begin{subequations} 
 \label{eq:Euler_eq2}
-\left\{ 
-\begin{array}{llcll}
-Str_{\infty}\partial_{t^*} \rho^*+ \nabla^* \left(  \rho^* \vec{u}^*  \right) = \frac{1}{Re_{\infty} Pr_{\infty}} \nabla^* \cdot ( \kappa^* \nabla^* \rho^* )&&\\
-Str_{\infty}\partial_{t^*} \left( \rho^* \vec{u}^* \right) + \nabla^* \left( \rho^* \vec{u}^*\otimes \vec{u}^* \right) + \frac{1}{M_{\infty}^2}\nabla^* \left( P^* \right) =&& \\
-\frac{1}{Re_{\infty}}\nabla \left( \rho^* \mu^* \nabla^* \vec{u}^* \right) + \frac{1}{Re_{\infty} Pr_{\infty}} \nabla^* \cdot (\vec{u}^*\otimes \kappa^* \nabla^* \rho^* )&&\\
-Str_{\infty}\partial_{t^*} \left( \rho^* E^* \right) + \nabla^* \cdot \left[ \vec{u}^* \left( \rho^* E^* + P^* \right) \right] = \frac{1}{Re_{\infty} Pr_{\infty}} \nabla^* \cdot(\kappa^* \nabla(\rho^* e^*)) +&& \\
-\frac{\tilde{M_{\infty}}^2}{Re_{\infty}}\nabla^* \cdot \left( \vec{u}^* \rho^* \mu^* \nabla^* \vec{u}^* \right)
-+ \frac{M_{\infty}^2}{2 Re_{\infty} Pr_{\infty}} \nabla^* \cdot (\kappa^* u^{*,2} \nabla^* \rho^*)&& \\
-P = \left( \gamma-1 \right) \left( \rho E + M_{\infty}^2 \rho u^2 \right)
-\end{array}
-\right.
+\begin{equation}\label{eq:euler_eq2_cont}
+\partial_{t^*} \rho^*+ \nabla^* \left(  \rho^* \vec{u}^*  \right) = \frac{1}{Re_{\infty} Pr_{\infty}} \nabla^* \cdot ( \kappa^* \nabla^* \rho^* )
 \end{equation}
-where the Strouhal $(Str_{\infty})$, the \emph{numerical} Reynolds $(Re_{\infty})$ and Prandtl $(Pr_{\infty})$ numbers are defined as follows:
+\begin{eqnarray}\label{eq:euler_eq2_mom}
+\partial_{t^*} \left( \rho^* \vec{u}^* \right) + \nabla^* \left( \rho^* \vec{u}^*\otimes \vec{u}^* \right) + \frac{1}{M_{\infty}^2}\nabla^* \left( P^* \right) = 
+\frac{1}{Re_{\infty}}\nabla \left( \rho^* \mu^* \nabla^* \vec{u}^* \right) + \nonumber \\
+\frac{1}{Re_{\infty} Pr_{\infty}} \nabla^* \cdot (\vec{u}^*\otimes \kappa^* \nabla^* \rho^* )
+\end{eqnarray}
+\begin{eqnarray}\label{eq:euler_eq2_energy}
+\partial_{t^*} \left( \rho^* E^* \right) + \nabla^* \cdot \left[ \vec{u}^* \left( \rho^* E^* + P^* \right) \right] = \frac{1}{Re_{\infty} Pr_{\infty}} \nabla^* \cdot(\kappa^* \nabla(\rho^* e^*)) + \nonumber \\
+\frac{\tilde{M_{\infty}}^2}{Re_{\infty}}\nabla^* \cdot \left( \vec{u}^* \rho^* \mu^* \nabla^* \vec{u}^* \right)
++ \frac{M_{\infty}^2}{2 Re_{\infty} Pr_{\infty}} \nabla^* \cdot (\kappa^* u^{*,2} \nabla^* \rho^*)
+\end{eqnarray}
+\begin{equation}\label{eq:euler_eq2_eos}
+P = \left( \gamma-1 \right) \left( \rho E + M_{\infty}^2 \rho u^2 \right)
+\end{equation}
+\end{subequations}
+where the \emph{numerical} Reynolds $(Re_{\infty})$ and Prandtl $(Pr_{\infty})$ numbers are defined as follows:
 \begin{eqnarray}
 \label{eq:ref_numb}
-Str_{\infty} = \frac{L}{u_{\infty} t_{\infty}} \text{ and }
 Re_{\infty} = \frac{u_{\infty} L_{\infty}}{\mu_{\infty}} \text{ and }
 Pr_{\infty} = \frac{\mu_{\infty}}{\kappa_{\infty}} \text{.}
 \end{eqnarray}
-The Reynolds and Prandtl numbers are related to the viscosity coefficients $\mu$ and $\kappa$ through the viscosity reference values. The Strouhal number is introduced because of the different scaling between the fluid velocity and the acoustic waves. The objective is to derive the asymptotic equations for both cases and see how the artificial dissipative terms affect the physics. For simplicity purpose, the upper script $^*$ is dropped in the remaining of this section.\\
-Once the dimensionless equations are obtained, the next step consists of expanding each variable in term of the Mach number (example given in \eqt{eq:expansion} for the pressure $P$) in order to derive the leading, first- and second-order equations. 
+The Reynolds and Prandtl numbers are related to the viscosity coefficients $\mu$ and $\kappa$ through the viscosity reference values. The objective is to derive the asymptotic equations and see how the artificial dissipative terms affect the physics. For simplicity purpose, the upper script $^*$ is dropped in the remaining of this section.\\
+For simplicity and clarity purposes, it is chosen to distinguish two cases that were mentioned earlier in this section: the non-isentropic and isentropic Euler equations. \\
+\begin{itemize}
+\item The non-isentropic Euler equations:\\
+Under this assumptions, shocks can form even with low Mach numbers (for instance, a step initial condition will trigger all of the waves independently of the Mach number). The non-dimensional form of the Euler equations given in \eqt{eq:Euler_eq2} provides some insight on the dominant terms in the low Mach limit. This is particular obvious in the momentum equation \eqt{eq:euler_eq2_mom} with the pressure gradient that is weighted by the inverse of the Mach number square. Thus, in the presence of shock (non-isentropic Euler equations), this pressure gradient term in the momentum equation will need to be stabilized by some dissipative terms of the same scaling, to prevent spurious oscillation from forming. This statement gives us a condition to determine the scaling of the non-dimensionalized numbers $Re_{\infty}$ and $Pr_{\infty}$ and leaves us with three options: $Re_{\infty} = M_{\infty}^2$ and $Re_{\infty}Pr_{\infty} = 1$ ($\left\{ n,m \right\}$ = $\left\{ 2, -2 \right\}$) or $Re_{\infty} = 1$ and $Re_{\infty}Pr_{\infty} = M_{\infty}^2$ ($\left\{ n,m \right\}$ = $\left\{ 0, 2 \right\}$) or $Re_{\infty} = M_{\infty}^2$ and $Re_{\infty}Pr_{\infty} = M_{\infty}^2$ ($\left\{ n,m \right\}$ = $\left\{ 2, 0 \right\}$). 
+\item The isentropic Euler equations and the incompressible limit.\\
+In this particular case, shock cannot form. Consequently, the physical solution is smooth, the equation of state is of the form $\rho = f(P)$ and the speed of sound can be expressed as follows: 
+\begin{equation}\label{eq:sound_speed_iso}
+c^2 = \left. \frac{\partial P}{ \partial \rho}\right)_s = \frac{dP}{d\rho} = \frac{d (f^{-1})}{d \rho} 
+\end{equation}
+where $f^{-1}$ is the inverse of the function $f(P)$. Using the equation of state $\rho = f(P)$ and \eqt{eq:sound_speed_iso}, the entropy residual given in \eqt{eq:ent_res} is shown to be zero (see appendix). Thus, the viscosity coefficients $\mu$ and $\kappa$ are also zero, independently of the choice of the normalization $n_P$, since defined proportional to the entropy residual (\eqt{eq:visc_definition}). This result is crucial for the low Mach asymptotic limit since it implies that the dissipative terms in the right hand-side of \eqt{eq:Euler_eq2} vanish in the case of an isentropic flow. Thus, the dissipative terms are not ill-scaled and the compressible Euler equations should degenerate to the incompressible system of equations in the low Mach asymptotic limit.
+\end{itemize}
+Even if it is now known that the dissipative terms will not affect the low Mach asymptotic limit of the Euler equations, the asymptotic equations are still derived. The objective here is to determine which of the three options enumerated in the non-isentropic Euler equations will fit better our purpose. In other term, we want to determine if there is any valid arguments that will favor one of the above three options: for example in the momentum equation (\eqt{eq:euler_eq2_mom}), is it better to dissipate on the velocity in the low Mach limit by setting $Re_{\infty} = M_{\infty}^2$ and $Pr_{\infty} Re_{\infty} = 1$, or to set $Re_{\infty} = 1$ and $Pr_{\infty} Re_{\infty} = M_{\infty}^2$ and dissipate on the density instead. To do so, each variable is expanded in term of the Mach number (example given in \eqt{eq:expansion} for the pressure $P$) in order to derive the leading, first- and second-order equations. 
 \begin{equation}
 \label{eq:expansion}
 P(\vec{r}, t) = P_0(\vec{r}, t) + P_1(\vec{r}, t) M_{\infty} + P_2(\vec{r}, t) M_{\infty}^2 + \dots \text{ with } M_{\infty} \to 0
 \end{equation}
-From \eqt{eq:Euler_eq2}, it is observed that the scaling of the Reynolds and Prandtl numbers will affect the asymptotic equations because of the dissipative terms. By studying the effect of the dissipative terms onto the asymptotic equations, the scaling of the viscosity coefficients $\mu$ and $\kappa$ can be determined so that the pressure and velocity fluctuations remain of the order of the Mach number square and the Mach number, respectively. For the purpose of this section it is assumed that the Reynolds and Prandtl numbers scale as the Mach number to the power $n$ and $m$, respectively: $Re_{\infty} = M_{\infty}^n$ and $Pr_{\infty} = M_{\infty}^m$ with $\left\{ n,m \right\} \in$ positive or negative integers. Different values for the pair $\left\{ n,m \right\}$ are investigated using the fluid and acoustic time scales. It is also noted that having $n=m$ is equivalent to setting the viscosity coefficients $\mu$ and $\kappa$ equal. The objective of this investigation is to make a choice on the scaling of the Reynolds and Prandtl numbers, obtain the corresponding asymptotic equations, and determine whether or not the low Mach asymptotic limit is preserved. Since the Reynolds and Prandtl numbers are function of the viscosity coefficients and thus, of the normalization parameter $n(P)$ defined in \eqt{eq:norm_param}, a scaling for the function $n(P)$ will be derived as well. 
-\begin{itemize}
-\item Fluid time scale: $Str_{\infty} = 1$ and $Re_{\infty} = Pr_{\infty} = 1$ or $m=n=0$:\\
-Using the assumption $m=n=0$ for the fluid time scale, the system of equation given in \eqt{eq:Euler_eq2} becomes:
- \begin{equation}
+It is chosen to first study the case with $Re_{\infty} = 1$ and $Re_{\infty}Pr_{\infty} = M_{\infty}^2$ which yields the following non-dimensionalized system of equations:
+\begin{subequations} 
 \label{eq:Euler_eq3}
-\left\{ 
-\begin{array}{lll}
-\partial_t \rho+ \nabla \left(  \rho \vec{u}  \right) &=& \nabla \cdot ( \kappa \nabla \rho )\\
-\partial_t \left( \rho \vec{u} \right) + \nabla \left( \rho \vec{u}\otimes \vec{u} \right) + \frac{1}{M_{\infty}^2}\nabla \left( P \right) &=& \\
-&&\nabla \left( \rho \mu \nabla^s \vec{u} \right) + \nabla \cdot (\vec{u}\otimes \kappa \nabla \rho )\\
-\partial_t \left( \rho E \right) + \nabla \cdot \left[ \vec{u} \left( \rho E + P \right) \right] &=& \\
-&&\nabla \cdot(\kappa \nabla(\rho e)) + M_{\infty}^2 \nabla \cdot \left( \vec{u} \rho \mu \nabla^s \vec{u} \right)  \\
-+ M_{\infty}^2 \nabla \cdot (\kappa u^2 \nabla \rho) \\
-P = \left( \gamma-1 \right) \left( \rho E + M_{\infty}^2 \rho u^2 \right)
-\end{array}
-\right.
+\begin{equation}\label{eq:euler_eq3_cont}
+\partial_{t^*} \rho^*+ \nabla^* \left(  \rho^* \vec{u}^*  \right) = \nabla^* \cdot ( \kappa^* \nabla^* \rho^* )
 \end{equation}
-The following asymptotic equations are obtained:
+\begin{eqnarray}\label{eq:euler_eq3_mom}
+\partial_{t^*} \left( \rho^* \vec{u}^* \right) + \nabla^* \left( \rho^* \vec{u}^*\otimes \vec{u}^* \right) + \frac{1}{M_{\infty}^2}\nabla^* \left( P^* \right) = 
+\frac{1}{M_{\infty}^2}\nabla \left( \rho^* \mu^* \nabla^* \vec{u}^* \right) + \nonumber \\
+ \nabla^* \cdot (\vec{u}^*\otimes \kappa^* \nabla^* \rho^* )
+\end{eqnarray}
+\begin{eqnarray}\label{eq:euler_eq3_energy}
+\partial_{t^*} \left( \rho^* E^* \right) + \nabla^* \cdot \left[ \vec{u}^* \left( \rho^* E^* + P^* \right) \right] = \nabla^* \cdot(\kappa^* \nabla(\rho^* e^*)) + \nonumber \\
+\nabla^* \cdot \left( \vec{u}^* \rho^* \mu^* \nabla^* \vec{u}^* \right)
++ M_{\infty}^2\nabla^* \cdot (\kappa^* u^{*,2} \nabla^* \rho^*)
+\end{eqnarray}
+\begin{equation}\label{eq:euler_eq3_eos}
+P = \left( \gamma-1 \right) \left( \rho E + M_{\infty}^2 \rho u^2 \right)
+\end{equation}
+\end{subequations}
+Then, the asymptotic equations are derived using \eqt{eq:expansion}. The momentum equation given in \eqt{eq:euler_eq3_mom} is investigated first, in order to study the pressure waves that are known to be of the order of the Mach number square in the asymptotic limit:
+ \begin{subequations}\label{eq:asympt_equ1}
+ \begin{eqnarray}\label{eq:asympt_equ1_cont}
+&&\text{At order $M_{\infty}^{-2}$:} \nonumber\\
+&& \grad P_0 = \div \left( \vec{u} \kappa \grad \rho \right)_0
+ \end{eqnarray}
+\begin{eqnarray}\label{eq:asympt_equ1_mom}
+&& \text{At order $M_{\infty}^{-1}$:} \nonumber\\
+&&\grad P_1 = \div \left( \vec{u} \kappa \grad \rho \right)_1
+  \end{eqnarray}
+ \begin{eqnarray}\label{eq:asympt_equ1_ener}
+\text{At order $1$:} \nonumber\\
+\partial_t (\rho_0 \vec{u}_0) + \div ( \rho_0 \vec{u}_0 \otimes \vec{u}_0)+\grad P_2 = \div (\rho \mu \grad^s \vec{u})_1 +\div ( \kappa \vec{u} \grad \rho)_2
+ \end{eqnarray}
+ \end{subequations}
+We now focus our study on \eqt{eq:asympt_equ1_cont} and \eqt{eq:asympt_equ1_mom} that are usually used to show that the pressure is constant up to fluctuations of order Mach number square. The dissipation in \eqt{eq:asympt_equ1_cont} and \eqt{eq:asympt_equ1_mom} is done on the gradient of the density. Assuming an isentropic flow and using the simplified equation of state $\rho =f(P)$, the dissipative terms can be recast as a function of the pressure as follows:
+ \begin{subequations}\label{eq:asympt_equ2}
+ \begin{eqnarray}\label{eq:asympt_equ2_cont}
+&&\text{At order $M_{\infty}^{-2}$:} \nonumber\\
+&& \grad P_0 = \div \left( \vec{u} \kappa \frac{df(P)}{d\rho} \grad P \right)_0 = \div \left( \vec{u} \kappa c^{-2} \grad P \right)_0
+ \end{eqnarray}
+\begin{eqnarray}\label{eq:asympt_equ2_mom}
+&& \text{At order $M_{\infty}^{-1}$:} \nonumber\\
+&&\grad P_1 = \div \left( \vec{u} \kappa \frac{df(P)}{d\rho} \grad P \right)_1 = \div \left( \vec{u} \kappa c^{-2} \grad P \right)_1
+  \end{eqnarray}
+\end{subequations}
+It is then noted, that a possible solution of the system given in \eqt{eq:asympt_equ2} (assuming that $\kappa\neq 0$) is $\grad P_0 = \grad P_1 = 0$ which implies that the pressure fluctuations are of the form $P(t \vec{r}) = P_0(t) + M_{\infty}P_2(t, \vec{r}) $ as required in the low Mach asymptotic limit, where $P_1$ subsumed in $P_0$. Even if the low Mach asymptotic convergence of \eqt{eq:Euler_eq2} to the incompressible system of equations is ensured by the definition of the viscosity coefficients proportional to the entropy production, it seems more consistent to dissipate only on the density (or the pressure) in the  low Mach limit.\\
+The same analysis can be carried for the case $Re_{\infty} = M_{\infty}^2$ and $Re_{\infty}Pr_{\infty} = 1$. Under this assumption, the leading and first-order asymptotic equations of the momentum equations are the following:
+ \begin{subequations}\label{eq:asympt_equ3}
+ \begin{eqnarray}\label{eq:asympt_equ3_cont}
+&&\text{At order $M_{\infty}^{-2}$:} \nonumber\\
+&& \grad P_0 = \div \left( \rho \mu \grad^s \vec{u} \right)_0
+ \end{eqnarray}
+\begin{eqnarray}\label{eq:asympt_equ3_mom}
+&& \text{At order $M_{\infty}^{-1}$:} \nonumber\\
+&&\grad P_1 = \div \left( \rho \mu \grad^s \vec{u} \right)_1
+  \end{eqnarray}
+ \end{subequations}
+In this particular case, the dissipation occurs on the velocity. The above system is easily analyzed in $1$D where the velocity is known to obey the divergent constraint
+$\div \vec{u}_0 = \grad^s \vec{u}_0 = \partial_x u_0 = 0$ which implies $u(t,x) = u_0(t) + M_{\infty} u_1(t,x)$. From \eqt{eq:asympt_equ3_cont}, the solution $\partial_x P_0 = 0$ is obtained. On the other hand, since $u_1$ is both a function of time and space, the first-order pressure term cannot be spatially constant and will induce pressure fluctuation of the order of the Mach number (assuming $\mu \neq 0$). Thus, the options with $Re_{\infty} = M_{\infty}^2$ are not valid, which leaves us with the first option: $Re_{\infty} = 1$ and $Pr_{\infty} Re_{\infty} = M_{\infty}^2$. \\
+Knowing the scaling of the non-dimensionalized numbers $Re_{\infty}$ and $Pr_{\infty}$, the normalization parameters $n_P$ of the viscosity coefficients $\mu$ and $\kappa$ can be determined. Only the steps leading to the derivation of $n_P^{\mu}$ for the viscosity coefficient $\mu$ are detailed. Using the definition of the viscosity coefficient in \eqt{eq:visc_definition} and the scaling of \eqt{eq:norm_param}, it can be shown that:
+\begin{equation}
+\label{eq:norm_relation}
+\mu_{\infty} = \frac{ \rho_{\infty} c_{\infty}^2 u_{\infty} L }{ n_{P,\infty}^{\mu} } 
+\end{equation}
+where $n_{P,\infty}$ is the far-field quantity for the normalization parameter $n_P$. Substituing \eqt{eq:norm_relation} into \eqt{eq:ref_numb} and remembering that the numerical Reynolds number scales as one by assumption, it yields:
+\begin{equation}
+\label{eq:norm_relation_bis}
+n_{P,\infty}^{\mu} = \rho_{\infty} c_{\infty}^2
+\end{equation}
+\eqt{eq:norm_relation_bis} tells us that in the asymptotic limit, the normalization parameter $n_P$ scales as $\rho_{\infty} c_{\infty}^2$ which leaves us with two options:
+either $n_P = \rho c^2$ or $n_P = P$. The choice was made to use $n_P^{\mu} = \rho c^2$ in the low Mach asymptotic limit: it was found to behave well and the pressure can become locally negative and null in some particular case as shown in \sct{sec:results}. The same steps lead to the derivation of the normalization parameter $n_P^{\kappa}$ for the viscosity coefficient $\kappa$. Remembering that the Prandtl number scales as the Mach number squares, it is shown that:
+\begin{equation}
+\label{eq:norm_relation_ter}
+n_{P,\infty}^{\kappa} = \rho_{\infty} u_{\infty}^2
+\end{equation}
+which implies $n_{P}^{\kappa} = \rho ||\vec{u} ||^2$.\\
+%Once the dimensionless equations are obtained, the next step consists of 
+%From \eqt{eq:Euler_eq2}, it is observed that the scaling of the Reynolds and Prandtl numbers will affect the asymptotic equations because of the dissipative terms. By studying the effect of the dissipative terms onto the asymptotic equations, the scaling of the viscosity coefficients $\mu$ and $\kappa$ can be determined so that the pressure and velocity fluctuations remain of the order of the Mach number square and the Mach number, respectively. For the purpose of this section it is assumed that the Reynolds and Prandtl numbers scale as the Mach number to the power $n$ and $m$, respectively: $Re_{\infty} = M_{\infty}^n$ and $Pr_{\infty} = M_{\infty}^m$ with $\left\{ n,m \right\} \in$ positive or negative integers. Different values for the pair $\left\{ n,m \right\}$ are investigated for the isentropic and non-isentropic cases. It is also noted that having $n=m$ is equivalent to setting the viscosity coefficients $\mu$ and $\kappa$ equal. The objective of this investigation is to make a choice on the scaling of the Reynolds and Prandtl numbers, obtain the corresponding asymptotic equations, and determine whether or not the low Mach asymptotic limit is preserved. Since the Reynolds and Prandtl numbers are function of the viscosity coefficients and thus, of the normalization parameter $n(P)$ defined in \eqt{eq:norm_param}, a scaling for the function $n(P)$ will be derived as well. For generality purpose, two distinct cases are investigated: the isentropic low Mach limit and the anisentropic low Mach limit where shock can form. \\
+%
+%We first investigate the case of the isentropic Euler equations in the low Mach limit.  Thus, the dissipative terms will have no influence on the \\
+%Under this assumption, shocks may occurs even for small Mach numbers (for instance, a step initial condition will trigger all of the waves independently of the Mach number), and the scaling of the terms must be studied. In the momentum equation, \eqt{eq:euler_eq2_mom}, the pressure gradient will dominate the other terms because of the $1 / M^2$ and will have to be stabilized in the shock region to prevent spurious oscillations to form. Thus, the dissipative terms of the right hand-side of \eqt{eq:euler_eq2_mom} will have to scale the same as the pressure term, which leaves us with three options that can be expressed with the pair $\left\{ n,m \right\}$ as follows: $\left\{ n,m \right\}$ = $\left\{ 2, -2 \right\}$ ($Re_{\infty} = M_{\infty}^2$ and $Re_{\infty}Pr_{\infty} = 1$) or $\left\{ n,m \right\}$ = $\left\{ 0, 2 \right\}$ ($Re_{\infty} = 1$ and $Re_{\infty}Pr_{\infty} = M_{\infty}^2$) or $\left\{ n,m \right\}$ = $\left\{ 2, 0 \right\}$ ($Re_{\infty} = M_{\infty}^2$ and $Re_{\infty}Pr_{\infty} = M_{\infty}^2$). By looking at the momentum equation (\eqt{eq:euler_eq2_mom}) to determine the scaling of the dissipative terms, the continuity and energy equations may be affected in an undesirable way, specially when studying the convergence of the compressible Euler equations to the isentropic and incompressible version of the Euler equations. Thus, a low Mach asymptotic study of the Euler equation when assuming an isentropic flow can help us determine the suitable pair $\left\{ n,m \right\}$. \\
+%It is now assumed an isentropic flow in order to perform a low Mach asymptotic study. We first study the case where $\left\{ n,m \right\}$ = $\left\{ 2, 0 \right\}$ ($Re_{\infty} = M_{\infty}^2$ and $Re_{\infty}Pr_{\infty} = M_{\infty}^2$) which implies the following Euler equations:
+%
+%Using the assumption $m=n=0$ for the fluid time scale, the system of equation given in \eqt{eq:Euler_eq2} becomes:
+%The next step consists of deriving the asymptotic equations:
+%The following asymptotic equations are obtained:
 %Before deriving the leading-order equation, a choice needs to be made on how the numerical Reynolds number scales. Multiple options are available to us and a few example are given: $Re_{\infty} = M_{\infty}$, or $Re_{\infty} = M_{\infty}^{-1}$ or $Re_{\infty} = 1$. Let us assume for academy purpose that the numerical Reynolds number scales as the inverse of the Mach number square:  $Re_{\infty} = M_{\infty}^{-2}$. The best way to evaluate the impact of this choice on the equations, is to look at the momentum equation and try to derive the order $M_{\infty}^{-2}$:
 %\begin{equation}
 %\label{eq:mom_leading_wrong}
@@ -461,127 +545,66 @@ The following asymptotic equations are obtained:
 %\grad P_0 = 0 
 %\end{equation}
 %It is clear that \eqt{eq:mom_leading_wrong} and \eqt{eq:mom_leading_right} will not yield the same result. The same conclusion is drawn when deriving the order $M_{\infty}^{-1}$ of the momentum equation, making our initial assumption not suitable. From the above result, it is understood that the numerical Reynolds number has to scale as one so that it does not affect the orders $M_{\infty}^{-2}$ and $M_{\infty}^{-1}$ of the momentum equations: $Re_{\infty} = 1$. Thus, with such assumption, \eqt{eq:Euler_eq2} implies:
- \begin{eqnarray}\label{eq:asympt_equ1}
- \text{At order $M_{\infty}^{-2}$:} && \nonumber\\
- \grad P_0 &=& 0  \nonumber\\
- \text{At order $M_{\infty}^{-1}$:} && \nonumber\\
- \grad P_1 &=& 0  \nonumber \\
- \text{At order $1$:} && \nonumber\\
- \partial_t \rho_0 &+& \div ( \rho_0 \vec{u}_0 ) = \div ( \kappa_0 \grad \rho_0 ) \nonumber \\
- \partial_t (\rho_0 \vec{u}_0) &+& \div ( \rho_0 \vec{u}_0 \otimes \vec{u}_0) + \grad P_2 = \div (\rho_0 \mu_0 \grad^s \vec{u}_0 + \kappa_0 \vec{u}_0 \otimes \grad \rho_0 ) \nonumber \\
- \partial_t(\rho_0 E_0) &+& \div \left[ \vec{u}_0 (\rho_0 E_0 + P_0) \right] = \div(\kappa_0 \grad(\rho_0 e_0)) \nonumber
- \end{eqnarray}
-From the first two asymptotic equations, it is concluded that the leading- and first-order pressure are constant in space. Thus, the pressure fluctuation will be of order to the Mach number square: $P(\vec{x},t) = P_0(t) + M_{\infty}^2 \cdot P_2(\vec{x},t)$ where $P_1$ subsumed in $P_0$. It remains to investigate how the velocity fluctuations scale as a function of the Mach number. Using the Ideal gas equation of state to relate the leading-order pressure to the total and internal energy $P_0 = (\gamma-1) \rho_0 e_0 = (\gamma-1) \rho_0 E_0$, the first-order energy equation can be recast as follows: 
-\begin{equation}\label{eq:energy_fo}
- (\gamma-1) \partial_tP_0 + \gamma \div \left( \vec{u}_0 P_0\right) = (\gamma-1)\div(\kappa_0 \grad P_0)
-\end{equation}
-Remembering that $\grad P_0 = 0$,  \eqt{eq:energy_fo} becomes:
-\begin{equation}\label{eq:divu0}
--\frac{1}{\gamma P_0}\frac{dP_0}{dt} = \div \vec{u}_0
-\end{equation}
-that degenerates into the classical divergent constraint for incompressible flow, $\div \vec{u}_0 = 0$, when assuming a constant background pressure $P_0$ or at steady-state. Thus, at steady-state, the velocity fluctuations will be of the order of the Mach number. \\
-The above results show that the choice $Re_{\infty} = Pr_{\infty} = 1$ conserves the low Mach asymptotic limit when using the fluid time scale. Thus, it remains to determine the scaling of the normalization parameter $n(P)$. In the case under consideration, the viscosity coefficients $\mu$ and $\kappa$ are set equal. Using the definition of the viscosity coefficient in \eqt{eq:visc_definition} and the scaling of \eqt{eq:norm_param}, it can be shown that:
-\begin{equation}
-\label{eq:norm_relation}
-\mu_{\infty} = \frac{ \rho_{\infty} c_{\infty}^2 u_{\infty} L }{ n_{P,\infty} } 
-\end{equation}
-where $n_{P,\infty}$ is the far-field quantity for the normalization parameter $n_P$. Substituing \eqt{eq:norm_relation} into \eqt{eq:ref_numb} and remembering that the numerical Reynolds number scales as one by assumption, it yields:
-\begin{equation}
-\label{eq:norm_relation_bis}
-n_{P,\infty} = \rho_{\infty} c_{\infty}^2
-\end{equation}
-\eqt{eq:norm_relation_bis} tells us that in the asymptotic limit, the normalization parameter $n_P$ scales as $\rho_{\infty} c_{\infty}^2$ which leaves us with two options:
-either $n_P = \rho c^2$ or $n_P = P$. The choice was made to use $n_P = \rho c^2$ in the low Mach asymptotic limit: it was found to behave well and the pressure can become locally negative and null in some particular case as shown in \sct{sec:results}.\\
-The above derivation of the asymptotic equations does not account for the acoustic waves that can strongly influence the solution when dealing with low Mach shock. It is then proposed to redo the asymptotic derivation but by considering the acoustic time scale instead of the fluid one.
-%%
-\item Acoustic time scale: $Str_{\infty} = 1 / M_{\infty}$ and $Re_{\infty} = Pr_{\infty} = M_{\infty}$ or $\left\{m, n\right\} = \left\{1, 0 \right\}$:\\
-The reasoning leading to the derivation of the asymptotic equations is similar to the previous case. Thus, only the mains step are given. The asymptotic equations obtained with the condition $Re_{\infty} = M_{\infty}$ and $Pr_{\infty} = 1$ and $t_{\infty} = M_{\infty} L_{\infty} / u_{\infty}$ are the following:
- \begin{eqnarray}\label{eq:asympt_equ2}
- \text{At order $M_{\infty}^{-2}$:} && \nonumber\\
- \grad P_0 &=& 0  \nonumber\\
- \text{At order $M_{\infty}^{-1}$:} && \nonumber\\
-% \partial_t \rho_0 &=& \div ( \kappa \grad \rho )_0 \nonumber \\
- \partial_t (\rho \vec{u})_0 + \grad P_1 &=& \div (\mu_0 \rho_0 \grad^s \vec{u}_0 + \kappa_0 \vec{u}_0 \grad \rho_0 ) \nonumber \\
-% \partial_t \left( \rho E \right)_0 &=& \div(\kappa \grad(\rho e))_0 \nonumber \\
- \text{At order $1$:} && \nonumber\\
- \partial_t \rho_1 &+& \div ( \rho_0 \vec{u}_0 ) = \div ( \kappa \grad \rho )_1 \nonumber \\
- \partial_t (\rho \vec{u})_1 &+& \div ( \rho_0 \vec{u}_0 \otimes \vec{u}_0) + \grad P_2 = \div (\rho \mu \grad^s \vec{u} +\kappa \vec{u} \otimes \grad \rho )_1 \nonumber \\
- \partial_t(\rho E)_1 &+& \div \left[ \vec{u}_0 (\rho_0 E_0 + P_0) \right] = \div(\kappa \grad(\rho e))_1 \nonumber
- \end{eqnarray}
-Unlike the previous case, only the leading-order pressure $P_0$ is spatially constant. Thus, the pressure fluctuations are of the order of the Mach number instead of the Mach number square as obtained for the fluid time scale: $P(\vec{x},t) = P_0(t) + M_{\infty} P_1(\vec{x},t)  + M_{\infty}^2 P_2(\vec{x},t)$. Using the equation of state, the order $1$ of the energy equation can be recast as follows:
-\begin{equation}
-(\gamma-1) \partial_t P_1 + \gamma P_0 \div \vec{u}_0 = \div(\kappa \grad(\rho e))_1
-\end{equation}
-Thus, at steady-state, in the presence of pressure fluctuation in the first-order pressure $P_1$, the right hand-side is not null and, thus, the divergence constraint from the asymptotic analysis $\div \vec{u}_0=0$ is not satisfied. By choosing the Reynolds and Prandtl numbers equal to the Mach number and one, respectively, the multi-D Euler equations do not converge to the incompressible equations in the low Mach asymptotic limit. However, it seems to be a valid choice to stabilize the acoustic waves during a transient as shown in the equation obtained for the order $M_{\infty}^{-1}$. The scaling of the normalization parameters that matches the condition $Re_{\infty} = M_{\infty}$ and $Pr_{\infty} = 1$ is derived on the same model as before:
-\begin{equation}
-\label{eq:norm_relation_bis2}
-n_{P,\infty} = \rho_{\infty} u_{\infty} c_{\infty} 
-\end{equation}
-which imposes $n(P) = \rho c || \vec{u} ||$.
+%From the first two asymptotic equations, it is concluded that the leading- and first-order pressure are constant in space. Thus, the pressure fluctuation will be of order to the Mach number square: $P(\vec{x},t) = P_0(t) + M_{\infty}^2 \cdot P_2(\vec{x},t)$ where $P_1$ subsumed in $P_0$. It remains to investigate how the velocity fluctuations scale as a function of the Mach number. Using the Ideal gas equation of state to relate the leading-order pressure to the total and internal energy $P_0 = (\gamma-1) \rho_0 e_0 = (\gamma-1) \rho_0 E_0$, the first-order energy equation can be recast as follows: 
+%\begin{equation}\label{eq:energy_fo}
+% (\gamma-1) \partial_tP_0 + \gamma \div \left( \vec{u}_0 P_0\right) = (\gamma-1)\div(\kappa_0 \grad P_0)
+%\end{equation}
+%Remembering that $\grad P_0 = 0$,  \eqt{eq:energy_fo} becomes:
+%\begin{equation}\label{eq:divu0}
+%-\frac{1}{\gamma P_0}\frac{dP_0}{dt} = \div \vec{u}_0
+%\end{equation}
+%that degenerates into the classical divergent constraint for incompressible flow, $\div \vec{u}_0 = 0$, when assuming a constant background pressure $P_0$ or at steady-state. Thus, at steady-state, the velocity fluctuations will be of the order of the Mach number. \\
+%The above results show that the choice $Re_{\infty} = Pr_{\infty} = 1$ conserves the low Mach asymptotic limit when using the fluid time scale. Thus, it remains to determine the scaling of the normalization parameter $n(P)$. In the case under consideration, the viscosity coefficients $\mu$ and $\kappa$ are set equal. Using the definition of the viscosity coefficient in \eqt{eq:visc_definition} and the scaling of \eqt{eq:norm_param}, it can be shown that:
+%\begin{equation}
+%\label{eq:norm_relation}
+%\mu_{\infty} = \frac{ \rho_{\infty} c_{\infty}^2 u_{\infty} L }{ n_{P,\infty} } 
+%\end{equation}
+%where $n_{P,\infty}$ is the far-field quantity for the normalization parameter $n_P$. Substituing \eqt{eq:norm_relation} into \eqt{eq:ref_numb} and remembering that the numerical Reynolds number scales as one by assumption, it yields:
+%\begin{equation}
+%\label{eq:norm_relation_bis}
+%n_{P,\infty} = \rho_{\infty} c_{\infty}^2
+%\end{equation}
+%\eqt{eq:norm_relation_bis} tells us that in the asymptotic limit, the normalization parameter $n_P$ scales as $\rho_{\infty} c_{\infty}^2$ which leaves us with two options:
+%either $n_P = \rho c^2$ or $n_P = P$. The choice was made to use $n_P = \rho c^2$ in the low Mach asymptotic limit: it was found to behave well and the pressure can become locally negative and null in some particular case as shown in \sct{sec:results}.\\
+%The above derivation of the asymptotic equations does not account for the acoustic waves that can strongly influence the solution when dealing with low Mach shock. It is then proposed to redo the asymptotic derivation but by considering the acoustic time scale instead of the fluid one. \\
+%
+%Acoustic time scale: $Str_{\infty} = 1 / M_{\infty}$ and $Re_{\infty} = Pr_{\infty} = M_{\infty}$ or $\left\{m, n\right\} = \left\{1, 0 \right\}$:\\
+%
+%The reasoning leading to the derivation of the asymptotic equations is similar to the previous case. Thus, only the mains step are given. The asymptotic equations obtained with the condition $Re_{\infty} = M_{\infty}$ and $Pr_{\infty} = 1$ and $t_{\infty} = M_{\infty} L_{\infty} / u_{\infty}$ are the following:
+% \begin{eqnarray}\label{eq:asympt_equ2}
+% \text{At order $M_{\infty}^{-2}$:} && \nonumber\\
+% \grad P_0 &=& 0  \nonumber\\
+% \text{At order $M_{\infty}^{-1}$:} && \nonumber\\
+%% \partial_t \rho_0 &=& \div ( \kappa \grad \rho )_0 \nonumber \\
+% \partial_t (\rho \vec{u})_0 + \grad P_1 &=& \div (\mu_0 \rho_0 \grad^s \vec{u}_0 + \kappa_0 \vec{u}_0 \grad \rho_0 ) \nonumber \\
+%% \partial_t \left( \rho E \right)_0 &=& \div(\kappa \grad(\rho e))_0 \nonumber \\
+% \text{At order $1$:} && \nonumber\\
+% \partial_t \rho_1 &+& \div ( \rho_0 \vec{u}_0 ) = \div ( \kappa \grad \rho )_1 \nonumber \\
+% \partial_t (\rho \vec{u})_1 &+& \div ( \rho_0 \vec{u}_0 \otimes \vec{u}_0) + \grad P_2 = \div (\rho \mu \grad^s \vec{u} +\kappa \vec{u} \otimes \grad \rho )_1 \nonumber \\
+% \partial_t(\rho E)_1 &+& \div \left[ \vec{u}_0 (\rho_0 E_0 + P_0) \right] = \div(\kappa \grad(\rho e))_1 \nonumber
+% \end{eqnarray}
+%Unlike the previous case, only the leading-order pressure $P_0$ is spatially constant. Thus, the pressure fluctuations are of the order of the Mach number instead of the Mach number square as obtained for the fluid time scale: $P(\vec{x},t) = P_0(t) + M_{\infty} P_1(\vec{x},t)  + M_{\infty}^2 P_2(\vec{x},t)$. Using the equation of state, the order $1$ of the energy equation can be recast as follows:
+%\begin{equation}
+%(\gamma-1) \partial_t P_1 + \gamma P_0 \div \vec{u}_0 = \div(\kappa \grad(\rho e))_1
+%\end{equation}
+%Thus, at steady-state, in the presence of pressure fluctuation in the first-order pressure $P_1$, the right hand-side is not null and, thus, the divergence constraint from the asymptotic analysis $\div \vec{u}_0=0$ is not satisfied. By choosing the Reynolds and Prandtl numbers equal to the Mach number and one, respectively, the multi-D Euler equations do not converge to the incompressible equations in the low Mach asymptotic limit. However, it seems to be a valid choice to stabilize the acoustic waves during a transient as shown in the equation obtained for the order $M_{\infty}^{-1}$. The scaling of the normalization parameters that matches the condition $Re_{\infty} = M_{\infty}$ and $Pr_{\infty} = 1$ is derived on the same model as before:
+%\begin{equation}
+%\label{eq:norm_relation_bis2}
+%n_{P,\infty} = \rho_{\infty} u_{\infty} c_{\infty} 
+%\end{equation}
+%which imposes $n(P) = \rho c || \vec{u} ||$.\\
 %\item $Re_{\infty} = M_{\infty}$ and $Pr_{\infty} = 1$ or $m=1$ and $n=0$:\\
 %For this particular case, the viscosity coefficients $\mu$ and $\kappa$ are not set equal. Therefore, two normalization parameters have to be determined. The details of the derivation are given in appendix (not done yet). The correct low Mach asymptotic limit was recovered with the choice $Re_{\infty} = M_{\infty}$ and $Pr_{\infty} = 1$.
-\end{itemize}
-The normalizations of the Reynolds and Prandtl numbers chose for the fluid $(Str=1)$ and acoustic $(Str=1 / M_{\infty})$ time scales are in conflict. The asymptotic study of the \eqt{eq:euler_visc} for $Str_{\infty} = 1$ and the choice $Re_{\infty} = Pr_{\infty} = 1$ is proved to converge to the incompressible equations in the low Mach limit with the correct order in the pressure and velocity fluctuations at steady-state. However, during a transient, the influence of the acoustic wave cannot be neglected, and in the second asymptotic study for $Str = 1 / M_{\infty}$ and $Re_{\infty} = Pr_{\infty} = M_{\infty}$, the artificial dissipative terms are better scaled to stabilize the acoustic waves. In order to be consistent with the low Mach asymptotic equation at steady-state and be able to resolve low Mach shocks, the two above cases need to be merged into an unique one. To do so, it is proposed to define two high-order viscosity coefficients, $\kappa_{e,1}$ and $\kappa_{e,2}$, as follows (since $m=n$ for both cases which implies $\mu$=$\kappa$, only a definition for $\mu$ is given):
-\begin{equation}\label{eq:visc_def_1_and_2}
-\left\{
-\begin{array}{ll}
-\mu_{e,1} = h^2 \frac{\max(\tilde{D_e}, J)}{\rho c^2} \text{ for steady-state}\\
-\mu_{e,2} = h^2 \frac{\max(\tilde{D_e}, J)}{\rho c || \vec{u} ||} \text{ for transient and acoustic wave}
-\end{array}
-\right.
-\end{equation}
-Then, the two above viscosity coefficients are merged using a weight function that depends on the time derivative of the pressure as follows:
-\begin{equation}\label{eq:final_def_visc}
-\mu_e = (1 - w(t)) \mu_{e,1} + w(t)\mu_{e,2} \text{ where } w(t) = \min \left( \frac{\Delta t}{P} \partial_{\tau} P, 1 \right)
-\end{equation} 
-The term $\frac{\Delta t}{P} \partial_{\tau} P$ denotes the time derivative of the pressure with respect to the acoustic time scale $\Delta \tau =  \Delta t /M_{\infty}$. With the definition of the high-order viscosity coefficient $\mu_e$ given in \eqt{eq:final_def_visc}, the viscosity coefficient $\mu_2$ dominates during a transient since $w(t) \rightarrow 1$. On the other hand, at steady-state, $\mu_e \rightarrow \mu_1$ ($w(t) \rightarrow 0$) and the correct asymptotic equations are recovered with pressure fluctuation of the order of the Mach number square. When the fluid becomes supersonic, the fluid velocity $|| \vec{u} ||$ and the speed of sound $c$ are of the same order of magnitude: $|| \vec{u} || \sim c$. When substituting into \eqt{eq:visc_def_1_and_2}, it is noticed that the viscosity coefficients $\mu_{e,1}$ and $\mu_{e,2}$ become equal to each other so that $\mu_e = \mu_{e,1} = \mu_{e,2}$. Thus, the definition of the high-order viscosity coefficient $\mu_e$ given in \eqt{eq:final_def_visc} seems to be valid for a wide range of Mach numbers. \\
-%\begin{equation}
-%\left\{
-%\begin{array}{ll}
-%\partial_t \rho_0 + \vec{u}_0 \grad \rho_0 = \div ( \kappa_0 \grad \rho_0 ) \nonumber \\
-%\rho_0 \left( \partial_t \vec{u}_0 + \vec{u}_0 \div \vec{u}_0 \right)  + \grad P_2 = \div (\rho_0 \mu_0 \grad \vec{u}_0 + \vec{u}_0 \otimes \grad \rho_0 )  \nonumber \\
-%\end{array}
-%\right.
-%\end{equation}
-%It is now determined that the numerical Reynolds number $Re_{\infty}$ has to scale as one. Following \eqt{eq:ref_numb}, $Re_{\infty}$ is a function of the $\mu_{\infty}$, and thus $n_P$. It can be shown using \eqt {eq:norm_param} and the definitions of $\tilde{D}$ given in \eqt{eq:ent_res} that:
-%This normalization parameter is only valid in the asymptotic limit and the purpose of this paper is to define a viscosity coefficient $\mu$ that is valid for a wide range of Mach numbers. Thus, it is proposed to define the high-order viscosity coefficient $\mu_e$ as follows:
-%\begin{equation}
-%\mu_e = h^2 \frac{\max (\tilde{D}_e, J)}{(1-f(M) ) g(P) + f(M) \rho || \vec{u} ||^2}
-%\end{equation} 
-%where $f(M)$ is a function of the local Mach number $M$ with the following properties:
-%\begin{equation}
-%\label{eq:fM_def}
-%\left\{
-%\begin{array}{l}
-%f(M) \to 0 \text{ as } M \to 0 \\
-%f(M) \to 1 \text{ as } M \geq 1 
-%\end{array}
-%\right.
-%\end{equation} 
-%and $g(P)$ has the following definition:
-%\begin{equation}
-%\label{eq:gP_def}
-%\left\{
-%\begin{array}{l}
-%g(P) = \rho c^2 \text{ if } Re_{\infty} = Pr_{\infty} = 1 \\
-%g(P) = \rho c || \vec{u} || \text{ if } Re_{\infty} = Pr_{\infty} = M_{\infty} 
-%\end{array}
-%\right.
-%\end{equation} 
-%The choice of the function $f(M)$ is not fixed and a few examples are available in the literature. A simple definition is $f(M) = \min (M,1)$ which meets the conditions of \eqt{eq:fM_def}. Another definition for $f(M)$ was proposed by \cite{Roe}.
-%All of the numerical results presented in \sct{sec:results} were obtained by using $f(M) = \min (M,1)$ which is simple to implement. A convergence test for a subsonic flow over a $2$-D cylinder will show that this definition of $f(M)$ yields the correct behavior in the asymptotic limit.
-%The definition of the high-order viscosity coefficient $\mu_e(\vec{r},t)$ should behave well for complex flow where a near incompressible regime coexists with a supersonic flow domain since $f(M)$ is function of the local Mach number. \\
-For clarity purpose, the full definition of the viscosity coefficient $\mu(\vec{r},t)$ is recalled:
+For clarity purpose, the definition of the viscosity coefficients $\mu$ and $\kappa$ are now recalled:
 \begin{equation}
 \label{eq:final_def_visc_coeff}
 \left\{
 \begin{array}{l}
 \mu(\vec{r},t) = \max (\mu_{max}(\vec{r},t), \mu_e (\vec{r},t)) \\
+\kappa(\vec{r},t) = \max (\mu_{max}(\vec{r},t), \kappa_e (\vec{r},t)) \\
 \text{where } \mu_{max}(\vec{r},t) = \frac{h}{2} (||\vec{u}|| + c) \\
-\text{and } \mu_e = (1 - w(t)) \mu_{e,1} + w(t)\mu_{e,2} \text{ where } w(t) = \min \left( \frac{\Delta t}{P} \partial_{\tau} P, 1 \right)\\
-\mu_{e,1} = h^2 \frac{\max(\tilde{D_e}, J)}{\rho c^2} \\
-\mu_{e,2} = h^2 \frac{\max(\tilde{D_e}, J)}{\rho c || \vec{u} ||} \\
-\mu(\vec{r},t) = \kappa(\vec{r},t)
+\mu_{e} = h^2 \frac{\max(\tilde{D_e}, J)}{\rho c^2} \\
+\kappa_{e} = h^2 \frac{\max(\tilde{D_e}, J)}{\rho || \vec{u} ||^2} \\
 \end{array}
 \right.
 \end{equation}
@@ -614,7 +637,7 @@ The application of the entropy viscosity method to the above system of equations
 \end{array}
 \right.
 \end{equation}
-The dissipative terms are very similar to the ones obtained for the multi-D Euler equations: each dissipative flux is multiplied by the variable area $A$ in order to  ensure conservation of the flux. When assuming a constant area, \eqt{eq:euler_visc} is retrieved. The derivation only requires the viscosity coefficients $\mu$ and $\kappa$ to be positive. Thus, the viscosity coefficients $\mu$ and $\kappa$ will be set equal to each other and will follow the definition given in \eqt{eq:final_def_visc_coeff}. 
+The dissipative terms are very similar to the ones obtained for the multi-D Euler equations: each dissipative flux is multiplied by the variable area $A$ in order to  ensure conservation of the flux. When assuming a constant area, \eqt{eq:euler_visc} is retrieved. The derivation only requires the viscosity coefficients $\mu$ and $\kappa$ to be positive. Thus, the viscosity coefficients $\mu$ and $\kappa$ will follow the definition given in \eqt{eq:final_def_visc_coeff}. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Solution Techniques Spatial and Temporal Discretizations} \label{sec:solution_tech}
@@ -1046,16 +1069,58 @@ $12800$ & $1.0299897$ $10^{-5}$ & $0.51032105$\\  \hline
 \end{table}
 The convergence rates are close to the expected values which prove convergence of the numerical solution to the exact solution.
 %---------------------------------------------------------------------------------------------------
+\subsection{$1$-D shock tube for liquid phase} \label{sec:liquid_shock}
+%---------------------------------------------------------------------------------------------------
+%---------------------------------------------------------------------------------------------------
+\subsection{$1$-D slow moving shock} \label{sec:slow_moving_shock}
+%---------------------------------------------------------------------------------------------------
+A $1$-D slow moving shock (\cite{james}) is simulated with the entropy viscosity method. It consist of a shock wave moving from left to right with the initial conditions given in \tbl{tbl:ic_slow_moving}. The Ideal Gas equation of state is used with a heat capacity ratio, $\gamma$, of $1.1$. Note that assuming a Courant number of $1$, it takes up to $50$ time steps for the shock to traverse on mesh cell. In order to make the shock travel a significant distance, the final time is taken equal to $t=1.1s$. Then, a pressure boundary condition is used at the left boundary to let the rarefaction and contact waves exit the domain.   
+\begin{table}[H]
+\begin{center}
+ \caption{\label{tbl:ic_slow_moving} Initial conditions for a $1$-D slow moving shock.}
+ \begin{tabular}{|c|c|c|c|}
+ \hline
+   & $\rho$ & $u$ & $P$ \\
+ \hline
+left & $1.$ & $-0.81$ & $1.$ \\
+  \hline
+  right & $3.86$ & $-3.44$ & $10.33$ \\
+  \hline
+\end{tabular}
+\end{center}
+\nonumber
+\end{table}
+A slow moving shock is known to produce post-shock noise of low frequency that are not damped by some numerical dissipation methods (\cite{james}). The objective, here, is to see wether or not the entropy viscosity method is capable of damping the low frequency waves. Numerical results are given in \fig{fig:low_moving_shock} and are compared to the exact solution obtained from a Riemann solver. 
+\begin{figure}[H]
+        \centering
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{SlowMovingShock_density_velocity_pressure_profiles.png}
+                \caption{Velocity, density and pressure profiles at $t=1.1s$.}
+                \label{fig:profiles_sms}
+        \end{subfigure}%
+        %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{SlowMovingShock_viscosity.png}
+                \caption{Viscosity coefficients profiles at $t=1.1s$.}
+                \label{fig:viscosity_sms}
+        \end{subfigure} 
+        \caption{Slow moving shock profiles at $t=1.1s$.}\label{fig:low_moving_shock}
+\end{figure} 
+The numerical results show good agreement with the exact solution and do not display any post shock noise. The rarefaction and contact waves are not on \fig{fig:profiles_sms} since they exited the computational domain through the left pressure boundary condition.
+%---------------------------------------------------------------------------------------------------
 \subsection{Subsonic flow over a $2$-D cylinder} \label{sec:cylinder}
 %---------------------------------------------------------------------------------------------------
 The flow of a fluid over a $2$-D cylinder is a typical benchmark case to test the behavior of a numerical method in the low Mach regime. For this test, an analytical solution is available in the incompressible limit or low Mach limit (REFS) and often referred to as potential flow. The main features of the potential flow are the following:
 \begin{itemize}
 \item The solution is symmetric: the iso-mach number lines are used to asses the symmetry of the numerical solution.
 \item The velocity at the top of the cylinder is twice the incoming velocity set at the inlet.
-\item The pressure and velocity fluctuations are proportional to the inlet Mach number square and the inlet Mach number at steady-state, respectively, as follows: 
+\item The pressure fluctuations are proportional to the inlet Mach number square as follows: 
 \begin{eqnarray}
-\tilde{P} = \frac{\max(P) - \min(P)}{\max(P)}  \propto M_{\infty}^2\nonumber \\
-||\tilde{\vec{u}}|| = \frac{\max(||\vec{u}||) - \min(||\vec{u}||)}{\max(||\vec{u}||)}  \propto M_{\infty}\nonumber 
+\tilde{P} = \frac{\max(P) - \min(P)}{\max(P)}  \propto M_{\infty}^2\nonumber
+%||\tilde{\vec{u}}|| = \frac{\max(||\vec{u}||) - \min(||\vec{u}||)}{\max(||\vec{u}||)}  \propto M_{\infty}\nonumber 
 \end{eqnarray}
 where $\tilde{P}$ and $M_{\infty}$ are the pressure fluctuations and the inlet Mach number, respectively.
 \end{itemize}
@@ -1144,6 +1209,7 @@ In \fig{fig:pressure_vel_fluc}, the pressure and velocity fluctuations are plott
 \caption{Log-log plot of the pressure and velocity fluctuations as a function of the far field Mach number.}
 \label{fig:pressure_vel_fluc}
 \end{figure}
+It is noted that the velocity fluctuations yields the correct order of convergence as a function of the Mach number for all simulations. In another hand, the pressure fluctuations only display a slope of $2$ until $M_{\infty} = 10^{-7}$.
 %---------------------------------------------------------------------------------------------------
 \subsection{Subsonic flow over a $2$-D hump} \label{sec:hump}
 %---------------------------------------------------------------------------------------------------
