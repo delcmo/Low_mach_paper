@@ -121,6 +121,8 @@
 \newcommand{\tcr}[1]{\textcolor{red}{#1}}
 \newcommand{\mt}[1]{\marginpar{ {\tiny \tcr{#1} }}}
 
+\newtheorem{remark}{Remark}
+
 \bibliographystyle{elsarticle-num}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -610,6 +612,9 @@ For clarity purpose, the definition of the viscosity coefficients $\mu$ and $\ka
 \right.
 \end{equation}
 These viscosity coefficients are valid for both the multi-D Euler equations with variable and constant area and are employed with the dissipative terms detailed in \eqt{eq:Euler_eq3}. The reader will notice that, through the derivation, none assumption was made on the type of equation of state besides the convexity condition on the entropy function $s$. The remaining of this paper (\sct{sec:results}) will focus on demonstrating that the definition of the viscosity coefficient given in \eqt{eq:final_def_visc_coeff} is indeed well-scaled in the asymptotic limit and that shocks are still well resolved. 
+\begin{remark}
+By choosing $Pr_{\infty}  = M_{\infty}^2$ and $Re_{\infty} = 1$, the dissipative terms in \eqt{eq:Euler_eq2} have the same scaling as the discretized dissipative terms derived from the preconditioned Roe scheme proposed by Guillard et al. in \cite{LowMach1}, to ensure the correct low Mach asymptotic limit.
+\end{remark}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The dissipative-terms for the multi-D Euler equations with variable area} \label{sec:var_area_diss_terms}
@@ -1073,6 +1078,41 @@ The convergence rates are close to the expected values which prove convergence o
 %---------------------------------------------------------------------------------------------------
 \subsection{$1$-D shock tube for liquid phase} \label{sec:liquid_shock}
 %---------------------------------------------------------------------------------------------------
+We want to investigate the capabilities of the entropy viscosity method to resolve strong shock for the liquid phase. This test is a preliminary work to the application of the entropy viscosity method to a two phase flow model. The Stiffened gas equation of state is used to model a liquid flow with the following parameters: $\gamma = 4.4$, $P_{\infty} = 6 \cdot 10^8$ $Pa$, $q = 0$ $J \cdot kg^{-1}$ and $Cv = 1000$ $J \cdot kg^{-1} \cdot K^{-1}$. The computational domain is of length $L=1$ $m$, discretized with an uniform mesh of $500$ cells, and the step initial conditions are given in \tbl{tbl:ic_strong_shock}.
+\begin{table}[H]
+\begin{center}
+ \caption{\label{tbl:ic_strong_shock} Initial conditions for the $1$-D liquid shock tube.}
+ \begin{tabular}{|c|c|c|c|}
+ \hline
+   & $\rho$ & $u$ & $P$ \\
+ \hline
+left & $10^{3}$ & $0.$ & $10^9$ \\
+  \hline
+  right & $10^{3}$ & $0.$ & $10^5$ \\
+  \hline
+\end{tabular}
+\end{center}
+\end{table}
+The simulation is run with a constant time step of $\Delta t = 10^{-7}$ $s$ until the final time $t_{final} = 7 \cdot 10^{-5}$ $s$. The plots of the pressure, the density, the velocity and the viscosity coefficients profiles are given in \fig{fig:1d_strong_shock} along with the exact solution for comparison.
+\begin{figure}[H]
+        \centering
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{LiquidSrongShock_density_velocity_pressure_profiles.png}
+                \caption{Density, velocity and pressure profiles.}
+                \label{fig:1d_strong_shock_var}
+        \end{subfigure}%
+        %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{LiquidSrongShock_viscosity.png}
+                \caption{Viscosity coefficients profile.}
+                \label{fig:1d_strong_shock_visc}
+        \end{subfigure}
+        \caption{Numerical solution for the $1$-D liquid shock tube at  at $t_{final} = 7 \cdot 10^{-5}$ $s$.}\label{fig:1d_strong_shock}
+\end{figure}
+The numerical solution does not display any oscillations and match the exact solution in \fig{fig:1d_strong_shock_var}. The viscosity coefficients $\mu$ and $\kappa$ are not equal in the shock because the Mach number is of order $0.1$. The viscosity coefficient $\kappa$ saturate to the first-order viscosity in the shock region around $x = 0.65$ $m$ and seems sufficient to stabilize the numerical scheme. This example illustrates the capabilities of the entropy viscosity method to stabilize a strong shock. 
 %---------------------------------------------------------------------------------------------------
 \subsection{$1$-D slow moving shock} \label{sec:slow_moving_shock}
 %---------------------------------------------------------------------------------------------------
@@ -1111,7 +1151,7 @@ A slow moving shock is known to produce post-shock noise of low frequency that a
         \end{subfigure} 
         \caption{Slow moving shock profiles at $t=1.1s$.}\label{fig:low_moving_shock}
 \end{figure} 
-The numerical results show good agreement with the exact solution and do not display any post shock noise. The rarefaction and contact waves are not on \fig{fig:profiles_sms} since they exited the computational domain through the left pressure boundary condition.
+The numerical results show good agreement with the exact solution and do not display any post shock noise. As explained in \cite{roberts}, Godunov's type method usually fails to resolve a slow moving shock because of the nature of the stabilization method that is proportional to the eigenvalue. In the case under consideration, the shock is moving slowly which underestimate the dissipation. In the case of the entropy viscosity method, the entropy residual detects the shock position and the normalization parameter makes the high-order viscosity coefficients saturate to the first-order viscosity that is proportional to the local maximum eigenvalue $||\vec{u}||+c$. The rarefaction and contact waves are not on \fig{fig:profiles_sms} since they exited the computational domain through the left pressure boundary condition. 
 %---------------------------------------------------------------------------------------------------
 \subsection{Subsonic flow over a $2$-D cylinder} \label{sec:cylinder}
 %---------------------------------------------------------------------------------------------------
