@@ -509,106 +509,138 @@ For brevity, the superscript $^*$ is dropped in the remaining of this section. F
 %
 \begin{equation}
 \label{eq:euler_eq2_eos}
-P = \left( \gamma-1 \right) \left( \rho E + M_{\infty}^2 \rho u^2 \right) .
+P = \left( \gamma-1 \right) \left( \rho E + M_{\infty}^2 \rho u^2 \right) = \left( \gamma-1 \right) \rho e.
 \end{equation}
 %
 
 It is, then, chosen to distinguish two cases that were mentioned earlier in this section: the non-isentropic and isentropic Euler equations.
 \begin{itemize}
 \item The non-isentropic Euler equations:\\
-Under this assumptions, shocks can form even with low Mach numbers (for instance, a step initial condition will trigger all of the waves independently of the Mach number). The non-dimensional form of the Euler equations given in \eqt{eq:Euler_eq2} provides some insight on the dominant terms in the low Mach limit. This is particular obvious in the momentum equation \eqt{eq:euler_eq2_mom} with the pressure gradient that is weighted by the inverse of the Mach number square. Thus, in the presence of shock (non-isentropic Euler equations), this pressure gradient term in the momentum equation will need to be stabilized by some dissipative terms of the same scaling, to prevent spurious oscillation from forming. This statement gives us a condition to determine the scaling of the non-dimensionalized numbers $Re_{\infty}$ and $Pr_{\infty}$ and leaves us with three options: $Re_{\infty} = M_{\infty}^2$ and $Re_{\infty}Pr_{\infty} = 1$ ($\left\{ n,m \right\}$ = $\left\{ 2, -2 \right\}$) or $Re_{\infty} = 1$ and $Re_{\infty}Pr_{\infty} = M_{\infty}^2$ ($\left\{ n,m \right\}$ = $\left\{ 0, 2 \right\}$) or $Re_{\infty} = M_{\infty}^2$ and $Re_{\infty}Pr_{\infty} = M_{\infty}^2$ ($\left\{ n,m \right\}$ = $\left\{ 2, 0 \right\}$). Arguments related to the validity of the three previous options will be given later in this section.
+Under this assumptions, shocks can form even with low Mach numbers (for instance, a step initial condition will trigger all of the waves independently of the Mach number). The non-dimensional form of the Euler equations given in \eqt{eq:Euler_eq2} provides some insight on the dominant terms in the low Mach limit. This is particular obvious in the momentum equation \eqt{eq:euler_eq2_mom} with the pressure gradient that is weighted by the inverse of the Mach number square. Thus, in the presence of shock (non-isentropic Euler equations), this pressure gradient term in the momentum equation will need to be stabilized by some dissipative terms of the same scaling, to prevent spurious oscillation from forming. This statement gives us a condition to determine the scaling of the non-dimensionalized numbers $Re_{\infty}$ and $Pr_{\infty}$ and leaves us with three options: $Re_{\infty} = M_{\infty}^2$ and $Re_{\infty}Pr_{\infty} = 1$ ($\left\{ n,m \right\}$ = $\left\{ 2, -2 \right\}$) or $Re_{\infty} = 1$ and $Re_{\infty}Pr_{\infty} = M_{\infty}^2$ ($\left\{ n,m \right\}$ = $\left\{ 0, 2 \right\}$) or $Re_{\infty} = M_{\infty}^2$ and $Re_{\infty}Pr_{\infty} = M_{\infty}^2$ ($\left\{ n,m \right\}$ = $\left\{ 2, 0 \right\}$). The first option
+Arguments related to the validity of the three previous options will be given later in this section.
 \item The isentropic Euler equations and the incompressible limit:\\
-In this particular case, shock cannot form and the compressible Euler equations are known to converge to the incompressible fluid equations when the Mach number tends to zero. When adding dissipative terms, as required in the entropy viscosity method, the low Mach asymptotic limit has to be conserved: the pressure fluctuations are of the order of the Mach number square, and the velocity vector obeys to the divergent constraint $\div \vec{u}_0 = 0$. Such conditions are used to devise a scaling of the non-dimensionalized numbers, $Re_{\infty}$ and $Pr_{\infty}$, for the case under consideration. Once again, by studying the momentum equation, it is observed that the leading, $P_0$, and first-order, $P_1$, terms of the pressure are spatially constant if only if $Re_{\infty} = Pr_{\infty} = 1$:  
-%Consequently, the physical solution is smooth, the equation of state is of the form $\rho = f(P)$ and the speed of sound can be expressed as follows: 
-%\begin{equation}\label{eq:sound_speed_iso}
-%c^2 = \left. \frac{\partial P}{ \partial \rho}\right)_s = \frac{dP}{d\rho} = \frac{d (f^{-1})}{d \rho} 
-%\end{equation}
-%where $f^{-1}$ is the inverse of the function $f(P)$. Using the equation of state $\rho = f(P)$ and \eqt{eq:sound_speed_iso}, the entropy residual given in \eqt{eq:ent_res} is shown to be zero (\app{app:ise_equ}). Thus, the viscosity coefficients $\mu$ and $\kappa$ are also zero, independently of the choice of the normalization $n_P$, since defined proportional to the entropy residual (\eqt{eq:visc_definition}). 
-%This result is crucial for the low Mach asymptotic limit since it implies that the dissipative terms in the right hand-side of \eqt{eq:Euler_eq2} vanish in the case of an isentropic flow. Thus, the dissipative terms are not ill-scaled and the compressible Euler equations should degenerate to the incompressible system of equations in the low Mach asymptotic limit.
-\end{itemize}
-Even if it is now known that the dissipative terms will not affect the low Mach asymptotic limit of the Euler equations, the asymptotic equations are still derived with the objective of determining which of the three options enumerated in the non-isentropic Euler equations will fit better our purpose. In other term, we want to determine if there is any valid arguments that will favor one of the above three options: for example in the momentum equation (\eqt{eq:euler_eq2_mom}), is it better to dissipate on the velocity in the low Mach limit by setting $Re_{\infty} = M_{\infty}^2$ and $Pr_{\infty} Re_{\infty} = 1$, or to set $Re_{\infty} = 1$ and $Pr_{\infty} Re_{\infty} = M_{\infty}^2$ and dissipate on the density instead? To do so, each variable is expanded in term of the Mach number (example given in \eqt{eq:expansion} for the pressure $P$) in order to derive the leading, first- and second-order equations. 
+In this particular case, shock cannot form and the compressible Euler equations are known to converge to the incompressible fluid equations when the Mach number tends to zero. When adding dissipative terms, as required in the entropy viscosity method, the low Mach asymptotic limit has to be conserved: the pressure fluctuations are of the order of the Mach number square, and the velocity vector obeys to the divergent constraint $\div \vec{u}_0 = 0$. The objective, here, is to choose a scaling for the non-dimensionalized numbers, $Re_{\infty}$ and $Pr_{\infty}$, so that the main features of the incompressible fluid equations are retrieved in the low Mach limit. To do so, it is proposed to perform an low Mach asymptotic limit by expanding each variable in term of the Mach number as shown in \eqt{eq:expansion}. 
 \begin{equation}
 \label{eq:expansion}
 P(\vec{r}, t) = P_0(\vec{r}, t) + P_1(\vec{r}, t) M_{\infty} + P_2(\vec{r}, t) M_{\infty}^2 + \dots \text{ with } M_{\infty} \to 0
 \end{equation}
-It is chosen to first study the case with $Re_{\infty} = 1$ and $Re_{\infty}Pr_{\infty} = M_{\infty}^2$ which yields the following non-dimensionalized system of equations:
-\begin{subequations} 
-\label{eq:Euler_eq3}
-\begin{equation}\label{eq:euler_eq3_cont}
-\partial_{t^*} \rho^*+ \nabla^* \left(  \rho^* \vec{u}^*  \right) = \nabla^* \cdot ( \kappa^* \nabla^* \rho^* )
-\end{equation}
-\begin{eqnarray}\label{eq:euler_eq3_mom}
-\partial_{t^*} \left( \rho^* \vec{u}^* \right) + \nabla^* \left( \rho^* \vec{u}^*\otimes \vec{u}^* \right) + \frac{1}{M_{\infty}^2}\nabla^* \left( P^* \right) = 
-\frac{1}{M_{\infty}^2}\nabla \left( \rho^* \mu^* \nabla^* \vec{u}^* \right) + \nonumber \\
- \nabla^* \cdot (\vec{u}^*\otimes \kappa^* \nabla^* \rho^* )
-\end{eqnarray}
-\begin{eqnarray}\label{eq:euler_eq3_energy}
-\partial_{t^*} \left( \rho^* E^* \right) + \nabla^* \cdot \left[ \vec{u}^* \left( \rho^* E^* + P^* \right) \right] = \nabla^* \cdot(\kappa^* \nabla(\rho^* e^*)) + \nonumber \\
-\nabla^* \cdot \left( \vec{u}^* \rho^* \mu^* \nabla^* \vec{u}^* \right)
-+ M_{\infty}^2\nabla^* \cdot (\kappa^* u^{*,2} \nabla^* \rho^*)
-\end{eqnarray}
-\begin{equation}\label{eq:euler_eq3_eos}
-P = \left( \gamma-1 \right) \left( \rho E + M_{\infty}^2 \rho u^2 \right)
-\end{equation}
-\end{subequations}
-Then, the asymptotic equations are derived using \eqt{eq:expansion}. The momentum equation given in \eqt{eq:euler_eq3_mom} is investigated first, in order to study the pressure waves that are known to be of the order of the Mach number square in the asymptotic limit:
+Once again, by studying the momentum equation, it is observed that the leading, $P_0$, and first-order, $P_1$, terms of the pressure are spatially constant if only if $Re_{\infty} = Pr_{\infty} = 1$:
  \begin{subequations}\label{eq:asympt_equ1}
  \begin{eqnarray}\label{eq:asympt_equ1_cont}
 &&\text{At order $M_{\infty}^{-2}$:} \nonumber\\
-&& \grad P_0 = \div \left( \vec{u} \kappa \grad \rho \right)_0
+&& \grad P_0 = 0
  \end{eqnarray}
 \begin{eqnarray}\label{eq:asympt_equ1_mom}
 && \text{At order $M_{\infty}^{-1}$:} \nonumber\\
-&&\grad P_1 = \div \left( \vec{u} \kappa \grad \rho \right)_1
-  \end{eqnarray}
- \begin{eqnarray}\label{eq:asympt_equ1_ener}
-\text{At order $1$:} \nonumber\\
-\partial_t (\rho_0 \vec{u}_0) + \div ( \rho_0 \vec{u}_0 \otimes \vec{u}_0)+\grad P_2 = \div (\rho \mu \grad^s \vec{u})_1 +\div ( \kappa \vec{u} \grad \rho)_2
- \end{eqnarray}
- \end{subequations}
-We now focus our study on \eqt{eq:asympt_equ1_cont} and \eqt{eq:asympt_equ1_mom} that are usually used to show that the pressure is constant up to fluctuations of order Mach number square. The dissipation in \eqt{eq:asympt_equ1_cont} and \eqt{eq:asympt_equ1_mom} is done on the gradient of the density. Assuming an isentropic flow and using the simplified equation of state $\rho =f(P)$, the dissipative terms can be recast as a function of the pressure as follows:
- \begin{subequations}\label{eq:asympt_equ2}
- \begin{eqnarray}\label{eq:asympt_equ2_cont}
-&&\text{At order $M_{\infty}^{-2}$:} \nonumber\\
-&& \grad P_0 = \div \left( \vec{u} \kappa \frac{df(P)}{d\rho} \grad P \right)_0 = \div \left( \vec{u} \kappa c^{-2} \grad P \right)_0
- \end{eqnarray}
-\begin{eqnarray}\label{eq:asympt_equ2_mom}
-&& \text{At order $M_{\infty}^{-1}$:} \nonumber\\
-&&\grad P_1 = \div \left( \vec{u} \kappa \frac{df(P)}{d\rho} \grad P \right)_1 = \div \left( \vec{u} \kappa c^{-2} \grad P \right)_1
-  \end{eqnarray}
-\end{subequations}
-It is then noted, that a possible solution of the system given in \eqt{eq:asympt_equ2} (assuming that $\kappa\neq 0$) is $\grad P_0 = \grad P_1 = 0$ which implies that the pressure fluctuations are of the form $P(t \vec{r}) = P_0(t) + M_{\infty}P_2(t, \vec{r}) $ as required in the low Mach asymptotic limit, where $P_1$ subsumed in $P_0$. Even if the low Mach asymptotic convergence of \eqt{eq:Euler_eq2} to the incompressible system of equations is ensured by the definition of the viscosity coefficients proportional to the entropy production, it seems more consistent to dissipate only on the density (or the pressure) in the  low Mach limit.\\
-The same analysis can be carried for the case $Re_{\infty} = M_{\infty}^2$ and $Re_{\infty}Pr_{\infty} = 1$. Under this assumption, the leading and first-order asymptotic equations of the momentum equations are the following:
- \begin{subequations}\label{eq:asympt_equ3}
- \begin{eqnarray}\label{eq:asympt_equ3_cont}
-&&\text{At order $M_{\infty}^{-2}$:} \nonumber\\
-&& \grad P_0 = \div \left( \rho \mu \grad^s \vec{u} \right)_0
- \end{eqnarray}
-\begin{eqnarray}\label{eq:asympt_equ3_mom}
-&& \text{At order $M_{\infty}^{-1}$:} \nonumber\\
-&&\grad P_1 = \div \left( \rho \mu \grad^s \vec{u} \right)_1
+&&\grad P_1 = 0
   \end{eqnarray}
  \end{subequations}
-In this particular case, the dissipation occurs on the velocity. The above system is easily analyzed in $1$D where the velocity is known to obey the steady-state divergent constraint
-$\div \vec{u}_0 = \grad^s \vec{u}_0 = \partial_x u_0 = 0$ which implies $u(t,x) = u_0(t) + M_{\infty} u_1(t,x)$. From \eqt{eq:asympt_equ3_cont}, the solution $\partial_x P_0 = 0$ is obtained. On the other hand, since $u_1$ is both a function of time and space, the first-order pressure term $P_1$ cannot be spatially constant and will induce pressure fluctuation of the order of the Mach number (assuming $\mu \neq 0$). Thus, the options requesting $Re_{\infty} = M_{\infty}^2$ are not valid, which leaves us with the first option: $Re_{\infty} = 1$ and $Pr_{\infty} Re_{\infty} = M_{\infty}^2$. \\
-Knowing the scaling of the non-dimensionalized numbers $Re_{\infty}$ and $Pr_{\infty}$, the normalization parameters $n_P$ of the viscosity coefficients $\mu$ and $\kappa$ can be determined. Only the steps leading to the derivation of $n_P^{\mu}$ for the viscosity coefficient $\mu$ are detailed. Using the definition of the viscosity coefficient in \eqt{eq:visc_definition} and the scaling of \eqt{eq:norm_param}, it can be shown that:
+Using the same scaling, $Re_{\infty} = Pr_{\infty} = 1$, the continuity, momentum and energy equations at order $1$ are obtained:
+\begin{subequations}\label{eq:asympt_equ2}
+\begin{eqnarray}\label{eq:asympt_equ2_cont}
+ &&\partial_t \rho_0 + \div ( \rho_0 \vec{u}_0 ) = \div ( \kappa \grad \rho )_0
+ \end{eqnarray}
+ \begin{eqnarray}\label{eq:asympt_equ2_mom}
+ &&\partial_t (\rho \vec{u})_0 + \div ( \rho \vec{u} \otimes \vec{u})_0 + \grad P_2 = \div (\rho \mu \grad^s \vec{u} +\kappa \vec{u} \otimes \grad \rho )_0
+  \end{eqnarray}
+  \begin{eqnarray}\label{eq:asympt_equ2_ener}
+ &&\partial_t(\rho E)_0 + \div \left[ \vec{u} (\rho E + P) \right]_0 = \div(\kappa \grad(\rho e))_0
+  \end{eqnarray}
+ \end{subequations}
+ Using the leading-order of the equation of state given in \eqt{eq:euler_eq2_eos}, the energy equation can be recast as a function of the leading-order pressure as follows:
+ \begin{equation}\label{eq:asympt_equ3_ener}
+ \gamma \partial_t P_0 + \gamma \div \left( \vec{u} P \right)_0 = \left( \gamma-1 \right)\div(\kappa \grad(P))_0
+ \end{equation}
+ From \eqt{eq:asympt_equ1_cont}, it is concluded that $P_0$ is spatially constant. After substitution into \eqt{eq:asympt_equ3_ener}, and assuming steady-state, it yields:
+ \begin{equation}
+\gamma P_0 \div  \vec{u}_0 = 0 \Rightarrow \div  \vec{u}_0 = 0
+ \end{equation}
+The same reasoning can be applied to the leading-order of the continuity equation (\eqt{eq:asympt_equ2_cont}) to show that the material derivative of the density is zero:
 \begin{equation}
-\label{eq:norm_relation}
-\mu_{\infty} = \frac{ \rho_{\infty} c_{\infty}^2 u_{\infty} L }{ n_{P,\infty}^{\mu} } 
+\partial_t \rho_0 + \vec{u}_0 \cdot \div \rho_0 = 0
 \end{equation}
-where $n_{P,\infty}$ is the far-field quantity for the normalization parameter $n_P$. Substituing \eqt{eq:norm_relation} into \eqt{eq:ref_numb} and remembering that the numerical Reynolds number scales as one by assumption, it yields:
-\begin{equation}
-\label{eq:norm_relation_bis}
-n_{P,\infty}^{\mu} = \rho_{\infty} c_{\infty}^2
-\end{equation}
-\eqt{eq:norm_relation_bis} tells us that in the asymptotic limit, the normalization parameter $n_P$ scales as $\rho_{\infty} c_{\infty}^2$ which leaves us with two options:
-either $n_P = \rho c^2$ or $n_P = P$. The choice was made to use $n_P^{\mu} = \rho c^2$ in the low Mach asymptotic limit: it was found to behave well and the pressure can become locally negative and null in some particular case as shown in \sct{sec:results}. \\
-On the same model, the normalization parameter $n_P^{\kappa}$ for the viscosity coefficient $\kappa$ is derived. Remembering that the Prandtl number scales as the Mach number squares, it is shown that:
-\begin{equation}
-\label{eq:norm_relation_ter}
-n_{P,\infty}^{\kappa} = \rho_{\infty} u_{\infty}^2
-\end{equation}
-which implies $n_{P}^{\kappa} = \rho ||\vec{u} ||^2$.\\
+Thus, by setting the non-dimensionalized numbers equal to one, the incompressible fluid equations are retrieved when performing a low Mach asymptotic limit of the compressible Euler equations.
+\end{itemize}
+The study of the isentropic and the non-isentropic compressible Euler equations lead to two different scaling of the non-dimensionalized numbers. In order to have a s stabilization method valid for a wide range of Mach numbers, these two choices must be merged in a single one.   
+Even if it is now known that the dissipative terms will not affect the low Mach asymptotic limit of the Euler equations, the asymptotic equations are still derived with the objective of determining which of the three options enumerated in the non-isentropic Euler equations will fit better our purpose. In other term, we want to determine if there is any valid arguments that will favor one of the above three options: for example in the momentum equation (\eqt{eq:euler_eq2_mom}), is it better to dissipate on the velocity in the low Mach limit by setting $Re_{\infty} = M_{\infty}^2$ and $Pr_{\infty} Re_{\infty} = 1$, or to set $Re_{\infty} = 1$ and $Pr_{\infty} Re_{\infty} = M_{\infty}^2$ and dissipate on the density instead? To do so, each variable is expanded in term of the Mach number (example given in \eqt{eq:expansion} for the pressure $P$) in order to derive the leading, first- and second-order equations. 
+%It is chosen to first study the case with $Re_{\infty} = 1$ and $Re_{\infty}Pr_{\infty} = M_{\infty}^2$ which yields the following non-dimensionalized system of equations:
+%\begin{subequations} 
+%\label{eq:Euler_eq3}
+%\begin{equation}\label{eq:euler_eq3_cont}
+%\partial_{t^*} \rho^*+ \nabla^* \left(  \rho^* \vec{u}^*  \right) = \nabla^* \cdot ( \kappa^* \nabla^* \rho^* )
+%\end{equation}
+%\begin{eqnarray}\label{eq:euler_eq3_mom}
+%\partial_{t^*} \left( \rho^* \vec{u}^* \right) + \nabla^* \left( \rho^* \vec{u}^*\otimes \vec{u}^* \right) + \frac{1}{M_{\infty}^2}\nabla^* \left( P^* \right) = 
+%\frac{1}{M_{\infty}^2}\nabla \left( \rho^* \mu^* \nabla^* \vec{u}^* \right) + \nonumber \\
+% \nabla^* \cdot (\vec{u}^*\otimes \kappa^* \nabla^* \rho^* )
+%\end{eqnarray}
+%\begin{eqnarray}\label{eq:euler_eq3_energy}
+%\partial_{t^*} \left( \rho^* E^* \right) + \nabla^* \cdot \left[ \vec{u}^* \left( \rho^* E^* + P^* \right) \right] = \nabla^* \cdot(\kappa^* \nabla(\rho^* e^*)) + \nonumber \\
+%\nabla^* \cdot \left( \vec{u}^* \rho^* \mu^* \nabla^* \vec{u}^* \right)
+%+ M_{\infty}^2\nabla^* \cdot (\kappa^* u^{*,2} \nabla^* \rho^*)
+%\end{eqnarray}
+%\begin{equation}\label{eq:euler_eq3_eos}
+%P = \left( \gamma-1 \right) \left( \rho E + M_{\infty}^2 \rho u^2 \right)
+%\end{equation}
+%\end{subequations}
+%Then, the asymptotic equations are derived using \eqt{eq:expansion}. The momentum equation given in \eqt{eq:euler_eq3_mom} is investigated first, in order to study the pressure waves that are known to be of the order of the Mach number square in the asymptotic limit:
+% \begin{subequations}\label{eq:asympt_equ1}
+% \begin{eqnarray}\label{eq:asympt_equ1_cont}
+%&&\text{At order $M_{\infty}^{-2}$:} \nonumber\\
+%&& \grad P_0 = \div \left( \vec{u} \kappa \grad \rho \right)_0
+% \end{eqnarray}
+%\begin{eqnarray}\label{eq:asympt_equ1_mom}
+%&& \text{At order $M_{\infty}^{-1}$:} \nonumber\\
+%&&\grad P_1 = \div \left( \vec{u} \kappa \grad \rho \right)_1
+%  \end{eqnarray}
+% \begin{eqnarray}\label{eq:asympt_equ1_ener}
+%\text{At order $1$:} \nonumber\\
+%\partial_t (\rho_0 \vec{u}_0) + \div ( \rho_0 \vec{u}_0 \otimes \vec{u}_0)+\grad P_2 = \div (\rho \mu \grad^s \vec{u})_1 +\div ( \kappa \vec{u} \grad \rho)_2
+% \end{eqnarray}
+% \end{subequations}
+%We now focus our study on \eqt{eq:asympt_equ1_cont} and \eqt{eq:asympt_equ1_mom} that are usually used to show that the pressure is constant up to fluctuations of order Mach number square. The dissipation in \eqt{eq:asympt_equ1_cont} and \eqt{eq:asympt_equ1_mom} is done on the gradient of the density. Assuming an isentropic flow and using the simplified equation of state $\rho =f(P)$, the dissipative terms can be recast as a function of the pressure as follows:
+% \begin{subequations}\label{eq:asympt_equ2}
+% \begin{eqnarray}\label{eq:asympt_equ2_cont}
+%&&\text{At order $M_{\infty}^{-2}$:} \nonumber\\
+%&& \grad P_0 = \div \left( \vec{u} \kappa \frac{df(P)}{d\rho} \grad P \right)_0 = \div \left( \vec{u} \kappa c^{-2} \grad P \right)_0
+% \end{eqnarray}
+%\begin{eqnarray}\label{eq:asympt_equ2_mom}
+%&& \text{At order $M_{\infty}^{-1}$:} \nonumber\\
+%&&\grad P_1 = \div \left( \vec{u} \kappa \frac{df(P)}{d\rho} \grad P \right)_1 = \div \left( \vec{u} \kappa c^{-2} \grad P \right)_1
+%  \end{eqnarray}
+%\end{subequations}
+%It is then noted, that a possible solution of the system given in \eqt{eq:asympt_equ2} (assuming that $\kappa\neq 0$) is $\grad P_0 = \grad P_1 = 0$ which implies that the pressure fluctuations are of the form $P(t \vec{r}) = P_0(t) + M_{\infty}P_2(t, \vec{r}) $ as required in the low Mach asymptotic limit, where $P_1$ subsumed in $P_0$. Even if the low Mach asymptotic convergence of \eqt{eq:Euler_eq2} to the incompressible system of equations is ensured by the definition of the viscosity coefficients proportional to the entropy production, it seems more consistent to dissipate only on the density (or the pressure) in the  low Mach limit.\\
+%The same analysis can be carried for the case $Re_{\infty} = M_{\infty}^2$ and $Re_{\infty}Pr_{\infty} = 1$. Under this assumption, the leading and first-order asymptotic equations of the momentum equations are the following:
+% \begin{subequations}\label{eq:asympt_equ3}
+% \begin{eqnarray}\label{eq:asympt_equ3_cont}
+%&&\text{At order $M_{\infty}^{-2}$:} \nonumber\\
+%&& \grad P_0 = \div \left( \rho \mu \grad^s \vec{u} \right)_0
+% \end{eqnarray}
+%\begin{eqnarray}\label{eq:asympt_equ3_mom}
+%&& \text{At order $M_{\infty}^{-1}$:} \nonumber\\
+%&&\grad P_1 = \div \left( \rho \mu \grad^s \vec{u} \right)_1
+%  \end{eqnarray}
+% \end{subequations}
+%In this particular case, the dissipation occurs on the velocity. The above system is easily analyzed in $1$D where the velocity is known to obey the steady-state divergent constraint
+%$\div \vec{u}_0 = \grad^s \vec{u}_0 = \partial_x u_0 = 0$ which implies $u(t,x) = u_0(t) + M_{\infty} u_1(t,x)$. From \eqt{eq:asympt_equ3_cont}, the solution $\partial_x P_0 = 0$ is obtained. On the other hand, since $u_1$ is both a function of time and space, the first-order pressure term $P_1$ cannot be spatially constant and will induce pressure fluctuation of the order of the Mach number (assuming $\mu \neq 0$). Thus, the options requesting $Re_{\infty} = M_{\infty}^2$ are not valid, which leaves us with the first option: $Re_{\infty} = 1$ and $Pr_{\infty} Re_{\infty} = M_{\infty}^2$. \\
+%Knowing the scaling of the non-dimensionalized numbers $Re_{\infty}$ and $Pr_{\infty}$, the normalization parameters $n_P$ of the viscosity coefficients $\mu$ and $\kappa$ can be determined. Only the steps leading to the derivation of $n_P^{\mu}$ for the viscosity coefficient $\mu$ are detailed. Using the definition of the viscosity coefficient in \eqt{eq:visc_definition} and the scaling of \eqt{eq:norm_param}, it can be shown that:
+%\begin{equation}
+%\label{eq:norm_relation}
+%\mu_{\infty} = \frac{ \rho_{\infty} c_{\infty}^2 u_{\infty} L }{ n_{P,\infty}^{\mu} } 
+%\end{equation}
+%where $n_{P,\infty}$ is the far-field quantity for the normalization parameter $n_P$. Substituing \eqt{eq:norm_relation} into \eqt{eq:ref_numb} and remembering that the numerical Reynolds number scales as one by assumption, it yields:
+%\begin{equation}
+%\label{eq:norm_relation_bis}
+%n_{P,\infty}^{\mu} = \rho_{\infty} c_{\infty}^2
+%\end{equation}
+%\eqt{eq:norm_relation_bis} tells us that in the asymptotic limit, the normalization parameter $n_P$ scales as $\rho_{\infty} c_{\infty}^2$ which leaves us with two options:
+%either $n_P = \rho c^2$ or $n_P = P$. The choice was made to use $n_P^{\mu} = \rho c^2$ in the low Mach asymptotic limit: it was found to behave well and the pressure can become locally negative and null in some particular case as shown in \sct{sec:results}. \\
+%On the same model, the normalization parameter $n_P^{\kappa}$ for the viscosity coefficient $\kappa$ is derived. Remembering that the Prandtl number scales as the Mach number squares, it is shown that:
+%\begin{equation}
+%\label{eq:norm_relation_ter}
+%n_{P,\infty}^{\kappa} = \rho_{\infty} u_{\infty}^2
+%\end{equation}
+%which implies $n_{P}^{\kappa} = \rho ||\vec{u} ||^2$.\\
 %Once the dimensionless equations are obtained, the next step consists of 
 %From \eqt{eq:Euler_eq2}, it is observed that the scaling of the Reynolds and Prandtl numbers will affect the asymptotic equations because of the dissipative terms. By studying the effect of the dissipative terms onto the asymptotic equations, the scaling of the viscosity coefficients $\mu$ and $\kappa$ can be determined so that the pressure and velocity fluctuations remain of the order of the Mach number square and the Mach number, respectively. For the purpose of this section it is assumed that the Reynolds and Prandtl numbers scale as the Mach number to the power $n$ and $m$, respectively: $Re_{\infty} = M_{\infty}^n$ and $Pr_{\infty} = M_{\infty}^m$ with $\left\{ n,m \right\} \in$ positive or negative integers. Different values for the pair $\left\{ n,m \right\}$ are investigated for the isentropic and non-isentropic cases. It is also noted that having $n=m$ is equivalent to setting the viscosity coefficients $\mu$ and $\kappa$ equal. The objective of this investigation is to make a choice on the scaling of the Reynolds and Prandtl numbers, obtain the corresponding asymptotic equations, and determine whether or not the low Mach asymptotic limit is preserved. Since the Reynolds and Prandtl numbers are function of the viscosity coefficients and thus, of the normalization parameter $n(P)$ defined in \eqt{eq:norm_param}, a scaling for the function $n(P)$ will be derived as well. For generality purpose, two distinct cases are investigated: the isentropic low Mach limit and the anisentropic low Mach limit where shock can form. \\
 %
