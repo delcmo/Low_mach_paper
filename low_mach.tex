@@ -74,6 +74,8 @@
 % operators
 \renewcommand{\div}{\vec{\nabla}\! \cdot \!}
 \newcommand{\grad}{\vec{\nabla}}
+\newcommand{\divv}[1]{\vec{\nabla}^{#1}\! \cdot \!}
+\newcommand{\gradd}[1]{\vec{\nabla}^{#1}}
 % latex shortcuts
 \newcommand{\bea}{\begin{eqnarray}}
 \newcommand{\eea}{\end{eqnarray}}
@@ -425,56 +427,74 @@ Denoting the new normalization by $\norm_P$, the viscosity coefficients $\mu$ an
 \end{equation}
 \end{subequations}
 %
-Note that now the jump operates on pressure (it could equivalently operate on the quantities $\rho c^2$, $\rho c || \vec{u} ||$ and $\rho || \vec{u} ||^2$). The normalization parameters have units of pressure, hence the use of the subscript $P$. We are not requiring the same normalization for both $\mu_e$ and $\kappa_e$ so the entropy viscosity coefficients can be different. The low-Mach asymptotic study presented next will \tcr{inform} and determine the choice of normalization.
+Note that now the jumps operate on pressure (it could equivalently operate on the quantities $\rho c^2$, $\rho c || \vec{u} ||$ or $\rho || \vec{u} ||^2$). The normalization parameters have units of pressure, hence the use of the subscript $P$. We are not requiring the same normalization for both $\mu_e$ and $\kappa_e$ so the entropy viscosity coefficients can be different. The low-Mach asymptotic study presented next will \tcr{inform} and determine the choice of normalization.
 
 As mentioned earlier, the normalization parameter $n_P$ must be of the same units as the pressure for the viscosity coefficients to have the unit of a kinematic viscosity $(m^2 / s)$. Multiples options are available to us: $P$, $\rho c^2$, $\rho c || \vec{u} ||$ and $\rho || \vec{u} ||^2$. The choice of the normalization parameter cannot be random if the definition of the viscosity coefficient is wanted to be well-scaled for a wide range of Mach numbers. For example, by choosing either $n_P = \rho || \vec{u} ||^2$ or $n_P = \rho c^2$, the viscosity coefficient will not scale the same as the Mach number decreases. Therefore, it is proposed to carry, in \sct{sec:lowMach}, a low-Mach asymptotic study of the multi-D Euler equations in order to determine the correct expression for the normalization parameter $n_P$.
 
 %===================================================================================================
-\subsection{Low-Mach asymptotic study of the multi-D Euler equations} \label{sec:lowMach}
+\subsection{Low-Mach Asymptotic Study} \label{sec:lowMach}
 %===================================================================================================
 
 The asymptotic study requires the multi-D Euler equations to be non dimensionalized: the objective is to make the Mach number appears and thus, use a polynomial expansion of the variables as a function of the Mach number in order to derive the leading, first- and second-order equations. Before detailing the steps of the asymptotic method, let us have a closer look at the system of equations under consideration. The initial system of equations is composed of the multi-D Euler equations with artificial dissipative terms that are added to each equation as explained in \sct{sec:entro_visc} for stability purpose. The resulting system of equations is alike the multi-D Navier-Stokes equations in a sense that it contains second-order derivative terms. Thus, it would be interesting to look at the steps employed in the asymptotic study of the multi-D Navier-Stokes equations in order to understand how the dissipative terms are treated. Fortunately, this process is well-documented in the literature \cite{LowMach1, LowMach2, LowMach3} for both multi-D Euler equations and Navier-Stokes equations. The work presented here is mainly inspired of \cite{Muller} that focuses on the asymptotic study in the low Mach regime of Navier-Stokes equations. During the derivation, the reader has to keep in mind that the objective of this section is to derive the scaling of the normalization parameter $n_P$ involved in the definition of the viscosity coefficients given in \eqt{eq:ent_visc_coeff}, so that the dissipative terms are well-scaled for two cases: the isentropic form of the Euler equations that degenerate to the incompressible system of equations in the low Mach limit, and the non-isentropic version of the Euler equations with the formation of shocks that need stabilization to prevent spurious oscillations from forming.\\
 %multi-D Euler equations degenerate to the incompressible system of equations, which implies that the dissipative terms are well-scaled. 
-%The main steps of the derivation are presented in the following of this section and are done using the Ideal Gas equation of state for simplicity:
-%\begin{equation}\label{eq:IGEOS}
-%P = ( \gamma-1) \rho e
-%\end{equation}
-%where $\gamma$ is the heat capacity ratio.\\
-To express \eqt{eq:euler_visc} in dimensionless variables, the following dimensional variables are introduced:
+
+
+
+To adimensionalize \eqt{eq:euler_visc}, the following variables are introduced:
 %
-\begin{eqnarray}
+\begin{multline}
 \label{eq:norm_param}
-\rho &=& \frac{\rho^*}{\rho_{\infty}} \text{, } P = \frac{P^*}{\rho_{\infty}c^2_{\infty}} \text{, } \mu = \frac{\mu^*}{\mu_{\infty}} \text{, } \text{, }  E = \frac{E^*}{c^2_{\infty} } \text{, } 
-\mu = \frac{\mu^*}{\mu_{\infty}} \text{, }\nonumber \\
- \kappa &=& \frac{\kappa^*}{\kappa_{\infty}} \text{, }
-x = \frac{x^*}{L_{\infty}} \text{, } t = \frac{t^*}{L_{\infty} / u_{\infty}} \text{, } u = \frac{u^*}{u_{\infty}}
-\end{eqnarray}
+\rho   = \frac{\rho^*}{\rho_{\infty}}           ,\
+u      = \frac{u^*}{u_{\infty}}                 ,\
+P      = \frac{P^*}{\rho_{\infty}c^2_{\infty}}  ,\
+E      = \frac{E^*}{c^2_{\infty} }              ,\\
+x = \frac{x^*}{L_{\infty}}                      ,\
+t = \frac{t^*}{L_{\infty} / u_{\infty}}         ,\ 
+\mu    = \frac{\mu^*}{\mu_{\infty}}             ,\
+\kappa = \frac{\kappa^*}{\kappa_{\infty}}       ,
+\end{rho}
 %
-where  the subscript $\infty$ and the upper script $*$ denote the far field or stagnation quantities and the dimensionless variables, respectively. The reference quantities are chosen such that the non dimensional flow quantities are of order one for any low reference-Mach number
+where  the subscript $\infty$ denote the far field or stagnation quantities and and the superscript $*$ stands for the adimensional variables. The far field reference quantities are chosen such that the adimensional flow quantities are of order 1. The reference Mach number is given by
+%
 \begin{equation}
-M_{\infty} = \frac{u_{\infty}}{c_{\infty}}
+M_{\infty} = \frac{u_{\infty}}{c_{\infty}} ,
 \end{equation}
+%
 where $c_{\infty}$ is a reference value for the speed of sound.
 %The reference time $t_{\infty}$ will take two values: $t_{\infty} = L_{\infty} / u_{\infty}$ for fluid time scale and $t_{\infty} = M_{\infty} L_{\infty} / u_{\infty}$ for acoustic time scale. The objective is to isolate the effects of the acoustic wave in the asymptotic limit during a transient of a low Mach shock for example.
-Then, using the non dimensional quantities and the multi-D Euler equations from \eqt{eq:euler_visc} , the following non dimensional form is obtained:
+The scaled Euler equations with viscous regularization are:
+%
 \begin{subequations} 
 \label{eq:Euler_eq2}
-\begin{equation}\label{eq:euler_eq2_cont}
-\partial_{t^*} \rho^*+ \nabla^* \left(  \rho^* \vec{u}^*  \right) = \frac{1}{Re_{\infty} Pr_{\infty}} \nabla^* \cdot ( \kappa^* \nabla^* \rho^* )
+%
+\begin{equation}
+\label{eq:euler_eq2_cont}
+\partial_{t^*} \rho^*+ \divv{*}  \left(  \rho^* \vec{u}^*  \right) = \frac{1}{Re_{\infty} Pr_{\infty}} \divv{*}  ( \kappa^* \gradd{*} \rho^* )
 \end{equation}
-\begin{eqnarray}\label{eq:euler_eq2_mom}
-\partial_{t^*} \left( \rho^* \vec{u}^* \right) + \nabla^* \left( \rho^* \vec{u}^*\otimes \vec{u}^* \right) + \frac{1}{M_{\infty}^2}\nabla^* \left( P^* \right) = 
-\frac{1}{Re_{\infty}}\nabla \left( \rho^* \mu^* \nabla^* \vec{u}^* \right) + \nonumber \\
-\frac{1}{Re_{\infty} Pr_{\infty}} \nabla^* \cdot (\vec{u}^*\otimes \kappa^* \nabla^* \rho^* )
-\end{eqnarray}
-\begin{eqnarray}\label{eq:euler_eq2_energy}
-\partial_{t^*} \left( \rho^* E^* \right) + \nabla^* \cdot \left[ \vec{u}^* \left( \rho^* E^* + P^* \right) \right] = \frac{1}{Re_{\infty} Pr_{\infty}} \nabla^* \cdot(\kappa^* \nabla(\rho^* e^*)) + \nonumber \\
-\frac{\tilde{M_{\infty}}^2}{Re_{\infty}}\nabla^* \cdot \left( \vec{u}^* \rho^* \mu^* \nabla^* \vec{u}^* \right)
-+ \frac{M_{\infty}^2}{2 Re_{\infty} Pr_{\infty}} \nabla^* \cdot (\kappa^* u^{*,2} \nabla^* \rho^*)
-\end{eqnarray}
-\begin{equation}\label{eq:euler_eq2_eos}
-P = \left( \gamma-1 \right) \left( \rho E + M_{\infty}^2 \rho u^2 \right)
-\end{equation}
+%
+\begin{multline}
+\label{eq:euler_eq2_mom}
+\partial_{t^*} \left( \rho^* \vec{u}^* \right) 
++ \divv{*} \left( \rho^* \vec{u}^*\otimes \vec{u}^* \right) 
++ \frac{1}{M_{\infty}^2}\gradd{*}  P^*  
+= 
+\frac{1}{Re_{\infty}} \divv{*} \left( \rho^* \mu^* \gradd{*} \vec{u}^* \right)  \\
++
+\frac{1}{Re_{\infty} Pr_{\infty}} \divv{*} \left(\vec{u}^*\otimes \kappa^* \gradd{*}  \rho^* \right)
+\end{multline}
+%
+\begin{multline}
+\label{eq:euler_eq2_energy}
+\partial_{t^*} \left( \rho^* E^* \right) 
++ \divv{*}  \left[ \vec{u}^* \left( \rho^* E^* + P^* \right) \right] 
+=
+\frac{1}{Re_{\infty} Pr_{\infty}} \divv{*}  \left( \kappa^*  \gradd{*} (\rho^* e^*) \right)   \\
++
+\frac{\tilde{M_{\infty}}^2}{Re_{\infty}} \divv{*}  \left( \vec{u}^* \rho^* \mu^* \gradd{*} \vec{u}^* \right)
++ 
+\frac{M_{\infty}^2}{2 Re_{\infty} Pr_{\infty}} \divv{*}  \left(\kappa^* (u^*)^2 \gradd{*} \rho^* \right)
+\end{multline}
+%
 \end{subequations}
 where the \emph{numerical} Reynolds $(Re_{\infty})$ and Prandtl $(Pr_{\infty})$ numbers are defined as follows:
 \begin{eqnarray}
@@ -482,7 +502,15 @@ where the \emph{numerical} Reynolds $(Re_{\infty})$ and Prandtl $(Pr_{\infty})$ 
 Re_{\infty} = \frac{u_{\infty} L_{\infty}}{\mu_{\infty}} \text{ and }
 Pr_{\infty} = \frac{\mu_{\infty}}{\kappa_{\infty}} \text{.}
 \end{eqnarray}
-The Reynolds and Prandtl \emph{numerical numbers} are related to the viscosity coefficients $\mu$ and $\kappa$ through the viscosity reference values. The objective is to derive the asymptotic equations and see how the artificial dissipative terms affect the physics. For simplicity purpose, the upper script $^*$ is dropped in the remaining of this section.\\
+The Reynolds and Prandtl \emph{numerical} numbers are related to the viscosity coefficients $\mu$ and $\kappa$ through the viscosity reference values. The objective is to derive the asymptotic equations and see how the artificial dissipative terms affect the physics. 
+For brevity, the superscript $^*$ is dropped in the remaining of this section. For simplicity, we also employ here the ideal gas equation of state. Its adimensional form is given by
+%
+\begin{equation}
+\label{eq:euler_eq2_eos}
+P = \left( \gamma-1 \right) \left( \rho E + M_{\infty}^2 \rho u^2 \right) .
+\end{equation}
+%
+
 It is, then, chosen to distinguish two cases that were mentioned earlier in this section: the non-isentropic and isentropic Euler equations.
 \begin{itemize}
 \item The non-isentropic Euler equations:\\
