@@ -105,6 +105,8 @@
 \newcommand{\ER}{\mathcal{E}_h^{\partial \D^r}}
 \newcommand{\reg}{\textit{reg}}
 
+\newcommand{\norm}{\textrm{norm}}
+
 % extra space
 \newcommand{\qq}{\quad\quad}
 % common reference commands
@@ -184,7 +186,7 @@ The ideal gas and stiffened gas equations of state are employed. \tcr{is there a
 %-------------------------
 %-------------------------
 \begin{keyword}
-  entropy viscosity method \sep viscous stabilization method \sep low-Mach regime \sep shocks \sepEuler equations with variable area .
+  entropy viscosity method \sep viscous stabilization method \sep low-Mach regime \sep shocks \sep Euler equations with variable area .
 \end{keyword}
 %-------------------------
 \end{frontmatter}
@@ -347,17 +349,17 @@ As stated earlier, the entropy viscosity coefficients, denoted by $\kappa_e$ and
 %
 \begin{equation}
 \label{eq:ent_visc_coeff}
-\mu^K_e(\vec{r_q},t) = \kappa^K_e(\vec{r_q},t) = h_K^2 \frac{\max\left( | D^K_e(\vec{r_q},t) |, J^K(t) \right)}{|| s - \bar{s} ||_{\infty}} 
+\mu^K_e(\vec{r_q},t) = \kappa^K_e(\vec{r_q},t) = h_K^2 \frac{\max\left( | D^K_e(\vec{r_q},t) |, J^K[s](t) \right)}{|| s - \bar{s} ||_{\infty}} 
 \end{equation}
 %
-where $|| \cdot ||_{\infty}$ and $\bar{\cdot}$ denote the $L_\infty$ norm and the average operator over the entire computational domain, respectively. The definition of the jump $J$ is spatial discretization-dependent and examples of definitions can be found in \cite{valentin} for DGFEM. For continuous FEM, the jump of a given quantity is defined at the interfacial change in the normal derivative. We take the largest value over all faces $f$ present on the boundary $\partial K$ of element $K$:
+where $|| \cdot ||_{\infty}$ and $\bar{\cdot}$ denote the $L_\infty$ norm and the average operator over the entire computational domain, respectively. The definition of the jump $J$ is spatial discretization-dependent and examples of definitions can be found in \cite{valentin} for DGFEM. For continuous FEM, the jump of a given quantity is defined at the inter-element change in the normal derivative. We take the largest value over all faces $f$ present on the boundary $\partial K$ of element $K$:
 %
 \begin{equation}
 \label{eq:jump_CFEM}
-J^K(t)[s] = \max_{f\in\partial K}  \max_{\vec{r_q} \in f} [[ \grad s(\vec{r_q},t) \cdot \vec{n}(\vec{r_q}) ]]_f
+J^K[s](t) = \max_{f\in\partial K}  \max_{\vec{r_q} \in f} \jmp{\grad s(\vec{r_q},t) \cdot \vec{n}(\vec{r_q}) }_f
 \end{equation}
 %
-where $[[a(\vec{r_q})]]_f$ denotes the interfacial jump in $a(\vec{r})$ at quadrature point $\vec{r_q}$ on face $f$.  
+where $\jmp{a(\vec{r_q})}_f$ denotes the inter-element jump in $a(\vec{r})$ at quadrature point $\vec{r_q}$ on face $f$.  
 The denominator $|| s - \bar{s} ||_{\infty}$ is used for dimensionality purposes \tcr{and should not be of the same order as $h$, on penalty of loosing the high-order accuracy}. Currently, there are no theoretical justification for choosing the denominator. 
 Finally, the viscosity coefficients $\mu$ and $\kappa$ are as follows:
 %
@@ -375,7 +377,7 @@ Using the above definitions, high-order accuracy for the entropy-based viscous s
 \subsection{Issues in the Low-Mach Regime} 
 %===================================================================================================
 
-In the Low-Mach Regime, the flow is known to be isentropic resulting in very little entropy production. Since the entropy viscosity method is directly based on the evaluation of the local entropy production, it will be interested to study how the entropy viscosity coefficients $\mu$ and $\kappa$ scale in the low Mach regime. Mathematically, it means that the entropy residual $D_e$ will be very small, so will be the denominator $|| s - \bar{s} ||_{\infty}$, thus making the ratio, used in the definition of the viscosity coefficients \eqt{eq:ent_visc_coeff}, undetermined.  A more rigorous demonstration could be achieved by expanding the numerator and denominator in terms of the Mach number and derive the limit when the Mach number goes to zero. Such derivation can be avoided by noticing that the entropy residual can be recast as a function of more common variable such as the pressure , the density and the speed of sound as shown in \eqt{eq:ent_res} of \sct{sec:new_ent_prod} . This new entropy residual is the base of this paper and present many advantages that are detailed in \sct{sec:new_ent_prod}.
+In the Low-Mach Regime, the flow is known to be isentropic, resulting in very little entropy production. Since the entropy viscosity method is directly based on the evaluation of the local entropy production, it is of interest to study how the entropy viscosity coefficients $\mu$ and $\kappa$ scale in the low-Mach regime. In practice, the entropy residual $D_e$ will be very small and so will be the denominator $|| s - \bar{s} ||_{\infty}$, thus making the definition of the viscosity coefficients \eqt{eq:ent_visc_coeff}, undetermined and likely ill-scaled.  One possible rigorous approach would consists of expanding the numerator and denominator in terms of the Mach number and derive the limit when the Mach number goes to zero. Such derivation can be avoided by noticing that the entropy residual $D_e$ can be recast as a function of pressure, density, velocity, and speed of sound as shown in \eqt{eq:ent_res} of \sct{sec:new_ent_prod}. This alternate entropy residual definition is the basis for the low-Mach analysis carried out in this paper and possesses several advantages that are detailed in \sct{sec:new_ent_prod}.
 %Therefore, the current definition of the viscosity coefficients seems unadapted to subsonic flow and could lead to ill-scaled dissipative terms. 
 %A solution would be to recast the entropy residual as a function of other variables in order to have more freedom in the choice of the normalization parameter. 
 %With this approach, the viscosity coefficients are still defined proportional to the entropy residual that is a good indicator of the flow type (subsonic, transonic and supersonic flow). Plus, a different normalization parameter could be chosen, based on a low Mach asymptotic study so that the viscosity coefficients are well-scaled in the low Mach asymptotic limit (see \sct{sec:extension}).
@@ -383,38 +385,48 @@ In the Low-Mach Regime, the flow is known to be isentropic resulting in very lit
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{All-speed Reformulation of the Entropy Viscosity Method} \label{sec:extension}
+\section{An All-speed Reformulation of the Entropy Viscosity Method} \label{sec:extension}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In this section, the entropy residual $D_e$ is recast as a function of the pressure, the density, the velocity and the speed of sound. Then, a low Mach asymptotic study of the multi-D Euler equations is performed in order to derive the correct normalization parameter. 
 
 %===================================================================================================
-\subsection{New Entropy Production Residual}\label{sec:new_ent_prod} 
+\subsection{New Definition of the Entropy Production Residual}\label{sec:new_ent_prod} 
 %===================================================================================================
 
-The first step in defining a viscosity coefficient that behaves well in the low mach limit, is to recast the entropy residual in terms of the thermodynamic variables, as shown in \eqt{eq:ent_res}, that will be more adequate for the derivation of the low Mach asymptotic equations:
+The first step in defining a viscosity coefficient that behaves well in the low-Mach limit is to recast the entropy residual in terms of the thermodynamic variables, as shown in \eqt{eq:ent_res}, that will be more adequate for the derivation of the low Mach asymptotic equations:
 %
 \begin{equation}
 \label{eq:ent_res}
 D_e(\vec{r},t) = \partial_t s + \vec{u} \cdot \grad s = \frac{s_e}{P_e} \left( \underbrace{\frac{d P}{dt} - c^2 \frac{d \rho}{dt}}_{\tilde{D}_e(\vec{r},t)} \right),
 \end{equation} 
 %
-where $\frac{d \cdot}{dt}$ denotes the material or total derivative, and $P_e$ is the partial derivative of pressure with respect to internal energy. The steps that lead to the new formulation of the entropy residual $D_e$ can be found in \app{app:ent_res}. \\
-The entropy residual $D_e$ and $\tilde{D}_e$ are proportional to each other and therefore will experience the same variation when taking the absolute value. Thus,  locally evaluating $\tilde{D}_e$ instead of $D_e$ should allow us to equivalently measure the entropy production point wise. This new expression given in \eqt{eq:ent_res} has multiple advantages:
+where $\frac{d }{dt}$ denotes the material or total derivative ($\frac{d }{dt}:= \frac{\partial}{\partial t} + \vec{u} \cdot \grad$), and $x_y$ is the standard shortcut notation for the partial derivative of $x$ with respect to $y$, i.e., $P_e:=\frac{\partial P}{\partial e}$. The detailed steps that lead to the new formulation of the entropy residual $D_e$ are omitted in the main body of this paper but are provided in \app{app:ent_res}. 
+%
+The entropy residuals $D_e$ and $\tilde{D}_e$ are proportional and will experience similar variations in space and time. Thus, we elect to employ $\tilde{D}_e$ instead of $D_e$ in the local evaluation of the entropy residual. This new expression has multiple advantages:
 %
 \begin{itemize}
-\item an analytical expression of the entropy function is not longer needed: the entropy residual $\tilde{D}_e$ is evaluated using the local values of the pressure, the density, the velocity and the speed of sound. Deriving an entropy function for some complex equation of states can be difficult.
-\item with the proposed expression of the entropy residual function of pressure and density, additional normalizations suitable for low Mach flows of the entropy residual can be devised. Examples include the pressure itself, or combination of the density, the speed of sound and the norm of the velocity: $\rho c^2$, $\rho c || \vec{u} ||$ and $\rho || \vec{u} ||^2$. 
+\item an analytical expression of the entropy function $s$ is no longer needed: the residual $\tilde{D}_e$ is evaluated using the local values of pressure, density, velocity and speed of sound. Deriving an entropy function for some complex equation of states can be difficult.
+\item additional normalizations suitable of the residual $\tilde{D}_e$ can be devised. Examples include the pressure itself or combinations of the density, the speed of sound and the norm of the velocity: $\rho c^2$, $\rho c || \vec{u} ||$ and $\rho || \vec{u} ||^2$. 
 \end{itemize}
 %
-The viscosity coefficients $\mu$ and $\kappa$ are now defined proportional to the new entropy residual $\tilde{D}_e$ on the model of \eqt{eq:ent_visc_coeff} as follows:
+Denoting the new normalization by $\norm_P$, the viscosity coefficients $\mu$ and $\kappa$ are now defined as proportional to the new  residual $\tilde{D}_e$ on the model of \eqt{eq:ent_visc_coeff} as follows:
 %
-\begin{equation}\label{eq:visc_definition}
-\mu \left( \vec(r),t \right) = \kappa \left( \vec(r),t \right) = h^2 \frac{\max \left( \tilde{D}_e, J \right)}{n_P}
+\tcr{how about the change in $J$?}
+\begin{subequations}
+\label{eq:visc_definition}
+\begin{equation}
+\mu^K_e(\vec{r},t)    = h_K^2 \frac{\max\left( | \tilde{D}^K_e(\vec{r_q},t) |, J^K[P](t) \right)}{\norm_P^\mu}    \, ,
+\end{equation} 
+\text{and} 
+\begin{equation}
+\kappa^K_e(\vec{r},t) = h_K^2 \frac{\max\left( | \tilde{D}^K_e(\vec{r_q},t) |, J^K[P](t) \right)}{\norm_P^\kappa} \, .
 \end{equation}
+\end{subequations}
 %
-where $n_P$ is a normalization parameter to determine and all other variables were defined previously. The normalization parameter has the same dimension as the pressure, which justifies the use of the subscript $P$\\
+Note that now the jump operates on pressure (it could equivalently operate on the quantities $\rho c^2$, $\rho c || \vec{u} ||$ and $\rho || \vec{u} ||^2$). The normalization parameters have units of pressure, hence the use of the subscript $P$. We are not requiring the same normalization for both $\mu_e$ and $\kappa_e$ so the entropy viscosity coefficients can be different. The low-Mach asymptotic study presented next will \tcr{inform} and determine the choice of normalization.
+
 As mentioned earlier, the normalization parameter $n_P$ must be of the same units as the pressure for the viscosity coefficients to have the unit of a kinematic viscosity $(m^2 / s)$. Multiples options are available to us: $P$, $\rho c^2$, $\rho c || \vec{u} ||$ and $\rho || \vec{u} ||^2$. The choice of the normalization parameter cannot be random if the definition of the viscosity coefficient is wanted to be well-scaled for a wide range of Mach numbers. For example, by choosing either $n_P = \rho || \vec{u} ||^2$ or $n_P = \rho c^2$, the viscosity coefficient will not scale the same as the Mach number decreases. Therefore, it is proposed to carry, in \sct{sec:lowMach}, a low-Mach asymptotic study of the multi-D Euler equations in order to determine the correct expression for the normalization parameter $n_P$.
 
 %===================================================================================================
