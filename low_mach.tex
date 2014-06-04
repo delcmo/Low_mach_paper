@@ -889,13 +889,8 @@ $\gamma$ & $C_v$ $(J\cdot kg^{-1} \cdot K^{-1})$ & $P_\infty$ $(Pa)$ & $q$ $(J \
 \end{tabular}
 \end{center}
 \end{table}
-<<<<<<< HEAD
-Because of the low pressure difference between the inlet and the outlet, the smooth initial conditions, and the large value of $P_{\infty}$, the flow remains subsonic and thus, should not display any shock. Enthalpy and entropy are conserved through the nozzle, and these conservation relations are used to determine the exact solution at steady-state \cite{nozzle_exact}.
-Plots of the Mach number, density and pressure are given at steady-state in \fig{fig:1d_nozzle_liq_vel}, \fig{fig:1d_nozzle_liq_density}, \fig{fig:1d_nozzle_liq_press}, respectively, along with the exact solution for comparison. The viscosity coefficients are also plotted in \fig{fig:1d_nozzle_liq_visc}. An uniform mesh of $50$ cells was used to get the numerical solution and the time step was computed using a $CFL$ of $750$.
-=======
 Because of the low pressure difference between the inlet and the outlet, the smooth initial conditions, and the large value of $P_\infty$, the flow remains subsonic and thus, should not display any shock. Enthalpy and entropy are conserved through the nozzle, and these conservation relations are used to determine the exact solution at steady-state \cite{nozzle_exact}.
-Plots of the Mach number, density and pressure are given at steady-state in \fig{fig:1d_nozzle_liq_vel}, \fig{fig:1d_nozzle_liq_density}, \fig{fig:1d_nozzle_liq_press}, respectively, along with the exact solution for comparison. The viscosity coefficients are also plotted in \fig{fig:1d_nozzle_liq_visc}. The mesh used is uniform and has $50$ cells.
->>>>>>> 5393e879452e3eee2794867d282005be014f83d5
+Plots of the Mach number, density and pressure are given at steady-state in \fig{fig:1d_nozzle_liq_vel}, \fig{fig:1d_nozzle_liq_density}, \fig{fig:1d_nozzle_liq_press}, respectively, along with the exact solution for comparison. The viscosity coefficients are also plotted in \fig{fig:1d_nozzle_liq_visc}. An uniform mesh of $50$ cells was used to get the numerical solution and the time step was computed using a $CFL$ of $750$.
 %Since a steady-state analytical solution is available to us (REF), a convergence study is performed in order to demonstrate the accuracy of the entropy viscosity method by computing the L$1$ and L$2$ norms of the error between the numerical and exact solutions.
 \begin{figure}[H]
         \centering
@@ -1243,11 +1238,8 @@ The convergence rates are close to the expected values which prove convergence o
 %---------------------------------------------------------------------------------------------------
 \subsection{$1$-D shock tube for liquid phase} \label{sec:liquid_shock}
 %---------------------------------------------------------------------------------------------------
-<<<<<<< HEAD
-We want to investigate the capabilities of the entropy viscosity method to resolve strong shock for the liquid phase. This test is a preliminary work to the application of the entropy viscosity method to a two phase flow model. The Stiffened gas equation of state is used to model a liquid flow with the following parameters: $\gamma = 4.4$, $P_{\infty} = 6 \cdot 10^8$ $Pa$, $q = 0$ $J \cdot kg^{-1}$ and $Cv = 1000$ $J \cdot kg^{-1} \cdot K^{-1}$. The computational domain is of length $L=1$ $m$, discretized with an uniform mesh of $500$ cells. A $CFL$ was set equal to one.The step initial conditions are given in \tbl{tbl:ic_strong_shock}.
-=======
-We want to investigate the capabilities of the entropy viscosity method to resolve strong shock for the liquid phase. This test is a preliminary work to the application of the entropy viscosity method to a two phase flow model. The Stiffened gas equation of state is used to model a liquid flow with the following parameters: $\gamma = 4.4$, $P_\infty = 6 \cdot 10^8$ $Pa$, $q = 0$ $J \cdot kg^{-1}$ and $Cv = 1000$ $J \cdot kg^{-1} \cdot K^{-1}$. The computational domain is of length $L=1$ $m$, discretized with an uniform mesh of $500$ cells, and the step initial conditions are given in \tbl{tbl:ic_strong_shock}.
->>>>>>> 5393e879452e3eee2794867d282005be014f83d5
+We want to investigate the capabilities of the entropy viscosity method to resolve strong shock for the liquid phase. This test is a preliminary work to the application of the entropy viscosity method to a two phase flow model. The Stiffened gas equation of state is used to model a liquid flow with the following parameters: $\gamma = 4.4$, $P_\infty = 6 \cdot 10^8$ $Pa$, $q = 0$ $J \cdot kg^{-1}$ and $Cv = 1000$ $J \cdot kg^{-1} \cdot K^{-1}$. The computational domain is of length $L=1$ $m$, discretized with an uniform mesh of $500$ cells. A $CFL$ was set equal to one.The step initial conditions are given in \tbl{tbl:ic_strong_shock}.
+%
 \begin{table}[H]
 \begin{center}
  \caption{\label{tbl:ic_strong_shock} Initial conditions for the $1$-D liquid shock tube.}
@@ -1345,13 +1337,9 @@ T_0 = T\left( 1 + \frac{\gamma-1}{2} M^2 \right)
 \end{array}
 \right.
 \end{equation}
-<<<<<<< HEAD
 The static pressure $P_s = 101325$ $Pa$ is set at the subsonic outlet and a static pressure boundary type is used. The implementation of the pressure boundary conditions is done on the model of \cite{SEM}. A solid wall boundary condition is set for the top and bottom walls of the computational domain: the normal velocity is zero since no mass can penetrate the solid body. Lastly, the code is run until steady-state with a $CFL$ of $40$.\\
-The steady-state for Mach numbers ranging from $M_{\infty} = 10^{-3}$ to $M_{\infty} = 10^{-7}$ is shown in \fig{fig:cylinder}. The iso-Mach lines are drawn with $30$ intervals ranging from $2 \cdot 10^{-10}$ to $2M_{\infty}$, and allow to assess the symmetry of the numerical solution.
-=======
-The static pressure $P_s = 101325$ $Pa$ is set at the subsonic outlet and a static pressure boundary type is used. The implementation of the pressure boundary conditions is done on the model of \cite{SEM}. A solid wall boundary condition is set for the top and bottom walls of the computational domain: the normal velocity is zero since no mass can penetrate the solid body. The mesh is made of triangular cells.\\
-The steady-state for Mach numbers ranging from $M_\infty = 10^{-3}$ to $M_\infty = 10^{-7}$ is shown in \fig{fig:cylinder}. The iso-Mach lines are drawn with $30$ intervals ranging from $2 \cdot 10^{-10}$ to $2M_\infty$, and allow to assess the symmetry of the numerical solution.
->>>>>>> 5393e879452e3eee2794867d282005be014f83d5
+The steady-state for Mach numbers ranging from $M_\infty = 10^{-3}$ to $M_{\infty} = 10^{-7}$ is shown in \fig{fig:cylinder}. The iso-Mach lines are drawn with $30$ intervals ranging from $2 \cdot 10^{-10}$ to $2M_\infty$, and allow to assess the symmetry of the numerical solution.
+The steady-state for Mach numbers ranging from $M_\infty = 10^{-3}$ to $M_{\infty} = 10^{-7}$ is shown in \fig{fig:cylinder}. The iso-Mach lines are drawn with $30$ intervals ranging from $2 \cdot 10^{-10}$ to $2M_\infty$, and allow to assess the symmetry of the numerical solution.
 \begin{figure}[H]
         \centering
         \begin{subfigure}[b]{0.495\textwidth}
