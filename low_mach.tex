@@ -516,10 +516,10 @@ P = \left( \gamma-1 \right) \left( \rho E + M_{\infty}^2 \rho u^2 \right) = \lef
 It is, then, chosen to distinguish two cases that were mentioned earlier in this section: the non-isentropic and isentropic Euler equations.
 \begin{itemize}
 \item The non-isentropic Euler equations:\\
-Under this assumptions, shocks can form even with low Mach numbers (for instance, a step initial condition will trigger all of the waves independently of the Mach number). The non-dimensional form of the Euler equations given in \eqt{eq:Euler_eq2} provides some insight on the dominant terms in the low Mach limit. This is particular obvious in the momentum equation \eqt{eq:euler_eq2_mom} with the pressure gradient that is weighted by the inverse of the Mach number square. Thus, in the presence of shock (non-isentropic Euler equations), this pressure gradient term in the momentum equation will need to be stabilized by some dissipative terms of the same scaling, to prevent spurious oscillation from forming. This statement gives us a condition to determine the scaling of the non-dimensionalized numbers $Re_{\infty}$ and $Pr_{\infty}$ and leaves us with three options: $Re_{\infty} = M_{\infty}^2$ and $Re_{\infty}Pr_{\infty} = 1$ ($\left\{ n,m \right\}$ = $\left\{ 2, -2 \right\}$) or $Re_{\infty} = 1$ and $Re_{\infty}Pr_{\infty} = M_{\infty}^2$ ($\left\{ n,m \right\}$ = $\left\{ 0, 2 \right\}$) or $Re_{\infty} = M_{\infty}^2$ and $Re_{\infty}Pr_{\infty} = M_{\infty}^2$ ($\left\{ n,m \right\}$ = $\left\{ 2, 0 \right\}$). The first option
-Arguments related to the validity of the three previous options will be given later in this section.
+Under this assumptions, shocks can form even subsonic flows (for instance, a step initial condition will trigger all of the waves independently of the Mach number). The non-dimensional form of the Euler equations given in \eqt{eq:Euler_eq2} provides some insight on the dominant terms in the low Mach limit. This is particular obvious in the momentum equation \eqt{eq:euler_eq2_mom} with the pressure gradient that is weighted by the inverse of the Mach number square. Thus, in the presence of shock (non-isentropic Euler equations), this pressure gradient term in the momentum equation will need to be stabilized by some dissipative terms of the same scaling, to prevent spurious oscillation from forming. This statement gives us a condition to determine the scaling of the non-dimensionalized numbers $Re_{\infty}$ and $Pr_{\infty}$ and leaves us with three options: $Re_{\infty} = M_{\infty}^2$ and $Re_{\infty}Pr_{\infty} = 1$ ($\left\{ n,m \right\}$ = $\left\{ 2, -2 \right\}$) or $Re_{\infty} = 1$ and $Re_{\infty}Pr_{\infty} = M_{\infty}^2$ ($\left\{ n,m \right\}$ = $\left\{ 0, 2 \right\}$) or $Re_{\infty} = M_{\infty}^2$ and $Re_{\infty}Pr_{\infty} = M_{\infty}^2$ ($\left\{ n,m \right\}$ = $\left\{ 2, 0 \right\}$). Since the viscosity coefficient $\mu$ is only present in the momentum and energy equations, by choosing $Re_{\infty} = M_{\infty}^2$ and $Re_{\infty}Pr_{\infty} = 1$, not enough dissipation will be added to the continuity equation in the shock region. On the other hand, the viscosity coefficient $\kappa$ is present in all of the equations (\eqt{eq:Euler_eq2}) and, thus, is a good candidate to efficiently stabilize all of the equations in the shock region by setting $Re_{\infty}Pr_{\infty} = M_{\infty}^2$. It still remains to choose how the numerical Reynolds number,$Re_{\infty}$, scales. Two options are available to us: $Re_{\infty}=1$ and $Re_{\infty}=M_{\infty}^2$. We currently do not have a justification for choosing either of them but it was chosen to set the numerical Reynolds number equal to one so that our numerical dissipation terms scale the same as the modified Roe scheme proposed by Guillard et al. in \cite{LowMach1}.
+%Arguments related to the validity of the three previous options will be given later in this section.
 \item The isentropic Euler equations and the incompressible limit:\\
-In this particular case, shock cannot form and the compressible Euler equations are known to converge to the incompressible fluid equations when the Mach number tends to zero. When adding dissipative terms, as required in the entropy viscosity method, the low Mach asymptotic limit has to be conserved: the pressure fluctuations are of the order of the Mach number square, and the velocity vector obeys to the divergent constraint $\div \vec{u}_0 = 0$. The objective, here, is to choose a scaling for the non-dimensionalized numbers, $Re_{\infty}$ and $Pr_{\infty}$, so that the main features of the incompressible fluid equations are retrieved in the low Mach limit. To do so, it is proposed to perform an low Mach asymptotic limit by expanding each variable in term of the Mach number as shown in \eqt{eq:expansion}. 
+In this particular case, shock cannot form and the compressible Euler equations are known to converge to the incompressible fluid equations when the Mach number tends to zero. When adding dissipative terms, as required in the entropy viscosity method, the main features of the low Mach asymptotic limit has to be conserved: the pressure fluctuations are of the order of the Mach number square, and the velocity vector obeys to the divergent constraint $\div \vec{u}_0 = 0$. The objective, here, is to choose a scaling for the non-dimensionalized numbers, $Re_{\infty}$ and $Pr_{\infty}$, so that the main features of the incompressible fluid equations are retrieved in the low Mach limit. To do so, it is proposed to perform a low Mach asymptotic limit by expanding each variable in term of the Mach number as shown in \eqt{eq:expansion}. 
 \begin{equation}
 \label{eq:expansion}
 P(\vec{r}, t) = P_0(\vec{r}, t) + P_1(\vec{r}, t) M_{\infty} + P_2(\vec{r}, t) M_{\infty}^2 + \dots \text{ with } M_{\infty} \to 0
@@ -547,7 +547,7 @@ Using the same scaling, $Re_{\infty} = Pr_{\infty} = 1$, the continuity, momentu
  &&\partial_t(\rho E)_0 + \div \left[ \vec{u} (\rho E + P) \right]_0 = \div(\kappa \grad(\rho e))_0
   \end{eqnarray}
  \end{subequations}
- Using the leading-order of the equation of state given in \eqt{eq:euler_eq2_eos}, the energy equation can be recast as a function of the leading-order pressure as follows:
+ Using the leading-order of the equation of state given in \eqt{eq:euler_eq2_eos}, the energy equation can be recast as a function of the leading-order pressure, $P_0$, as follows:
  \begin{equation}\label{eq:asympt_equ3_ener}
  \gamma \partial_t P_0 + \gamma \div \left( \vec{u} P \right)_0 = \left( \gamma-1 \right)\div(\kappa \grad(P))_0
  \end{equation}
@@ -561,8 +561,33 @@ The same reasoning can be applied to the leading-order of the continuity equatio
 \end{equation}
 Thus, by setting the non-dimensionalized numbers equal to one, the incompressible fluid equations are retrieved when performing a low Mach asymptotic limit of the compressible Euler equations.
 \end{itemize}
-The study of the isentropic and the non-isentropic compressible Euler equations lead to two different scaling of the non-dimensionalized numbers. In order to have a s stabilization method valid for a wide range of Mach numbers, these two choices must be merged in a single one.   
-Even if it is now known that the dissipative terms will not affect the low Mach asymptotic limit of the Euler equations, the asymptotic equations are still derived with the objective of determining which of the three options enumerated in the non-isentropic Euler equations will fit better our purpose. In other term, we want to determine if there is any valid arguments that will favor one of the above three options: for example in the momentum equation (\eqt{eq:euler_eq2_mom}), is it better to dissipate on the velocity in the low Mach limit by setting $Re_{\infty} = M_{\infty}^2$ and $Pr_{\infty} Re_{\infty} = 1$, or to set $Re_{\infty} = 1$ and $Pr_{\infty} Re_{\infty} = M_{\infty}^2$ and dissipate on the density instead? To do so, each variable is expanded in term of the Mach number (example given in \eqt{eq:expansion} for the pressure $P$) in order to derive the leading, first- and second-order equations. 
+The study of the two above cases led us to two different scaling of the non-dimensionalized Pechlet number: $Pe_{\infty} = Pr_{\infty} Re_{\infty} = 1$ for isentropic, and$Pe_{\infty}  = Pr_{\infty} Re_{\infty} = M_{\infty}^2$ for non-isentropic compressible Euler equations. The numerical Reynolds number is independent of the Mach number and always equal to one. In order to have a stabilization method valid for a wide range of Mach numbers with or without shocks, these two choices must be merged into an unique one. An option is to investigate how the non-dimensionalized entropy residual scales for different flow types (isentropic and non-isentropic). For an isentropic flow, i.e. without shocks, the non-dimensionalized entropy residual is known to scale as the Mach number. On the other hand, in the shock region, the non-dimensionalized entropy residual will experience a peak. Thus, by investigating the local variation of the non-dimensionalized entropy residual, the flow type can be deduced and the proper normalization used, as follows:
+\begin{eqnarray}  \label{eq:norm_ent}
+&&\text{if } \left| \frac{dP}{dt} - c^2 \frac{d \rho}{dt} \right| < f(M) \text{ (non-isentropic flow)}\nonumber \\
+&&Pe_{\infty} = f(M)^2 \nonumber \\
+&&\text{else (isentropic flow)}\\
+&&Pe_{\infty} = 1 \nonumber
+\end{eqnarray}
+where $f(M)$ is a function of the \emph{local Mach number} such as: $f(M) = \min (M, 1)$. Once we have deduced the scaling of the numerical non-dimensionalized number, the normalization parameters $n_P^{\mu}$ and $n_P^{\kappa}$ can be derived. Only the steps leading to the derivation of $n_P^{\mu}$ for the viscosity coefficient $\mu$ are detailed. Using the definition of the viscosity coefficient in \eqt{eq:visc_definition} and the scaling of \eqt{eq:norm_param}, it can be shown that:
+\begin{equation}
+\label{eq:norm_relation}
+\mu_{\infty} = \frac{ \rho_{\infty} c_{\infty}^2 u_{\infty} L }{ n_{P,\infty}^{\mu} } 
+\end{equation}
+where $n_{P,\infty}$ is the far-field quantity for the normalization parameter $n_P$. Substituing \eqt{eq:norm_relation} into \eqt{eq:ref_numb} and remembering that the numerical Reynolds number scales as one by assumption, it yields:
+\begin{equation}
+\label{eq:norm_relation_bis}
+n_{P,\infty}^{\mu} = \rho_{\infty} c_{\infty}^2
+\end{equation}
+\eqt{eq:norm_relation_bis} tells us that in the asymptotic limit, the normalization parameter $n_P$ scales as $\rho_{\infty} c_{\infty}^2$ which leaves us with two options:
+either $n_P = \rho c^2$ or $n_P = P$. The choice was made to use $n_P^{\mu} = \rho c^2$ in the low Mach asymptotic limit: it was found to behave well and the pressure can become locally negative and null in some particular case as shown in \sct{sec:results}. \\
+On the same model, the normalization parameter $n_P^{\kappa}$ for the viscosity coefficient $\kappa$ is derived for the two cases given in \eqt{eq:norm_ent}:
+\begin{eqnarray}  \label{eq:norm_ent2}
+&&\text{if } \left| \frac{dP}{dt} - c^2 \frac{d \rho}{dt}\right| < f(M) \text{ (non-isentropic flow)}\nonumber \\
+&&n_{P}^{\kappa} =\min( \rho ||\vec{u} ||^2, \rho c^2  ) \nonumber \\
+&&\text{else (isentropic flow)}\\
+&&n_{P}^{\kappa} = \rho c^2 = n_{P}^{\mu} \nonumber
+\end{eqnarray}
+%Even if it is now known that the dissipative terms will not affect the low Mach asymptotic limit of the Euler equations, the asymptotic equations are still derived with the objective of determining which of the three options enumerated in the non-isentropic Euler equations will fit better our purpose. In other term, we want to determine if there is any valid arguments that will favor one of the above three options: for example in the momentum equation (\eqt{eq:euler_eq2_mom}), is it better to dissipate on the velocity in the low Mach limit by setting $Re_{\infty} = M_{\infty}^2$ and $Pr_{\infty} Re_{\infty} = 1$, or to set $Re_{\infty} = 1$ and $Pr_{\infty} Re_{\infty} = M_{\infty}^2$ and dissipate on the density instead? To do so, each variable is expanded in term of the Mach number (example given in \eqt{eq:expansion} for the pressure $P$) in order to derive the leading, first- and second-order equations. 
 %It is chosen to first study the case with $Re_{\infty} = 1$ and $Re_{\infty}Pr_{\infty} = M_{\infty}^2$ which yields the following non-dimensionalized system of equations:
 %\begin{subequations} 
 %\label{eq:Euler_eq3}
@@ -721,14 +746,16 @@ For clarity purpose, the definition of the viscosity coefficients $\mu$ and $\ka
 \kappa(\vec{r},t) = \max (\mu_{max}(\vec{r},t), \kappa_e (\vec{r},t)) \\
 \text{where } \mu_{max}(\vec{r},t) = \frac{h}{2} (||\vec{u}|| + c) \\
 \mu_{e} = h^2 \frac{\max(\tilde{D_e}, J)}{\rho c^2} \\
-\kappa_{e} = h^2 \frac{\max(\tilde{D_e}, J)}{\rho || \vec{u} ||^2} \\
+\kappa_{e} = h^2 \frac{\max(\tilde{D_e}, J)}{n_P^{\kappa}} \\
 \end{array}
 \right.
 \end{equation}
-These viscosity coefficients are valid for both the multi-D Euler equations with variable and constant area and are employed with the dissipative terms detailed in \eqt{eq:Euler_eq3}. The reader will notice that, through the derivation, none assumption was made on the type of equation of state besides the convexity condition on the entropy function $s$. The remaining of this paper (\sct{sec:results}) will focus on demonstrating that the definition of the viscosity coefficient given in \eqt{eq:final_def_visc_coeff} is indeed well-scaled in the asymptotic limit and that shocks are still well resolved. 
-\begin{remark}
-By choosing $Pr_{\infty}  = M_{\infty}^2$ and $Re_{\infty} = 1$, the dissipative terms in \eqt{eq:Euler_eq2} have the same scaling as the discretized dissipative terms derived from the preconditioned Roe scheme proposed by Guillard et al. in \cite{LowMach1}, to ensure the correct low Mach asymptotic limit.
-\end{remark}
+where $n_P^{\kappa}$ is computed from \eqt{eq:norm_ent2}. With the definition of the viscosity coefficients $\mu$ and $\kappa$ proposed in \eqt{eq:final_def_visc_coeff}, the low Mach asymptotic limit is ensured for isentropic flow, and flow with shocks should be correctly resolved. The viscosity coefficients are only function of local variables and thus should accurately resolved complex flow where both incompressible and compressible regimes coexist. As the flow becomes locally supersonic, the viscosity coefficients $\mu$ and $\kappa$ are equal to each other which is consistent with the original definition of the entropy viscosity method proposed by Guermond et al. in \cite{jlg1, jlg2}.
+%These viscosity coefficients are valid for both the multi-D Euler equations with variable and constant area and are employed with the dissipative terms detailed in \eqt{eq:Euler_eq2}. 
+%The reader will notice that, through the derivation, none assumption was made on the type of equation of state besides the convexity condition on the entropy function $s$. The remaining of this paper (\sct{sec:results}) will focus on demonstrating that the definition of the viscosity coefficient given in \eqt{eq:final_def_visc_coeff} is indeed well-scaled in the asymptotic limit and that shocks are still well resolved. 
+%\begin{remark}
+%By choosing $Pr_{\infty}  = M_{\infty}^2$ and $Re_{\infty} = 1$, the dissipative terms in \eqt{eq:Euler_eq2} have the same scaling as the discretized dissipative terms derived from the preconditioned Roe scheme proposed by Guillard et al. in \cite{LowMach1}, to ensure the correct low Mach asymptotic limit.
+%\end{remark}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The dissipative-terms for the multi-D Euler equations with variable area} \label{sec:var_area_diss_terms}
