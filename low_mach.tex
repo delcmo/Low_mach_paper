@@ -861,14 +861,51 @@ where $U_i$ denotes the set of conservative variables.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 This section is dedicated to presenting $1$- and $2$-D numerical results obtained by solving \eqt{eq:euler_variable_A_bis} with the entropy viscosity method. This section has two objectives: validate our new definition of the viscosity coefficients for the low Mach limit, and, make sure that the new definition can still resolve shocks.\\
-The first set of $1$-D simulations consist of liquid water and steam flowing in a convergent-divergent nozzle. This test is interesting for multiple reasons: a steady-state is reached (some stabilization methods are known to have difficulties to reach a steady-state (\cite{FluxLimiter, FluxLimiter2}), it can be performed for liquid and gas phases, and, an analytical solution of the steady-state solution is available which allow for convergence study. The $1$-D Leblanc shock tube test \cite{Leblanc} (in a straight pipe) is also performed and consists of a flow developing shocks. A convergence study will be performed in order to demonstrate convergence of the numerical solution to the exact solution. A slow moving shock is also investigated \cite{james}. This test is interesting to evaluate the capabilities of the method at damping the post-shock low frequency noise. \\ 
+The first set of $1$-D simulations consist of liquid water and steam flowing in a convergent-divergent nozzle. This test is interesting for multiple reasons: a steady-state is reached (some stabilization methods are known to have difficulties to reach a steady-state (\cite{FluxLimiter, FluxLimiter2}), it can be performed for liquid and gas phases, and, an analytical solution of the steady-state solution is available which allow for convergence study. The $1$-D Leblanc shock tube test \cite{Leblanc} (in a straight pipe) is also performed and consists of a flow developing shocks. A convergence study will be performed in order to demonstrate convergence of the numerical solution to the exact solution. A slow moving shock is also investigated \cite{james}. This test is interesting to evaluate the capabilities of the method at damping the post-shock low frequency noise. A strong shock for a liquid phase is also investigated. The last $1$-D test consists of a slow moving shock \cite{james}. This test is interesting to evaluate the capabilities of the method at damping the post-shock low frequency noise. The initial conditions for the last three $1$-D shock tubes are given in \tbl{tbl:ic_1d_tests} in terms of the density ($kg \cdot m^{-3}$), the velocity ($m \cdot s^{-1}$) and the pressure ($Pa$).
+\begin{table}[H]
+\begin{center}
+ \caption{\label{tbl:ic_1d_tests} Initial conditions for the $1$-D shock tube tests.}
+ \begin{tabular}{|c|c|c || c|c|c|}
+\hline
+$\rho_{right}$ & $u_{right}$ & $P_{right}$ & $\rho_{left}$ & $u_{left}$ & $P_{left}$ \\
+\hline
+\multicolumn{6}{ |c| }{Leblanc shock tube (\sct{sec:Leblanc})} \\
+\hline
+1 & 0 & $4$ $10^{-2}$ & $10^{-3}$ & 0 & $4$ $10^{-11}$  \\
+\hline \hline
+\multicolumn{6}{ |c| }{Strong shock for liquid phase (\sct{sec:liquid_shock})} \\
+\hline
+$1$ & $0$ & $4$ $10^{-4}$ & $10^{-3}$ & $0$ & $4$ $10^{-11}$  \\
+\hline
+\multicolumn{6}{ |c| }{Slow moving shock (\sct{sec:slow_moving_shock})} \\
+\hline \hline
+$1$ & $-0.81$ & $1$ & $3.86$ & $-3.44$ & $10.33$   \\
+\hline
+\end{tabular}
+\end{center}
+\end{table} 
 This section also included $2$-D simulations from subsonic to supersonic flows. Subsonic flows of a gas over a $2$-D cylinder and a hump \cite{Hump} are simulated and results are shown for various far-field Mach numbers. Numerical results of a supersonic flow in a compression corner are provided to illustrate the capabilities of the new definition in the supersonic case. Convergence studies are performed when an analytical solution is available. \\
 For each simulation, informations relative to the boundary conditions, the Current Friedrich Lax number ($CFL$), the mesh and the equation of state will be provided. All of the numerical solution presented in this section are run with the second-order temporal integrator $BDF2$ and linear polynomials test functions. The integrals are numerically computed using a second-order Gauss quadrature rule. The Ideal Gas \cite{IGEOS} or Stiffened Gas equation of state \cite{SGEOS} are used and a generic formulation is recalled in \eqt{eq:eos}.
 \begin{equation}
 \label{eq:eos}
 P = (\gamma-1) \rho (e-q) - \gamma P_\infty
 \end{equation}
-where the parameters $q$ and $P_\infty$ are fluid dependent and will be specified in time. \eqt{eq:eos} degenerates to the Ideal Gas equation of state by setting $q$ and $P_\infty$ to zero. The Ideal and Stiffened Gas equation of states have a convex entropy $s$:
+where the parameters $q$ and $P_\infty$ are fluid dependent and are recalled in . 
+\begin{table}[H]
+\begin{center}
+ \caption{\label{tbl:stff_gas_eos} Stiffened Gas Equation of State parameters for steam and liquid water.}
+ \begin{tabular}{|c|c|c|c|c|}
+ \hline
+\text{fluid} & $\gamma$ & $C_v$ $(J\cdot kg^{-1} \cdot K^{-1})$ & $P_\infty$ $(Pa)$ & $q$ $(J \cdot kg^{-1})$ \\
+ \hline
+steam & 1.43 & 1040 & 0 & $2030.10^3$   \\
+ \hline
+liquid water & 2.35 & 1816 & $10^9$ & $-1167.10^3$   \\
+  \hline
+\end{tabular}
+\end{center}
+\end{table}
+\eqt{eq:eos} degenerates to the Ideal Gas equation of state by setting $q$ and $P_\infty$ to zero. The Ideal and Stiffened Gas equation of states have a convex entropy $s$:
 \begin{equation}
 s = C_v \ln \left( \frac{P+P_\infty}{\rho^{\gamma-1}} \right) \nonumber
 \end{equation}
@@ -876,19 +913,7 @@ where $C_v$ is the heat capacity at constant volume.
 %---------------------------------------------------------------------------------------------------
 \subsection{Liquid water in a $1$-D divergent-convergent nozzle} \label{sec:liquid_nozzle}
 %---------------------------------------------------------------------------------------------------
-The simulation consists of liquid water flowing through a $1$-D convergent-divergent nozzle with the following equation, $A(x) = 1 + 0.5 \cos(2 \pi x / L)$, where $L=1m$ is the length of the nozzle. At the inlet,  the stagnation pressure and temperature are set to $P_0 = 1 MPa$ and $T_0 = 453 K$, respectively. At the outlet, only the static pressure is specified: $P_s = 0.5MPa$. Details about the theory related to the inlet and outlet boundary conditions can be found in \cite{SEM}. Initially, the temperature is uniform and set equal to the stagnation temperature and the pressure linearly decreases from the stagnation pressure to the static one. Finally, the liquid is assumed at rest. The Stiffened Gas equation of state is used to model the liquid water with the parameters provided in \tbl{tbl:stff_gas_eos_liq}.
-\begin{table}[H]
-\begin{center}
- \caption{\label{tbl:stff_gas_eos_liq} Stiffened Gas Equation of State parameters for liquid water.}
- \begin{tabular}{|c|c|c|c|}
- \hline
-$\gamma$ & $C_v$ $(J\cdot kg^{-1} \cdot K^{-1})$ & $P_\infty$ $(Pa)$ & $q$ $(J \cdot kg^{-1})$ \\
- \hline
-2.35 & 1816 & $10^9$ & $-1167.10^3$   \\
-  \hline
-\end{tabular}
-\end{center}
-\end{table}
+The simulation consists of liquid water flowing through a $1$-D convergent-divergent nozzle with the following equation, $A(x) = 1 + 0.5 \cos(2 \pi x / L)$, where $L=1m$ is the length of the nozzle. At the inlet,  the stagnation pressure and temperature are set to $P_0 = 1 MPa$ and $T_0 = 453 K$, respectively. At the outlet, only the static pressure is specified: $P_s = 0.5MPa$. Details about the theory related to the inlet and outlet boundary conditions can be found in \cite{SEM}. Initially, the temperature is uniform and set equal to the stagnation temperature and the pressure linearly decreases from the stagnation pressure to the static one. Finally, the liquid is assumed at rest. The Stiffened Gas equation of state is used to model the liquid water with the parameters provided in \tbl{tbl:stff_gas_eos}.
 Because of the low pressure difference between the inlet and the outlet, the smooth initial conditions, and the large value of $P_\infty$, the flow remains subsonic and thus, should not display any shock. Enthalpy and entropy are conserved through the nozzle, and these conservation relations are used to determine the exact solution at steady-state \cite{nozzle_exact}.
 Plots of the Mach number, density and pressure are given at steady-state in \fig{fig:1d_nozzle_liq_vel}, \fig{fig:1d_nozzle_liq_density}, \fig{fig:1d_nozzle_liq_press}, respectively, along with the exact solution for comparison. The viscosity coefficients are also plotted in \fig{fig:1d_nozzle_liq_visc}. An uniform mesh of $50$ cells was used to get the numerical solution and the time step was computed using a $CFL$ of $750$.
 %Since a steady-state analytical solution is available to us (REF), a convergence study is performed in order to demonstrate the accuracy of the entropy viscosity method by computing the L$1$ and L$2$ norms of the error between the numerical and exact solutions.
@@ -987,19 +1012,7 @@ It is observed that the convergence rate for the L$1$ and L$2$ norm of the error
 %---------------------------------------------------------------------------------------------------
 \subsection{Steam in a $1$-D divergent-convergent nozzle} \label{sec:steam_nozzle}
 %---------------------------------------------------------------------------------------------------
-Instead of liquid water, we now simulate a flow of steam using the exact same $1$-D geometry, initial conditions and boundary conditions as in \sct{sec:liquid_nozzle}. The Stiffened gas equation of state is still used but with different parameters that are given in \tbl{tbl:stff_gas_eos_vap}: steam is a gas and compressible effects will become dominant. 
-\begin{table}[H]
-\begin{center}
- \caption{\label{tbl:stff_gas_eos_vap} Stiffened Gas Equation of State parameters for steam.}
- \begin{tabular}{|c|c|c|c|}
- \hline
-$\gamma$ & $C_v$ $(J\cdot kg^{-1} \cdot K^{-1})$ & $P_\infty$ $(Pa)$ & $q$ $(J \cdot kg^{-1})$ \\
- \hline
-1.43 & 1040 & 0 & $2030.10^3$   \\
- \hline
-\end{tabular}
-\end{center}
-\end{table}
+Instead of liquid water, we now simulate a flow of steam using the exact same $1$-D geometry, initial conditions and boundary conditions as in \sct{sec:liquid_nozzle}. The Stiffened gas equation of state is still used but with different parameters that are given in \tbl{tbl:stff_gas_eos}: steam is a gas and compressible effects will become dominant. 
 The pressure difference applied between the inlet and outlet is large enough to make the steam accelerates through the nozzle and result in the formation of shock in the divergent part. The behavior is different from what is observed for the liquid water phase in \sct{sec:liquid_nozzle} because of the liquid to gas density ratio that is of $1000$. Even though a shock forms, an exact solution at steady-state is still available \cite{nozzle_exact}. The objective of this section is to show that using the new definition of the viscosity coefficient in \eqt{eq:final_def_visc_coeff}, the shock can be correctly resolved without spurious oscillation. The steady-state numerical solution is shown in \fig{fig:1d_vap_nozzle}, was run with an uniform mesh of $1600$ cells and a $CFL$ equal to $80$ (a high $CFL$ value can be used since the shock is not moving and, thus, does not need to be tracked).
 \begin{figure}[H]
         \centering
@@ -1101,22 +1114,7 @@ The convergence rates for the L$1$ and L$2$ norms of the error are close to the 
 %---------------------------------------------------------------------------------------------------
 \subsection{Leblanc shock tube} \label{sec:Leblanc}
 %---------------------------------------------------------------------------------------------------
-The $1$-D Leblanc shock tube is a Riemann problem designed to test the robustness and the accuracy of the stabilization method. The initial conditions are given in \tbl{tbl:ic_leblanc}. The ideal gas equation of state is used to compute the fluid pressure with the following heat capacity ratio $\gamma=5/3$.
-\begin{table}[H]
-\begin{center}
- \caption{\label{tbl:ic_leblanc} Initial conditions for the $1$-D Leblanc shock tube.}
- \begin{tabular}{|c|c|c|c|}
- \hline
-   & $\rho$ & $u$ & $e$ \\
- \hline
-left & $1.$ & $0.$ & $0.1$ \\
-  \hline
-  right & $10^{-3}$ & $0.$ & $10^{-7}$ \\
-  \hline
-\end{tabular}
-\end{center}
-\nonumber
-\end{table}
+The $1$-D Leblanc shock tube is a Riemann problem designed to test the robustness and the accuracy of the stabilization method. The initial conditions are given in \tbl{tbl:ic_1d_tests}. The ideal gas equation of state is used to compute the fluid pressure with the following heat capacity ratio $\gamma=5/3$.
 This test is computationally challenging because of the large left to right pressure ratio.
 The computational domain consists of a $1$-D pipe of length $L=9m$ with an interface located at $x=2m$. At $t=0.s$, the interface is removed, allowing the fluid to move. The numerical solution is run until $t=4.s$ and the density, momentum and total energy profiles are given in \fig{fig:1d_leblanc_vel}, \fig{fig:1d_leblanc_density} and \fig{fig:1d_leblanc_press}, respectively, along with the exact solution. The viscosity coefficients are also plotted in \fig{fig:1d_leblanc_visc}. These plots were  run with three different uniform mesh of $800$, $3200$ and $6000$ cells and a constant $CFL = 1$.
 \begin{figure}[H]
@@ -1238,22 +1236,8 @@ The convergence rates are close to the expected values which prove convergence o
 %---------------------------------------------------------------------------------------------------
 \subsection{$1$-D shock tube for liquid phase} \label{sec:liquid_shock}
 %---------------------------------------------------------------------------------------------------
-We want to investigate the capabilities of the entropy viscosity method to resolve strong shock for the liquid phase. This test is a preliminary work to the application of the entropy viscosity method to a two phase flow model. The Stiffened gas equation of state is used to model a liquid flow with the following parameters: $\gamma = 4.4$, $P_\infty = 6 \cdot 10^8$ $Pa$, $q = 0$ $J \cdot kg^{-1}$ and $Cv = 1000$ $J \cdot kg^{-1} \cdot K^{-1}$. The computational domain is of length $L=1$ $m$, discretized with an uniform mesh of $500$ cells. A $CFL$ was set equal to one.The step initial conditions are given in \tbl{tbl:ic_strong_shock}.
+We want to investigate the capabilities of the entropy viscosity method to resolve strong shock for the liquid phase. This test is a preliminary work to the application of the entropy viscosity method to a two phase flow model. The Stiffened gas equation of state is used to model a liquid flow with the following parameters: $\gamma = 4.4$, $P_\infty = 6 \cdot 10^8$ $Pa$, $q = 0$ $J \cdot kg^{-1}$ and $Cv = 1000$ $J \cdot kg^{-1} \cdot K^{-1}$. The computational domain is of length $L=1$ $m$, discretized with an uniform mesh of $500$ cells. The step initial conditions are given in \tbl{tbl:ic_1d_tests}.
 %
-\begin{table}[H]
-\begin{center}
- \caption{\label{tbl:ic_strong_shock} Initial conditions for the $1$-D liquid shock tube.}
- \begin{tabular}{|c|c|c|c|}
- \hline
-   & $\rho$ & $u$ & $P$ \\
- \hline
-left & $10^{3}$ & $0.$ & $10^9$ \\
-  \hline
-  right & $10^{3}$ & $0.$ & $10^5$ \\
-  \hline
-\end{tabular}
-\end{center}
-\end{table}
 The simulation is run with a $CFL=1$ until the final time $t_{final} = 7 \cdot 10^{-5}$ $s$. The plots of the pressure, the density, the velocity and the viscosity coefficients profiles are given in \fig{fig:1d_strong_shock} along with the exact solution for comparison.
 \begin{figure}[H]
         \centering
@@ -1277,22 +1261,7 @@ The numerical solution does not display any oscillations and match the exact sol
 %---------------------------------------------------------------------------------------------------
 \subsection{$1$-D slow moving shock} \label{sec:slow_moving_shock}
 %---------------------------------------------------------------------------------------------------
-A $1$-D slow moving shock (\cite{james}) is simulated with the entropy viscosity method. It consist of a shock wave moving from left to right with the initial conditions given in \tbl{tbl:ic_slow_moving}. The Ideal Gas equation of state is used with a heat capacity ratio, $\gamma$, of $1.4$. Note that assuming a $CFL$ of $1$, it takes up to $50$ time steps for the shock to traverse one mesh cell. In order to make the shock travel a significant distance, the final time is taken equal to $t=1.1s$. Then, a pressure boundary condition is used at the left boundary to let the rarefaction and contact waves exit the domain.   
-\begin{table}[H]
-\begin{center}
- \caption{\label{tbl:ic_slow_moving} Initial conditions for a $1$-D slow moving shock.}
- \begin{tabular}{|c|c|c|c|}
- \hline
-   & $\rho$ & $u$ & $P$ \\
- \hline
-left & $1.$ & $-0.81$ & $1.$ \\
-  \hline
-  right & $3.86$ & $-3.44$ & $10.33$ \\
-  \hline
-\end{tabular}
-\end{center}
-\nonumber
-\end{table}
+A $1$-D slow moving shock (\cite{james}) is simulated with the entropy viscosity method. It consist of a shock wave moving from left to right with the initial conditions given in \tbl{tbl:ic_1d_tests}. The Ideal Gas equation of state is used with a heat capacity ratio, $\gamma$, of $1.4$. Note that assuming a $CFL$ of $1$, it takes up to $50$ time steps for the shock to traverse one mesh cell. In order to make the shock travel a significant distance, the final time is taken equal to $t=1.1s$. Then, a pressure boundary condition is used at the left boundary to let the rarefaction and contact waves exit the domain.   
 A slow moving shock is known to produce post-shock noise of low frequency that are not damped by some numerical dissipation methods (\cite{james}). The objective, here, is to see wether or not the entropy viscosity method is capable of damping the low frequency waves. Numerical results are given in \fig{fig:low_moving_shock} and are compared to the exact solution obtained from a Riemann solver. The numerical solution was obtained with an uniform mesh of $200$ cells and $CFL=1$.
 \begin{figure}[H]
         \centering
