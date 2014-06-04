@@ -345,25 +345,25 @@ where $h$ is the local grid size (for higher than linear finite element represen
 %
 \begin{equation}
 \label{eq:fo_quad}
-\mu^K_{\max}(\vec{r_q}, t) = \kappa^K_{\max}(\vec{r_q}, t) = \frac{h_K}{2} \left( || \vec{u}(\vec{t,r_q}) || + c(\vec{t,r_q}) \right),
+\mu^K_{\max}(\vec{r}_q, t) = \kappa^K_{\max}(\vec{r}_q, t) = \frac{h_K}{2} \left( || \vec{u}(\vec{t,r_q}) || + c(\vec{t,r_q}) \right),
 \end{equation}
 %
-where $\vec{r_q}$ denotes the position of a quadrature point.\\
+where $\vec{r}_q$ denotes the position of a quadrature point.\\
 As stated earlier, the entropy viscosity coefficients, denoted by $\kappa_e$ and $\mu_e$, are set proportional to the entropy production evaluated by computing the local entropy residual $D_e$. The definitions also include the inter-element jump of the entropy flux $J$, thus allowing for the detection of discontinuities other than shocks:
 %
 \begin{equation}
 \label{eq:ent_visc_coeff}
-\mu^K_e(\vec{r_q},t) = \kappa^K_e(\vec{r_q},t) = h_K^2 \frac{\max\left( | D^K_e(\vec{r_q},t) |, J^K[s](t) \right)}{|| s - \bar{s} ||_{\infty}} 
+\mu^K_e(\vec{r}_q,t) = \kappa^K_e(\vec{r}_q,t) = h_K^2 \frac{\max\left( | D^K_e(\vec{r}_q,t) |, J^K[s](t) \right)}{|| s - \bar{s} ||_{\infty}} 
 \end{equation}
 %
 where $|| \cdot ||_{\infty}$ and $\bar{\cdot}$ denote the $L_\infty$ norm and the average operator over the entire computational domain, respectively. The definition of the jump $J$ is spatial discretization-dependent and examples of definitions can be found in \cite{valentin} for DGFEM. For continuous FEM, the jump of a given quantity is defined at the inter-element change in the normal derivative. We take the largest value over all faces $f$ present on the boundary $\partial K$ of element $K$:
 %
 \begin{equation}
 \label{eq:jump_CFEM}
-J^K[s](t) = \max_{f\in\partial K}  \max_{\vec{r_q} \in f} \jmp{\grad s(\vec{r_q},t) \cdot \vec{n}(\vec{r_q}) }_f
+J^K[s](t) = \max_{f\in\partial K}  \max_{\vec{r}_q \in f} \jmp{\grad s(\vec{r}_q,t) \cdot \vec{n}(\vec{r}_q) }_f
 \end{equation}
 %
-where $\jmp{a(\vec{r_q})}_f$ denotes the inter-element jump in $a(\vec{r})$ at quadrature point $\vec{r_q}$ on face $f$.  
+where $\jmp{a(\vec{r}_q)}_f$ denotes the inter-element jump in $a(\vec{r})$ at quadrature point $\vec{r}_q$ on face $f$.  
 The denominator $|| s - \bar{s} ||_{\infty}$ is used for dimensionality purposes \tcr{and should not be of the same order as $h$, on penalty of loosing the high-order accuracy}. Currently, there are no theoretical justification for choosing the denominator. 
 Finally, the viscosity coefficients $\mu$ and $\kappa$ are as follows:
 %
@@ -411,7 +411,7 @@ where $\frac{d }{dt}$ denotes the material or total derivative ($\frac{d }{dt}:=
 The entropy residuals $D_e$ and $\tilde{D}_e$ are proportional and will experience similar variations in space and time. Thus, we elect to employ $\tilde{D}_e$ instead of $D_e$ in the local evaluation of the entropy residual. This new expression has multiple advantages:
 %
 \begin{itemize}
-\item an analytical expression of the entropy function $s$ is no longer needed: the residual $\tilde{D}_e$ is evaluated using the local values of pressure, density, velocity and speed of sound. Deriving an entropy function for some complex equation of states can be difficult.
+\item an analytical expression of the entropy function $s$ is no longer needed: the residual $\tilde{D}_e$ is evaluated using the local values of pressure, density, velocity and speed of sound. Deriving an entropy function for some complex equation of states can be difficult;
 \item additional normalizations suitable of the residual $\tilde{D}_e$ can be devised. Examples include the pressure itself or combinations of the density, the speed of sound and the norm of the velocity: $\rho c^2$, $\rho c || \vec{u} ||$ and $\rho || \vec{u} ||^2$. 
 \end{itemize}
 %
@@ -421,28 +421,29 @@ Denoting the new normalization by $\norm_P$, the viscosity coefficients $\mu$ an
 \begin{subequations}
 \label{eq:visc_definition}
 \begin{equation}
-\mu^K_e(\vec{r},t)    = h_K^2 \frac{\max\left( | \tilde{D}^K_e(\vec{r_q},t) |, J^K[P](t) \right)}{\norm_P^\mu}    \, ,
+\mu^K_e(\vec{r},t)    = h_K^2 \frac{\max\left( | \tilde{D}^K_e(\vec{r}_q,t) |, J^K[P](t) \right)}{\norm_P^\mu}    \, ,
 \end{equation} 
 \text{and} 
 \begin{equation}
-\kappa^K_e(\vec{r},t) = h_K^2 \frac{\max\left( | \tilde{D}^K_e(\vec{r_q},t) |, J^K[P](t) \right)}{\norm_P^\kappa} \, .
+\kappa^K_e(\vec{r},t) = h_K^2 \frac{\max\left( | \tilde{D}^K_e(\vec{r}_q,t) |, J^K[P](t) \right)}{\norm_P^\kappa} \, .
 \end{equation}
 \end{subequations}
 %
-Note that now the jumps operate on pressure (it could equivalently operate on the quantities $\rho c^2$, $\rho c || \vec{u} ||$ or $\rho || \vec{u} ||^2$). The normalization parameters have units of pressure, hence the use of the subscript $P$. We are not requiring the same normalization for both $\mu_e$ and $\kappa_e$ so the entropy viscosity coefficients can be different. The low-Mach asymptotic study presented next will \tcr{inform} and determine the choice of normalization.
+Note that now the jump operator acts on pressure (it could equivalently operate on the quantities $\rho c^2$, $\rho c || \vec{u} ||$ or $\rho || \vec{u} ||^2$). The normalization parameters have units of pressure, hence the use of the subscript $P$. We are not requiring the same normalization for both $\mu_e$ and $\kappa_e$ so the entropy viscosity coefficients can be different. The low-Mach asymptotic study presented next will \tcr{inform} and determine the choice of normalization.
 
-As mentioned earlier, the normalization parameter $n_P$ must be of the same units as the pressure for the viscosity coefficients to have the unit of a kinematic viscosity $(m^2 / s)$. Multiples options are available to us: $P$, $\rho c^2$, $\rho c || \vec{u} ||$ and $\rho || \vec{u} ||^2$. The choice of the normalization parameter cannot be random if the definition of the viscosity coefficient is wanted to be well-scaled for a wide range of Mach numbers. For example, by choosing either $n_P = \rho || \vec{u} ||^2$ or $n_P = \rho c^2$, the viscosity coefficient will not scale the same as the Mach number decreases. Therefore, it is proposed to carry, in \sct{sec:lowMach}, a low-Mach asymptotic study of the multi-D Euler equations in order to determine the correct expression for the normalization parameter $n_P$.
+%As mentioned earlier, the normalization parameter $n_P$ must be of the same units as the pressure for the viscosity coefficients to have the unit of a kinematic viscosity $(m^2 / s)$. Multiples options are available to us: $P$, $\rho c^2$, $\rho c || \vec{u} ||$ and $\rho || \vec{u} ||^2$. The choice of the normalization parameter cannot be random if the definition of the viscosity coefficient is wanted to be well-scaled for a wide range of Mach numbers. For example, by choosing either $n_P = \rho || \vec{u} ||^2$ or $n_P = \rho c^2$, the viscosity coefficient will not scale the same as the Mach number decreases. Therefore, it is proposed to carry, in \sct{sec:lowMach}, a low-Mach asymptotic study of the multi-D Euler equations in order to determine the correct expression for the normalization parameter $n_P$.
 
 %===================================================================================================
-\subsection{Low-Mach Asymptotic Study} \label{sec:lowMach}
+\subsection{Asymptotic Study in the Low-Mach Regime} \label{sec:lowMach}
 %===================================================================================================
 
-The asymptotic study requires the multi-D Euler equations to be non dimensionalized: the objective is to make the Mach number appears and thus, use a polynomial expansion of the variables as a function of the Mach number in order to derive the leading, first- and second-order equations. Before detailing the steps of the asymptotic method, let us have a closer look at the system of equations under consideration. The initial system of equations is composed of the multi-D Euler equations with artificial dissipative terms that are added to each equation as explained in \sct{sec:entro_visc} for stability purpose. The resulting system of equations is alike the multi-D Navier-Stokes equations in a sense that it contains second-order derivative terms. Thus, it would be interesting to look at the steps employed in the asymptotic study of the multi-D Navier-Stokes equations in order to understand how the dissipative terms are treated. Fortunately, this process is well-documented in the literature \cite{LowMach1, LowMach2, LowMach3} for both multi-D Euler equations and Navier-Stokes equations. The work presented here is mainly inspired of \cite{Muller} that focuses on the asymptotic study in the low Mach regime of Navier-Stokes equations. During the derivation, the reader has to keep in mind that the objective of this section is to derive the scaling of the normalization parameter $n_P$ involved in the definition of the viscosity coefficients given in \eqt{eq:ent_visc_coeff}, so that the dissipative terms are well-scaled for two cases: the isentropic form of the Euler equations that degenerate to the incompressible system of equations in the low Mach limit, and the non-isentropic version of the Euler equations with the formation of shocks that need stabilization to prevent spurious oscillations from forming.\\
+The Euler equations with viscous stabilization, \eqt{eq:??}, bear some similarities with the Navier-Stokes equations in the sense that dissipative terms (second-order derivatives) are present in both sets of equations. A abundant literature exists regarding the low-Mach asymptotics of the Navier-Stokes equations \cite{LowMach1, LowMach2, LowMach3, Muller}.   
+%
+The asymptotic study presented here follows the work of Muller et al. \cite{Muller} where an asymptotic derivation for the Navier-Stokes  was presented. Here, we remind the reader that the objective of the asymptotic study is to determine appropriate scaling for the entropy viscosity coefficients in the low-Mach limit so that the dissipative terms are well-scaled for two limit cases: (i) the isentropic form of the Euler equations that degenerate to \tct{the incompressible system of equations} in the-low Mach limit and (ii) the non-isentropic version of the Euler equations with the formation of shocks that need stabilization to prevent spurious oscillations from forming.
 %multi-D Euler equations degenerate to the incompressible system of equations, which implies that the dissipative terms are well-scaled. 
 
-
-
-To adimensionalize \eqt{eq:euler_visc}, the following variables are introduced:
+The first step in the asymptotic study is to re-write \eqt{eq:euler_visc} in a non-dimensional manner. 
+In order to do so, the following variables are introduced:
 %
 \begin{multline}
 \label{eq:norm_param}
@@ -464,7 +465,7 @@ M_{\infty} = \frac{u_{\infty}}{c_{\infty}} ,
 %
 where $c_{\infty}$ is a reference value for the speed of sound.
 %The reference time $t_{\infty}$ will take two values: $t_{\infty} = L_{\infty} / u_{\infty}$ for fluid time scale and $t_{\infty} = M_{\infty} L_{\infty} / u_{\infty}$ for acoustic time scale. The objective is to isolate the effects of the acoustic wave in the asymptotic limit during a transient of a low Mach shock for example.
-The scaled Euler equations with viscous regularization are:
+The scaled Euler equations with viscous regularization are :
 %
 \begin{subequations} 
 \label{eq:Euler_eq2}
@@ -498,13 +499,15 @@ The scaled Euler equations with viscous regularization are:
 \end{multline}
 %
 \end{subequations}
-where the \emph{numerical} Reynolds $(Re_{\infty})$ and Prandtl $(Pr_{\infty})$ numbers are defined as follows:
-\begin{eqnarray}
+where the numerical Reynolds $(Re_{\infty})$ and Prandtl $(Pr_{\infty})$ numbers are defined as follows:
+%
+\begin{equation}
 \label{eq:ref_numb}
 Re_{\infty} = \frac{u_{\infty} L_{\infty}}{\mu_{\infty}} \text{ and }
 Pr_{\infty} = \frac{\mu_{\infty}}{\kappa_{\infty}} \text{.}
-\end{eqnarray}
-The Reynolds and Prandtl \emph{numerical} numbers are related to the viscosity coefficients $\mu$ and $\kappa$ through the viscosity reference values. The objective is to derive the asymptotic equations and see how the artificial dissipative terms affect the physics. 
+\end{equation}
+%
+The numerical Reynolds and Prandtl numbers introduced are related to the viscosity coefficients $\mu$ and $\kappa$ through the viscosity reference values. The objective is to derive the asymptotic equations and see how the artificial dissipative terms affect the physics. 
 For brevity, the superscript $^*$ is dropped in the remaining of this section. For simplicity, we also employ here the ideal gas equation of state. Its adimensional form is given by
 %
 \begin{equation}
