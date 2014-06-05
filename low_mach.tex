@@ -871,27 +871,35 @@ where $\norm_P^{\kappa}$ is computed from \eqt{eq:norm_ent2}. With the definitio
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{The dissipative-terms for the multi-D Euler equations with variable area} \label{sec:var_area_diss_terms}
+\section{Extension of the entropy viscosity technique Euler equations with variable area} \label{sec:var_area_diss_terms}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\tcr{since this is NEW, I think we should make a small section after the asymptotics and before the results t make it stand out as being new work and not already included in previous work}
 
-One of the focus of this paper is to investigate the application of the entropy viscosity method to the multi-D Euler equations with variable area. The variable area version of the Euler equations is mostly used in $1$-D and $2$-D for obvious reasons, and differs from \eqt{eq:euler_eq} by the momentum equation as shown in \eqt{eq:euler_variable_A}, that contains a non-conservative term proportional to the area gradient. For the purpose of this paper, the variable area is assumed to be a smooth function and only spatial dependent. An example can be found in \cite{SEM} where a fluid flows through a $1$-D convergent-divergent nozzle and reaches a steady-state solution.
+Fluid flows in pipes of varying cross-sectional area and in nozzle can be modeled using the variable area variant of the Euler equations, where the conservative variables are now multiplied by the area $A$. In addition, these equations differ from the standard Euler equations in that the the momentum equation \eqt{eq:euler_variable_A_mom} contains a non-conservative term proportional to the area gradient. For the purpose of this paper, the variable area is assumed to be a smooth function of space. 
+%An example can be found in \cite{SEM} where a fluid flows through a $1$-D convergent-divergent nozzle and reaches a steady-state solution.
 \begin{subequations}
 \label{eq:euler_variable_A}
 \begin{equation}
+\label{eq:euler_variable_A_continuity}
 \partial_t \left( \rho A \right) + \div \left( \rho \vec{u} A \right) = 0 \\
 \end{equation}
+%
 \begin{equation}
-\partial_t \left( \rho \vec{u} A \right) + \div \left[A\left( \rho \vec{u} \otimes \vec{u} + P \mathbf{I} \right) \right] = P \grad A \end{equation}
+\label{eq:euler_variable_A_mom}
+\partial_t \left( \rho \vec{u} A \right) + \div \left[A\left( \rho \vec{u} \otimes \vec{u} + P \mathbf{I} \right) \right] = P \grad A 
+\end{equation}
+% 
 \begin{equation}
-\partial_t \left( \rho E \right) + \div \left[ \vec{u} \left( \rho E + P \right) \right] = 0
+\label{eq:euler_variable_A_energy}
+\partial_t \left( \rho A E \right) + \div \left[ \vec{u} A \left( \rho E + P \right) \right] = 0
 \end{equation}
 \end{subequations}
+\tcr{no area in energy equation?}
 %
-The application of the entropy viscosity method to the above system of equations is expected to be straightforward since it degenerates to the \eqt{eq:euler_eq} when assuming a constant area. Details of the derivations of the dissipative terms are available to the reader in \app{app:diss_terms} and are very similar to what was done in \cite{jlg}. An entropy residual is derived without the dissipative terms. Then, the same entropy residual is re-derived after adding dissipative terms to each equation of the system given in \eqt{eq:euler_variable_A}, and the entropy minimum principle is used as a condition to obtain a definition for each of the dissipative terms. The final result including the dissipative terms is given in \eqt{eq:euler_variable_A_bis}:
+The application of the entropy viscosity method to the Euler equations with variable is not that different to its application for the standard Euler equations. However, we need to derive the appropriate dissipative terms and verify that the entropy minimum principle is satisfied. Details of the derivation are provided in  \app{app:diss_terms}. We summarized the process here: first, we verify that the entropy residual without dissipative terms present is positive; then, the entropy residual is derived with dissipative terms present and the entropy minimum principle is used as a condition to obtain a definition for each of the dissipative terms. Finally, the variable-area Euler equations with viscous regularization are given below:
 %
-\tcr{missing grad symmetric here}
+\tcr{\\ missing grad symmetric here \\ I have added $A$ in the energy eq. check}
 \begin{subequations}
 \label{eq:euler_variable_A_bis}
 \begin{equation}
@@ -903,12 +911,12 @@ The application of the entropy viscosity method to the above system of equations
 \end{equation}
 %
 \begin{equation}
-\partial_t \left( \rho E \right) + \div \left[ \vec{u} \left( \rho E + P \right) \right] = \div \left[ A \left( \kappa \grad \left( \rho e \right) + \frac{1}{2}|| \vec{u} ||^2 \kappa \grad \rho +  \rho \mu \vec{u} \grad \vec{u}  \right) \right]
+\partial_t \left( \rho A E \right) + \div \left[ \vec{u} A\left( \rho E + P \right) \right] = \div \left[ A \left( \kappa \grad \left( \rho e \right) + \frac{1}{2}|| \vec{u} ||^2 \kappa \grad \rho +  \rho \mu \vec{u} \grad \vec{u}  \right) \right]
 \end{equation}
 \end{subequations}
 %
-The dissipative terms are very similar to the ones obtained for the multi-D Euler equations: each dissipative flux is multiplied by the variable area $A$ in order to ensure conservation of the dissipative flux. When assuming a constant area, \eqt{eq:euler_visc} is recovered. 
-\tcr{Is this useful?: The derivation requires the viscosity coefficients $\mu$ and $\kappa$ to be positive. The viscosity coefficients $\mu$ and $\kappa$ will follow the definition given in \eqt{eq:final_def_visc_coeff}.} 
+The dissipative terms are very similar to the ones obtained for the standard Euler equations: each dissipative flux is simply multiplied by the variable area $A$ in order to ensure conservation of the dissipative flux. When assuming a constant area, \eqt{eq:euler_visc} are recovered. 
+\tcr{Is the following text useful?: The derivation requires the viscosity coefficients $\mu$ and $\kappa$ to be positive. The viscosity coefficients $\mu$ and $\kappa$ will follow the definition given in \eqt{eq:final_def_visc_coeff}.} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
