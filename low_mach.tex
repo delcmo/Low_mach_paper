@@ -924,30 +924,33 @@ The dissipative terms are very similar to the ones obtained for the standard Eul
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In order to detail the partial and temporal discretization used for this study, the system of equations \eqt{eq:euler_variable_A_bis} is considered under the following form for simplicity:
-%\tcr{no $\div D(U) \grad U$ term here to represent the viscous regularization?}
+In this section, we briefly describe the spatial and temporal techniques used to discretize and solve the system of equations \eqt{eq:euler_variable_A_bis}. For conciseness, we re-write the system of equations in the following form:
 \begin{equation}
 \label{eq:form}
 \partial_t U + \div \vec{F}\left( U \right) = S + \div D(U) \grad U
 \end{equation}
-where $U$ is the solution vector, $F$ is the conservative flux and $S$ is a source term that may contain the non-conservative term $P\grad A$. The term $\div D(U) \grad U$ represents the artificial dissipative terms with a positive, solution-dependent artificial viscosity coefficient $D(U)$. % = \mu(\vec{r},t)$. 
+where $U=[\rho A,\, \rho A \vec{u},\, \rho A E]^T$ is the solution vector, $F$ denotes the inviscid flux and $S$ is a source term that may contain the non-conservative term $P\grad A$. The term $\div D(U) \grad U$ represents the artificial dissipative terms. 
+
 %===================================================================================================
 \subsection{Spatial and Temporal Discretizations} \label{sec:disc}
 %===================================================================================================
-The system of equations given in \eqt{eq:form} is discretized using a continuous Galerkin finite element method and high-order temporal integrators available through the MOOSE framework \cite{ref MOOSE www.mooseframework.org}.
+
+The system of equations given in \eqt{eq:form} is discretized using a continuous Galerkin finite element method and temporal integrators available through the multiphysics MOOSE framework \cite{ref MOOSE www.mooseframework.org}.
+
 %---------------------------------------------------------------------------------------------------
-\subsubsection{CFEM} 
+\subsubsection{Continuous Finite Elements} 
 %---------------------------------------------------------------------------------------------------
-In order to apply the continuous finite element method, \eqt{eq:form} is multiplied by a test function $\phi$, integrated by parts and each integral is split onto each finite element $K$ of the discrete mesh $\Omega$ to obtain the weak form:
+In order to apply the continuous finite element method, \eqt{eq:form} is multiplied by a test function $\phi(\vec{r})$, integrated by parts and each integral is split onto each finite element $K$ of the discrete mesh $\Omega$ to obtain a weak form:
 \begin{multline}\label{eq:cfem}
 \sum_K \int_{K} \partial_t U \phi - \sum_K \int_{K} \vec{F}(U) \cdot \grad \phi + \int_{\partial \Omega} \vec{F}(U) \cdot \vec{n} \phi - \sum_K \int_{K} S \phi  \\
 + \sum_K \int_{K} D(U) \grad U \cdot \grad \phi - \int_{\partial \Omega} D(U) \grad U \cdot \vec{n} \phi = 0
 \end{multline}
-The integrals over the elements $K$ are evaluated using numerical quadratures. The MOOSE framework provides a wide range of test functions and quadrature rules. Linear Lagrange polynomials will be used as test functions in the results section. Second-order convergence will be demonstrated for smooth solutions. 
+The integrals over the elements $K$ are evaluated using a numerical quadrature. The MOOSE framework provides a wide range of test functions and quadrature rules. Linear Lagrange polynomials are employed as test functions in the results section. Second-order spatial convergence will be demonstrated for smooth solutions. 
+
 %---------------------------------------------------------------------------------------------------
-\subsubsection{Temporal integrator} 
+\subsubsection{Temporal integration} 
 %---------------------------------------------------------------------------------------------------
-The MOOSE framework offers both first- and second-order explicit and implicit temporal integrators. In all of the numerical examples presented in \sct{sec:results}, the time-dependent term $\int_{K} \partial_t U \phi$ will be evaluated using the second-order temporal integrator BDF2. By considering three consecutive solutions, $U^{n-1}$, $U^n$ and $U^{n+1}$, at times $t^{n-1}$, $t^n$ and $t^{n+1}$, respectively, BDF2 can be expressed as:
+The MOOSE framework offers both first- and second-order explicit and implicit temporal integrators. In all of the numerical examples presented in \sct{sec:results}, the temporal derivative  will be evaluated using the second-order temporal integrator BDF2. By considering three consecutive solutions, $U^{n-1}$, $U^n$ and $U^{n+1}$, at times $t^{n-1}$, $t^n$ and $t^{n+1}$, respectively, BDF2 can be expressed as:
 \begin{equation}
 \label{eq:BDF2}
 \int_{K} \partial_t U \phi = \int_{K} \left( \omega_0 U^{n+1}  + \omega_1 U^n + \omega_2 U^{n-1} \right) \phi\\
@@ -957,23 +960,26 @@ with
 \begin{multline}
 \omega_0 =\frac{2\Delta t^{n+1}+\Delta t^n}{\Delta t^{n+1} \left( \Delta t^{n+1}+\Delta t^n \right)} \,,\,
 \omega_1 = -\frac{\Delta t^{n+1}+\Delta t^n}{\Delta t^{n+1} \Delta t^n} 
-\text{ and } \omega_2 = \frac{\Delta t^{n+1}}{\Delta t^n \left( \Delta t^{n+1} + \Delta t^n \right)} \nonumber
+\text{, and } \omega_2 = \frac{\Delta t^{n+1}}{\Delta t^n \left( \Delta t^{n+1} + \Delta t^n \right)} \nonumber
 \end{multline}
 where $\Delta t^{n} = t^n-t^{n-1}$ and $\Delta t^{n+1} = t^{n+1}-t^{n}$.
+
 %---------------------------------------------------------------------------------------------------
 \subsection{Boundary conditions} \label{sec:bc}
 %---------------------------------------------------------------------------------------------------
-The boundary conditions will be treated by either using Dirichlet or Neumann conditions. The multi-D Euler equations are wave-dominated systems that require great care when dealing with boundary conditions. It is often recommended to use the characteristic equations to compute the correct flux at the boundaries. Our implementation of the subsonic boundary conditions will follow the method described in \cite{SEM} that was developed for Ideal Gas and Stiffened Gas equations of state. For each numerical solution presented in \sct{sec:results}, the type of boundary conditions used will be specified and \tcr{taken amping} the followings: supersonic inlet, subsonic inlet (stagnation pressure boundary), supersonic outlet and subsonic inlet (static pressure boundary). \\
-The artificial diffusion coefficient $D(U)$ is set to zero at the boundary of the computational domain so that the boundary term $\int_{\partial \Omega} D(U) \grad U \cdot \vec{n} \phi$ coming from the integration per part of the artificial dissipative terms in \eqt{eq:cfem}, is unconditionally zero.
+The boundary conditions will be treated by either using Dirichlet or Neumann conditions. The Euler equations are wave-dominated systems that require care when dealing with boundary conditions. It is often recommended to use the characteristic equations to compute the correct flux at the boundaries. Our implementation of the subsonic boundary conditions will follow the method described in \cite{SEM} that was developed for Ideal Gas and Stiffened Gas equations of state. For each numerical solution presented in \sct{sec:results}, the type of boundary conditions used will be specified and \tcr{taken amping} the followings: supersonic inlet, subsonic inlet (stagnation pressure boundary), supersonic outlet and subsonic inlet (static pressure boundary). \\
+The artificial diffusion coefficient $D(U)$ is set to zero at the boundary of the computational domain so that the boundary term $\int_{\partial \Omega} D(U) \grad U \cdot \vec{n} \phi$ coming from the integration by parts of the artificial dissipative terms in \eqt{eq:cfem} is ignored.
+
 %---------------------------------------------------------------------------------------------------
 \subsection{Solver} \label{sec:solver}
 %---------------------------------------------------------------------------------------------------
-A Jacobian-Free-Newton-Krylov (JFNK) method is used to solve for the solution at each time step. The jacobian matrix of the discretized equations was derived by hand, hard coded and used as a preconditioner. This method requires the partial derivative of the pressure with respect to the conservative variables to be known (this step is easily done for the Stiffened and Ideal Gas equation of states). The contribution of the artificial dissipative terms to the jacobian matrix is simplified by assuming constant viscosity coefficients as shown in \eqt{eq:jac_diss_term} for the dissipative terms of the continuity equation:
+A Jacobian-free-Newton-Krylov (JFNK) method is used to solve for the solution at the end of each time step. An approximate Jacobian matrix of the discretized equations was derived and implemented. Obtaining the matrix entries requires that the partial derivatives of pressure with respect to the conservative variables be known (this step is easily done for the Stiffened and Ideal Gas equations of state). The contributions of the artificial dissipative terms to the Jacobian matrix are approximated by lagging the viscosity coefficients (computing them with the previousl solution). for instance, this is shown in \eqt{eq:jac_diss_term} for the dissipative terms present in the continuity equation:
 \begin{equation}
 \label{eq:jac_diss_term}
-\frac{\partial}{\partial U_i} \left( \kappa \grad \rho \grad \phi \right) = \kappa \frac{\partial}{\partial U_i} \left( \rho \right) \grad \phi
+\frac{\partial}{\partial U} \left( \kappa \div \rho \grad \phi \right) \simeq \kappa \div \frac{\partial \rho}{\partial U} \grad \phi ,
 \end{equation}  
-where $U_i$ denotes the set of conservative variables.
+where $U$ denotes any of the conservative variables (in the above, we have neglected $\frac{\partial \kappa}{\partial U} $).
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Numerical Results} \label{sec:results}
