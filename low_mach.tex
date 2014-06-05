@@ -971,7 +971,7 @@ The artificial diffusion coefficient $D(U)$ is set to zero at the boundary of th
 %---------------------------------------------------------------------------------------------------
 \subsection{Solver} \label{sec:solver}
 %---------------------------------------------------------------------------------------------------
-A Jacobian-free-Newton-Krylov (JFNK) method is used to solve for the solution at the end of each time step. An approximate Jacobian matrix of the discretized equations was derived and implemented. Obtaining the matrix entries requires that the partial derivatives of pressure with respect to the conservative variables be known (this step is easily done for the Stiffened and Ideal Gas equations of state). The contributions of the artificial dissipative terms to the Jacobian matrix are approximated by lagging the viscosity coefficients (computing them with the previousl solution). for instance, this is shown in \eqt{eq:jac_diss_term} for the dissipative terms present in the continuity equation:
+A Jacobian-free-Newton-Krylov (JFNK) method is used to solve for the solution at the end of each time step. An approximate Jacobian matrix of the discretized equations was derived and implemented. Obtaining the matrix entries requires that the partial derivatives of pressure with respect to the conservative variables be known (this step is easily done for the Stiffened and Ideal Gas equations of state). The contributions of the artificial dissipative terms to the Jacobian matrix are approximated by lagging the viscosity coefficients (computing them with the previous solution). For instance, this is shown in \eqt{eq:jac_diss_term} for the dissipative terms present in the continuity equation:
 \begin{equation}
 \label{eq:jac_diss_term}
 \frac{\partial}{\partial U} \left( \kappa \div \rho \grad \phi \right) \simeq \kappa \div \frac{\partial \rho}{\partial U} \grad \phi ,
@@ -983,12 +983,24 @@ where $U$ denotes any of the conservative variables (in the above, we have negle
 \section{Numerical Results} \label{sec:results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-This section is dedicated to presenting $1$- and $2$-D numerical results obtained by solving \eqt{eq:euler_variable_A_bis} with the entropy viscosity method. This section has two objectives: validate our new definition of the viscosity coefficients for the low Mach limit, and, make sure that the new definition can still resolve shocks.\\
-The first set of $1$-D simulations consist of liquid water and steam flowing in a convergent-divergent nozzle. This test is interesting for multiple reasons: a steady-state is reached (some stabilization methods are known to have difficulties to reach a steady-state (\cite{FluxLimiter, FluxLimiter2}), it can be performed for liquid and gas phases, and, an analytical solution of the steady-state solution is available which allow for convergence study. The $1$-D Leblanc shock tube test \cite{Leblanc} (in a straight pipe) is also performed and consists of a flow developing shocks. A convergence study will be performed in order to demonstrate convergence of the numerical solution to the exact solution. A slow moving shock is also investigated \cite{james}. This test is interesting to evaluate the capabilities of the method at damping the post-shock low frequency noise. A strong shock for a liquid phase is also investigated. The last $1$-D test consists of a slow moving shock \cite{james}. This test is interesting to evaluate the capabilities of the method at damping the post-shock low frequency noise. The initial conditions for the last three $1$-D shock tubes are given in \tbl{tbl:ic_1d_tests} in terms of the density ($kg \cdot m^{-3}$), the velocity ($m \cdot s^{-1}$) and the pressure ($Pa$).
+
+1-D and 2-D Numerical solutions for the Euler equations with viscous regularization using the entropy viscosity method are presented here.
+Our results validate the chosen definitions for the viscosity coefficients in the low-Mach limit and verify that the new definitions still resolve shocks appropriately. 
+
+
+The first set of 1-D simulations consist of liquid water and steam flowing in a convergent-divergent nozzle. This test is of interest for multiple reasons: (a) a steady-state can be reached (some stabilization methods are known to have difficulties reaching a steady-state, \cite{FluxLimiter, FluxLimiter2}), (b) an analytical solution is available and a space-time convergence study can be performed, (c) it can be performed for liquid and gas phases, the gas phase simulation presents a shocks while the liquid-phase simulation has a significantly low Mach number.
+%
+Next, a 1-D shock tube test (in a straight pipe) taking from the Leblanc test-case suite \cite{Leblanc} is also performed and consists of a flow developing shocks. This test is known to be more challenging than Sod shock tubes and the fluid's Mach number varies spatially between \tcr{0.xx and 2}. A convergence study is also performed in order to demonstrate convergence of the numerical solution to the exact solution. 
+%
+A slow moving shock is also investigated \cite{james}. This test helps in assessing the ability of the method at damping the post-shock low frequency noise. 
+%
+Finally, a strong shock for a liquid phase is also investigated. The last $1$-D test consists of a slow moving shock \cite{james}. \tcr{??? this is the same sentence as before???} This test is interesting to evaluate the capabilities of the method at damping the post-shock low frequency noise. 
+
+The initial conditions (density in $kg.m^{-3}$, velocity in $m.s^{-1}$, pressure in $Pa$) for the last three $1$-D shock tubes are given in \tbl{tbl:ic_1d_tests}.
+\tcr{why give right values before left values???}
 \begin{table}[H]
 \begin{center}
- \caption{\label{tbl:ic_1d_tests} Initial conditions for the $1$-D shock tube tests.}
- \begin{tabular}{|c|c|c || c|c|c|}
+\begin{tabular}{|c|c|c || c|c|c|}
 \hline
 $\rho_{right}$ & $u_{right}$ & $P_{right}$ & $\rho_{left}$ & $u_{left}$ & $P_{left}$ \\
 \hline
@@ -1006,18 +1018,26 @@ $1$ & $-0.81$ & $1$ & $3.86$ & $-3.44$ & $10.33$   \\
 \hline
 \end{tabular}
 \end{center}
+\caption{\label{tbl:ic_1d_tests} Initial conditions for the $1$-D shock tube tests.}
 \end{table} 
-This section also included $2$-D simulations from subsonic to supersonic flows. Subsonic flows of a gas over a $2$-D cylinder and a hump \cite{Hump} are simulated and results are shown for various far-field Mach numbers. Numerical results of a supersonic flow in a compression corner are provided to illustrate the capabilities of the new definition in the supersonic case. Convergence studies are performed when an analytical solution is available. \\
-For each simulation, informations relative to the boundary conditions, the Current Friedrich Lax number ($CFL$), the mesh and the equation of state will be provided. All of the numerical solution presented in this section are run with the second-order temporal integrator $BDF2$ and linear polynomials test functions. The integrals are numerically computed using a second-order Gauss quadrature rule. The Ideal Gas \cite{IGEOS} or Stiffened Gas equation of state \cite{SGEOS} are used and a generic formulation is recalled in \eqt{eq:eos}.
+
+
+2-D simulations presented are discussed next. 
+First, subsonic flows of around a $2$-D cylinder \cite{} and over a Gaussian hump \cite{Hump} are presented for various far-field Mach numbers (as low of $10^{-7$}). Numerical results of a supersonic \tcr{transonic?} flow in a compression corner are provided to illustrate the ability of the new viscosity definitions to handle supersonic flows. Convergence studies are performed when analytical solutions are available. 
+
+For each simulation, data relative to the boundary conditions, the Courant-Friedrichs-Lewy number ($CFL$), mesh and equation of state will be provided. All of the numerical solution presented are performed with the BDF2 temporal integrator and using linear (in 1D) and bilinear (in 2D) finite elements. The integrals are numerically computed using a second-order Gauss quadrature rule. The ideal gas \cite{IGEOS} or stiffened gas equations of state \cite{SGEOS} are used; a generic expression is given in \eqt{eq:eos}.
+%
 \begin{equation}
 \label{eq:eos}
 P = (\gamma-1) \rho (e-q) - \gamma P_\infty
 \end{equation}
-where the parameters $q$ and $P_\infty$ are fluid dependent and are recalled in . 
-\begin{table}[H]
+%
+where the parameters $q$ and $P_\infty$ are fluid-dependent. The values we employed are given in \tbl{tbl:stff_gas_eos}. 
+%
+\begin{table}[!htbp]
 \begin{center}
- \caption{\label{tbl:stff_gas_eos} Stiffened Gas Equation of State parameters for steam and liquid water.}
- \begin{tabular}{|c|c|c|c|c|}
+\caption{\label{tbl:stff_gas_eos} Stiffened Gas Equation of State parameters for steam and liquid water.}
+\begin{tabular}{|c|c|c|c|c|}
  \hline
 \text{fluid} & $\gamma$ & $C_v$ $(J\cdot kg^{-1} \cdot K^{-1})$ & $P_\infty$ $(Pa)$ & $q$ $(J \cdot kg^{-1})$ \\
  \hline
@@ -1028,11 +1048,14 @@ liquid water & 2.35 & 1816 & $10^9$ & $-1167.10^3$   \\
 \end{tabular}
 \end{center}
 \end{table}
+%
 \eqt{eq:eos} degenerates to the Ideal Gas equation of state by setting $q$ and $P_\infty$ to zero. The Ideal and Stiffened Gas equation of states have a convex entropy $s$:
-\begin{equation}
-s = C_v \ln \left( \frac{P+P_\infty}{\rho^{\gamma-1}} \right) \nonumber
-\end{equation}
+%
+\begin{equation*}
+s = C_v \ln \left( \frac{P+P_\infty}{\rho^{\gamma-1}} \right) 
+\end{equation*}
 where $C_v$ is the heat capacity at constant volume.
+
 %---------------------------------------------------------------------------------------------------
 \subsection{Liquid water in a $1$-D divergent-convergent nozzle} \label{sec:liquid_nozzle}
 %---------------------------------------------------------------------------------------------------
