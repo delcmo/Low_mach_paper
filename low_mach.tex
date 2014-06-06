@@ -589,12 +589,11 @@ The leading-order of the equation of state is given by
 %
 Using \eqt{eq:leading_order_eos}, the energy equation can be recast as a function of the leading-order pressure, $P_0$, as follows:
 %
-\tcr{I think the terms in red should be removed}
 \begin{equation}\label{eq:asympt_equ3_ener}
- \tcr{\gamma} \partial_t P_0 + \gamma \div \left( \vec{u} P \right)_0 = \tcr{\left( \gamma-1 \right)} \div(\kappa \grad(P))_0
+ \partial_t P_0 + \gamma \div \left( \vec{u} P \right)_0 =  \div(\kappa \grad(P))_0
 \end{equation}
 %
-From \eqt{eq:asympt_equ1_cont}, we infer that it $P_0$ is spatially constant. Thus, \eqt{eq:asympt_equ3_ener} becomes
+From \eqt{eq:asympt_equ1_cont}, we infer that $P_0$ is spatially constant. Thus, \eqt{eq:asympt_equ3_ener} becomes
 %
 \begin{equation}
 \frac{1}{\gamma P_0} \frac{d P_0}{dt} = - \div \vec{u}_0 
@@ -664,8 +663,6 @@ Therefore, we conclude that by setting the non-dimensionalized Reynolds and P\'e
 %%%\end{equation}
 %%%Thus, by setting the non-dimensionalized numbers equal to one, the incompressible fluid equations are retrieved when performing a low Mach asymptotic limit of the compressible Euler equations.
 %%%\end{itemize}
-
-\tcr{can we discuss what would happen with $\Pe=1/M^2$? you had something interesting too}\\
 
 The study of the two limit cases yields two different scalings of the non-dimensionalized Peclet number: $\Pe_\infty = 1$ in the isentropic case and$\Pe_\infty  = M_\infty^2$ for non-isentropic compressible Euler equations. The numerical Reynolds number is always equal to one. In order to have a stabilization method valid for a wide range of Mach numbers, including situations with shocks, these two scalings should be merged into a unique representation. An option is to investigate how the non-dimensionalized entropy residual scales for different flow types (isentropic and non-isentropic). For an isentropic flow, i.e. without shocks, the non-dimensionalized entropy residual is known to scale as the Mach number. On the other hand, in the shock region, the non-dimensionalized entropy residual will experience a peak. Thus, by investigating the local variation of the non-dimensionalized entropy residual, the flow type can be deduced and the proper normalization used, as follows:
 \begin{eqnarray}  \label{eq:norm_ent}
@@ -895,11 +892,10 @@ Fluid flows in pipes of varying cross-sectional area and in nozzle can be modele
 \partial_t \left( \rho A E \right) + \div \left[ \vec{u} A \left( \rho E + P \right) \right] = 0
 \end{equation}
 \end{subequations}
-\tcr{no area in energy equation?}
 %
 The application of the entropy viscosity method to the Euler equations with variable is not that different to its application for the standard Euler equations. However, we need to derive the appropriate dissipative terms and verify that the entropy minimum principle is satisfied. Details of the derivation are provided in  \app{app:diss_terms}. We summarized the process here: first, we verify that the entropy residual without dissipative terms present is positive; then, the entropy residual is derived with dissipative terms present and the entropy minimum principle is used as a condition to obtain a definition for each of the dissipative terms. Finally, the variable-area Euler equations with viscous regularization are given below:
 %
-\tcr{\\ missing grad symmetric here \\ I have added $A$ in the energy eq. check}
+\tcr{\\ missing grad symmetric here \\ Added $A$ in the energy eq. double check for good measure}
 \begin{subequations}
 \label{eq:euler_variable_A_bis}
 \begin{equation}
@@ -1318,49 +1314,60 @@ The density, momentum and total energy profiles are provided in \fig{fig:1d_lebl
 % For each plot in \fig{fig:1d_lebalnc}, the numerical solution run the first-order viscosity is also plotted: it is observed that the 
 Once again, a convergence study is performed in order to prove convergence of the numerical solution to the exact solution. As in the previous example (the vapor phase in the 1-D nozzle, \sct{sec:steam_nozzle}), the expected convergence rates in the L$_1$ and L$_2$ norms are $1$ and $1/2$, respectively. The exact solution was obtained by running a 1-D Riemann solver and used as the reference solution to compute the L$_1$ and L$_2$-norms that are reported in \tbl{tbl:l1_norm_leblanc} and \tbl{tbl:l2_norm_leblanc} for the conservative variables: density, momentum and total energy. The convergence rates are approaching the theoretical values.
 
-
 \begin{table}[!htbp]
 \begin{center}
  \caption{\label{tbl:l1_norm_leblanc} L$_1$ norm of the error for the 1-D Leblanc test at $t=4s$.}
- \begin{tabular}{|c|c|c|c|c|c|c|}
+ \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
  \hline
-   cells & density & rate & momentum & rate \\
- \hline
-$100$ &   $1.0354722$ $10^{-2}$ & $-$ & $3.5471714$ $10^{-3}$ & $-$ \\
-  \hline
-$200$  &  $7.2680512$ $10^{-3}$ & $0.51064841$ & $2.5933119$ $10^{-3}$ & $0.45187331$ \\
-   \hline
-$400$ & $5.0825628$ $10^{-3}$   & $0.51601245$ & $2.0668092$ $10^{-3}$ & $0.32739054$ \\
- \hline
-$800$ & $3.4025056$ $10^{-3}$   & $0.57895861$ & $1.4793838$ $10^{-3}$ & $0.48240884$ \\
- \hline
-$1600$ & $2.1649953$ $10^{-3}$  & $0.65223363$ & $9.7152832$ $10^{-4}$ & $0.6066684$ \\
- \hline
-$3200$&$1.2465433$ $10^{-3}$    & $0.79643094$ & $5.5937409$ $10^{-4}$ & $0.79644263$ \\
- \hline
-$6400$& $6.4476928$ $10^{-4}$    & $0.95107804$ & $3.0244198$ $10^{-4}$ & $0.88715502$ \\
- \hline
- $12800$&$3.3950948$ $10^{-4}$  & $0.92533116$ & $1.5958118$ $10^{-4}$ & $0.9223679$ \\
- \hline
+  cells & density               & rate         & momentum              & rate          & total energy          & rate         \\  \hline
+$100$   & $1.0354722$ $10^{-2}$ & $-$          & $3.5471714$ $10^{-3}$ & $-$           & $1.4033046$ $10^{-3}$ & $-$          \\  \hline
+$200$   & $7.2680512$ $10^{-3}$ & $0.51064841$ & $2.5933119$ $10^{-3}$ & $0.45187331$  & $9.8611746$ $10^{-4}$ & $0.5089968$  \\  \hline
+$400$   & $5.0825628$ $10^{-3}$ & $0.51601245$ & $2.0668092$ $10^{-3}$ & $0.32739054$  & $7.7844421$ $10^{-4}$ & $0.34116585$ \\  \hline
+$800$   & $3.4025056$ $10^{-3}$ & $0.57895861$ & $1.4793838$ $10^{-3}$ & $0.48240884$  & $5.5702549$ $10^{-4}$ & $0.48285029$ \\  \hline
+$1600$  & $2.1649953$ $10^{-3}$ & $0.65223363$ & $9.7152832$ $10^{-4}$ & $0.6066684$   & $3.5720171$ $10^{-4}$ & $0.64100438$ \\  \hline
+$3200$  & $1.2465433$ $10^{-3}$ & $0.79643094$ & $5.5937409$ $10^{-4}$ & $0.79644263$  & $2.0491799$ $10^{-4}$ & $0.80169235$ \\  \hline
+$6400$  & $6.4476928$ $10^{-4}$ & $0.95107804$ & $3.0244198$ $10^{-4}$ & $0.88715502$  & $1.0914891$ $10^{-4}$ & $0.90874889$ \\  \hline
+$12800$ & $3.3950948$ $10^{-4}$ & $0.92533116$ & $1.5958118$ $10^{-4}$ & $0.9223679$   & $5.7909794$ $10^{-5}$ & $0.91441847$ \\  \hline
  \end{tabular}
- \begin{tabular}{|c|c|c|}
-\hline
-cells & total energy & rate \\ \hline
- $100$ & $0.0014033046$                   & $-$\\ \hline
-  $200$  & $9.8611746$ $10^{-4}$& $0.5089968$\\ \hline
-  $400$ & $7.7844421$ $10^{-4}$ & $0.34116585$\\ \hline
-  $800$ & $5.5702549$ $10^{-4}$ & $0.48285029$\\ \hline
-  $1600$ & $3.5720171$ $10^{-4}$ & $0.64100438$\\ \hline
-  $3200$ & $2.0491799$ $10^{-4}$ & $0.80169235$\\ \hline
-  $6400$ & $1.0914891$ $10^{-4}$ & $0.90874889$\\ \hline
-   $12800$&$5.7909794$ $10^{-5}$ & $0.91441847$\\ \hline
-\end{tabular}
 \end{center}
-\nonumber
 \end{table}
-\begin{table}[H]
+
+%\begin{table}[!htbp]
+%\begin{center}
+ %\caption{\label{tbl:l1_norm_leblanc} L$_1$ norm of the error for the 1-D Leblanc test at $t=4s$.}
+ %\begin{tabular}{|c|c|c|c|c|c|c|}
+ %\hline
+   %cells & density & rate & momentum & rate \\
+ %\hline
+%$100$   & $1.0354722$ $10^{-2}$ & $-$          & $3.5471714$ $10^{-3}$ & $-$           \\  \hline
+%$200$   & $7.2680512$ $10^{-3}$ & $0.51064841$ & $2.5933119$ $10^{-3}$ & $0.45187331$  \\  \hline
+%$400$   & $5.0825628$ $10^{-3}$ & $0.51601245$ & $2.0668092$ $10^{-3}$ & $0.32739054$  \\  \hline
+%$800$   & $3.4025056$ $10^{-3}$ & $0.57895861$ & $1.4793838$ $10^{-3}$ & $0.48240884$  \\  \hline
+%$1600$  & $2.1649953$ $10^{-3}$ & $0.65223363$ & $9.7152832$ $10^{-4}$ & $0.6066684$   \\  \hline
+%$3200$  & $1.2465433$ $10^{-3}$ & $0.79643094$ & $5.5937409$ $10^{-4}$ & $0.79644263$  \\  \hline
+%$6400$  & $6.4476928$ $10^{-4}$ & $0.95107804$ & $3.0244198$ $10^{-4}$ & $0.88715502$  \\  \hline
+%$12800$ & $3.3950948$ $10^{-4}$ & $0.92533116$ & $1.5958118$ $10^{-4}$ & $0.9223679$   \\  \hline
+ %\end{tabular}
+ %\begin{tabular}{|c|c|c|}
+%\hline
+%cells & total energy & rate \\ \hline
+  %$100$  & $0.0014033046$        & $-$           \\ \hline
+  %$200$  & $9.8611746$ $10^{-4}$ & $0.5089968$   \\ \hline
+  %$400$  & $7.7844421$ $10^{-4}$ & $0.34116585$  \\ \hline
+  %$800$  & $5.5702549$ $10^{-4}$ & $0.48285029$  \\ \hline
+  %$1600$ & $3.5720171$ $10^{-4}$ & $0.64100438$  \\ \hline
+  %$3200$ & $2.0491799$ $10^{-4}$ & $0.80169235$  \\ \hline
+  %$6400$ & $1.0914891$ $10^{-4}$ & $0.90874889$  \\ \hline
+ %$12800$ & $5.7909794$ $10^{-5}$ & $0.91441847$  \\ \hline
+%\end{tabular}
+%\end{center}
+%\nonumber
+%\end{table}
+%
+\begin{table}[!htbp]
 \begin{center}
- \caption{\label{tbl:l2_norm_leblanc} L$_2$ norm of the error for the 1-D Leblanc test at $t=4s$.}
+ \caption{\label{tbl:l2_norm_leblanc} L$_2$ norm of the error for the 1-D Leblanc test at $t=4s$.\\ \tcr{please change table formatting as I have done above. In the final paper, they use smaller fonts for tables so it may fit fine in a single tabular}
+}
  \begin{tabular}{|c|c|c|c|c|c|c|}
  \hline
    cells & density & rate & momentum & rate \\
@@ -1428,9 +1435,11 @@ The simulation is run with a $CFL=1$ until the final time $t_{final} = 7 \cdot 1
         \caption{Numerical solution for the 1-D liquid shock tube at  at $t_{final} = 7 \cdot 10^{-5}$ $s$.}\label{fig:1d_strong_shock}
 \end{figure}
 The numerical solution does not display any oscillations and match the exact solution in \fig{fig:1d_strong_shock_var}. The viscosity coefficients $\mu$ and $\kappa$ are not equal in the shock because the Mach number is of order $0.1$. The viscosity coefficient $\kappa$ saturate to the first-order viscosity in the shock region around $x = 0.65$ $m$ and seems sufficient to stabilize the numerical scheme. This example illustrates the capabilities of the entropy viscosity method to stabilize a strong shock. 
+
 %---------------------------------------------------------------------------------------------------
 \subsection{1-D slow moving shock} \label{sec:slow_moving_shock}
 %---------------------------------------------------------------------------------------------------
+
 A 1-D slow moving shock (\cite{james}) is simulated with the entropy viscosity method. It consist of a shock wave moving from left to right with the initial conditions given in \tbl{tbl:ic_1d_tests}. The Ideal Gas equation of state is used with a heat capacity ratio, $\gamma$, of $1.4$. Note that assuming a $CFL$ of $1$, it takes up to $50$ time steps for the shock to traverse one mesh cell. In order to make the shock travel a significant distance, the final time is taken equal to $t=1.1s$. Then, a pressure boundary condition is used at the left boundary to let the rarefaction and contact waves exit the domain.   
 A slow moving shock is known to produce post-shock noise of low frequency that are not damped by some numerical dissipation methods (\cite{james}). The objective, here, is to see wether or not the entropy viscosity method is capable of damping the low frequency waves. Numerical results are given in \fig{fig:low_moving_shock} and are compared to the exact solution obtained from a Riemann solver. The numerical solution was obtained with an uniform mesh of $200$ cells and $CFL=1$.
 \begin{figure}[H]
