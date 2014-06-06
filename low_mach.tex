@@ -1504,7 +1504,7 @@ Several simulations are performed, with inlet Mach numbers $M_{\text{inlet}}$ ra
 %                \caption{Steady-state solution at $M_\infty=10^{-8}$.}
 %                \label{fig:cyl_1em8}
 %        \end{subfigure}
-        \caption{Steady-state solution for a subsonic flow over a 2-D cylinder with inlet Mach number values from ranging from $10^{-3}$ to $10^{-7}$.}
+        \caption{Iso-Mach lines for a subsonic flow over a 2-D cylinder with inlet Mach number values from ranging from $10^{-3}$ to $10^{-7}$ (steady-state solution).}
 				\label{fig:cylinder}
 \end{figure}
 %
@@ -1539,15 +1539,17 @@ In \fig{fig:pressure_vel_fluc}, the pressure and velocity fluctuations are plott
 \subsection{Subsonic flow over a 2-D hump} \label{sec:hump}
 %---------------------------------------------------------------------------------------------------
 
-This is a another example of an internal flow configuration. It consist of a channel of height $L=1$ $m$ and length $3L$, with a circular bump of length $L$ and thickness $0.1L$. The bump is located on the bottom wall at a distance $L$ from the inlet. The system is initialized with an uniform pressure $P=101325$ $Pa$ and temperature $T=300$ $K$. The initial velocity is computed from the Mach number, $M_{\infty}$, the pressure, the temperature and the Ideal Gas equation of state with the heat capacity $C_v = 717$ $J/kg-K$ and the heat capacity ratio $\gamma=1.4$. At the inlet, a subsonic stagnation boundary condition is used and the stagnation pressure and temperature are computed using \eqt{eq:stagnation_relations}.
-The static pressure $P_s = 101325$ $Pa$ is set at the subsonic outlet. The results are shown in \fig{fig:2d_hump_mach_0p7}, \fig{fig:2d_hump_mach_0p01}, \fig{fig:2d_hump_mach_0p0001} and \fig{fig:2d_hump_mach_0p0000001} for the inlet Mach numbers $M_{\infty}=0.7$, $M_{\infty}=0.01$, $M_{\infty}=10^{-4}$ and $M_{\infty}=10^{-7}$, respectively. It is expected that, within the low Mach number range, the solution does not depend on the Mach number and is identical to the solution obtained with an incompressible flow code. On the other hand, for a flow at $M=0.7$, the compressible effects become more important and shock can form. An uniform grid of $3352$ $Q_1$ elements was used to get the numerical solution for Mach numbers below $M_{\infty}=0.01$. The mesh was refined once for $M_{\infty}=0.7$ in order to better resolve the shock. The code was run with a $CFL$ of $20$ until steady-state is reached.
+\txr{circular or Gaussian hump???}
+
+This is a another example of an internal flow configuration. It consists of a channel of height $L=1$ $m$ and length $3L$, with a circular bump of length $L$ and thickness $0.1L$. The bump is located on the bottom wall at a distance $L$ from the inlet. The system is initialized with an uniform pressure $P=101,325$ $Pa$ and temperature $T=300$ $K$. The initial velocity is computed from the inlet Mach number, the pressure, the temperature and the ideal gas equation (with  $\gamma=1.4$). Here,  $C_v = 717$ $J/kg-K$. At the inlet, a subsonic stagnation boundary condition is used and the stagnation pressure and temperature are computed using \eqt{eq:stagnation_relations}.
+The static pressure $P_s = 101,325$ $Pa$ is set at the subsonic outlet. The results are shown in \fig{fig:2d_hump_mach_0p7}, \fig{fig:2d_hump_mach_0p01}, \fig{fig:2d_hump_mach_0p0001} and \fig{fig:2d_hump_mach_0p0000001} for the inlet Mach numbers $M_{\infty}=0.7$, $M_{\infty}=0.01$, $M_{\infty}=10^{-4}$ and $M_{\infty}=10^{-7}$, respectively. It is expected that, within the low Mach number range, the solution does not depend on the Mach number and is identical to the solution obtained with an incompressible flow code. On the other hand, for a flow at $M=0.7$, the compressible effects become more important and shock can form. An uniform grid of $3352$ $Q_1$ elements was used to obtain the numerical solution for Mach numbers below $M_{\infty}=0.01$. A once-refined mesh was employed for the $M_{\infty}=0.7$ simulation in order to better resolve the shock. A $CFL$ of $20$ was employed and the simulations were run until steady state.
 %
 \begin{figure}[H]
         \centering
         \begin{subfigure}[b]{0.5\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{Hump2D_mach_0p7.png}
-                \caption{Mach $0.7$: iso-Mach lines at steady-state.}
+                \caption{Mach $0.7$}
                 \label{fig:2d_hump_mach_0p7}
         \end{subfigure}%
           %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
@@ -1555,7 +1557,7 @@ The static pressure $P_s = 101325$ $Pa$ is set at the subsonic outlet. The resul
         \begin{subfigure}[b]{0.5\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{Hump2D_mach_0p01.png}
-                \caption{Mach $10^{-2}$: iso-Mach lines at steady-state.}
+                \caption{Mach $10^{-2}$}
                 \label{fig:2d_hump_mach_0p01}
         \end{subfigure}%
         
@@ -1564,7 +1566,7 @@ The static pressure $P_s = 101325$ $Pa$ is set at the subsonic outlet. The resul
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{Hump2D_mach_1em4.png}
-                \caption{Mach $10^{-5}$: iso-Mach lines at steady-state.}
+                \caption{Mach $10^{-5}$}
                 \label{fig:2d_hump_mach_0p0001}
         \end{subfigure}
          %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
@@ -1572,15 +1574,18 @@ The static pressure $P_s = 101325$ $Pa$ is set at the subsonic outlet. The resul
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{Hump2D_mach_1em7.png}
-                \caption{Mach $10^{-7}$: iso-Mach lines at steady-state.}
+                \caption{Mach $10^{-7}$}
                 \label{fig:2d_hump_mach_0p0000001}
         \end{subfigure}
-        \caption{Steady-state solution for a 2-D flow over a circular bump.}\label{fig:2d_hump}
+        \caption{Iso-Mach lines for a 2-D flow over a circular bump (steady-state solution).}
+				\label{fig:2d_hump}
 \end{figure}
 %
-The results showed in \fig{fig:2d_hump_mach_0p01}, \fig{fig:2d_hump_mach_0p0001} and \fig{fig:2d_hump_mach_0p0000001} correspond to the low Mach regime. The iso-Mach lines are drawn ranging from the minimum and the maximum of each legend with 50 intervals. The steady-state solution is symmetric and does not depend on the value of the inlet Mach number as expected. \\
-In \fig{fig:2d_hump_mach_0p7}, the steady-state numerical solution develops a shock: the compressibility effect are no longer negligible. The iso-Mach lines are also plotted with $50$ intervals and ranging from $0.4$ to $1.6$. The shock is well resolved and does not display any instability or spurious oscillation. \\
-The results presented in \fig{fig:2d_hump} were obtained with the new definition of the viscosity coefficient (see \eqt{eq:final_def_visc_coeff}), and, illustrate the capabilities of the entropy-viscosity method to adapt to the type of flow (subsonic and transonic flows) without using any tuning parameters, but by just evaluating the entropy residual that is an indicator of the entropy production.    
+The results showed in \fig{fig:2d_hump_mach_0p01}, \fig{fig:2d_hump_mach_0p0001} and \fig{fig:2d_hump_mach_0p0000001} correspond to the low-Mach regime. The iso-Mach lines are drawn ranging from the minimum and the maximum values (provided in each legend) using 50 equally-spaced intervals. The steady-state solution is symmetric and does not depend on the value of the inlet Mach number, as expected in the \tcr{incompressible} limit. 
+
+In \fig{fig:2d_hump_mach_0p7}, the steady-state numerical solution develops a shock: the compressibility effect are no longer negligible. The iso-Mach lines are also plotted with $50$ intervals and range from $0.4$ to $1.6$. The shock is well resolved and does not display any instabilities or spurious oscillations. \\
+The results presented in \fig{fig:2d_hump} were obtained with the new definitions of the viscosity coefficients and illustrate the ability of the entropy viscosity method to correctly simulate several types of flows (subsonic and transonic flows) without tuning parameters.
+%, but by just evaluating the entropy residual that is an indicator of the entropy production.    
 
 %---------------------------------------------------------------------------------------------------
 \subsection{Supersonic flow in a compression corner} \label{sec:corner}
