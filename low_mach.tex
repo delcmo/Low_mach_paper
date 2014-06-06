@@ -1016,7 +1016,7 @@ $1$ & $-0.81$ & $1$ & $3.86$ & $-3.44$ & $10.33$                                
 2-D simulations presented are discussed next. 
 First, subsonic flows of around a 2-D cylinder \cite{Cylinder} and over a Gaussian hump \cite{Hump} are presented for various far-field Mach numbers (as low of $10^{-7}$). Numerical results of a supersonic \tcr{transonic?} flow in a compression corner are provided to illustrate the ability of the new viscosity definitions to handle supersonic flows. Convergence studies are performed when analytical solutions are available. 
 
-For each simulation, data relative to the boundary conditions, the Courant-Friedrichs-Lewy number ($CFL$), mesh and equation of state will be provided. All of the numerical solution presented are performed with the BDF2 temporal integrator and using linear (in 1D) and bilinear (in 2D) finite elements. The integrals are numerically computed using a second-order Gauss quadrature rule. The ideal gas \cite{IGEOS} or stiffened gas equations of state \cite{SGEOS} are used; a generic expression is given in \eqt{eq:eos}.
+For each simulation, data relative to the boundary conditions, the Courant-Friedrichs-Lewy number ($CFL$), mesh and equation of state will be provided. All of the numerical solution presented are obtained using BDF2 as temporal integrator and linear (1D), $\mathbb{P}_1$ (2D triangular mesh), $\mathbb{Q}_1$ (2D quadrangular mesh) finite elements. The integrals are numerically computed using a second-order Gauss quadrature rule. The ideal gas \cite{IGEOS} or stiffened gas equations of state \cite{SGEOS} are used; a generic expression is given in \eqt{eq:eos}.
 %
 \begin{equation}
 \label{eq:eos}
@@ -1399,7 +1399,7 @@ The simulation is run with a $CFL=1$ until the final time $t_{\text{final}} = 7 
 Slow moving shocks are known to produce post-shock noise of low frequency that are not damped by some numerical dissipation methods \cite{james}. The aim of this simulation is to test the ability of the entropy viscosity method of damping the low frequency waves.
 The 1-D slow moving shock consists of a shock wave moving from left to right with the initial conditions given in \tbl{tbl:ic_1d_tests}. The ideal gas equation of state is used with a heat capacity ratio, $\gamma$, of 1.4.  In order to make the shock travel a significant distance, the final time is taken equal to $t=1.1s$. A pressure boundary condition is used at the left boundary to let the rarefaction and contact waves exit the domain.   
 %
-The numerical solution, obtained with 200 equally spaced cells, is given in \fig{fig:low_moving_shock} and is compared to the exact solution obtained from a Riemann solver. We use a $CFL$ of $1$. With this $CFL$ value, it takes about $50$ time steps for the shock to traverse one cell.
+The numerical solution, obtained with 200 equally-spaced cells, is given in \fig{fig:low_moving_shock} and is compared to the exact solution obtained from a Riemann solver. We use a $CFL$ of $1$. With this $CFL$ value, it takes about $50$ time steps for the shock to traverse one cell.
 %
 The numerical results are in good agreement with the exact solution and do not display any post-shock noise. The rarefaction and contact waves are not visible on \fig{fig:profiles_sms} since they exited the computational domain through the left pressure boundary condition earlier. As explained in \cite{roberts}, Godunov's type method usually fails to resolve a slow moving shock because of the nature of the stabilization method: the method scales as the eigenvalue of the appropriate field. In the case of a slow moving shock, the dissipation added to the system is under-estimated and leads to post-shock noise. In the case of the entropy viscosity method, the entropy residual detects the shock position and the viscosity coefficients saturate to the first-order viscosity values. The main difference between a  Godunov's type method and the entropy viscosity method relies in the definition of the first-order viscosity coefficients that are proportional to the \emph{local maximum eigenvalue} $||\vec{u}||+c$ and not to the eigenvalue of the characteristic field \tcr{is field appropriate here? variable?}.
 %
@@ -1427,20 +1427,20 @@ The numerical results are in good agreement with the exact solution and do not d
 \subsection{Subsonic flow over a 2-D cylinder} \label{sec:cylinder}
 %---------------------------------------------------------------------------------------------------
 
-The flow of a fluid over a 2-D cylinder is a typical benchmark case to test the behavior of a numerical method in the low Mach regime. For this test, an analytical solution is available in the incompressible limit or low Mach limit and often referred to as potential flow. The main features of the potential flow are the following:
+Fluid flow over a 2-D cylinder is often used as a benchmark case to test numerical schemes in the low-Mach regime \cite{I suppose some guillard papers, but many others as well}. For this test, an analytical solution is available in the incompressible limit or low-Mach limit and is often referred to as the potential flow solution \tcr{check my change}. The main features of the potential flow are the following:
 %
 \begin{itemize}
-\item The solution is symmetric: the iso-mach number lines are used to asses the symmetry of the numerical solution.
-\item The velocity at the top of the cylinder is twice the incoming velocity set at the inlet.
-\item The pressure fluctuations are proportional to the inlet Mach number square as follows: 
-\begin{eqnarray}
-\tilde{P} = \frac{\max(P) - \min(P)}{\max(P)}  \propto M_\infty^2\nonumber
+\item The solution is symmetric: the iso-Mach countour lines are used to asses the symmetry of the numerical solution;
+\item The velocity at the top of the cylinder is twice the incoming velocity set at the inlet;
+\item The pressure fluctuations are proportional to the square of inlet Mach number, i.e., 
+\begin{equation}
+\delta P = \frac{\max(P(\vec{r})) - \min(P(\vec{r}))}{\max(P(\vec{r}))}  \propto M_\infty^2
 %||\tilde{\vec{u}}|| = \frac{\max(||\vec{u}||) - \min(||\vec{u}||)}{\max(||\vec{u}||)}  \propto M_\infty\nonumber 
-\end{eqnarray}
-where $\tilde{P}$ and $M_\infty$ are the pressure fluctuations and the inlet Mach number, respectively.
+\end{equation}
+where $\delta P$ and $M_\infty$ denote the pressure fluctuations and the inlet Mach number, respectively.
 \end{itemize}
 %
-The computational domain consists of a $1\times 1$ square with a circular hole of radius $0.05$ in its middle. A $P_1$ triangular mesh with $4008$ elements was used to discretize the geometry. At the inlet, a subsonic stagnation boundary condition is used: the stagnation pressure and temperature are computed using the following relations, valid for the Stiffened and Ideal gas equation of states:
+The computational domain consists of a $1\times 1$ square with a circular hole of radius $0.05$ in its center. A $\mathbb{P}_1$ triangular mesh with $4008$ triangular elements was used to discretize the geometry. \tcr{The ideal gas equation of state, with $gamma=1.4$ is used.}At the inlet, a subsonic stagnation boundary condition is used: the stagnation pressure and temperature are computed using the following relations:
 %
 \begin{equation}
 \label{eq:stagnation_relations}
@@ -1452,16 +1452,16 @@ T_0 = T\left( 1 + \frac{\gamma-1}{2} M^2 \right)
 \right.
 \end{equation}
 %
-The static pressure $P_s = 101325$ $Pa$ is set at the subsonic outlet and a static pressure boundary type is used. The implementation of the pressure boundary conditions is done on the model of \cite{SEM}. A solid wall boundary condition is set for the top and bottom walls of the computational domain: the normal velocity is zero since no mass can penetrate the solid body. Lastly, the code is run until steady-state with a $CFL$ of $40$.\\
-The steady-state for Mach numbers ranging from $M_\infty = 10^{-3}$ to $M_{\infty} = 10^{-7}$ is shown in \fig{fig:cylinder}. The iso-Mach lines are drawn with $30$ intervals ranging from $2 \cdot 10^{-10}$ to $2M_\infty$, and allow to assess the symmetry of the numerical solution.
-The steady-state for Mach numbers ranging from $M_\infty = 10^{-3}$ to $M_{\infty} = 10^{-7}$ is shown in \fig{fig:cylinder}. The iso-Mach lines are drawn with $30$ intervals ranging from $2 \cdot 10^{-10}$ to $2M_\infty$, and allow to assess the symmetry of the numerical solution.
+The static pressure $P_s = 101,325$ $Pa$ is set at the subsonic outlet and a static pressure boundary type is used \tcr{confusing. what are you trying to say?}. The implementation of the pressure boundary conditions is done on the model of \cite{SEM}. A solid wall boundary condition is set for the top and bottom walls of the computational domain: the normal component of the velocity. The simulations are run until a steady-state is reached \tcr{explain a bit the stopping criterion for reaching SS} with a $CFL$ of $40$.
+
+Several simulations are performed, with inlet Mach numbers $M_{\text{inlet}}$ ranging from $10^{-3}$ to $10^{-7}$, and are shown in \fig{fig:cylinder}. The iso-Mach contour lines are drawn using $30$ equally-spaced intervals $2 \ 10^{-10}$ to $M_{\text{inlet}}$ and allow us to assess the symmetry of the numerical solution.
 %
 \begin{figure}[H]
         \centering
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{CylinderMach1em3ZoomIn.png}
-                \caption{Steady-state solution at $M_\infty=10^{-3}$.}
+                \caption{$M_{\text{inlet}}=10^{-3}$}
                 \label{fig:cyl_1em3}
         \end{subfigure}%
         %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
@@ -1469,7 +1469,7 @@ The steady-state for Mach numbers ranging from $M_\infty = 10^{-3}$ to $M_{\inft
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{CylinderMach1em4ZoomIn.png}
-                \caption{Steady-state solution at $M_\infty=10^{-4}$.}
+                \caption{$M_{\text{inlet}}=10^{-4}$}
                 \label{fig:cyl_1em4}
         \end{subfigure}    
          %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
@@ -1477,7 +1477,7 @@ The steady-state for Mach numbers ranging from $M_\infty = 10^{-3}$ to $M_{\inft
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{CylinderMach1em5ZoomIn.png}
-                \caption{Steady-state solution at $M_\infty=10^{-5}$.}
+                \caption{$M_{\text{inlet}}=10^{-5}$}
                 \label{fig:cyl_1em5}
         \end{subfigure}
           %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
@@ -1485,7 +1485,7 @@ The steady-state for Mach numbers ranging from $M_\infty = 10^{-3}$ to $M_{\inft
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{CylinderMach1em6ZoomIn.png}
-                \caption{Steady-state solution at $M_\infty=10^{-6}$.}
+                \caption{$M_{\text{inlet}}=10^{-6}$}
                 \label{fig:cyl_1em6}
         \end{subfigure}
          %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
@@ -1493,7 +1493,7 @@ The steady-state for Mach numbers ranging from $M_\infty = 10^{-3}$ to $M_{\inft
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{CylinderMach1em7ZoomIn.png}
-                \caption{Steady-state solution at $M_\infty=10^{-7}$.}
+                \caption{$M_{\text{inlet}}=10^{-7}$}
                 \label{fig:cyl_1em7}
         \end{subfigure}
           %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
@@ -1504,10 +1504,11 @@ The steady-state for Mach numbers ranging from $M_\infty = 10^{-3}$ to $M_{\inft
 %                \caption{Steady-state solution at $M_\infty=10^{-8}$.}
 %                \label{fig:cyl_1em8}
 %        \end{subfigure}
-        \caption{Steady-state solution for a subsonic flow over a 2-D cylinder.}\label{fig:cylinder}
+        \caption{Steady-state solution for a subsonic flow over a 2-D cylinder with inlet Mach number values from ranging from $10^{-3}$ to $10^{-7}$.}
+				\label{fig:cylinder}
 \end{figure}
 %
-In \tbl{tbl:velocity_ratio}, the velocity at the top of the cylinder and at the inlet are given for the different values of the Mach number presented in \fig{fig:cylinder}. The ratio of the inlet velocity to the velocity at the top of cylinder is also computed and is very close to $2$ as expected.
+In \tbl{tbl:velocity_ratio}, the velocity at the top of the cylinder and at the inlet are given for different Mach-number values (ranging from $10^{-3}$ to $10^{-7}$). The ratio of the inlet velocity to the velocity at the top of cylinder is also computed and is very close to the value theoretical value of $2$ that is expected in the incompressible limit \tcr{check my mods}.
 %
 \begin{table}[H]
 \begin{center}
@@ -1525,12 +1526,12 @@ $10^{-7}$ & $2.283$ $10^{-7}$ & $1.144$ $10^{-7}$ & $1.99$ \\ \hline
 \nonumber
 \end{table}
 %
-In \fig{fig:pressure_vel_fluc}, the pressure and velocity fluctuations are plotted as a function of the far field Mach number, on a log-log plot. The pressure and velocity fluctuations are expected to be of the order of the Mach number square and the Mach number, respectively. It is known that some stabilization methods, alike upwind scheme \cite{guillard}, can produce pressure fluctuations with the wrong order. The objective of \fig{fig:pressure_vel_fluc} is to show that the new definition of the viscosity coefficients yields the correct order in the low Mach limit for the pressure fluctuations. It was also observed that the velocity fluctuations are of the order of the Mach number. For reference purpose, the function $f(M) = M^2$ and $f(M)=M$ are plotted.  
+In \fig{fig:pressure_vel_fluc}, the pressure and velocity fluctuations are plotted as a function of the Mach number (log-log scale). The pressure and velocity fluctuations are expected to be of the order of $M^2$ and $M$, respectively. It is known that some stabilization methods, e.g., \cite{guillard}, can produce pressure fluctuations with the wrong Mach-number order. Here, we note that the new definitions of the entropy viscosity coefficients yield the correct order in the low-Mach limit for the pressure fluctuations. It was also observed that the velocity fluctuations are of the order of the Mach number. For easy of comparison, the reference lines with slope values of 1 and 2 are also provided. \tcr{change the legend appropriately}
 %
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{pressure_fluctuation.png}
-\caption{Log-log plot of the pressure and velocity fluctuations as a function of the far field Mach number.}
+\caption{Log-log plot of the pressure and velocity fluctuations as a function of the far-field Mach number.}
 \label{fig:pressure_vel_fluc}
 \end{figure}
 
