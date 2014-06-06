@@ -1396,15 +1396,19 @@ The simulation is run with a $CFL=1$ until the final time $t_{\text{final}} = 7 
 \subsection{1-D slow moving shock} \label{sec:slow_moving_shock}
 %---------------------------------------------------------------------------------------------------
 
-A 1-D slow moving shock (\cite{james}) is simulated with the entropy viscosity method. It consist of a shock wave moving from left to right with the initial conditions given in \tbl{tbl:ic_1d_tests}. The Ideal Gas equation of state is used with a heat capacity ratio, $\gamma$, of $1.4$. Note that assuming a $CFL$ of $1$, it takes up to $50$ time steps for the shock to traverse one mesh cell. In order to make the shock travel a significant distance, the final time is taken equal to $t=1.1s$. Then, a pressure boundary condition is used at the left boundary to let the rarefaction and contact waves exit the domain.   
-A slow moving shock is known to produce post-shock noise of low frequency that are not damped by some numerical dissipation methods (\cite{james}). The objective, here, is to see wether or not the entropy viscosity method is capable of damping the low frequency waves. Numerical results are given in \fig{fig:low_moving_shock} and are compared to the exact solution obtained from a Riemann solver. The numerical solution was obtained with an uniform mesh of $200$ cells and $CFL=1$.
+Slow moving shocks are known to produce post-shock noise of low frequency that are not damped by some numerical dissipation methods \cite{james}. The aim of this simulation is to test the ability of the entropy viscosity method of damping the low frequency waves.
+The 1-D slow moving shock consists of a shock wave moving from left to right with the initial conditions given in \tbl{tbl:ic_1d_tests}. The ideal gas equation of state is used with a heat capacity ratio, $\gamma$, of 1.4.  In order to make the shock travel a significant distance, the final time is taken equal to $t=1.1s$. A pressure boundary condition is used at the left boundary to let the rarefaction and contact waves exit the domain.   
+%
+The numerical solution, obtained with 200 equally spaced cells, is given in \fig{fig:low_moving_shock} and is compared to the exact solution obtained from a Riemann solver. We use a $CFL$ of $1$. With this $CFL$ value, it takes about $50$ time steps for the shock to traverse one cell.
+%
+The numerical results are in good agreement with the exact solution and do not display any post-shock noise. The rarefaction and contact waves are not visible on \fig{fig:profiles_sms} since they exited the computational domain through the left pressure boundary condition earlier. As explained in \cite{roberts}, Godunov's type method usually fails to resolve a slow moving shock because of the nature of the stabilization method: the method scales as the eigenvalue of the appropriate field. In the case of a slow moving shock, the dissipation added to the system is under-estimated and leads to post-shock noise. In the case of the entropy viscosity method, the entropy residual detects the shock position and the viscosity coefficients saturate to the first-order viscosity values. The main difference between a  Godunov's type method and the entropy viscosity method relies in the definition of the first-order viscosity coefficients that are proportional to the \emph{local maximum eigenvalue} $||\vec{u}||+c$ and not to the eigenvalue of the characteristic field \tcr{is field appropriate here? variable?}.
 %
 \begin{figure}[H]
         \centering
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{SlowMovingShock_density_velocity_pressure_profiles.png}
-                \caption{Velocity, density and pressure profiles at $t=1.1s$.}
+                \caption{Velocity, density and pressure}
                 \label{fig:profiles_sms}
         \end{subfigure}%
         %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
@@ -1412,13 +1416,12 @@ A slow moving shock is known to produce post-shock noise of low frequency that a
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{SlowMovingShock_viscosity.png}
-                \caption{Viscosity coefficients profiles at $t=1.1s$.}
+                \caption{Viscosity coefficients}
                 \label{fig:viscosity_sms}
         \end{subfigure} 
         \caption{Slow moving shock profiles at $t=1.1s$.}\label{fig:low_moving_shock}
 \end{figure} 
-%
-The numerical results show good agreement with the exact solution and do not display any post shock noise. The rarefaction and contact waves are not on \fig{fig:profiles_sms}, since they exited the computational domain through the left pressure boundary condition. As explained in \cite{roberts}, Godunov's type method usually fails to resolve a slow moving shock because of the nature of the stabilization method: the method scales as the eigenvalue of the appropriate field. Thus, in the case of a slow moving shock, the dissipation added to the system is under-estimated and leads to post-shock noise. In the case of the entropy viscosity method, the entropy residual detects the shock position and the normalization parameter makes the high-order viscosity coefficients saturate to the first-order viscosity. The main difference between the Godunov's type method and the entropy viscosity method relies in the definition of the first-order viscosity method that is proportional to the \emph{local maximum eigenvalue} $||\vec{u}||+c$ and not to the eigenvalue of the characteristic field.
+
 
 %---------------------------------------------------------------------------------------------------
 \subsection{Subsonic flow over a 2-D cylinder} \label{sec:cylinder}
