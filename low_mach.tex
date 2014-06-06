@@ -1042,7 +1042,7 @@ liquid water (\sct{sec:liquid_shock})  & 4.4      & 1000                       &
 The entropy function for the stiffened gas equation of state is convex and given by
 %
 \begin{equation*}
-s = C_v \ln \left( \frac{P+P_\infty}{\rho^{\gamma-1}} \right) 
+s = C_v \ln \left( \frac{P+P_\infty}{\rho^{\gamma-1}} \right) ,
 \end{equation*}
 where $C_v$ is the heat capacity at constant volume.
 
@@ -1360,16 +1360,16 @@ $12800$ & $1.0299897$ $10^{-5}$ & $0.51032105$\\  \hline
 \end{table}
 
 %---------------------------------------------------------------------------------------------------
-\subsection{1-D shock tube for liquid phase} \label{sec:liquid_shock}
+\subsection{1-D shock tube with a liquid phase} \label{sec:liquid_shock}
 %---------------------------------------------------------------------------------------------------
 \tcr{until now, you never gave the mu and kappa coefficients, yet they are now different due to their different normalizations.
 Maybe very little for the previous cases, but we need to mention something because, in this section, you show both, and it is better
 to say something than to let the reviewers wonder ... }
 
 
-We want to investigate the capabilities of the entropy viscosity method to resolve strong shock for the liquid phase. This test is a preliminary work to the application of the entropy viscosity method to a two phase flow model. The Stiffened gas equation of state is used to model a liquid flow with the following parameters: $\gamma = 4.4$, $P_\infty = 6 \cdot 10^8$ $Pa$, $q = 0$ $J \cdot kg^{-1}$ and $Cv = 1000$ $J \cdot kg^{-1} \cdot K^{-1}$. The computational domain is of length $L=1$ $m$, discretized with an uniform mesh of $500$ cells. The step initial conditions are given in \tbl{tbl:ic_1d_tests}.
+Here, we investigate the ability of the entropy viscosity method to resolve strong shocks in a liquid phase \tcr{I feel like we need to add a little something to justify why it is so important to study a shock in a liquid but without having to talk about 2-phase flows. can you craft something?}. This test is a preliminary work to the application of the entropy viscosity method to a two phase flow model. The stiffened gas equation of state is used to model a liquid flow with the parameters given in \tbl{tbl:stff_gas_eos}. The computational domain of length $L=1m$ is uniformly discretized using 500 cells. The step initial conditions are given in \tbl{tbl:ic_1d_tests}.
 %
-The simulation is run with a $CFL=1$ until the final time $t_{final} = 7 \cdot 10^{-5}$ $s$. The plots of the pressure, the density, the velocity and the viscosity coefficients profiles are given in \fig{fig:1d_strong_shock} along with the exact solution for comparison.
+The simulation is run with a $CFL=1$ until the final time $t_{\text{final}} = 7 \ 10^{-5}s$. Results for pressure, density, velocity and the viscosity coefficients are given in \fig{fig:1d_strong_shock} along with the exact solution for comparison purposes. The numerical solution is in good agreement with exact solution in \fig{fig:1d_strong_shock_var}. The viscosity coefficients $\mu$ and $\kappa$ are not equal in the shock because the Mach number is of order $0.1$. The viscosity coefficient $\kappa$ saturates to the first-order viscosity in the shock region around $x = 0.65m$ and is sufficient to stabilize the numerical scheme. This example illustrates the capabilities of the entropy viscosity method to stabilize a strong shock using liquid fluid properties. 
 %
 \begin{figure}[H]
         \centering
@@ -1387,10 +1387,10 @@ The simulation is run with a $CFL=1$ until the final time $t_{final} = 7 \cdot 1
                 \caption{Viscosity coefficients profile.}
                 \label{fig:1d_strong_shock_visc}
         \end{subfigure}
-        \caption{Numerical solution for the 1-D liquid shock tube at  at $t_{final} = 7 \cdot 10^{-5}$ $s$.}\label{fig:1d_strong_shock}
+        \caption{Numerical solution for the 1-D liquid shock tube at  at $t_{\text{final}} = 7 \  10^{-5}s$.}
+				\label{fig:1d_strong_shock}
 \end{figure}
-%
-The numerical solution does not display any oscillations and match the exact solution in \fig{fig:1d_strong_shock_var}. The viscosity coefficients $\mu$ and $\kappa$ are not equal in the shock because the Mach number is of order $0.1$. The viscosity coefficient $\kappa$ saturate to the first-order viscosity in the shock region around $x = 0.65$ $m$ and seems sufficient to stabilize the numerical scheme. This example illustrates the capabilities of the entropy viscosity method to stabilize a strong shock. 
+
 
 %---------------------------------------------------------------------------------------------------
 \subsection{1-D slow moving shock} \label{sec:slow_moving_shock}
