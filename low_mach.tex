@@ -965,8 +965,10 @@ where $\Delta t^{n} = t^n-t^{n-1}$ and $\Delta t^{n+1} = t^{n+1}-t^{n}$.
 %---------------------------------------------------------------------------------------------------
 \subsection{Boundary conditions} \label{sec:bc}
 %---------------------------------------------------------------------------------------------------
-The boundary conditions will be treated by either using Dirichlet or Neumann conditions. The Euler equations are wave-dominated systems that require care when dealing with boundary conditions. It is often recommended to use the characteristic equations to compute the correct flux at the boundaries. Our implementation of the subsonic boundary conditions will follow the method described in \cite{SEM} that was developed for Ideal Gas and Stiffened Gas equations of state. For each numerical solution presented in \sct{sec:results}, the type of boundary conditions used will be specified and \tcr{taken amping} the followings: supersonic inlet, subsonic inlet (stagnation pressure boundary), supersonic outlet and subsonic inlet (static pressure boundary). \\
-The artificial diffusion coefficient $D(U)$ is set to zero at the boundary of the computational domain so that the boundary term $\int_{\partial \Omega} D(U) \grad U \cdot \vec{n} \phi$ coming from the integration by parts of the artificial dissipative terms in \eqt{eq:cfem} is ignored.
+Boundary conditions are implemented by performing a characteristic decomposition to compute the appropriate flux at the boundaries.
+Our implementation of the subsonic boundary conditions follows the method described in \cite{SEM}\tcr{say a bit more, give 1-2 sentences to describe how to impose subsonic/supersonic inlet/outlet BCs}. 
+For each numerical solution presented in \sct{sec:results}, the type of boundary conditions used will be specified and \tcr{taken amping} the followings: supersonic inlet, subsonic inlet (stagnation pressure boundary), supersonic outlet and subsonic inlet \tcr{???} (static pressure boundary). \\
+The artificial diffusion coefficient $D(U)$ is set to zero at the boundary of the computational domain so that the boundary term $\int_{\partial \Omega} D(U) \grad U \cdot \vec{n} \phi$ stemming from the integration by parts of the artificial dissipative terms in \eqt{eq:cfem} is ignored.
 
 %---------------------------------------------------------------------------------------------------
 \subsection{Solver} \label{sec:solver}
@@ -990,7 +992,7 @@ Our results validate the chosen definitions for the viscosity coefficients in th
 
 The first set of 1-D simulations consist of liquid water and steam flowing in a convergent-divergent nozzle. This test is of interest for multiple reasons: (a) a steady-state can be reached (some stabilization methods are known to have difficulties reaching a steady-state, \cite{FluxLimiter, FluxLimiter2}), (b) an analytical solution is available and a space-time convergence study can be performed, (c) it can be performed for liquid and gas phases, the gas phase simulation presents a shocks while the liquid-phase simulation has a significantly low Mach number.
 %
-Next, a 1-D shock tube test (in a straight pipe) taking from the Leblanc test-case suite \cite{Leblanc} is also performed and consists of a flow developing shocks. This test is known to be more challenging than Sod shock tubes and the fluid's Mach number varies spatially between \tcr{0.xx and 2}. A convergence study is also performed in order to demonstrate convergence of the numerical solution to the exact solution. 
+Next, a 1-D shock tube test (in a straight pipe) taking from the Leblanc test-case suite \cite{Leblanc} is also performed and consists of a flow developing shocks. This test is known to be more challenging than Sod shock tubes and the fluid's Mach number varies spatially between \tcr{0.xx and 5}. A convergence study is also performed in order to demonstrate convergence of the numerical solution to the exact solution. 
 %
 A slow moving shock is also investigated \cite{james}. This test helps in assessing the ability of the method at damping the post-shock low frequency noise. 
 %
@@ -998,7 +1000,7 @@ Finally, a strong shock for a liquid phase is also investigated. The last $1$-D 
 
 The initial conditions (density in $kg.m^{-3}$, velocity in $m.s^{-1}$, pressure in $Pa$) for the last three $1$-D shock tubes are given in \tbl{tbl:ic_1d_tests}.
 \tcr{why give right values before left values???}
-\begin{table}[H]
+\begin{table}[!htbp]
 \begin{center}
 \begin{tabular}{|c|c|c || c|c|c|}
 \hline
@@ -1058,18 +1060,22 @@ s = C_v \ln \left( \frac{P+P_\infty}{\rho^{\gamma-1}} \right)
 where $C_v$ is the heat capacity at constant volume.
 
 %---------------------------------------------------------------------------------------------------
-\subsection{Liquid water in a $1$-D divergent-convergent nozzle} \label{sec:liquid_nozzle}
+\subsection{Liquid water in a 1-D convergent-divergent nozzle} \label{sec:liquid_nozzle}
 %---------------------------------------------------------------------------------------------------
-The simulation consists of liquid water flowing through a $1$-D convergent-divergent nozzle with the following equation, $A(x) = 1 + 0.5 \cos(2 \pi x / L)$, where $L=1m$ is the length of the nozzle. At the inlet,  the stagnation pressure and temperature are set to $P_0 = 1 MPa$ and $T_0 = 453 K$, respectively. At the outlet, only the static pressure is specified: $P_s = 0.5MPa$. Details about the theory related to the inlet and outlet boundary conditions can be found in \cite{SEM}. Initially, the temperature is uniform and set equal to the stagnation temperature and the pressure linearly decreases from the stagnation pressure to the static one. Finally, the liquid is assumed at rest. The Stiffened Gas equation of state is used to model the liquid water with the parameters provided in \tbl{tbl:stff_gas_eos}.
-Because of the low pressure difference between the inlet and the outlet, the smooth initial conditions, and the large value of $P_\infty$, the flow remains subsonic and thus, should not display any shock. Enthalpy and entropy are conserved through the nozzle, and these conservation relations are used to determine the exact solution at steady-state \cite{nozzle_exact}.
-Plots of the Mach number, density and pressure are given at steady-state in \fig{fig:1d_nozzle_liq_vel}, \fig{fig:1d_nozzle_liq_density}, \fig{fig:1d_nozzle_liq_press}, respectively, along with the exact solution for comparison. The viscosity coefficients are also plotted in \fig{fig:1d_nozzle_liq_visc}. An uniform mesh of $50$ cells was used to get the numerical solution and the time step was computed using a $CFL$ of $750$.
+
+This simulation consists of liquid water flowing through a 1-D convergent-divergent nozzle. The variable-area Euler equations are solved, with $A(x) = 1 + 0.5 \cos(2 \pi x / L)$ where $L=1m$ is the length of the nozzle. At the inlet, the stagnation pressure and temperature are set to $P_0 = 1 MPa$ and $T_0 = 453 K$, respectively. At the outlet, only the static pressure is specified: $P_s = 0.5MPa$. 
+\tcr{what follows has no purpose here. it should be said in the BC section. Remove. Details about the theory related to the inlet and outlet boundary conditions can be found in \cite{SEM}}. 
+Initially, the liquid is at rest, the temperature is uniform and equal to the stagnation temperature and the pressure linearly decreases from the stagnation pressure inlet value to the static pressure outlet value. 
+The stiffened gas equation of state is used to model the liquid water with the parameters provided in \tbl{tbl:stff_gas_eos}.
+Because of the low pressure difference between the inlet and the outlet, the smooth initial conditions, and the large value of $P_\infty$, the flow remains subsonic and thus does not display any shock. Enthalpy and entropy are conserved through the nozzle and these conservation relations\tcr{[what are they? it sounds vague]} are used to determine the exact solution at steady-state \cite{nozzle_exact}. A uniform mesh of $50$ cells was used to obtain the numerical solution and the time step size was computed using a $CFL$ number of 750.
+Plots of the Mach number, density, and pressure are given at steady-state in \fig{fig:1d_nozzle} for the numerical and exact solutions. The viscosity coefficients are also graphed in \fig{fig:1d_nozzle_liq_visc}. 
 %Since a steady-state analytical solution is available to us (REF), a convergence study is performed in order to demonstrate the accuracy of the entropy viscosity method by computing the L$1$ and L$2$ norms of the error between the numerical and exact solutions.
 \begin{figure}[H]
         \centering
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{liquid_mach_numerical_and_exact_50.png}
-                \caption{Mach number solution at steady-state.}
+                \caption{Mach number}
                 \label{fig:1d_nozzle_liq_vel}
         \end{subfigure}%
         %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
@@ -1077,7 +1083,7 @@ Plots of the Mach number, density and pressure are given at steady-state in \fig
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{liquid_density_numerical_and_exact_50.png}
-                \caption{Density solution at steady-state}
+                \caption{Density}
                 \label{fig:1d_nozzle_liq_density}
         \end{subfigure}
          %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
@@ -1085,7 +1091,7 @@ Plots of the Mach number, density and pressure are given at steady-state in \fig
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{liquid_pressure_numerical_and_exact_50.png}
-                \caption{Pressure solution at steady-state.}
+                \caption{Pressure}
                 \label{fig:1d_nozzle_liq_press}
         \end{subfigure}
           %add desired spacing between images, e. g. ~, \quad, \qquad etc. 
@@ -1093,17 +1099,19 @@ Plots of the Mach number, density and pressure are given at steady-state in \fig
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{liquid_viscosity_numerical50.png}
-                \caption{Viscosity coefficients at steady-state.}
+                \caption{Viscosity coefficients}
                 \label{fig:1d_nozzle_liq_visc}
         \end{subfigure}
-        \caption{Steady-state solution for liquid phase in a $1$-D convergent-divergent nozzle with an uniform mesh of $50$ cells.}\label{fig:1d_liq_nozzle}
+        \caption{Steady-state solution for a liquid flow through a 1-D convergent-divergent nozzle.}\label{fig:1d_liq_nozzle}
 \end{figure}
-In \fig{fig:1d_liq_nozzle}, the numerical solutions of the pressure, velocity and density obtained with the first-order viscosity (FOV) and the entropy viscosity method (EVM) are plotted against the exact solution. A fairly coarse mesh ($50$ cells) was used. The numerical solution obtained with the EVM and the exact solution perfectly overlap.
-On the other hand, the numerical solution run with the FOV does not give the correct steady-state: this is an illustration of the effect of ill-scaled dissipative terms. 
-It is also noted that the second-order viscosity coefficient  is very small compare to the first-order one as expected (\fig{fig:1d_nozzle_liq_visc}): (i) the numerical solution is smooth as shown in \fig{fig:1d_liq_nozzle} and (ii) the flow is in a low Mach regime and thus isentropic . A convergence study was performed using the exact solution as a reference: the L$1$ and L$2$ norms of the error and the corresponding convergence rates are computed at steady-state on various uniform mesh from $4$ to $256$ cells. The results for linear polynomials $\mathbb{Q}_1$ are reported in \tbl{tbl:l1_norm_liq} and \tbl{tbl:l2_norm_liq} for the primitive variables: density, velocity and pressure.
+%
+In \fig{fig:1d_liq_nozzle}, the numerical solutions obtained using the first-order viscosity (FOV) and the entropy viscosity method (EVM) are plotted against the exact solution. The numerical solution obtained with the EVM and the exact solution overlap, even for fairly coarse mesh (50 cells).
+On the other hand, the numerical solution obtained with the FOV does not give the correct steady-state: this is an illustration of the effect of ill-scaled dissipative terms. 
+%
+Note that the entropy viscosity coefficient is very small compared to the first-order one (\fig{fig:1d_nozzle_liq_visc}): (i) the numerical solution is smooth as shown in \fig{fig:1d_liq_nozzle} and (ii) the flow is in a low Mach regime and thus isentropic . A convergence study was performed using the exact solution as a reference: the L$_1$ and L$_2$ norms of the error and the corresponding convergence rates are computed at steady-state on various uniform mesh from 4 to 256 cells. Spatial convergence results using linear finite elements are reported in \tbl{tbl:l1_norm_liq} and \tbl{tbl:l2_norm_liq} for the primitive variables: density, velocity and pressure.
 \begin{table}[H]
 \begin{center}
- \caption{\label{tbl:l1_norm_liq} L$1$ norm of the error for the liquid phase in a $1$-D convergent-divergent nozzle at steady-state.}
+ \caption{\label{tbl:l1_norm_liq} L$_1$ norm of the error for the liquid phase in a 1-D convergent-divergent nozzle at steady-state.}
  \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
  \hline
    cells & density & rate & pressure & rate & velocity & rate \\
@@ -1130,7 +1138,7 @@ $256$&$5.6058$ $10^{-5}$& $2.0806$ & $1.9839$ $10^{2}$ & $2.0478$ & $2.0475$ $10
 \end{table}
 \begin{table}[H]
 \begin{center}
- \caption{\label{tbl:l2_norm_liq} L$2$ norm of the error for the liquid phase in a $1$-D convergent-divergent nozzle at steady-state.}
+ \caption{\label{tbl:l2_norm_liq} L$_2$ norm of the error for the liquid phase in a 1-D convergent-divergent nozzle at steady-state.}
  \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
  \hline
    cells & density & rate & pressure & rate & velocity & rate \\
@@ -1155,9 +1163,10 @@ $256$&$8.403859$ $10^{-5}$& $1.99$ & $1.857861$ $10^{2}$ & $1.99$ & $1.977292$ $
 \end{center}
 \nonumber
 \end{table}
-It is observed that the convergence rate for the L$1$ and L$2$ norm of the error is $2$: the entropy viscosity method conserves the high-order accuracy when the numerical solution is smooth, and the new definition of the entropy viscosity coefficient seems to behave as expected in the low Mach limit.
+It is observed that the convergence rate for the L$_1$ and L$_2$ norm of the error is 2: the entropy viscosity method preserves the high-order accuracy when the numerical solution is smooth, and the new definition of the entropy viscosity coefficient behaves appropriately in the low-Mach limit.
+
 %---------------------------------------------------------------------------------------------------
-\subsection{Steam in a $1$-D divergent-convergent nozzle} \label{sec:steam_nozzle}
+\subsection{Steam in a 1-D divergent-convergent nozzle} \label{sec:steam_nozzle}
 %---------------------------------------------------------------------------------------------------
 Instead of liquid water, we now simulate a flow of steam using the exact same $1$-D geometry, initial conditions and boundary conditions as in \sct{sec:liquid_nozzle}. The Stiffened gas equation of state is still used but with different parameters that are given in \tbl{tbl:stff_gas_eos}: steam is a gas and compressible effects will become dominant. 
 The pressure difference applied between the inlet and outlet is large enough to make the steam accelerates through the nozzle and result in the formation of shock in the divergent part. The behavior is different from what is observed for the liquid water phase in \sct{sec:liquid_nozzle} because of the liquid to gas density ratio that is of $1000$. Even though a shock forms, an exact solution at steady-state is still available \cite{nozzle_exact}. The objective of this section is to show that using the new definition of the viscosity coefficient in \eqt{eq:final_def_visc_coeff}, the shock can be correctly resolved without spurious oscillation. The steady-state numerical solution is shown in \fig{fig:1d_vap_nozzle}, was run with an uniform mesh of $1600$ cells and a $CFL$ equal to $80$ (a high $CFL$ value can be used since the shock is not moving and, thus, does not need to be tracked).
