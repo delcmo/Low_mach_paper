@@ -1094,41 +1094,66 @@ In \fig{fig:1d_liq_nozzle}, the numerical solutions obtained using the first-ord
 On the other hand, the numerical solution obtained with the FOV does not give the correct steady-state: this is an illustration of the effect of ill-scaled dissipative terms. 
 %
 Note that the entropy viscosity coefficient is very small compared to the first-order one (\fig{fig:1d_nozzle_liq_visc}): (i) the numerical solution is smooth as shown in \fig{fig:1d_liq_nozzle} and (ii) the flow is in a low Mach regime and thus isentropic . A convergence study was performed using the exact solution as a reference: the L$_1$ and L$_2$ norms of the error and the corresponding convergence rates are computed at steady-state on various uniform mesh from 4 to 256 cells. Spatial convergence results using linear finite elements are reported in \tbl{tbl:l1_norm_liq} and \tbl{tbl:l2_norm_liq} for the primitive variables: density, velocity and pressure.
+%
 \begin{table}[H]
 \begin{center}
- \caption{\label{tbl:l1_norm_liq} L$_1$ norm of the error for the liquid phase in a 1-D convergent-divergent nozzle at steady-state.\\ \tcr{missing powers of 10 in pressure column for 512 cells} }
+ \caption{\label{tbl:l1_norm_liq} L$_1$ norm of the error for the liquid phase in a 1-D convergent-divergent nozzle at steady-state.}
  \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
  \hline
-cells & density            & rate     & pressure           & rate      & velocity           & rate       \\ \hline
-$4$   & $2.8037$ $10^{-1}$ & $-$      & $8.4705e$ $10^{5}$ & $-$       & $7.2737$           & $-$        \\ \hline
-$8$   & $1.3343$ $10^{-1}$ & $1.0713$ & $4.7893e$ $10^{5}$ & $0.24227$ & $6.1493$           & $0.074683$ \\ \hline
-$16$  & $2.9373$ $10^{-2}$ & $2.1835$ & $1.0613e$ $10^{5}$ & $2.3247$  & $1.2275$           & $2.4501$   \\ \hline
-$32$  & $5.1120$ $10^{-3}$ & $2.5225$ & $1.8446$ $10^{4}$  & $2.6959$  & $1.8943$ $10^{-1}$ & $3.0966$   \\ \hline
-$64$  & $1.0558$ $10^{-3}$ & $2.2755$ & $3.7938$ $10^{3}$  & $2.3207$  & $3.7919$ $10^{-2}$ & $2.3323$   \\ \hline
-$128$ & $2.3712$ $10^{-4}$ & $2.1547$ & $8.4471$ $10^{2}$  & $2.0624$  & $8.5517$ $10^{-3}$ & $2.0473$   \\ \hline
-$256$ & $5.6058$ $10^{-5}$ & $2.0806$ & $1.9839$ $10^{2}$  & $2.0478$  & $2.0475$ $10^{-3}$ & $1.9833$   \\ \hline
-$512$ & $1.3278$ $10^{-5}$ & $2.0778$ & $46.622$           & $2.0478$  & $4.9516$ $10^{-4}$ & $1.9669$   \\ \hline
+cells & density         & rate   & pressure        & rate    & velocity         & rate     \\ \hline
+4    & 2.8037 $10^{-1}$ & $-$    & 8.4705 $10^{5}$ & $-$     & 7.2737           & $-$      \\ \hline
+8    & 1.3343 $10^{-1}$ & 1.0713 & 4.7893 $10^{5}$ & 0.24227 & 6.1493           & 0.074683 \\ \hline
+16   & 2.9373 $10^{-2}$ & 2.1835 & 1.0613 $10^{5}$ & 2.3247  & 1.2275           & 2.4501   \\ \hline
+32   & 5.1120 $10^{-3}$ & 2.5225 & 1.8446 $10^{4}$ & 2.6959  & 1.8943 $10^{-1}$ & 3.0966   \\ \hline
+64   & 1.0558 $10^{-3}$ & 2.2755 & 3.7938 $10^{3}$ & 2.3207  & 3.7919 $10^{-2}$ & 2.3323   \\ \hline
+128  & 2.3712 $10^{-4}$ & 2.1547 & 8.4471 $10^{2}$ & 2.0624  & 8.5517 $10^{-3}$ & 2.0473   \\ \hline
+256  & 5.6058 $10^{-5}$ & 2.0806 & 1.9839 $10^{2}$ & 2.0478  & 2.0475 $10^{-3}$ & 1.9833   \\ \hline
+512  & 1.3278 $10^{-5}$ & 2.0778 & 4.6622 $10^{1}$ & 2.0478  & 4.9516 $10^{-4}$ & 1.9669   \\ \hline
 \end{tabular}
 \end{center}
 \end{table}
 %
+\tcr{In \tbl{tbl:l1_norm_liq}, I cannot get your rate values. For example, set
+\begin{eqnarray*}
+P_1 &=& 8.4471 \times 10^{2} \\
+P_2 &=& 1.9839 \times 10^{2} \\
+P_3 &=& 4.6622 \times 10^{1} \\
+\end{eqnarray*}
+then the convergence order can be estimated as
+\[
+c = \frac{P_2-P_1}{P_3-P_2} = \frac{((1/2)^q-1)h^q}{((1/2)^q-1)(h/2)^q}=2^q
+\]
+thus
+\[
+q = \frac{\log{c}}{\log{2}}
+\]
+Here, $c= 4.2586052395762$ and $q=2.0903810024167$. Since the last two pressure rate values in your table are identical, 2.0478, maybe it is a copy/paste mistake. So, let's try again with other pressure values:
+\begin{eqnarray*}
+P_1 &=& 3.7938 \times 10^{3} \\
+P_2 &=& 8.4471 \times 10^{2} \\
+P_3 &=& 1.9839 \times 10^{2} \\
+\end{eqnarray*}
+Now, $c= 4.56289454140364$ and $q=2.18994931029196$. What is happening?
+}
+%
 \begin{table}[H]
 \begin{center}
- \caption{\label{tbl:l2_norm_liq} L$_2$ norm of the error for the liquid phase in a 1-D convergent-divergent nozzle at steady-state.\\ \tcr{missing powers of 10 in pressure column for 512 cells} }
+ \caption{\label{tbl:l2_norm_liq} L$_2$ norm of the error for the liquid phase in a 1-D convergent-divergent nozzle at steady-state.}
  \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
  \hline
-cells & density              & rate   & pressure            & rate   & velocity             & rate   \\ \hline
-$4$   & $3.106397$ $10^{-1}$ & $-$    & $5.254445$ $10^{5}$ & $-$    & $3.288543$           & $-$    \\ \hline
-$8$   & $7.491623$ $10^{-2}$ & $2.07$ & $1.636966$ $10^{5}$ & $1.60$ & $1.823880$           & $0.90$ \\ \hline
-$16$  & $2.079858$ $10^{-2}$ & $1.80$ & $4.627338$ $10^{4}$ & $1.75$ & $4.990605$ $10^{-1}$ & $1.83$ \\ \hline
-$32$  & $5.329627$ $10^{-3}$ & $1.90$ & $1.180287$ $10^{4}$ & $1.92$ & $1.261018$ $10^{-1}$ & $1.93$ \\ \hline
-$64$  & $1.341583$ $10^{-3}$ & $1.94$ & $2.967104$ $10^{3}$ & $1.98$ & $3.160914$ $10^{-2}$ & $1.99$ \\ \hline
-$128$ & $3.359766$ $10^{-4}$ & $1.99$ & $7.428087$ $10^{2}$ & $1.99$ & $7.907499$ $10^{-3}$ & $1.99$ \\ \hline
-$256$ & $8.403859$ $10^{-5}$ & $1.99$ & $1.857861$ $10^{2}$ & $1.99$ & $1.977292$ $10^{-3}$ & $1.99$ \\ \hline
-$512$ & $2.10075$ $10^{-5}$  & $1.99$ & $27.048$            & $1.99$ & $4.9516$ $10^{-4}$   & $1.99$ \\ \hline
+cells& density            & rate & pressure          & rate & velocity           & rate \\ \hline
+4    & 3.106397 $10^{-1}$ & $-$  & 5.254445 $10^{5}$ & $-$  & 3.288543           & $-$  \\ \hline
+8    & 7.491623 $10^{-2}$ & 2.07 & 1.636966 $10^{5}$ & 1.60 & 1.823880           & 0.90 \\ \hline
+16   & 2.079858 $10^{-2}$ & 1.80 & 4.627338 $10^{4}$ & 1.75 & 4.990605 $10^{-1}$ & 1.83 \\ \hline
+32   & 5.329627 $10^{-3}$ & 1.90 & 1.180287 $10^{4}$ & 1.92 & 1.261018 $10^{-1}$ & 1.93 \\ \hline
+64   & 1.341583 $10^{-3}$ & 1.94 & 2.967104 $10^{3}$ & 1.98 & 3.160914 $10^{-2}$ & 1.99 \\ \hline
+128  & 3.359766 $10^{-4}$ & 1.99 & 7.428087 $10^{2}$ & 1.99 & 7.907499 $10^{-3}$ & 1.99 \\ \hline
+256  & 8.403859 $10^{-5}$ & 1.99 & 1.857861 $10^{2}$ & 1.99 & 1.977292 $10^{-3}$ & 1.99 \\ \hline
+512  & 2.10075  $10^{-5}$ & 1.99 & 2.7048   $10^{1}$ & 1.99 & 4.9516   $10^{-4}$ & 1.99 \\ \hline
 \end{tabular}
 \end{center}
 \end{table}
+\tcr{check the rates in this table as well\\}
 It is observed that the convergence rate for the L$_1$ and L$_2$ norm of the error is 2: the entropy viscosity method preserves the high-order accuracy when the numerical solution is smooth, and the new definition of the entropy viscosity coefficient behaves appropriately in the low-Mach limit.
 
 %---------------------------------------------------------------------------------------------------
@@ -1640,13 +1665,15 @@ The steady-state numerical solution is given in \fig{fig:2d_corner}: the Mach nu
 
 A new version of the entropy viscosity method valid for a wide range of Mach number and applied to the multi-D Euler equations with variable area was derived and presented. The definition of the viscosity coefficient is now consistent with the low Mach asymptotic limit, does not require an analytical expression of the entropy function, and thus, could be used with any equation of state having a convex entropy. Tests were performed with the Ideal and Stiffened Gas equation of states. In 1-D, convergence of the numerical solution (either smooth or with shocks) to the exact solution was demonstrated by computing the convergence rates of the L$1$ and L$2$ norms of the error for flows in convergence-divergent nozzle and a straight pipe. 2-D simulations were also performed for both subsonic and supersonic flows, and various geometries: the entropy viscosity method behaves well for a wide range of Mach number. The numerical results obtained for a flow over a circular bump (subsonic and transonic flows) illustrates the capabilities of the method to adapt to the flow type. \\
 As future work, the entropy viscosity method will be extended to the 1-D seven equations model \cite{SEM}. This two-phase flow system of equations is a good candidate for two reasons: it is unconditionally hyperbolic and degenerates to the multi-D Euler equations when one phase disappears.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Acknowledgments} 
-The authors would like to thank Bojan Popov and Jean-Luc Guermond for the many fruitful discussions.  
+The authors would like to thank Bojan Popov and Jean-Luc Guermond for many fruitful discussions.  
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliography{mybibfile}
@@ -1661,50 +1688,49 @@ The authors would like to thank Bojan Popov and Jean-Luc Guermond for the many f
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Derivation of the entropy residual as a function of the density, the pressure and the speed of sound:} \label{app:ent_res}
+\section{Derivation of the entropy residual as a function of density, pressure and speed of sound} \label{app:ent_res}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The entropy residual is often expressed as a function of the entropy $s(\vec{r},t)$ as follows:
+The entropy residual is as follows:
 %
-\begin{equation}
-D_e(\vec{r},t) = \partial_t s (\vec{r},t) + \vec{u} \cdot \div s (\vec{r},t) \nonumber
-\end{equation}
+\begin{equation*}
+D_e(\vec{r},t) = \partial_t s (\vec{r},t) + \vec{u} \cdot \div s (\vec{r},t) ,
+\end{equation*}
 %
-where all variables were defined previously. This form of the entropy residual is not suitable for the low-Mach limit as explained in \sct{sec:background}. It can be shown that the entropy residual $D_e(\vec{r},t)$ can be recast as a function of the primitive variables (pressure, velocity and density) and the speed of sound. This is the objective of this appendix. \\
-The first step is to use the chain rule, remembering that the entropy is assumed function of the internal energy $e$ and the density $\rho$:
+where all variables were defined previously. This form of the entropy residual is not suitable for the low-Mach limit as explained in \sct{sec:background}. In this appendix, we recast the entropy residual $D_e(\vec{r},t)$ as a function of the primitive variables (pressure, velocity and density) and the speed of sound. The first step of this derivation is to use the chain rule, recalling that the entropy is a function of the internal energy $e$ and the density $\rho$, yielding
 %
-\begin{equation}
-D_e(\vec{r},t) = s_e \frac{d e}{dt} + s_{\rho} \frac{d \rho}{dt} \nonumber
-\end{equation}
+\begin{equation*}
+D_e(\vec{r},t) = s_e \frac{d e}{dt} + s_{\rho} \frac{d \rho}{dt} ,
+\end{equation*}
 %
-where $s_x$ denotes the partial derivative of $s$ with respect to the variable $x$. The short-notation $\frac{d \cdot}{dt}$ is used for the total or material derivative. We now need to make the pressure appear: this can be achieved by noticing that the internal energy is a function of the pressure and the density based on the definition of the equation of state. Once again, by using the chain rule, it yields:
+where $s_e$ denotes the partial derivative of $s$ with respect to the variable $e$. The notation $\frac{d \cdot}{dt}$ is used for the total or material derivative. Since the internal energy $e$ is a function of pressure $P$ and density $\rho$ (through the equation of state), we use again the chain rule to re-express the previous equation as a function of of the material derivatives in $P$ and $\rho$:
 %
-\begin{eqnarray}
-D_e(\vec{r},t) &=&  s_e e_P \frac{d P}{dt} + ( s_e e_{\rho} + s_{\rho} ) \frac{d \rho}{dt} \nonumber \\
-&=& s_e e_P \left( \frac{d P}{dt} + \frac{1}{s_e e_P} ( s_e e_{\rho} + s_{\rho} ) \frac{d \rho}{dt} \right) \nonumber \\
-&=& s_e e_P \left( \frac{d P}{dt} + ( \frac{e_{\rho}}{e_P} + \frac{s_{\rho}}{s_e e_P} ) \frac{d \rho}{dt} \right) \nonumber 
-\end{eqnarray}
+\begin{eqnarray*}
+D_e(\vec{r},t) &=&  s_e e_P \frac{d P}{dt} + ( s_e e_{\rho} + s_{\rho} ) \frac{d \rho}{dt} \\
+&=& s_e e_P \left( \frac{d P}{dt} + \frac{1}{s_e e_P} ( s_e e_{\rho} + s_{\rho} ) \frac{d \rho}{dt} \right) \\
+&=& s_e e_P \left( \frac{d P}{dt} + ( \frac{e_{\rho}}{e_P} + \frac{s_{\rho}}{s_e e_P} ) \frac{d \rho}{dt} \right) .
+\end{eqnarray*}
 %
-We are now close to the final result (see \eqt{eq:ent_res}). It remains to prove that the term multiplying the material derivative of the density is equal to the speed of sound square. The speed of sound is often defined as the partial derivative of the pressure with respect to the density at constant entropy, which can be recast as a function of the entropy as follows (see Appendix A.2 of \cite{jlg}):
+We are now close to the final result (see \eqt{eq:ent_res}). To prove that the term multiplying the material derivative of the density is indeed equal to the square of the speed of sound, we recall that the speed of sound is defined as the partial derivative of pressure with respect to density at constant entropy, which can be recast as a function of the entropy as follows (see Appendix A.2 of \cite{jlg}):
 %
-\begin{equation}
-c^2 = \left. \frac{\partial P}{\partial \rho} \right)_s = P_{\rho} - \frac{s_{\rho}}{s_e} P_e = - \frac{e_{\rho}}{e_P} - \frac{s_{\rho}}{s_e e_P} \nonumber
-\end{equation}
+\begin{equation*}
+c^2 = \left. \frac{\partial P}{\partial \rho} \right|_{s=cst} = P_{\rho} - \frac{s_{\rho}}{s_e} P_e   \, .
+\end{equation*}
 %
-using the following relations (see Appendix A.1 of \cite{jlg}):
+Using the following relations (see Appendix A.1 of \cite{jlg})
 %
-\begin{equation}
-P_e = \frac{1}{e_P} \text{ and } P_{\rho} = -\frac{e_{\rho}}{e_P} \nonumber
-\end{equation}
+\begin{equation*}
+P_e = \frac{1}{e_P} \text{ and } P_{\rho} = -\frac{e_{\rho}}{e_P} 
+\end{equation*}
 %
-Then, the result follows.
+\eqt{eq:ent_res} is obtained.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Derivation of the dissipative terms for the multi-D Euler equations with variable area using the entropy minimum principle:} \label{app:diss_terms}
+\section{Derivation of the dissipative terms for the Euler equations with variable area using the entropy minimum principle} \label{app:diss_terms}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
