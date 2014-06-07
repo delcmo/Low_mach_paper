@@ -889,7 +889,7 @@ Fluid flows in pipes of varying cross-sectional area and in nozzle can be modele
 % 
 \begin{equation}
 \label{eq:euler_variable_A_energy}
-\partial_t \left( \rho A E \right) + \div \left[ \vec{u} A \left( \rho E + P \right) \right] = 0
+\partial_t \left( \rho E A \right) + \div \left[ \vec{u} A \left( \rho E + P \right) \right] = 0
 \end{equation}
 \end{subequations}
 %
@@ -1734,26 +1734,32 @@ P_e = \frac{1}{e_P} \text{ and } P_{\rho} = -\frac{e_{\rho}}{e_P}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-The multi-D Euler equations with variable area are recalled here:
+Euler equations with variable area are recalled here
 %
-\begin{equation}
+\begin{subequations}
 \label{app:euler_variable_A}
-\left\{ 
-\begin{array}{lll}
-\partial_t \left( \rho A \right) + \div \left( \rho \vec{u} A \right) = 0 \\
-\partial_t \left( \rho \vec{u} A \right) + \div \left[A\left( \rho \vec{u} \otimes \vec{u} + P \mathbf{I} \right) \right] = P \grad A \\
-\partial_t \left( \rho E A \right) + \div \left[ \vec{u} A \left( \rho E + P \right) \right] = 0
-\end{array}
-\right. \nonumber
-\end{equation}
-%
-Assuming the existence of an entropy $s$ function of the density $\rho$ and the internal energy $e$, the above system of equations admits the following entropy residual \cite{Toro}:
 %
 \begin{equation}
-A \rho \left( \partial_t s + \vec{u} \cdot \div s \right) \geq 0 \nonumber \\
+\partial_t \left( \rho A \right) + \div \left( \rho \vec{u} A \right) = 0 \\
 \end{equation}
 %
-when assuming $Ps_e + \rho^2 s_{\rho} =0$. An entropy function $s$ verifying this equation is also a solution of the second thermodynamic law for a reversible system, $T ds = de - \frac{P}{\rho^2} d \rho$, which implies $s_e = T^{-1} \geq 0$. \\
+\begin{equation}
+\partial_t \left( \rho \vec{u} A \right) + \div \left[A\left( \rho \vec{u} \otimes \vec{u} + P \mathbf{I} \right) \right] = P \grad A 
+\end{equation}
+% 
+\begin{equation}
+\partial_t \left( \rho E A \right) + \div \left[ \vec{u} A \left( \rho E + P \right) \right] = 0 \,.
+\end{equation}
+\end{subequations}
+%
+Assuming the existence of an entropy $s$ function of the density $\rho$ and the internal energy $e$, the above system of equations admits the following entropy residual \cite{Toro}
+%
+\begin{equation*}
+A \rho \left( \partial_t s + \vec{u} \cdot \div s \right) \geq 0 
+\end{equation*}
+%
+% when assuming $Ps_e + \rho^2 s_{\rho} =0$. 
+An entropy function $s$ verifying this equation is also a solution of the second thermodynamic law for a reversible system, $T ds = de - \frac{P}{\rho^2} d \rho$, which implies $s_e = T^{-1} \geq 0$. \\
 In order to apply the entropy viscosity method, dissipative terms are added to each equation. Then, the entropy residual is derived again: extra terms due to the dissipative terms will appear in the left-hand side. In order to prove the minimum entropy principle, these extra terms are either recast as conservative term, or shown to be positive. \\ 
 The multi-D Euler equations with variable area with dissipative terms, yield:
 %
