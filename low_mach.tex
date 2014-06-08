@@ -465,9 +465,7 @@ where  the subscript $\infty$ denote the far field or stagnation quantities and 
 M_\infty = \frac{u_\infty}{c_\infty} ,
 \end{equation}
 %
-where $c_\infty$ is a reference value for the speed of sound.
-%The reference time $t_\infty$ will take two values: $t_\infty = L_\infty / u_\infty$ for fluid time scale and $t_\infty = M_\infty L_\infty / u_\infty$ for acoustic time scale. The objective is to isolate the effects of the acoustic wave in the asymptotic limit during a transient of a low Mach shock for example.
-The scaled Euler equations with viscous regularization are:
+where $c_\infty$ is a reference value for the speed of sound. The scaled Euler equations with viscous regularization are:
 %
 \begin{subequations} 
 \label{eq:Euler_eq2}
@@ -515,7 +513,7 @@ For simplicity, we also employ here the ideal gas equation of state. Its adimens
 \label{eq:euler_eq2_eos}
 P^* = \left( \gamma-1 \right) \rho^*\left(  E^* -\frac{1}{2} M_\infty^2 (u^*)^2 \right) = \left( \gamma-1 \right) \rho^* e^*.
 \end{equation}
-\tcb{this assumption is not useful in the asymptotic limit. I believe it is possible to carry the same asymptotic limit by assuming a more generic form of the equation of state such as $P = f(\rho)$ for isentropic flow. Do you think it is a good idea to do so?}\\
+\tcb{this assumption is only useful in the asymptotic limit. I believe it is possible to carry the same asymptotic limit by assuming a more generic form of the equation of state such as $P = f(\rho)$ for isentropic flow. Do you think it is a good idea to do so?}\\
 %
 The numerical Reynolds and P\'eclet numbers defined in \eqt{eq:ref_numb} are related to the entropy viscosity coefficients. 
 For brevity, the superscripts $^*$ are omitted in the remainder of this section. 
@@ -807,7 +805,7 @@ $1$ & $-0.81$ & $1$ & $3.86$ & $-3.44$ & $10.33$                                
 
 
 2-D simulations presented are discussed next. 
-First, subsonic flows of around a 2-D cylinder \cite{Cylinder} and over a Gaussian hump \cite{Hump} are presented for various far-field Mach numbers (as low of $10^{-7}$). Numerical results of a transonic flow in a compression corner are provided to illustrate the ability of the new viscosity definitions to handle supersonic flows. Convergence studies are performed when analytical solutions are available. 
+First, subsonic flows of around a 2-D cylinder \cite{LowMach3} and over a Gaussian hump \cite{Hump} are presented for various far-field Mach numbers (as low of $10^{-7}$). Numerical results of a transonic flow in a compression corner are provided to illustrate the ability of the new viscosity definitions to handle supersonic flows. Convergence studies are performed when analytical solutions are available. 
 
 For each simulation, data relative to the boundary conditions, the Courant-Friedrichs-Lewy number ($CFL$), mesh and equation of state will be provided. All of the numerical solution presented are obtained using BDF2 as temporal integrator and linear (1D), $\mathbb{P}_1$ (2D triangular mesh), $\mathbb{Q}_1$ (2D quadrangular mesh) finite elements. The integrals are numerically computed using a second-order Gauss quadrature rule. The ideal gas \cite{IGEOS} or stiffened gas equations of state \cite{SGEOS} are used; a generic expression is given in \eqt{eq:eos}.
 %
@@ -848,7 +846,7 @@ This simulation consists of liquid water flowing through a 1-D convergent-diverg
 Initially, the liquid is at rest, the temperature is uniform and equal to the stagnation temperature and the pressure linearly decreases from the stagnation pressure inlet value to the static pressure outlet value. 
 The stiffened gas equation of state is used to model the liquid water with the parameters provided in \tbl{tbl:stff_gas_eos}.
 Because of the low pressure difference between the inlet and the outlet, the smooth initial conditions, and the large value of $P_\infty$, the flow remains subsonic and thus does not display any shock. Enthalpy and entropy are conserved through the nozzle and these conservation relations\tcr{[what are they? it sounds vague]} are used to determine the exact solution at steady-state \cite{nozzle_exact}. \tcb{what about: the exact steady-state solution is obtained from \cite{nozzle_exact}}. A uniform mesh of $50$ cells was used to obtain the numerical solution and the time step size was computed using a $CFL$ number of 750.
-Plots of the Mach number, density, and pressure are given at steady-state in \fig{fig:1d_nozzle} for the numerical and exact solutions. The viscosity coefficients are also graphed in \fig{fig:1d_nozzle_liq_visc}. 
+Plots of the Mach number, density, and pressure are given at steady-state in \fig{fig:1d_liq_nozzle} for the numerical and exact solutions. The viscosity coefficients are also graphed in \fig{fig:1d_nozzle_liq_visc}. 
 %Since a steady-state analytical solution is available to us (REF), a convergence study is performed in order to demonstrate the accuracy of the entropy viscosity method by computing the L$1$ and L$2$ norms of the error between the numerical and exact solutions.
 \begin{figure}[H]
         \centering
@@ -995,7 +993,7 @@ The pressure difference between the inlet and outlet is large enough to accelera
 				\label{fig:1d_vap_nozzle}
 \end{figure}
 %
-The steady-state solution of the density, Mach number and pressure are given in \fig{fig:1d_nozzle}. The steady-solution exhibits a shock around $x=0.8m$ and matches the exact solution. In \fig{fig:1d_nozzle_vap_visc}, the first-order and entropy viscosity coefficients are plotted at steady-state (on a log scale): the entropy viscosity coefficient is peaked in the shock region around $x=0.8m$ as expected where it saturates to the first-order viscosity coefficient. The graph also presents another peak at $x=0.5m$  corresponding to the position of the sonic point for a 1-D convergent-divergent nozzle. This particular point is known to develop small instabilities that are detected when computing the jumps of the pressure and density gradients. Anywhere else, the entropy  viscosity coefficient is small. In order to prove convergence of the numerical solution to the exact solution, a convergence study is performed. Because of the presence of a shock, second-order accuracy is not expected and the convergence rate of a numerical solution should be $1$ and $1/2$ when measured in the L$_1$ and L$_2$ norms, respectively (see Theorem 9.3 in \cite{convergence_book}). Results are reported in \tbl{tbl:l1_norm_vap} and \tbl{tbl:l2_norm_vap} for the primitive variables: density, velocity and pressure. The convergence rates for the L$_1$ and L$_2$ norms of the error are in good agreement with the theoretical values.
+The steady-state solution of the density, Mach number and pressure are given in \fig{fig:1d_vap_nozzle}. The steady-solution exhibits a shock around $x=0.8m$ and matches the exact solution. In \fig{fig:1d_nozzle_vap_visc}, the first-order and entropy viscosity coefficients are plotted at steady-state (on a log scale): the entropy viscosity coefficient is peaked in the shock region around $x=0.8m$ as expected where it saturates to the first-order viscosity coefficient. The graph also presents another peak at $x=0.5m$  corresponding to the position of the sonic point for a 1-D convergent-divergent nozzle. This particular point is known to develop small instabilities that are detected when computing the jumps of the pressure and density gradients. Anywhere else, the entropy  viscosity coefficient is small. In order to prove convergence of the numerical solution to the exact solution, a convergence study is performed. Because of the presence of a shock, second-order accuracy is not expected and the convergence rate of a numerical solution should be $1$ and $1/2$ when measured in the L$_1$ and L$_2$ norms, respectively (see Theorem 9.3 in \cite{convergence_book}). Results are reported in \tbl{tbl:l1_norm_vap} and \tbl{tbl:l2_norm_vap} for the primitive variables: density, velocity and pressure. The convergence rates for the L$_1$ and L$_2$ norms of the error are in good agreement with the theoretical values.
 %
 \begin{table}[!htbp]
 \begin{center}
@@ -1182,7 +1180,7 @@ The numerical results are in good agreement with the exact solution and do not d
 \subsection{Subsonic flow over a 2-D cylinder} \label{sec:cylinder}
 %---------------------------------------------------------------------------------------------------
 
-Fluid flow over a 2-D cylinder is often used as a benchmark case to test numerical schemes in the low-Mach regime \cite{LowMach1, LowMach2, LowMach3, guillard}. For this test, an analytical solution is available in the incompressible limit or low-Mach limit and is often referred to as the potential flow solution \tcr{check my change} \tcb{done}. The main features of the potential flow are the following:
+Fluid flow over a 2-D cylinder is often used as a benchmark case to test numerical schemes in the low-Mach regime \cite{LowMach1, LowMach2, LowMach3}. For this test, an analytical solution is available in the incompressible limit or low-Mach limit and is often referred to as the potential flow solution \tcr{check my change} \tcb{done}. The main features of the potential flow are the following:
 %
 \begin{itemize}
 \item The solution is symmetric: the iso-Mach countour lines are used to asses the symmetry of the numerical solution;
@@ -1269,7 +1267,7 @@ $10^{-7}$ & $2.283$ $10^{-7}$ & $1.144$ $10^{-7}$ & $1.99$ \\ \hline
 \nonumber
 \end{table}
 %
-In \fig{fig:pressure_vel_fluc}, the fluctuations in pressure and velocity are plotted as a function of the Mach number (on a log-log scale). The fluctuations are expected to be of the order of $M^2$ and $M$ for the pressure and velocity, respectively. It is known that some stabilization methods, e.g., \cite{guillard, rajoute'dautres exemples}, can produce pressure fluctuations with the wrong Mach-number order. Here, entropy viscosity method yields the correct order in the low-Mach limit. For easy of comparison, the reference lines with slope values of 1 and 2 are also provided. \tcr{change the legend in the plot appropriately}
+In \fig{fig:pressure_vel_fluc}, the fluctuations in pressure and velocity are plotted as a function of the Mach number (on a log-log scale). The fluctuations are expected to be of the order of $M^2$ and $M$ for the pressure and velocity, respectively. It is known that some stabilization methods, e.g., \cite{LowMach1, LowMach2, LowMach3}, can produce pressure fluctuations with the wrong Mach-number order. Here, entropy viscosity method yields the correct order in the low-Mach limit. For easy of comparison, the reference lines with slope values of 1 and 2 are also provided. \tcr{change the legend in the plot appropriately} \tcb{I can only do it in my office and will tomorrow}
 %
 \begin{figure}[H]
 \centering
@@ -1282,7 +1280,7 @@ In \fig{fig:pressure_vel_fluc}, the fluctuations in pressure and velocity are pl
 \subsection{Subsonic flow over a 2-D hump} \label{sec:hump}
 %---------------------------------------------------------------------------------------------------
 
-\tcr{Is it a circular hump or Gaussian hump in the literature???}
+\tcr{Is it a circular hump or Gaussian hump in the literature???} \tcb{circular hump}
 
 This is a another example of an internal flow configuration. It consists of a channel of height $L=1$ $m$ and length $3L$, with a circular bump of length $L$ and thickness $0.1L$. The bump is located on the bottom wall at a distance $L$ from the inlet. The system is initialized with an uniform pressure $P=101,325$ $Pa$ and temperature $T=300$ $K$. The initial velocity is computed from the inlet Mach number, the pressure, the temperature and the ideal gas equation (with  $\gamma=1.4$). Here,  $C_v = 717$ $J/kg-K$. At the inlet, a subsonic stagnation boundary condition is used and the stagnation pressure and temperature are computed using \eqt{eq:stagnation_relations}.
 The static pressure $P_s = 101,325$ $Pa$ is set at the subsonic outlet. The results are shown in \fig{fig:2d_hump_mach_0p7}, \fig{fig:2d_hump_mach_0p01}, \fig{fig:2d_hump_mach_0p0001} and \fig{fig:2d_hump_mach_0p0000001} for the inlet Mach numbers $M_{\infty}=0.7$, $M_{\infty}=0.01$, $M_{\infty}=10^{-4}$ and $M_{\infty}=10^{-7}$, respectively. It is expected that, within the low Mach number range, the solution does not depend on the Mach number and is identical to the solution obtained with an incompressible flow code. On the other hand, for a flow at $M=0.7$, the compressible effects become more important and shock can form. An uniform grid of $3352$ $Q_1$ elements was used to obtain the numerical solution for Mach numbers below $M_{\infty}=0.01$. A once-refined mesh was employed for the $M_{\infty}=0.7$ simulation in order to better resolve the shock. A $CFL$ of $20$ was employed and the simulations were run until steady state.
@@ -1332,7 +1330,7 @@ The results presented in \fig{fig:2d_hump} were obtained with the new definition
 In this last example, we consider a supersonic flow at Mach 2.5 impinging on a corner with an angle of $15^\circ$. From the oblique shock theory \cite{CompressionCorner}, an analytical solution for this supersonic flow is available and give the downstream to upstream pressure, entropy and Mach number ratios. 
 The initial conditions are chosen to be spatially uniform: the pressure and temperature are set to $P=101,325$ $Pa$ and $T=300$ $K$, respectively.  The ideal gas equation of state is used with the same parameters as in \sct{sec:hump}. The initial velocity is computed from the upstream Mach number. The inlet is supersonic and therefore, the pressure, temperature and velocity are specified using Dirichlet boundary conditions. The outlet is also supersonic and none of the characteristics enter the domain through this boundary: the values will be computed by the implicit solver.
 
-The simulation is run with $CFL=2$, until steady state is reached. A 2-D mesh made of $16,109$ $\mathbb{Q}_1$ elements is used. The ratios for pressure, entropy and Mach number computed using the  analytical and the numerical solutions are given in \tbl{tbl:corner_exact_sol}; they are in excellent agreement. The shock wave angle at steady state is also known and given by the so-called $\theta -\beta -M$ relation:
+The simulation is run with $CFL=2$, until steady state is reached. A 2-D mesh made of $16,109$ $\mathbb{Q}_1$ elements is used. The ratios for pressure, entropy and Mach number computed using the  analytical (with only two significant digits) and the numerical solutions are given in \tbl{tbl:corner_exact_sol}; they are in excellent agreement. The shock wave angle at steady state is also known and given by the so-called $\theta -\beta -M$ relation:
 %
 \begin{equation}
 \tan \theta = 2 \cot \beta \frac{M^2 \sin^2 \beta -1}{M^2 \left(\gamma+\cos^2 (2\beta)\right)+2} ,
@@ -1344,9 +1342,9 @@ where $\theta$, $\beta$ and $M$ denote the corner angle, the shock wave angle, a
 \begin{center}
 \begin{tabular}{|c|c|c|}  \hline
             & analytical & numerical\\ \hline
-Pressure    & 2.47       & 2.47   \\ \hline
-Mach number &  0.74      & 0.74    \\ \hline
-Entropy     & 1.03       & 1.03    \\ \hline 
+Pressure    & 2.47       & 2.467   \\ \hline
+Mach number &  0.74      & 0.736    \\ \hline
+Entropy     & 1.03       & 1.027    \\ \hline 
 \end{tabular}
 \caption{\label{tbl:corner_exact_sol} Ratio of analytical and numerical downstream to upstream quantities for the compression corner problems (corner angle of $15^\circ$ and inlet $M=2.5$.}
 \end{center}
@@ -1485,13 +1483,13 @@ Euler equations (without viscous regularization) with variable area are recalled
 \end{equation}
 \end{subequations}
 %
-The specific entropy is assumed \tcr{can it be depend on other variables?} to be a function of the density $\rho$ and the internal energy $e$, i.e., $s(e,\rho)$ , the above system of equations satisfies the minimum entropy principle \cite{Toro} \tcr{is this really shown in Toro?}
+The specific entropy is assumed \tcr{can it be depend on other variables?} \tcb{it cannot be a function of velocity for non-relative flow. Any other thermodynamic variable can be expressed as a function of e and $\rho$ using the EOS} to be a function of the density $\rho$ and the internal energy $e$, i.e., $s(e,\rho)$ , the above system of equations satisfies the minimum entropy principle \cite{Toro} \tcr{is this really shown in Toro?} \tcb{I think it is and will double check tomorrow}
 %
 \begin{equation}
 A \rho \left( \partial_t s + \vec{u} \cdot \div s \right) \geq 0 \, .
 \end{equation}
 %
-The entropy function $s$ satisfies the second law of thermodynamics, $T ds = de - \frac{P}{\rho^2} d \rho$, which implies $s_e := T^{-1}$ and $s_\rho := -P T^{-1} \rho^{-2}$. One can show that \cite{guermond popow theoretical paper}
+The entropy function $s$ satisfies the second law of thermodynamics, $T ds = de - \frac{P}{\rho^2} d \rho$, which implies $s_e := T^{-1}$ and $s_\rho := -P T^{-1} \rho^{-2}$. One can show that \cite{jlg}
 %
 \begin{equation}
 s_e = T^{-1} \geq 0 \text{ and }
@@ -1499,9 +1497,8 @@ Ps_e + \rho^2 s_{\rho}
 \end{equation}
 %
 In order to apply the entropy viscosity method to the variable-area Euler equations, dissipative terms need to be added to each equation in \eqt{app:euler_variable_A}. The functional forms of these terms need to be such that the entropy residual derived with these terms present also satisfies the minimum entropy principle. 
-%By inspecting the extra terms that will appear in the entropy residual, due to the dissipative terms will appear in the left-hand side. 
 To prove the minimum entropy principle, the extra terms appearing in the entropy residual are either recast as conservative terms or shown to be positive. The rest of this appendix presents this demonstration. 
-Following \cite{guermond popow theoretical paper}, we first write the variable-area equation with dissipative terms. 
+Following \cite{jlg}, we first write the variable-area equation with dissipative terms. 
 %
 %
 \begin{subequations}
@@ -1520,7 +1517,7 @@ Following \cite{guermond popow theoretical paper}, we first write the variable-a
 \end{equation}
 \end{subequations}
 %
-where $f$, $g$ and $h$ are dissipative fluxes to be determined. Starting from the modified system of equations given in \eqt{app:euler_variable_A_diss}, the entropy residual is derived again. The derivation requires the following steps : express the governing laws in terms of primitive variables $(\rho, \vec{u}, e)$, multiply the continuity equation by $\rho s_\rho$ and the internal energy equation by $s_e$, and invoke multivariate chain rule, e.g., $\partial s /\partial x = s_e \partial e /\partial x + s_\rho \partial \rho /\partial x$. These steps are similar to the ones form the standard Euler equations \cite{guermond popow theoretical paper}. Some of the lengthy algebra is omitted here. The above steps yield:
+where $f$, $g$ and $h$ are dissipative fluxes to be determined. Starting from the modified system of equations given in \eqt{app:euler_variable_A_diss}, the entropy residual is derived again. The derivation requires the following steps : express the governing laws in terms of primitive variables $(\rho, \vec{u}, e)$, multiply the continuity equation by $\rho s_\rho$ and the internal energy equation by $s_e$, and invoke multivariate chain rule, e.g., $\partial s /\partial x = s_e \partial e /\partial x + s_\rho \partial \rho /\partial x$. These steps are similar to the ones form the standard Euler equations \cite{jlg}. Some of the lengthy algebra is omitted here. The above steps yield:
 %
 \begin{multline}
 \label{eq:ent_res_app}
