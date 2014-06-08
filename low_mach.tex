@@ -695,7 +695,7 @@ The application of the entropy viscosity method to the Euler equations with vari
 \end{equation}
 %
 \begin{equation}
-\partial_t \left( \rho A E \right) + \div \left[ \vec{u} A\left( \rho E + P \right) \right] = \div \left[ A \left( \kappa \grad \left( \rho e \right) + \frac{1}{2}|| \vec{u} ||^2 \kappa \grad \rho +  \rho \mu \vec{u} \grad \vec{u}  \right) \right]
+\partial_t \left( \rho A E \right) + \div \left[ \vec{u} A\left( \rho E + P \right) \right] = \div \left[ A \left( \kappa \grad \left( \rho e \right) + \frac{1}{2}|| \vec{u} ||^2 \kappa \grad \rho +  \rho \mu \vec{u} \grad^s \vec{u}  \right) \right]
 \end{equation}
 \end{subequations}
 %
@@ -750,8 +750,12 @@ where $\Delta t^{n} = t^n-t^{n-1}$ and $\Delta t^{n+1} = t^{n+1}-t^{n}$.
 \subsection{Boundary conditions} \label{sec:bc}
 %---------------------------------------------------------------------------------------------------
 Boundary conditions are implemented by performing a characteristic decomposition to compute the appropriate flux at the boundaries.
-Our implementation of the subsonic boundary conditions follows the method described in \cite{SEM}\tcr{say a bit more, give 1-2 sentences to describe how to impose subsonic/supersonic inlet/outlet BCs}. 
-For each numerical solution presented in \sct{sec:results}, the type of boundary conditions used will be specified and \tcr{taken amping} the followings: supersonic inlet, subsonic inlet (stagnation pressure boundary), supersonic outlet and subsonic inlet \tcr{???} (static pressure boundary). \\
+Our implementation of the subsonic boundary conditions is inspired of the method described in \cite{SEM} and was adapted for an temporal implicit solver. Neumann boundary conditions are used for all of the boundary types, but for the inlet supersonic boundary that are imposed with Dirichlet boundary conditions.
+
+\tcr{say a bit more, give 1-2 sentences to describe how to impose subsonic/supersonic inlet/outlet BCs}. \tcb{Is it enough?}
+
+For each numerical solution presented in \sct{sec:results}, the type of boundary conditions used will be specified and taken amping the followings: supersonic inlet, subsonic inlet (stagnation pressure boundary) and supersonic outlet. 
+%and subsonic inlet \tcr{???} (static pressure boundary). \\
 The artificial diffusion coefficient $D(U)$ is set to zero at the boundary of the computational domain so that the boundary term $\int_{\partial \Omega} D(U) \grad U \cdot \vec{n} \phi$ stemming from the integration by parts of the artificial dissipative terms in \eqt{eq:cfem} is ignored.
 
 %---------------------------------------------------------------------------------------------------
@@ -776,11 +780,12 @@ Our results validate the chosen definitions for the viscosity coefficients in th
 
 The first set of 1-D simulations consist of liquid water and steam flowing in a convergent-divergent nozzle. This test is of interest for multiple reasons: (a) a steady-state can be reached (some stabilization methods are known to have difficulties reaching a steady-state, \cite{FluxLimiter, FluxLimiter2}), (b) an analytical solution is available and a space-time convergence study can be performed, (c) it can be performed for liquid and gas phases, the gas phase simulation presents a shocks while the liquid-phase simulation has a significantly low Mach number.
 %
-Next, a 1-D shock tube test (in a straight pipe) taking from the Leblanc test-case suite \cite{Leblanc} is also performed and consists of a flow developing shocks. This test is known to be more challenging than Sod shock tubes and the fluid's Mach number varies spatially between \tcr{0.xx and 5}. A convergence study is also performed in order to demonstrate convergence of the numerical solution to the exact solution. 
+Next, a 1-D shock tube test (in a straight pipe) taking from the Leblanc test-case suite \cite{Leblanc} is also performed and consists of a flow developing shocks. This test is known to be more challenging than Sod shock tubes and the fluid's Mach number varies spatially between 0 and 5. A convergence study is also performed in order to demonstrate convergence of the numerical solution to the exact solution. 
 %
 A slow moving shock is also investigated \cite{james}. This test helps in assessing the ability of the method at damping the post-shock low frequency noise. 
 %
-Finally, a strong shock for a liquid phase is also investigated. The last 1-D test consists of a slow moving shock \cite{james}. \tcr{??? this is the same sentence as before???} This test is interesting to evaluate the capabilities of the method at damping the post-shock low frequency noise. 
+Finally, a strong shock for a liquid phase is also investigated. 
+%The last 1-D test consists of a slow moving shock \cite{james}. \tcr{??? this is the same sentence as before???} This test is interesting to evaluate the capabilities of the method at damping the post-shock low frequency noise. 
 
 The initial conditions (density in $kg.m^{-3}$, velocity in $m.s^{-1}$, pressure in $Pa$) for the last three 1-D shock tubes are given in \tbl{tbl:ic_1d_tests}.
 \tcr{why give right values before left values???} \tcb{I modified the table}
