@@ -887,7 +887,12 @@ Plots of the Mach number, density, and pressure are given at steady-state in \fi
 In \fig{fig:1d_liq_nozzle}, the numerical solutions obtained using the first-order viscosity (FOV) and the entropy viscosity method (EVM) are plotted against the exact solution. The numerical solution obtained with the EVM and the exact solution overlap, even for fairly coarse mesh (50 cells).
 On the other hand, the numerical solution obtained with the FOV does not give the correct steady state: this is an illustration of the effect of ill-scaled dissipative terms. 
 %
-Note that the entropy viscosity coefficient is very small compared to the first-order one (\fig{fig:1d_nozzle_liq_visc}): (i) the numerical solution is smooth as shown in \fig{fig:1d_liq_nozzle} and (ii) the flow is in a low Mach regime and thus isentropic . A convergence study was performed using the exact solution as a reference: the L$_1$ and L$_2$ norms of the error and the corresponding convergence rates are computed at steady state on various uniform mesh from 4 to 256 cells. Spatial convergence results using linear finite elements are reported in \tbl{tbl:l1_norm_liq} and \tbl{tbl:l2_norm_liq} for the primitive variables: density, velocity and pressure.
+Note that the entropy viscosity coefficient is very small compared to the first-order one (\fig{fig:1d_nozzle_liq_visc}): (i) the numerical solution is smooth as shown in \fig{fig:1d_liq_nozzle} and (ii) the flow is in a low Mach regime and thus isentropic . A convergence study was performed using the exact solution as a reference: the L$_1$ and L$_2$ norms of the error and the corresponding convergence rates are computed at steady state on various uniform mesh from 4 to 256 cells, using the following relations 
+\begin{equation}\label{eq:conv_rates}
+rate = \ln \left( \frac{|| \cdot ||_{2h}-|| \cdot ||_h}{|| \cdot ||_h-|| \cdot ||_{\frac{h}{2}}} \right) / \ln 2
+\end{equation}
+where $|| \cdot ||$ denotes either the $L1$ or $L2$ error norms, and $h$ is the grid size.
+Spatial convergence results using linear finite elements are reported in \tbl{tbl:l1_norm_liq} and \tbl{tbl:l2_norm_liq} for the primitive variables: density, velocity and pressure.
 %
 \begin{table}[H]
 \begin{center}
@@ -902,7 +907,8 @@ cells & density         & rate   & pressure        & rate    & velocity         
 64   & 1.0558 $10^{-3}$ & 2.31 & 3.7938 $10^{3}$ & 2.31  & 3.7919 $10^{-2}$ & 2.37   \\ \hline
 128  & 2.3712 $10^{-4}$ & 2.18 & 8.4471 $10^{2}$ & 2.19  & 8.5517 $10^{-3}$ & 2.17   \\ \hline
 256  & 5.6058 $10^{-5}$ & 2.08 & 1.9839 $10^{2}$ & 2.09  & 2.0475 $10^{-3}$ & 2.07   \\ \hline
-512  & 1.3278 $10^{-5}$ & $-$ & 4.6622 $10^{1}$ & $-$  & 4.9516 $10^{-4}$ & $-$   \\ \hline
+512  & 1.3278 $10^{-5}$ & $2.07$ & 4.6622 $10^{1}$ & 2.08  & 4.9516 $10^{-4}$ & $2.06$   \\ \hline
+1024  & 3.1193 $10^{-6}$ & $-$ & 1.1755 $10^{1}$ & $-$  & 1.2379 $10^{-4}$ & $-$   \\ \hline
 \end{tabular}
 \end{center}
 \end{table}
@@ -996,7 +1002,7 @@ The pressure difference between the inlet and outlet is large enough to accelera
 				\label{fig:1d_vap_nozzle}
 \end{figure}
 %
-The steady-state solution of the density, Mach number and pressure are given in \fig{fig:1d_vap_nozzle}. The steady-solution exhibits a shock around $x=0.8m$ and matches the exact solution. In \fig{fig:1d_nozzle_vap_visc}, the first-order and entropy viscosity coefficients are plotted at steady-state (on a log scale): the entropy viscosity coefficient is peaked in the shock region around $x=0.8m$ as expected where it saturates to the first-order viscosity coefficient. The graph also presents another peak at $x=0.5m$  corresponding to the position of the sonic point for a 1-D convergent-divergent nozzle. This particular point is known to develop small instabilities that are detected when computing the jumps of the pressure and density gradients. Anywhere else, the entropy  viscosity coefficient is small. In order to prove convergence of the numerical solution to the exact solution, a convergence study is performed. Because of the presence of a shock, second-order accuracy is not expected and the convergence rate of a numerical solution should be $1$ and $1/2$ when measured in the L$_1$ and L$_2$ norms, respectively (see Theorem 9.3 in \cite{convergence_book}). Results are reported in \tbl{tbl:l1_norm_vap} and \tbl{tbl:l2_norm_vap} for the primitive variables: density, velocity and pressure. The convergence rates for the L$_1$ and L$_2$ norms of the error are in good agreement with the theoretical values.
+The steady-state solution of the density, Mach number and pressure are given in \fig{fig:1d_vap_nozzle}. The steady-solution exhibits a shock around $x=0.8m$ and matches the exact solution. In \fig{fig:1d_nozzle_vap_visc}, the first-order and entropy viscosity coefficients are plotted at steady-state (on a log scale): the entropy viscosity coefficient is peaked in the shock region around $x=0.8m$ as expected where it saturates to the first-order viscosity coefficient. The graph also presents another peak at $x=0.5m$  corresponding to the position of the sonic point for a 1-D convergent-divergent nozzle. This particular point is known to develop small instabilities that are detected when computing the jumps of the pressure and density gradients. Anywhere else, the entropy  viscosity coefficient is small. In order to prove convergence of the numerical solution to the exact solution, a convergence study is performed. Because of the presence of a shock, second-order accuracy is not expected and the convergence rate of a numerical solution should be $1$ and $1/2$ when measured in the L$_1$ and L$_2$ norms, respectively (see Theorem 9.3 in \cite{convergence_book}). Results are reported in \tbl{tbl:l1_norm_vap} and \tbl{tbl:l2_norm_vap} for the primitive variables: density, velocity and pressure. The convergence rates for the L$_1$ and L$_2$ norms of the error computed using \eqt{eq:conv_rates}, are in good agreement with the theoretical values.
 %
 \begin{table}[!htbp]
 \begin{center}
