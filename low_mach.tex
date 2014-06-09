@@ -808,11 +808,10 @@ $1$ & $-0.81$ & $1$ & $3.86$ & $-3.44$ & $10.33$                                
 \caption{\label{tbl:ic_1d_tests} Initial conditions for the 1-D shock tube tests.}
 \end{table} 
 
-
 2-D simulations presented are discussed next. 
 First, subsonic flows of around a 2-D cylinder \cite{LowMach3} and over a Gaussian hump \cite{Hump} are presented for various far-field Mach numbers (as low of $10^{-7}$). Numerical results of a transonic flow in a compression corner are provided to illustrate the ability of the new viscosity definitions to handle supersonic flows. Convergence studies are performed when analytical solutions are available. 
 
-For each simulation, data relative to the boundary conditions, the Courant-Friedrichs-Lewy number ($CFL$), mesh and equation of state will be provided. All of the numerical solution presented are obtained using BDF2 as temporal integrator and linear (1D), $\mathbb{P}_1$ (2D triangular mesh), $\mathbb{Q}_1$ (2D quadrangular mesh) finite elements. The integrals are numerically computed using a second-order Gauss quadrature rule. The ideal gas \cite{IGEOS} or stiffened gas equations of state \cite{SGEOS} are used; a generic expression is given in \eqt{eq:eos}.
+For each simulation, data relative to the boundary conditions, the Courant-Friedrichs-Lewy number ($CFL$), mesh and equation of state will be provided. All of the numerical solution presented are obtained using BDF2 as temporal integrator and linear (1D), $\mathbb{P}_1$ (2D triangular mesh), $\mathbb{Q}_1$ (2D quadrangular mesh) finite elements. The integrals are numerically computed using a second-order Gauss quadrature rule. The steady-state solution is detected by monitoring the norm of the total residual (including all of the equations) and reached when the norm of the total residual is below $10^{-6}$. The ideal gas \cite{IGEOS} or stiffened gas equations of state \cite{SGEOS} are used; a generic expression is given in \eqt{eq:eos}.
 %
 \begin{equation}
 \label{eq:eos}
@@ -840,7 +839,12 @@ The entropy function for the stiffened gas equation of state is convex and given
 \begin{equation*}
 s = C_v \ln \left( \frac{P+P_\infty}{\rho^{\gamma-1}} \right) ,
 \end{equation*}
-where $C_v$ is the heat capacity at constant volume.
+where $C_v$ is the heat capacity at constant volume. \\
+Lastly, the convergence rates are computed using the following relations 
+\begin{equation}\label{eq:conv_rates}
+rate = \ln \left( \frac{|| \cdot ||_{2h}-|| \cdot ||_h}{|| \cdot ||_h-|| \cdot ||_{\frac{h}{2}}} \right) / \ln 2
+\end{equation}
+where $|| \cdot ||$ denotes either the $L1$ or $L2$ error norms, and $h$ is the grid size.
 
 %---------------------------------------------------------------------------------------------------
 \subsection{Liquid water in a 1-D convergent-divergent nozzle} \label{sec:liquid_nozzle}
@@ -887,11 +891,7 @@ Plots of the Mach number, density, and pressure are given at steady-state in \fi
 In \fig{fig:1d_liq_nozzle}, the numerical solutions obtained using the first-order viscosity (FOV) and the entropy viscosity method (EVM) are plotted against the exact solution. The numerical solution obtained with the EVM and the exact solution overlap, even for fairly coarse mesh (50 cells).
 On the other hand, the numerical solution obtained with the FOV does not give the correct steady state: this is an illustration of the effect of ill-scaled dissipative terms. 
 %
-Note that the entropy viscosity coefficient is very small compared to the first-order one (\fig{fig:1d_nozzle_liq_visc}): (i) the numerical solution is smooth as shown in \fig{fig:1d_liq_nozzle} and (ii) the flow is in a low Mach regime and thus isentropic . A convergence study was performed using the exact solution as a reference: the L$_1$ and L$_2$ norms of the error and the corresponding convergence rates are computed at steady state on various uniform mesh from 4 to 256 cells, using the following relations 
-\begin{equation}\label{eq:conv_rates}
-rate = \ln \left( \frac{|| \cdot ||_{2h}-|| \cdot ||_h}{|| \cdot ||_h-|| \cdot ||_{\frac{h}{2}}} \right) / \ln 2
-\end{equation}
-where $|| \cdot ||$ denotes either the $L1$ or $L2$ error norms, and $h$ is the grid size.
+Note that the entropy viscosity coefficient is very small compared to the first-order one (\fig{fig:1d_nozzle_liq_visc}): (i) the numerical solution is smooth as shown in \fig{fig:1d_liq_nozzle} and (ii) the flow is in a low Mach regime and thus isentropic . A convergence study was performed using the exact solution as a reference: the L$_1$ and L$_2$ norms of the error and the corresponding convergence rates are computed at steady state on various uniform mesh from 4 to 256 cells.
 Spatial convergence results using linear finite elements are reported in \tbl{tbl:l1_norm_liq} and \tbl{tbl:l2_norm_liq} for the primitive variables: density, velocity and pressure.
 %
 \begin{table}[H]
