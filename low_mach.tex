@@ -696,17 +696,17 @@ The application of the entropy viscosity method to the Euler equations with vari
 \partial_t \left( \rho A \right) + \div \left( \rho \vec{u} A \right) = \div \left( A \kappa \grad \rho \right) 
 \end{equation}
 %
-\begin{equation}
+\begin{equation}\label{eq:euler_eq_mom_var_A}
 \partial_t \left( \rho \vec{u} A \right) + \div \left[A\left( \rho \vec{u} \otimes \vec{u} + P \mathbf{I} \right) \right] = P \grad A + \div \left[ A \left( \mu \rho \grad^s \vec{u}  + \kappa \vec{u} \otimes \grad \rho \right) \right]
 \end{equation}
 %
-\begin{equation}
+\begin{equation}\label{eq:euler_eq_ener_var_A}
 \partial_t \left( \rho A E \right) + \div \left[ \vec{u} A\left( \rho E + P \right) \right] = \div \left[ A \left( \kappa \grad \left( \rho e \right) + \frac{1}{2}|| \vec{u} ||^2 \kappa \grad \rho +  \rho \mu \vec{u} \grad^s \vec{u}  \right) \right]
 \end{equation}
 \end{subequations}
 %
 The dissipative terms are very similar to the ones obtained for the standard Euler equations: each dissipative flux is simply multiplied by the variable area $A$ in order to ensure conservation of the dissipative flux. When assuming a constant area, \eqt{eq:euler_visc} are recovered. 
-\tcr{Is the following text useful?: The derivation requires the viscosity coefficients $\mu$ and $\kappa$ to be positive. The viscosity coefficients $\mu$ and $\kappa$ will follow the definition given in \eqt{eq:final_def_visc_coeff}.} \tcb{we can remove it}
+A low-Mach asymptotic limit of the multi-D Euler equations with variable area on the same model as in \sct{sec:lowMach} will lead to the divergent constraint $\div (\vec{u} A) = 0$ that can be recast as $\div \vec{u} = \vec{u} \cdot \grad{A} / A$. The gradient of the area acts alike a source term and will force the fluid to accelerate. Since the dissipation is done partially on the velocity in the momentum and the energy equations (see \eqt{eq:euler_eq_mom_var_A} and \eqt{eq:euler_eq_ener_var_A} ), in the presence of a strong gradient of the area, $\grad A$, an excess amount of dissipation will be added to the system, making the numerical system converge to a wrong solution. They are to remedies to this problem. The first one consists of replacing the dissipative term $\mu A \grad^s \vec{u}$ by $\mu \grad^s (A\vec{u})$ to ensure the correct scaling of the dissipative term in the low Mach limit. However, the entropy minimum principle is no longer verified. The second option is to change the normalization of the viscosity coefficient $\mu$ from $\rho || \vec{u} ||^2$ to $ \rho c^2$ to force the dissipative term to zero. The entropy minimum principle is still verified but such a choice will underestimate the dissipation and will not be able to stabilize shocks with low Mach number.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
