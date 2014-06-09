@@ -705,7 +705,8 @@ The application of the entropy viscosity method to the Euler equations with vari
 \end{equation}
 \end{subequations}
 %
-The dissipative terms are very similar to the ones obtained for the standard Euler equations: each dissipative flux is simply multiplied by the variable area $A$ in order to ensure conservation of the dissipative flux. When assuming a constant area, \eqt{eq:euler_visc} are recovered. 
+The dissipative terms are very similar to the ones obtained for the standard Euler equations: each dissipative flux is simply multiplied by the variable area $A$ in order to ensure conservation of the dissipative flux. When assuming a constant area, \eqt{eq:euler_visc} are recovered.
+ 
 A low-Mach asymptotic limit of the multi-D Euler equations with variable area on the same model as in \sct{sec:lowMach} will lead to the divergent constraint $\div (\vec{u} A) = 0$ that can be recast as $\div \vec{u} = \vec{u} \cdot \grad{A} / A$. The gradient of the area acts alike a source term and will force the fluid to accelerate. Since the dissipation is done partially on the velocity in the momentum and the energy equations (see \eqt{eq:euler_eq_mom_var_A} and \eqt{eq:euler_eq_ener_var_A} ), in the presence of a strong gradient of the area, $\grad A$, an excess amount of dissipation will be added to the system, making the numerical system converge to a wrong solution. They are to remedies to this problem. The first one consists of replacing the dissipative term $\mu A \grad^s \vec{u}$ by $\mu \grad^s (A\vec{u})$ to ensure the correct scaling of the dissipative term in the low Mach limit. However, the entropy minimum principle is no longer verified. The second option is to change the normalization of the viscosity coefficient $\mu$ from $\rho || \vec{u} ||^2$ to $ \rho c^2$ to force the dissipative term to zero. The entropy minimum principle is still verified but such a choice will underestimate the dissipation and will not be able to stabilize shocks with low Mach number.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -791,10 +792,8 @@ Next, a 1-D shock tube test (in a straight pipe) taking from the Leblanc test-ca
 A slow moving shock is also investigated \cite{james}. This test helps in assessing the ability of the method at damping the post-shock low frequency noise. 
 %
 Finally, a strong shock for a liquid phase is also investigated. 
-%The last 1-D test consists of a slow moving shock \cite{james}. \tcr{??? this is the same sentence as before???} This test is interesting to evaluate the capabilities of the method at damping the post-shock low frequency noise. 
 
 The initial conditions (density in $kg.m^{-3}$, velocity in $m.s^{-1}$, pressure in $Pa$) for the last three 1-D shock tubes are given in \tbl{tbl:ic_1d_tests}.
-\tcr{why give right values before left values???} \tcb{I modified the table}
 \begin{table}[!htbp]
 \begin{center}
 \begin{tabular}{|c|c|c || c|c|c|}
@@ -825,7 +824,7 @@ where the parameters $q$ and $P_\infty$ are fluid-dependent. The values we emplo
 %
 \begin{table}[!htbp]
 \begin{center}
-\caption{\label{tbl:stff_gas_eos} Stiffened Gas Equation of State parameters for steam and liquid water.\\ \tcr{check my mods} \tcb{I did. It is good. Thanks for catching this}}
+\caption{\label{tbl:stff_gas_eos} Stiffened Gas Equation of State parameters for steam and liquid wate.}
 \begin{tabular}{|c|c|c|c|c|}
  \hline
 \text{fluid}                           & $\gamma$ & $C_v$ $(J.kg^{-1}.K^{-1})$ & $P_\infty$ $(Pa)$ & $q$ $(J.kg^{-1})$ \\  \hline \hline
@@ -836,7 +835,6 @@ liquid water (\sct{sec:liquid_shock})  & 4.4      & 1000                       &
 \end{center}
 \end{table}
 %
-
 The entropy function for the stiffened gas equation of state is convex and given by
 %
 \begin{equation*}
@@ -854,10 +852,9 @@ where $|| \cdot ||$ denotes either the $L1$ or $L2$ error norms, and $h$ is the 
 %---------------------------------------------------------------------------------------------------
 
 This simulation consists of liquid water flowing through a 1-D convergent-divergent nozzle. The variable-area Euler equations are solved, with $A(x) = 1 + 0.5 \cos(2 \pi x / L)$ where $L=1m$ is the length of the nozzle. At the inlet, the stagnation pressure and temperature are set to $P_0 = 1 MPa$ and $T_0 = 453 K$, respectively. At the outlet, only the static pressure is specified: $P_s = 0.5MPa$. 
-%\tcr{what follows has no purpose here. it should be said in the BC section. Remove. Details about the theory related to the inlet and outlet boundary conditions can be found in \cite{SEM}}. 
 Initially, the liquid is at rest, the temperature is uniform and equal to the stagnation temperature and the pressure linearly decreases from the stagnation pressure inlet value to the static pressure outlet value. 
 The stiffened gas equation of state is used to model the liquid water with the parameters provided in \tbl{tbl:stff_gas_eos}.
-Because of the low pressure difference between the inlet and the outlet, the smooth initial conditions, and the large value of $P_\infty$, the flow remains subsonic and thus does not display any shock. Enthalpy and entropy are conserved through the nozzle and these conservation relations\tcr{[what are they? it sounds vague]} are used to determine the exact solution at steady-state \cite{nozzle_exact}. \tcb{what about: the exact steady-state solution is obtained from \cite{nozzle_exact}}. A uniform mesh of $50$ cells was used to obtain the numerical solution and the time step size was computed using a $CFL$ number of 750.
+Because of the low pressure difference between the inlet and the outlet, the smooth initial conditions, and the large value of $P_\infty$, the flow remains subsonic and thus does not display any shock. A detailed derivation of the exact steady-state solution can be found in \cite{nozzle_exact}. A uniform mesh of $50$ cells was used to obtain the numerical solution and the time step size was computed using a $CFL$ number of 750.
 Plots of the Mach number, density, and pressure are given at steady-state in \fig{fig:1d_liq_nozzle} for the numerical and exact solutions. The viscosity coefficients are also graphed in \fig{fig:1d_nozzle_liq_visc}. 
 \begin{figure}[H]
         \centering
@@ -1129,12 +1126,11 @@ $6400$&$7.3309974$ $10^{-4}$    & $0.53343397$ & $4.4545754$ $10^{-4}$ & $0.4939
 %---------------------------------------------------------------------------------------------------
 \subsection{1-D shock tube with a liquid phase} \label{sec:liquid_shock}
 %---------------------------------------------------------------------------------------------------
-\tcr{until now, you never gave the mu and kappa coefficients, yet they are now different due to their different normalizations.
-Maybe very little for the previous cases, but we need to mention something because, in this section, you show both, and it is better
-to say something than to let the reviewers wonder ... } \tcb{what do you think of the following?}
+%\tcr{until now, you never gave the mu and kappa coefficients, yet they are now different due to their different normalizations.
+%Maybe very little for the previous cases, but we need to mention something because, in this section, you show both, and it is better
+%to say something than to let the reviewers wonder ... } \tcb{what do you think of the following?}
+The purpose of this test is to investigate the ability of the entropy viscosity method to stabilize a strong shock with a small Mach number: the Mach number in the shock region is of the order of $0.1$. In this case, as explained in \sct{sec:lowMach}, the viscosity coefficients are required to have different order of magnitude in order to ensure the correct scaling of the dissipative terms. This test will allow to validate our approach discussed in \sct{sec:lowMach}.  
 
-The purpose of this test is to investigate the ability of the entropy viscosity method to stabilize a strong shock with a small Mach number: the Mach number in the shock region is of the order of $0.1$. In this case, as explained in \sct{sec:lowMach}, the viscosity coefficients are required to have different order of magnitude in order to ensure the correct scaling of the dissipative terms.   
-%
 The stiffened gas equation of state is used to model a liquid flow with the parameters given in \tbl{tbl:stff_gas_eos}. The computational domain of length $L=1m$ is uniformly discretized using 500 cells. The step initial conditions are given in \tbl{tbl:ic_1d_tests}.
 %
 The simulation is run with a $CFL=1$ until the final time $t_{\text{final}} = 7 \ 10^{-5}s$. Results for pressure, density, velocity and the viscosity coefficients are given in \fig{fig:1d_strong_shock} along with the exact solution for comparison purposes. The numerical solution is in good agreement with exact solution in \fig{fig:1d_strong_shock_var}. The viscosity coefficients $\mu$ and $\kappa$ are not equal in the shock because the Mach number is of order $0.1$. The viscosity coefficient $\kappa$ saturates to the first-order viscosity in the shock region around $x = 0.65m$ and is sufficient to stabilize the numerical scheme. 
@@ -1169,7 +1165,7 @@ The 1-D slow moving shock consists of a shock wave moving from left to right wit
 %
 The numerical solution, obtained with 200 equally-spaced cells, is given in \fig{fig:low_moving_shock} and is compared to the exact solution obtained from a Riemann solver. We use a $CFL$ of $1$. With this $CFL$ value, it takes about $50$ time steps for the shock to traverse one cell.
 %
-The numerical results are in good agreement with the exact solution and do not display any post-shock noise. The rarefaction and contact waves are not visible on \fig{fig:profiles_sms} since they exited the computational domain through the left pressure boundary condition earlier. As explained in \cite{roberts}, Godunov's type method usually fails to resolve a slow moving shock because of the nature of the stabilization method: the method scales as the eigenvalue of the appropriate field. In the case of a slow moving shock, the dissipation added to the system is under-estimated and leads to post-shock noise. In the case of the entropy viscosity method, the entropy residual detects the shock position and the viscosity coefficients saturate to the first-order viscosity values. The main difference between a  Godunov's type method and the entropy viscosity method relies in the definition of the first-order viscosity coefficients that are proportional to the \emph{local maximum eigenvalue} $||\vec{u}||+c$ and not to the eigenvalue of the characteristic field \tcr{is field appropriate here? variable?} \tcb{They use field in the paper I reference}.
+The numerical results are in good agreement with the exact solution and do not display any post-shock noise. The rarefaction and contact waves are not visible on \fig{fig:profiles_sms} since they exited the computational domain through the left pressure boundary condition earlier. As explained in \cite{roberts}, Godunov's type method usually fails to resolve a slow moving shock because of the nature of the stabilization method: the method scales as the eigenvalue of the appropriate field. In the case of a slow moving shock, the dissipation added to the system is under-estimated and leads to post-shock noise. In the case of the entropy viscosity method, the entropy residual detects the shock position and the viscosity coefficients saturate to the first-order viscosity values. The main difference between a  Godunov's type method and the entropy viscosity method relies in the definition of the first-order viscosity coefficients that are proportional to the \emph{local maximum eigenvalue} $||\vec{u}||+c$ and not to the eigenvalue of the characteristic field.
 %
 \begin{figure}[H]
         \centering
@@ -1194,7 +1190,7 @@ The numerical results are in good agreement with the exact solution and do not d
 \subsection{Subsonic flow over a 2-D cylinder} \label{sec:cylinder}
 %---------------------------------------------------------------------------------------------------
 
-Fluid flow over a 2-D cylinder is often used as a benchmark case to test numerical schemes in the low-Mach regime \cite{LowMach1, LowMach2, LowMach3}. For this test, an analytical solution is available in the incompressible limit or low-Mach limit and is often referred to as the potential flow solution \tcr{check my change} \tcb{done}. The main features of the potential flow are the following:
+Fluid flow over a 2-D cylinder is often used as a benchmark case to test numerical schemes in the low-Mach regime \cite{LowMach1, LowMach2, LowMach3}. For this test, an analytical solution is available in the incompressible limit or low-Mach limit and is often referred to as the potential flow solution. The main features of the potential flow are the following:
 %
 \begin{itemize}
 \item The solution is symmetric: the iso-Mach countour lines are used to asses the symmetry of the numerical solution;
@@ -1263,7 +1259,7 @@ Several simulations are performed, with inlet Mach numbers $M_{\text{inlet}}$ ra
 				\label{fig:cylinder}
 \end{figure}
 %
-The velocity at the top of the cylinder and at the inlet are given for different Mach-number values (ranging from $10^{-3}$ to $10^{-7}$) in \tbl{tbl:velocity_ratio}. The ratio of the inlet velocity to the velocity at the top of cylinder is also computed and is very close to the theoretical value of $2$ that is expected in the incompressible limit \tcr{check my mods} \tcb{I did}.
+The velocity at the top of the cylinder and at the inlet are given for different Mach-number values (ranging from $10^{-3}$ to $10^{-7}$) in \tbl{tbl:velocity_ratio}. The ratio of the inlet velocity to the velocity at the top of cylinder is also computed and is very close to the theoretical value of $2$ that is expected in the incompressible limit.
 %
 \begin{table}[H]
 \begin{center}
@@ -1281,7 +1277,7 @@ $10^{-7}$ & $2.283$ $10^{-7}$ & $1.144$ $10^{-7}$ & $1.99$ \\ \hline
 \nonumber
 \end{table}
 %
-In \fig{fig:pressure_vel_fluc}, the fluctuations in pressure and velocity are plotted as a function of the Mach number (on a log-log scale). The fluctuations are expected to be of the order of $M^2$ and $M$ for the pressure and velocity, respectively. It is known that some stabilization methods, e.g., \cite{LowMach1, LowMach2, LowMach3}, can produce pressure fluctuations with the wrong Mach-number order. Here, entropy viscosity method yields the correct order in the low-Mach limit. For easy of comparison, the reference lines with slope values of 1 and 2 are also provided. \tcr{change the legend in the plot appropriately} \tcb{I can only do it in my office and will tomorrow}
+In \fig{fig:pressure_vel_fluc}, the fluctuations in pressure and velocity are plotted as a function of the Mach number (on a log-log scale). The fluctuations are expected to be of the order of $M^2$ and $M$ for the pressure and velocity, respectively. It is known that some stabilization methods, e.g., \cite{LowMach1, LowMach2, LowMach3}, can produce pressure fluctuations with the wrong Mach-number order. Here, entropy viscosity method yields the correct order in the low-Mach limit. For easy of comparison, the reference lines with slope values of 1 and 2 are also provided.
 %
 \begin{figure}[H]
 \centering
@@ -1540,7 +1536,6 @@ A \rho \left( \partial_t s + \vec{u} \cdot \grad s \right) = s_e \left[ \div h +
 \end{multline}
 %
 The next step consists of choosing a definition for each of the dissipative terms so that the left hand-side is positive. The right hand-side of \eqt{eq:ent_res_app} can be simplified using the following relations, $g = A \mu \grad^s \vec{u} + f \otimes \vec{u}$ and $h = \tilde{h} - 0.5 || \vec{u} ||^2 f$, which yields:
-\tcr{I can't get the equation below from the one before with your definitions of h,g,f} \tcb{I fixed it}
 %
 \begin{eqnarray}
 \label{eq:ent_res_app2}
