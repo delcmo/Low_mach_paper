@@ -110,6 +110,7 @@
 \newcommand{\norm}{\textrm{norm}}
 \renewcommand{\Re}{\textrm{Re\,}}
 \newcommand{\Pe}{\textrm{P\'e\,}}
+\newcommand{\Pr}{\textrm{Pr\,}}
 
 \newcommand{\resi}{R_e}
 %\newcommand{\resinew}{\tilde{D}_e}
@@ -290,22 +291,22 @@ Over the past years an increasing interest raised for computational methods that
 When solving the multi-D Euler equations for a wide range of Mach numbers, multiple problems have to address: stability, accuracy and acceleration of the convergence in the low Mach regime. Because of the hyperbolic nature of the equations, shocks can form during transonic and supersonic flows, and require the use of the numerical methods in order to stabilize the scheme and correctly resolve the discontinuities. The literature offers a wide range of stabilization methods: flux-limiter \cite{FluxLimiter, FluxLimiter2}, pressure-based viscosity method (\cite{PBV_book}), Lapidus method (\cite{Lapidus_paper, LMP, Lapidus_book}), and the entropy-viscosity method(\cite{jlg1, jlg2}) among others. These numerical methods are usually developed using simple equation of states and tested for transonic and supersonic flows where the disparity between the acoustic waves and the fluid speed is not large since the Mach number is of order one. This approach leads to a well-known accuracy problem in the low Mach regime where the fluid velocity is smaller that the speed of sound by multiple order of magnitude. The numerical dissipative terms become ill-scaled in the low Mach regime and lead to the wrong numerical solution by changing the nature of the equations solved. This behavior is well documented in the literature \cite{LowMach1, LowMach2, LowMach3} and often treated by performing a low Mach asymptotic study of the multi-D Euler equation. This method was originally used \cite{LowMach1} to show convergence of the compressible multi-D Euler equations to the incompressible ones. Thus, by using the same method, the effect of the dissipative terms in the low Mach regime, can be understood and, when needed, a fix is developed in order to ensure the convergence of the equations to the correct physical solution. This approach was used as a fixing method for multiple well known stabilization methods alike Roe scheme (\cite{Roe}) and SUPG \cite{LowMach3} while preserving the original stabilization properties of shocks.  \\
 We propose, through this paper, to investigate how the entropy viscosity method, when applied to the multi-D Euler equations with variable area, behaves in the low Mach regime. This method was initially introduced by Guermond et al. to solve for the hyperbolic systems and has shown good results when used for solving the multi-D Euler equations with various discretization schemes. More importantly, it is simple to implement, can be used with unstructured grids,  and its dissipative terms are consistent with the entropy minimum principle and proven valid for any equation of state under certain conditions \cite{jlg}. \\
 This paper is organized as follows: in \sct{sec:entro_visc} the current definition of the entropy viscosity method is recalled, and inconsistency with the low Mach regime are pointed out. Since our interest is in the variable area version of the multi-D Euler equation, the reader is guided trough the steps leading to the derivation of the dissipative terms on the model of \cite{jlg}. Then in \sct{sec:extension}, a new definition of the viscosity coefficient is introduced and derived from a low Mach asymptotic study. After detailing the spatial and temporal discretization method in \sct{sec:solution_tech}, 1-D and 2-D numerical results are presented in \sct{sec:results} for a wide range of Mach numbers: low Mach flow over a cylinder and a circular bump, and supersonic flow in a compression corner \cite{CompressionCorner}. Convergence studies are performed in 1-D, in order to demonstrate the accuracy of the solution. \\
-\tcr{I wouldn't recall this here. Let me think about that.}\\
-For purpose of clarity, the multi-D Euler equations with variable area are recalled in \eqt{eq:euler_eq} and the corresponding variables are defined:
-%
-\begin{equation}
-\label{eq:euler_eq}
-\left\{ 
-\begin{array}{lll}
-\partial_t \left( \rho A\right) + \div \left( \rho \vec{u} A\right) = 0\\
-\partial_t \left( \rho \vec{u} A\right) + \div \left[ \left( \rho \vec{u} \otimes \vec{u} + P \mathbf{I} \right) A \right] = P \grad A\\
-\partial_t \left( \rho E A\right) + \div \left[ \vec{u} \left( \rho E + P \right) A\right] = 0 \\
-P = P\left( \rho, e \right)
-\end{array}
-\right.
-\end{equation}
-%
-where $\rho$, $\rho \vec{u}$ and $\rho E$ are the density, the momentum and the total energy, respectively, and will be referred to as the conservative variables. The pressure $P$ is computed with an equation of state expressed in function of the density $\rho$ and the specific internal energy $e$. The tensor product $\vec{a} \otimes \vec{b}$ is taken with the following convention: $(\vec{a} \otimes \vec{b})_{i,j} = a_i b_j$. Lastly, the terms $\partial_t$, $\grad$, $\div$ and $\mathbf{I}$ denote the temporal derivative, the gradient and divergent operators, and the identity tensor, respectively. The variable area $A$ is assumed spatial dependent.
+
+% keep this as a comment for now
+%\tcr{I wouldn't recall this here. Let me think about that.}\\
+%For purpose of clarity, the multi-D Euler equations with variable area are recalled in \eqt{eq:euler_eq} and the corresponding variables are defined:
+%%
+%\begin{equation}
+%\label{eq:euler_eq}
+%\left\{ 
+%\begin{array}{lll}
+%\partial_t \left( \rho A\right) + \div \left( \rho \vec{u} A\right) = 0\\
+%\partial_t \left( \rho \vec{u} A\right) + \div \left[ \left( \rho \vec{u} \otimes \vec{u} + P \mathbf{I} \right) A \right] = P \grad A\\
+%\partial_t \left( \rho E A\right) + \div \left[ \vec{u} \left( \rho E + P \right) A\right] = 0 \\
+%P = P\left( \rho, e \right)
+%\end{array}
+%\right.
+%\end{equation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -316,8 +317,29 @@ where $\rho$, $\rho \vec{u}$ and $\rho E$ are the density, the momentum and the 
 %===================================================================================================
 \subsection{Background} \label{sec:background}
 %===================================================================================================
-In this section, the entropy viscosity method \cite{jlg1, jlg2, jlg3, valentin} is recalled for the multi-D Euler equations (with constant area $A$). The method consists of adding dissipative terms with a viscosity coefficient modulated by the entropy production; this allows for a high-order accuracy when the solution is smooth (provided that the spatial and temporal discretizations also are high order). 
-The derivation of the viscous regularization (dissipative terms) is carried out to be consistent with the entropy minimum principle theorem; details of the derivation and proofs can be found in \cite{jlg}. The viscous regularization obtained is valid for any equation of state as long as the physical entropy function $s$ is such that $-s$ is a convex function with respect to the internal energy $e$ and the specific volume $1/\rho$. Euler equations with viscous regularization are recalled in \eqt{eq:euler_visc}:
+
+The Euler equations are given by
+\begin{subequations}
+\label{eq:euler_eq}
+%
+\begin{equation}
+\partial_t \rho  + \div \left( \rho \vec{u} \right) = 0
+\end{equation}
+%
+\begin{equation}
+\partial_t \left( \rho \vec{u} \right) + \div \left( \rho \vec{u} \otimes \vec{u} + P \mathbb{I} \right) = 0 
+\end{equation}
+%
+\begin{equation}
+\partial_t \left( \rho E \right) + \div \left[ \vec{u} \left( \rho E + P \right) \right] = 0
+\end{equation}
+\end{subequations}
+%
+where $\rho$, $\rho \vec{u}$ and $\rho E$ are the density, the momentum and the total energy, respectively, and will be referred to as the conservative variables. $\vec{u}$ is the fluid velocity and its specific internal energy is denoted by $e=E-\tfrac{u^2}{2}$. An equation of state, dependent upon $\rho$ and $e$, is used to compute the pressure $P$. The tensor product $\vec{a} \otimes \vec{b}$ is such that $(\vec{a} \otimes \vec{b})_{i,j} = a_i b_j$. The identity tensor is denoted by $\mathbb{I}$.
+
+Next, the entropy viscosity method \cite{jlg1, jlg2, jlg3, valentin} applied to \eqt{eq:euler_eq} is recalled. The method consists of adding dissipative terms with a viscosity coefficient modulated by the entropy production; this allows for a high-order accuracy when the solution is smooth (provided that the spatial and temporal discretizations also are high order). 
+The derivation of the viscous regularization (or dissipative terms) is carried out to be consistent with the entropy minimum principle theorem \tcr{is this really a theorem?}; details and proofs of the derivation can be found in \cite{jlg}. The viscous regularization thus obtained is valid for any equation of state as long as the physical entropy function $s$ is such that $-s$ is a convex function with respect to the internal energy $e$ and the specific volume $1/\rho$. Euler equations with viscous regularization are given in \eqt{eq:euler_visc}:
+%
 \begin{subequations}
 \label{eq:euler_visc}
 %
@@ -334,31 +356,30 @@ The derivation of the viscous regularization (dissipative terms) is carried out 
 \end{equation}
 \end{subequations}
 %
-where $\kappa$ and $\mu$ are positive viscosity coefficients. $\grad^s \vec{u}$ denotes the symmetric gradient operator that guarantees the method to be rotationally invariant \cite{jlg}.
-
-The viscous regularization (\eqt{eq:euler_visc}) requires the numerical computation of viscosity coefficients. Many stabilization approaches have been proposed in the literature such as the Lapidus (pressure-based) method \cite{Lapidus_book, Lapidus_paper}. Here, we follow the work of Guermond et al. and define the viscosity coefficients, $\kappa$ and $\mu$, based on the local entropy production. These coefficients are evaluated using the local entropy residual $\resi(\vec{r},t)$ defined in \eqt{eq:ent_residual}; $\resi(\vec{r},t)$ is known to be peaked in shocks and vanishingly small elsewhere \cite{Toro}. 
+where $\kappa$ and $\mu$ are positive viscosity coefficients. $\grad^s \vec{u}$ denotes the symmetric gradient operator that guarantees the method to be rotationally invariant \cite{jlg}. The viscosity coefficients are key-ingredients in the viscous regularization of \eqt{eq:euler_visc}.  
+Other stabilization approaches have been proposed in the literature, for instance, the Lapidus (pressure-based) method \cite{Lapidus_book, Lapidus_paper}. Here, we follow the work of Guermond et al. and define the viscosity coefficients, $\kappa$ and $\mu$, based on the local entropy production. These coefficients are numerically evaluated using the local entropy residual $\resi(\vec{r},t)$ defined in \eqt{eq:ent_residual}; $\resi(\vec{r},t)$ is known to be peaked in shocks and vanishingly small elsewhere \cite{Toro}. 
 %
 \begin{equation}
 \label{eq:ent_residual}
 \resi(\vec{r}, t) := \partial_t s + \vec{u} \cdot \grad s
 \end{equation}
 %
-In the current version of the method, the ratio of $\kappa$ to $\mu$ is defined as a numerical Prandlt number, $Pr = \kappa / \mu$, that is usually taken in the interval $\left[ 0.001; 1 \right]$. Since $\resi(\vec{r},t)$ can be extremely larger in shocks, the definition of the viscosity also includes a first-order viscosity coefficient that serves as upper bound for the entropy-based viscosity coefficients. The first-order viscosity coefficients, denoted by $\mu_{\max}$ and $\kappa_{\max}$, are chosen so that the numerical scheme becomes equivalent to the upwind scheme when the first-order coefficients are employed. The upwind scheme is known to be over-dissipative but guarantees monotonicity \cite{Toro}. In practice, the viscosity coefficients only saturate to the first-order viscosity coefficients in shocks and are much smaller elsewhere, hence avoiding over-dissipation due tot he upwind method.  The first-order viscosity coefficients $\mu_{\max}$ and $\kappa_{\max}$ are equal and set proportional to the local largest eigenvalue $|| \vec{u} || + c $:
+In the current version of the method, the ratio of $\kappa$ to $\mu$ is defined as a numerical Prandlt number, $\Pr = \kappa / \mu$.  $\Pr$ is usually taken in the range $[ 0.001; 1 ]$. Since the entropy residual $\resi(\vec{r},t)$ may be extremely large in shocks, the definition of the viscosity coefficients also includes a first-order viscosity coefficient that serves as upper bound for the entropy-based viscosity coefficients. The first-order viscosity coefficients, denoted by $\mu_{\max}$ and $\kappa_{\max}$, are chosen so that the numerical scheme becomes equivalent to the upwind scheme when the first-order coefficients are employed. The upwind scheme is known to be over-dissipative but guarantees monotonicity \cite{Toro}. In practice, the viscosity coefficients only saturate to the first-order viscosity coefficients in shocks and are much smaller elsewhere, hence avoiding over-dissipation due to the upwind method.  The first-order viscosity coefficients $\mu_{\max}$ and $\kappa_{\max}$ are equal and set proportional to the largest local eigenvalue $|| \vec{u} || + c $:
 %
 \begin{equation}
 \label{eq:fo}
 \mu_{\max}(\vec{r}, t) = \kappa_{\max}(\vec{r}, t) = \frac{h}{2} \left( || \vec{u}(\vec{t,r}) || + c(\vec{t,r}) \right),
 \end{equation}
 %
-where $h$ is the local grid size (for higher than linear finite element representations, $h$ is defined as the ratio of the grid size to the polynomial order of the test functions used, see Eq. 2.4 in \cite{valentin}). For simplicity, the first-order viscosity coefficient will only be referred to as the $\kappa_{\max}(\vec{r}, t)$. In practice, the quantities are evaluated within a given cell $K$ at quadrature points:
+where $h$ denotes the local grid size (for higher than linear finite element representations, $h$ is defined as the ratio of the grid size to the polynomial order of the test functions used, see Eq. 2.4 in \cite{valentin}). For simplicity, the first-order viscosity coefficient will only be referred to as the $\kappa_{\max}(\vec{r}, t)$. In practice, these quantities are evaluated within a given cell $K$ at quadrature points:
 %
 \begin{equation}
 \label{eq:fo_quad}
 \kappa^K_{\max}(\vec{r}_q, t) = \frac{h_K}{2} \left( || \vec{u}(\vec{t,r_q}) || + c(\vec{t,r_q}) \right),
 \end{equation}
 %
-where $\vec{r}_q$ denotes the position of a quadrature point.\\
-As stated earlier, the entropy viscosity coefficients, denoted by $\kappa_e$ and $\mu_e$, are set proportional to the entropy production evaluated by computing the local entropy residual $\resi$. The definitions also include the inter-element jump of the entropy flux $J$, thus allowing for the detection of discontinuities other than shocks:
+where $\vec{r}_q$ denotes the position of a quadrature point.
+As stated earlier, the entropy viscosity coefficients, which we denote by $\kappa_e$ and $\mu_e$, are set proportional to the entropy production evaluated by computing the local entropy residual $\resi$. The definitions also include the inter-element jump of the entropy flux $J[s]$, thus allowing for the detection of discontinuities other than shocks \tcr{(e.g., contact)}:
 %
 \begin{subequations}
 \label{eq:ent_visc_coeff}
@@ -370,7 +391,7 @@ As stated earlier, the entropy viscosity coefficients, denoted by $\kappa_e$ and
 \end{equation}
 \end{subequations}
 %
-where $|| \cdot ||_\infty$ and $\bar{\cdot}$ denote the $L_\infty$-norm and the average operator over the entire computational domain, respectively. The definition of the entropy jump $J[s]$ is spatial discretization-dependent and examples of definitions can be found in \cite{valentin} for DGFEM. For continuous FEM, the jump of a given quantity is defined as the inter-element change in its normal derivative ($\partial_n = \grad \cdot \vec{n}$) along the common face separating the two elements. We take the largest value over all faces $f$ present on the boundary $\partial K$ of element $K$:
+where $|| \cdot ||_\infty$ and $\bar{\cdot}$ denote the L$_\infty$-norm and the average operator over the entire computational domain, respectively. The definition of the entropy jump $J[s]$ is spatial discretization-dependent and examples of definitions can be found in \cite{valentin} for discontinuous Galerkin discretization. For continuous finite element methods (FEM), the jump of a given quantity is defined as the inter-element change in its normal derivative ($\partial_n = \grad \cdot \vec{n}$) along the common face separating the two elements. We take the largest value over all faces $f$ present on the boundary $\partial K$ of element $K$:
 %
 \begin{equation}
 \label{eq:jump_CFEM}
@@ -378,7 +399,7 @@ J^K[s](t) = \max_{f\in\partial K}  \max_{\vec{r}_q \in f} \jmp{\grad s(\vec{r}_q
 \end{equation}
 %
 where $\jmp{a(\vec{r}_q)}_f$ denotes the inter-element jump in $a(\vec{r})$ at quadrature point $\vec{r}_q$ on face $f$.  
-The denominator $|| s - \bar{s} ||_\infty$ is used for dimensionality purposes \tcr{and should not be of the same order as $h$, on penalty of loosing the high-order accuracy} \tcb{you do not like this?}. Currently, there are no theoretical justification for choosing the denominator. 
+The denominator $|| s - \bar{s} ||_\infty$ is used for dimensionality purposes \tcr{and should not be of the same order as $h$, on penalty of loosing the high-order accuracy} \tcb{you do not like this?}. Currently, there are no theoretical justification for choosing the denominator beyond a dimensionality argument. 
 Finally, the viscosity coefficients $\mu$ and $\kappa$ are as follows:
 %
 \begin{equation}
@@ -387,15 +408,15 @@ Finally, the viscosity coefficients $\mu$ and $\kappa$ are as follows:
 \kappa(\vec{r},t) = \min\Big( \kappa_e(\vec{r},t)\,,\, \kappa_{\max}(\vec{r},t) \Big).
 \end{equation}
 %
-given these definitions, we have the following properties: 
-In shock regions, the entropy viscosity coefficient will experience a peak because of entropy production and thus will saturates to the first-order viscosity. The first-order coefficients are known to be over-dissipative and will smooth out any oscillatory behavior. Elsewhere in the domain, entropy production will be small and the viscosity coefficients $\mu$ and $\kappa$ are small and of order $h^2$.
-Using the above definitions, high-order accuracy for the entropy-based viscous stabilization method was demonstrated using several 1-D shock tube and various 2-D tests \cite{jlg1, jlg2, valentin}.
+Given these definitions, we have the following properties.
+In shock regions, the entropy viscosity coefficient will experience a peak because of entropy production and thus will saturate to the first-order viscosity. The first-order coefficients are known to be over-dissipative and will smooth out any oscillatory behavior. Elsewhere in the domain, entropy production will be small and the viscosity coefficients $\mu$ and $\kappa$ will reamin small and of order $h^2$.
+with the above definitions, high-order accuracy for entropy-based viscous stabilization was demonstrated using several 1-D shock tube and various 2-D tests \cite{jlg1, jlg2, valentin}.
 
 %===================================================================================================
 \subsection{Issues in the Low-Mach Regime} 
 %===================================================================================================
 
-In the Low-Mach Regime, the flow is known to be isentropic, resulting in very little entropy production. Since the entropy viscosity method is directly based on the evaluation of the local entropy production, it is of interest to study how the entropy viscosity coefficients $\mu$ and $\kappa$ scale in the low-Mach regime. In practice, the entropy residual $\resi$ will be very small in that regime and so will be the denominator $|| s - \bar{s} ||_\infty$, thus making the definition of the viscosity coefficients in \eqt{eq:ent_visc_coeff} undetermined and likely ill-scaled.  One possible rigorous approach would consist of expanding the numerator and denominator in terms of the Mach number and deriving its limit when the Mach number goes to zero. Such derivation may not be straightforward, especially for general equations of state; however, this can be avoided by noticing that the entropy residual $\resi$ can be recast as a function of pressure, density, velocity, and speed of sound as shown in \eqt{eq:ent_res} of \sct{sec:new_ent_prod}. This alternate entropy residual definition is the basis for the low-Mach analysis carried out in this paper and possesses several advantages that are detailed in \sct{sec:new_ent_prod}.
+In the low-Mach Regime, the flow is known to be isentropic, resulting in very little entropy production. Since the entropy viscosity method is directly based on the evaluation of the local entropy production, it is of interest to study how the entropy viscosity coefficients $\mu_e$ and $\kappa_e$ scale in the low-Mach regime. In practice, the entropy residual $\resi$ will be very small in that regime and so will the denominator $|| s - \bar{s} ||_\infty$, thus making the definition of the viscosity coefficients in \eqt{eq:ent_visc_coeff} undetermined and likely ill-scaled.  One possible approach would consist of expanding the numerator and denominator in terms of the Mach number and deriving its limit when the Mach number goes to zero. Such derivation may not be straightforward, especially for general equations of state. However, this can be avoided by noting that the entropy residual $\resi$ can be recast as a function of pressure, density, velocity, and speed of sound as shown in \eqt{eq:ent_res} of \sct{sec:new_ent_prod}. This alternate entropy residual definition is the basis for the low-Mach analysis carried out in this paper and possesses several advantages that are detailed in \sct{sec:new_ent_prod}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
