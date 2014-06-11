@@ -1,4 +1,4 @@
-%%
+ %%
 %% This is file `elsarticle-template-num.tex',
 %% generated with the docstrip utility.
 %%
@@ -108,9 +108,9 @@
 \newcommand{\reg}{\textit{reg}}
 
 \newcommand{\norm}{\textrm{norm}}
-\renewcommand{\Re}{\textrm{Re\,}}
-\newcommand{\Pe}{\textrm{P\'e\,}}
-\newcommand{\Pr}{\textrm{Pr\,}}
+\renewcommand{\Re}{\textrm{Re}}
+\newcommand{\Pe}{\textrm{P\'e}}
+\newcommand{\Pr}{\textrm{Pr}}
 
 \newcommand{\resi}{R_e}
 %\newcommand{\resinew}{\tilde{D}_e}
@@ -424,29 +424,29 @@ In the low-Mach Regime, the flow is known to be isentropic, resulting in very li
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In this section, the entropy residual $\resi$ is recast as a function of pressure, density, velocity and speed of sound. Then, a low Mach asymptotic study is carried out for the Euler equations with viscous regularization in order to derive an appropriate  normalization parameter that is valid for low-Mach flows as well as transonic and supersonic flows. 
+In this section, the entropy residual $\resi$ is recast as a function of pressure, density, velocity and speed of sound. Then, a low-Mach asymptotic study is carried out for the Euler equations with viscous regularization in order to derive an appropriate normalization parameter that is valid in the low-Mach regime as well as for transonic and supersonic flows. 
 
 %===================================================================================================
 \subsection{New Definition of the Entropy Production Residual}\label{sec:new_ent_prod} 
 %===================================================================================================
 
-The first step in defining a viscosity coefficient that behaves well in the low-Mach limit is to recast the entropy residual in terms of the thermodynamic variables. This will provide physical insight on possible alternate normalizations that can be valid in both low-Mach and transonic flows. The alternate definition of the entropy residual is given in \eqt{eq:ent_res}. The detailed steps that lead to this equation are omitted in the main body of this paper but are provided in \app{app:ent_res}. 
+The first step in defining viscosity coefficients that behave well in the low-Mach limit is to recast the entropy residual in terms of thermodynamic variables. This provides physical insight on possible normalization choices that can be valid in both low-Mach and transonic flows. The alternate definition of the entropy residual is given in \eqt{eq:ent_res}. The detailed steps that lead to this equation are omitted in the main body of this paper but are provided in \app{app:ent_res}. 
 %
 \begin{equation}
 \label{eq:ent_res}
 \resi(\vec{r},t) := \partial_t s + \vec{u} \cdot \grad s = \matder{s} = \frac{s_e}{P_e} \left( \underbrace{\matder{P} - c^2 \matder{\rho} }_{\resinew(\vec{r},t)} \right) ,
 \end{equation} 
 %
-where $\matder{\ }$ denotes the material derivative ($\matder{\ }:= \frac{\partial}{\partial t} + \vec{u} \cdot \grad$), and $x_y$ is the standard shortcut notation for the partial derivative of $x$ with respect to $y$, i.e., $P_e:=\frac{\partial P}{\partial e}$. 
+where $\matder{\ }$ denotes the material derivative ($\matder{\ }:= \frac{\partial}{\partial t} + \vec{u} \cdot \grad$), and $x_y$ is the standard shortcut notation for the partial derivative of $x$ with respect to $y$, e.g., $P_e:=\frac{\partial P}{\partial e}$. 
 %
-The entropy residuals $\resi$ and $\resinew$ are proportional to one another and will experience similar variations in space and time. Thus, one may elect to employ $\resinew$ instead of $\resi$ in the local evaluation of the entropy residual. This new expression has multiple advantages:
+The entropy residuals $\resi$ and $\resinew$ are proportional to one another and will experience similar variations in space and time. Thus, one may elect to employ $\resinew$ instead of $\resi$ for the evaluation of the local entropy residual. The new expression presents several advantages:
 %
 \begin{itemize}
-\item an analytical expression of the entropy function $s$ is no longer needed: the residual $\resinew$ is evaluated using the local values of pressure, density, velocity and speed of sound. Deriving an entropy function for some complex equation of states can be difficult;
-\item other suitable normalizations for the residual $\resinew$ can be devised. Examples include the pressure itself or combinations of the density, the speed of sound and the norm of the velocity: $\rho c^2$, $\rho c || \vec{u} ||$ and $\rho || \vec{u} ||^2$. 
+\item an analytical expression of the entropy function $s$ is no longer needed: the residual $\resinew$ is evaluated using the local values of pressure, density, velocity and speed of sound. Deriving an entropy function for some complex equation of states may be difficult;
+\item other suitable normalizations for the residual $\resinew$ can be devised. Examples include the pressure itself or combinations of the density, the speed of sound and the norm of the velocity, i.e., $\rho c^2$, $\rho c || \vec{u} ||$ or $\rho || \vec{u} ||^2$. 
 \end{itemize}
 %
-Denoting the new normalization by $\norm_P$, the viscosity coefficients $\mu$ and $\kappa$ can be re-defined using the new residual $\resinew$ as follows:
+Denoting the normalization of $\resinew$ by $\norm_P$, the entropy-based viscosity coefficients $\mu_e$ and $\kappa_e$ can be re-defined using as follows:
 %
 \begin{subequations}
 \label{eq:visc_definition}
@@ -463,12 +463,12 @@ Note that now the jump operator acts on pressure (it could equivalently operate 
 
 %===================================================================================================
 \subsection{Asymptotic Study in the Low-Mach Regime} \label{sec:lowMach}
-\tcb{What about: Derivation of the all-speed reformulation of the viscosity coefficients }
+\tcb{What about: Derivation of the all-speed reformulation of the viscosity coefficients}\tcr{ Let's talk}
 %===================================================================================================
 
 The Euler equations with viscous stabilization, \eqt{eq:ent_visc_coeff}, bear some similarities with the Navier-Stokes equations in the sense that dissipative terms (with second-order spatial derivatives) are present in both sets of equations. An abundant literature exists regarding the low-Mach asymptotics of the Navier-Stokes equations \cite{LowMach1, LowMach2, LowMach3, Muller}.   
 %
-The asymptotic study presented here is inspired by the work of Muller et al. \cite{Muller} where an asymptotic derivation for the Navier-Stokes was presented. Here, we remind the reader that the objective of the asymptotic study is to determine appropriate scaling for the entropy viscosity coefficients in the low-Mach limit so that the dissipative terms remain well-scaled for two limit cases: (i) the isentropic limit where Euler equations degenerate to an incompressible system of equations in the-low Mach limit and (ii) the non-isentropic limit with formation of shocks. It will be also showed that the Prandlt number defined in the original definition of the entropy viscosity method as recalled in \sct{sec:background}, has to scale as the inverse of the Mach number square in order to have well-scale dissipative terms. 
+The asymptotic study presented here is inspired by the work of Muller et al. \cite{Muller} where an asymptotic derivation for the Navier-Stokes was presented. Here, we remind the reader that the objective of the asymptotic study is to determine appropriate scaling for the entropy viscosity coefficients in the low-Mach limit so that the dissipative terms remain well-scaled for two limit cases: (i) the isentropic limit where Euler equations degenerate to an incompressible system of equations in the-low Mach limit and (ii) the non-isentropic limit with formation of shocks. It will be also showed that the Prandlt number defined in the original definition of the entropy viscosity method as recalled in \sct{sec:background}, has to scale as the inverse of the Mach number square in order to have well-scale dissipative terms. \tcr{I need to think a bit more about the previous sentences}
 
 The first step in the asymptotic study is to re-write \eqt{eq:euler_visc} in a non-dimensional manner. 
 In order to do so, the following variables are introduced:
@@ -485,13 +485,13 @@ t^* = \frac{t}{L_\infty / u_\infty}           ,\
 \kappa^* = \frac{\kappa}{\kappa_\infty}       ,
 \end{multline}
 %
-where  the subscript $\infty$ denote the far field or stagnation quantities and and the superscript $*$ stands for the adimensional variables. The far field reference quantities are chosen such that the dimensionless flow quantities are of order 1. The reference Mach number is given by
+where  the subscript $\infty$ denote the far-field or stagnation quantities and the superscript $*$ stands for the adimensional variables. The far-field reference quantities are chosen such that the dimensionless flow quantities are of order 1. The reference Mach number is given by
 %
 \begin{equation}
 M_\infty = \frac{u_\infty}{c_\infty} ,
 \end{equation}
 %
-where $c_\infty$ is a reference value for the speed of sound. The scaled Euler equations with viscous regularization are:
+where $c_\infty$ is a reference value for the speed of sound. Then, the scaled Euler equations with viscous regularization are:
 %
 \begin{subequations} 
 \label{eq:Euler_eq2}
@@ -521,7 +521,7 @@ where $c_\infty$ is a reference value for the speed of sound. The scaled Euler e
 +
 \frac{M_\infty^2}{\Re_\infty} \divv{*}  \left( \vec{u}^* \rho^* \mu^* \gradd{s,*} \vec{u}^* \right)
 + 
-\frac{M_\infty^2}{2 \Pe_\infty} \divv{*}  \left(\kappa^* (u^*)^2 \gradd{*} \rho^* \right)
+\frac{M_\infty^2}{2 \Pe_\infty} \divv{*}  \left(\kappa^* (u^*)^2 \gradd{*} \rho^* \right) \, ,
 \end{multline}
 %
 \end{subequations}
@@ -530,14 +530,14 @@ where the numerical Reynolds $(\Re_\infty)$ and P\'eclet $(\Pe_\infty)$ numbers 
 \begin{equation}
 \label{eq:ref_numb}
 \Re_\infty = \frac{u_\infty L_\infty}{\mu_\infty} \text{ and }
-\Pe_\infty = \frac{u_\infty L_\infty}{\kappa_\infty} \text{.}
+\Pe_\infty = \frac{u_\infty L_\infty}{\kappa_\infty} \, .
 \end{equation}
 %
-For simplicity, we also employ here the ideal gas equation of state. Its adimensional form is given by
+For simplicity, we use here the ideal gas equation of state. Its dimensionless expression is given by
 %
 \begin{equation}
 \label{eq:euler_eq2_eos}
-P^* = \left( \gamma-1 \right) \rho^*\left(  E^* -\frac{1}{2} M_\infty^2 (u^*)^2 \right) = \left( \gamma-1 \right) \rho^* e^*.
+P^* = \left( \gamma-1 \right) \rho^*\left(  E^* -\frac{1}{2} M_\infty^2 (u^*)^2 \right) = \left( \gamma-1 \right) \rho^* e^* \, .
 \end{equation}
 \tcb{this assumption is only useful in the asymptotic limit. I believe it is possible to carry the same asymptotic limit by assuming a more generic form of the equation of state such as $P = f(\rho)$ for isentropic flow. Do you think it is a good idea to do so?}\\
 %
