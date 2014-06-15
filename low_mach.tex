@@ -110,7 +110,7 @@
 \newcommand{\norm}{\textrm{norm}}
 \renewcommand{\Re}{\textrm{Re}}
 \newcommand{\Pe}{\textrm{P\'e}}
-\newcommand{\Pr}{\textrm{Pr}}
+%\newcommand{\Pr}{\textrm{Pr}}
 
 \newcommand{\resi}{R_e}
 %\newcommand{\resinew}{\tilde{D}_e}
@@ -357,7 +357,7 @@ The derivation of the viscous regularization (or dissipative terms) is carried o
 \end{subequations}
 %
 where $\kappa$ and $\mu$ are positive viscosity coefficients. $\grad^s \vec{u}$ denotes the symmetric gradient operator that guarantees the method to be rotationally invariant \cite{jlg}. The viscosity coefficients are key-ingredients in the viscous regularization of \eqt{eq:euler_visc}.  
-Other stabilization approaches have been proposed in the literature, for instance, the Lapidus (pressure-based) method \cite{Lapidus_book, Lapidus_paper}. Here, we follow the work of Guermond et al. and define the viscosity coefficients, $\kappa$ and $\mu$, based on the local entropy production. These coefficients are numerically evaluated using the local entropy residual $\resi(\vec{r},t)$ defined in \eqt{eq:ent_residual}; $\resi(\vec{r},t)$ is known to be peaked in shocks and vanishingly small elsewhere \cite{Toro}. 
+Other stabilization approaches have been proposed in the literature, for instance, the Lapidus \cite{Lapidus_book, Lapidus_paper} or the pressure-based viscosity methods \cite{PBV_book}. Here, we follow the work of Guermond et al. and define the viscosity coefficients, $\kappa$ and $\mu$, based on the local entropy production. These coefficients are numerically evaluated using the local entropy residual $\resi(\vec{r},t)$ defined in \eqt{eq:ent_residual}; $\resi(\vec{r},t)$ is known to be peaked in shocks and vanishingly small elsewhere \cite{Toro}. 
 %
 \begin{equation}
 \label{eq:ent_residual}
@@ -379,7 +379,7 @@ where $h$ denotes the local grid size (for higher than linear finite element rep
 \end{equation}
 %
 where $\vec{r}_q$ denotes the position of a quadrature point.
-As stated earlier, the entropy viscosity coefficients, which we denote by $\kappa_e$ and $\mu_e$, are set proportional to the entropy production evaluated by computing the local entropy residual $\resi$. The definitions also include the inter-element jump of the entropy flux $J[s]$, thus allowing for the detection of discontinuities other than shocks \tcr{(e.g., contact)}:
+As stated earlier, the entropy viscosity coefficients, which we denote by $\kappa_e$ and $\mu_e$, are set proportional to the entropy production evaluated by computing the local entropy residual $\resi$. The definitions also include the inter-element jump of the entropy flux $J[s]$ that is also a good entropy production indicator, thus allowing for the detection of discontinuities other than shocks \tcr{(e.g., contact)}:
 %
 \begin{subequations}
 \label{eq:ent_visc_coeff}
@@ -409,7 +409,7 @@ Finally, the viscosity coefficients $\mu$ and $\kappa$ are as follows:
 \end{equation}
 %
 Given these definitions, we have the following properties.
-In shock regions, the entropy viscosity coefficient will experience a peak because of entropy production and thus will saturate to the first-order viscosity. The first-order coefficients are known to be over-dissipative and will smooth out any oscillatory behavior. Elsewhere in the domain, entropy production will be small and the viscosity coefficients $\mu$ and $\kappa$ will reamin small and of order $h^2$.
+In shock regions, the entropy viscosity coefficient will experience a peak because of entropy production and thus will saturate to the first-order viscosity. The first-order coefficients are known to be over-dissipative and will smooth out any oscillatory behavior. Elsewhere in the domain, entropy production will be small and the viscosity coefficients $\mu$ and $\kappa$ will remain small and of order $h^2$.
 with the above definitions, high-order accuracy for entropy-based viscous stabilization was demonstrated using several 1-D shock tube and various 2-D tests \cite{jlg1, jlg2, valentin}.
 
 %===================================================================================================
@@ -468,10 +468,10 @@ Note that now the jump operator acts on pressure (it could equivalently operate 
 
 The Euler equations with viscous stabilization, \eqt{eq:ent_visc_coeff}, bear some similarities with the Navier-Stokes equations in the sense that dissipative terms (with second-order spatial derivatives) are present in both sets of equations. An abundant literature exists regarding the low-Mach asymptotics of the Navier-Stokes equations \cite{LowMach1, LowMach2, LowMach3, Muller}.   
 %
-The asymptotic study presented here is inspired by the work of Muller et al. \cite{Muller} where an asymptotic derivation for the Navier-Stokes was presented. Here, we remind the reader that the objective of the asymptotic study is to determine appropriate scaling for the entropy viscosity coefficients in the low-Mach limit so that the dissipative terms remain well-scaled for two limit cases: (i) the isentropic limit where Euler equations degenerate to an incompressible system of equations in the-low Mach limit and (ii) the non-isentropic limit with formation of shocks. It will be also showed that the Prandlt number defined in the original definition of the entropy viscosity method as recalled in \sct{sec:background}, has to scale as the inverse of the Mach number square in order to have well-scale dissipative terms. \tcr{I need to think a bit more about the previous sentences}
+The asymptotic study presented here is inspired by the work of Muller et al. \cite{Muller} where an asymptotic derivation for the Navier-Stokes was presented. Here, we remind the reader that the objective of the asymptotic study is to determine appropriate scaling for the entropy viscosity coefficients in the low-Mach limit so that the dissipative terms remain well-scaled for two limit cases: (i) the isentropic limit where Euler equations degenerate to an incompressible system of equations in the-low Mach limit and (ii) the non-isentropic limit with formation of shocks. The scaling of the Prandlt number defined in the original definition of the entropy viscosity method as recalled in \sct{sec:background} will be also demonstrated. 
+%It will be also showed that the Prandlt number defined in the original definition of the entropy viscosity method as recalled in \sct{sec:background}, has to scale as the inverse of the Mach number square in order to have well-scale dissipative terms. \tcr{I need to think a bit more about the previous sentences}
 
-The first step in the asymptotic study is to re-write \eqt{eq:euler_visc} in a non-dimensional manner. 
-In order to do so, the following variables are introduced:
+The first step in the study of the limit cases (i) and (ii) is to re-write \eqt{eq:euler_visc} in a non-dimensional manner. In order to do so, the following variables are introduced:
 %
 \begin{multline}
 \label{eq:norm_param}
@@ -533,6 +533,10 @@ where the numerical Reynolds $(\Re_\infty)$ and P\'eclet $(\Pe_\infty)$ numbers 
 \Pe_\infty = \frac{u_\infty L_\infty}{\kappa_\infty} \, .
 \end{equation}
 %
+It is also observed that the Prandlt number is a function of the Reynolds and P\'eclet numbers as follows: 
+\begin{equation} \label{eq:ref_nb_pr} 
+\Pr_\infty = \Pe_\infty / \Re_\infty 
+\end{equation}
 For simplicity, we use here the ideal gas equation of state. Its dimensionless expression is given by
 %
 \begin{equation}
@@ -541,28 +545,14 @@ P^* = \left( \gamma-1 \right) \rho^*\left(  E^* -\frac{1}{2} M_\infty^2 (u^*)^2 
 \end{equation}
 \tcb{this assumption is only useful in the asymptotic limit. I believe it is possible to carry the same asymptotic limit by assuming a more generic form of the equation of state such as $P = f(\rho)$ for isentropic flow. Do you think it is a good idea to do so?}\\
 %
-The numerical Reynolds and P\'eclet numbers defined in \eqt{eq:ref_numb} are related to the entropy viscosity coefficients. 
+The numerical Reynolds and P\'eclet numbers defined in \eqt{eq:ref_numb} are related to the entropy viscosity coefficients. Thus, once an appropriate scaling is obtained for each of the non-dimensionalized numbers, the corresponding normalization parameters $\norm_P^\mu$ and $\norm_P^\kappa$ will be derived. 
 For brevity, the superscripts $^*$ are omitted in the remainder of this section. 
 
 In our low-Mach asymptotic study, we consider the isentropic and non-isentropic situations. The isentropic limit of Euler equations with viscous regularization should yield the incompressible fluid flows results of the low-Mach limit, namely, that the pressure fluctuations are of the order $M^2$ and that the velocity satisfies the divergent constraint $\div \vec{u}_0 = 0$ \cite{LowMach1, LowMach2, LowMach3}. In non-isentropic situations, shocks may form, even in subsonic flows; the minimum entropy principle should be preserved and spurious oscillations be controlled by the entropy viscosity method, independently of the Mach number value.
-Our objective is to determine the appropriate scaling for the non-dimensionalized numbers, $\Re_\infty$ and $\Pe_\infty$, so that the main features of the incompressible fluid equations are retrieved in the low-Mach limit, \tcb{and shock can be efficiently stabilized}.
+Our objective is to determine the appropriate scaling for the non-dimensionalized numbers, $\Re_\infty$ and $\Pe_\infty$, in the two previous situation so that shocks are stabilized and the isentropic incompressible limit and its main features are preserved.
+%so that the main features of the incompressible fluid equations are retrieved in the low-Mach limit, \tcb{and shock can be efficiently stabilized}.
 
-First, we consider the non-isentropic case. Even subsonic flows can present shocks (for instance, a step initial condition in the pressure will trigger shock formation, independently of the Mach number). The non-dimensional form of the Euler equations given in \eqt{eq:Euler_eq2} provides some insight on the dominant terms in the low-Mach limit. This is particular obvious in the momentum equation, \eqt{eq:euler_eq2_mom}, where the gradient of pressure is multiplied by $1/M^2$. 
-
-This pressure gradient term may need to be stabilized by some dissipative terms of the same scaling to prevent spurious oscillations from forming when shocks develop. This leads to the following three possible requirements regarding the non-dimensionalized Reynolds and P\'eclet numbers: 
-(a) $\Re_\infty = M_\infty^2$ and $\Pe_\infty = 1$,
-(b) $\Re_\infty = 1$ and $\Pe_\infty = M_\infty^2$, or
-(c) $\Re_\infty = \Pe_\infty = M_\infty^2$. 
-%
-Any of the previous choices will also affect the stabilization of the continuity and energy equations. For instance, setting P\'eclet number equal to $M_\infty^2$ will efficiently stabilize the continuity equation in the shock region but will also add an excessive amount of dissipation in the contact wave since dissipating on the density. Such a behavior is not suitable for accuracy purpose, making options (b) and (c) invalid and leaving us with option (a). The same reasoning, left to the reader, can be carried for the energy equation (\eqt{eq:euler_eq2_energy}) leading to the same conclusion. With option (a), all of the dissipative terms in the energy equation are well-scaled. Thus, it is chosen to use option (a) in the remaining of the paper since it is found to yield well-scaled dissipative terms. Before performing a low-Mach asymptotic limit, it is proposed to determine the scaling of the Prandlt number. It can be shown that the P\'echlet number is a function of the Reynolds and Prandlt number as follows:
-$Pe_\infty = Re_\infty Pr_\infty$. Using the condition imposed by (a) and the previous relation, it is easily derived that the Prandlt number scales as the inverse of the Mach number: $Pr_\infty = M_\infty^2$.
-
-%Since the viscosity coefficient $\mu$ is only present in the momentum and energy equations, the first choice (option (a))may not provide enough dissipation in the continuity equation in the shock regions. 
-%On the other hand, the viscosity coefficient $\kappa$ is present in all of the equations (\eqt{eq:Euler_eq2}) and, thus $\Pe_\infty = M_\infty^2$ is a reasonable choice to provide adequate dissipation for all equations in the shock regions. 
-%Regarding the scaling of the numerical Reynolds, setting of $\Re_\infty=1$ yields numerical dissipation terms that scales identically to the modified Roe scheme proposed by Guillard et al. for low-Mach flows \cite{LowMach1} (see the dissipation term on velocity in Eqs. (48)-(49) of \cite{LowMach1} and in our \eqt{eq:euler_eq2_mom}).
-
-Next, we perform the low-Mach limit asymptotic study in the isentropic situation. 
-In this particular case, shocks cannot form and the compressible Euler equations are known to converge to the incompressible  equations when the Mach number tends to zero. When adding dissipative terms, as is the case with the entropy viscosity method, the main features of the low-Mach asymptotic limit have to be preserved.
+We first perform the low-Mach limit asymptotic study in the isentropic situation. In this particular case, shocks cannot form and the compressible Euler equations are known to converge to the incompressible  equations when the Mach number tends to zero. When adding dissipative terms, as is the case with the entropy viscosity method, the main features of the low-Mach asymptotic limit have to be preserved.
 We begin by expanding each variable in powers of the Mach number. As an example, the expansion for the pressure is given by:
 %
 \begin{equation}
@@ -585,7 +575,7 @@ and at order $M_\infty^{-1}$:
 \end{equation}
 \end{subequations}
 %
-Using the same scaling, $\Re_\infty = \Pe_\infty = 1$, the continuity, momentum and energy equations at order $1$ are obtained:
+Using the same scaling, $\Re_\infty = \Pe_\infty = 1$, the continuity, momentum and energy equations at order $1$ yield:
 \begin{subequations}\label{eq:asympt_equ2}
 %
 \begin{equation}
@@ -634,56 +624,75 @@ That is, the leading-order of velocity is divergence-free. The same reasoning ca
 \matder{\rho_0} := \partial_t \rho_0 + \vec{u}_0 \cdot \div \rho_0 = 0
 \end{equation}
 %
-Therefore, we conclude that by setting the non-dimensionalized Reynolds and P\'eclet numbers to one, the incompressible fluid equations are retrieved when performing a low Mach asymptotic limit of the compressible Euler equations.
+Therefore, we conclude that by setting the non-dimensionalized Reynolds and P\'eclet numbers to one, the incompressible fluid equations are retrieved when performing a low Mach asymptotic limit of the compressible Euler equations. Plus, the scaling of the Prandlt number can be derived using \eqt{eq:ref_nb_pr} and found equal to one.\\
 
+We now consider the non-isentropic case. Even subsonic flows can present shocks (for instance, a step initial condition in the pressure will trigger shock formation, independently of the Mach number). The non-dimensional form of the Euler equations given in \eqt{eq:Euler_eq2} provides some insight on the dominant terms in the low-Mach limit. This is particular obvious in the momentum equation, \eqt{eq:euler_eq2_mom}, where the gradient of pressure is multiplied by $1/M^2$. This pressure gradient term may need to be stabilized by some dissipative terms of the same scaling to prevent spurious oscillations from forming when shocks develop. This leads to the following three possible requirements regarding the non-dimensionalized Reynolds and P\'eclet numbers: 
+(a) $\Re_\infty = M_\infty^2$ and $\Pe_\infty = 1$,
+(b) $\Re_\infty = 1$ and $\Pe_\infty = M_\infty^2$, or
+(c) $\Re_\infty = \Pe_\infty = M_\infty^2$. 
+%
+Any of the previous choices will also affect the stabilization of the continuity and energy equations. For instance, setting P\'eclet number equal to $M_\infty^2$ will efficiently stabilize the continuity equation in the shock region but will also add an excessive amount of dissipation in the contact wave since dissipating on the density. Such a behavior is not suitable for accuracy purpose, making options (b) and (c) invalid and leaving us with option (a). The same reasoning, left to the reader, can be carried for the energy equation (\eqt{eq:euler_eq2_energy}) leading to the same conclusion. With option (a), all of the dissipative terms in the continuity and energy equations are well-scaled. Thus, it is chosen to use option (a) to solve the non-isentropic form of the Euler equations. Under this assumption, the scaling of the Prandlt number can be derived using \eqt{eq:ref_nb_pr}: $Pr_{\infty} = M_{\infty}^{-2}$.
+%
+%Before performing a low-Mach asymptotic limit, it is proposed to determine the scaling of the Prandlt number. It can be shown that the P\'echlet number is a function of the Reynolds and Prandlt number as follows:$Pe_\infty = Re_\infty Pr_\infty$. Using the condition imposed by (a) and the previous relation, it is easily derived that the Prandlt number scales as the inverse of the Mach number: $Pr_\infty = M_\infty^2$.
+%
+%Since the viscosity coefficient $\mu$ is only present in the momentum and energy equations, the first choice (option (a))may not provide enough dissipation in the continuity equation in the shock regions. 
+%On the other hand, the viscosity coefficient $\kappa$ is present in all of the equations (\eqt{eq:Euler_eq2}) and, thus $\Pe_\infty = M_\infty^2$ is a reasonable choice to provide adequate dissipation for all equations in the shock regions. 
+%Regarding the scaling of the numerical Reynolds, setting of $\Re_\infty=1$ yields numerical dissipation terms that scales identically to the modified Roe scheme proposed by Guillard et al. for low-Mach flows \cite{LowMach1} (see the dissipation term on velocity in Eqs. (48)-(49) of \cite{LowMach1} and in our \eqt{eq:euler_eq2_mom}).
+%
 \tcr{\\ I haven't yet gone through the end of this section carefully. It does not have the use of the new latex variable, such as $\matder{\ }$ or $\resinew$.\\}
 
-The study of the two limit cases yields two different scalings of the non-dimensionalized Peclet number: $\Pe_\infty = 1$ in the isentropic case and$\Pe_\infty  = M_\infty^2$ for non-isentropic compressible Euler equations. The numerical Reynolds number is always equal to one. In order to have a stabilization method valid for a wide range of Mach numbers, including situations with shocks, these two scalings should be merged into a unique representation. An option is to investigate how the non-dimensionalized entropy residual scales for different flow types (isentropic and non-isentropic). For an isentropic flow, i.e. without shocks, the non-dimensionalized entropy residual is known to scale as the Mach number. On the other hand, in the shock region, the non-dimensionalized entropy residual will experience a peak. Thus, by investigating the local variation of the non-dimensionalized entropy residual, the flow type can be deduced and the proper normalization used, as follows:
+The study of the two limit cases yields two different scalings of the non-dimensionalized Peclet number: $\Pe_\infty = 1$ in the isentropic case and $\Pe_\infty  = M_\infty^2$ for non-isentropic compressible Euler equations, whereas the numerical Reynolds number is always equal to one. In order to have a stabilization method valid for a wide range of Mach numbers, including situations with shocks, these two scalings should be merged into a unique representation. An option is to investigate how the non-dimensionalized entropy residual, $\resinew^*$, scales for different flow types (isentropic and non-isentropic). For an isentropic flow, i.e. without shocks, the non-dimensionalized entropy residual is known to scale as the Mach number. On the other hand, in the shock region, the non-dimensionalized entropy residual will experience a peak. Thus, by investigating the local variation of the non-dimensionalized entropy residual, the flow type can be deduced and the proper normalization used, as follows:
 \begin{eqnarray}  \label{eq:norm_ent}
-&&\text{if } \left| \frac{dP}{dt} - c^2 \frac{d \rho}{dt} \right| < f(M) \text{ (non-isentropic flow)}\nonumber \\
-&&\Pe_\infty = f(M)^2 \nonumber \\
+&&\text{if } \left| \resinew^* \right| \geq M \text{ (non-isentropic flow)}\nonumber \\
+&&\Pe_\infty = M^2 \nonumber \\
 &&\text{else (isentropic flow)}\\
 &&\Pe_\infty = 1 \nonumber
 \end{eqnarray}
-where $f(M)$ is a function of the \emph{local Mach number} such as: $f(M) = \min (M, 1)$. Once we have deduced the scaling of the numerical non-dimensionalized number, the normalization parameters $n_P^{\mu}$ and $n_P^{\kappa}$ can be derived. Only the steps leading to the derivation of $n_P^{\mu}$ for the viscosity coefficient $\mu$ are detailed. Using the definition of the viscosity coefficient in \eqt{eq:visc_definition} and the scaling of \eqt{eq:norm_param}, it can be shown that:
+where $M$ is the \emph{local Mach number}. 
+
+Once we have deduced the scaling of the numerical non-dimensionalized number, the normalization parameters $n_P^{\mu}$ and $n_P^{\kappa}$ can be derived. Only the steps leading to the derivation of $n_P^{\kappa}$ for the viscosity coefficient $\kappa$ are detailed. Using the definition of the viscosity coefficients given in \eqt{eq:visc_definition} and the scaling of \eqt{eq:norm_param}, it can be shown that:
 %
 \begin{equation}
 \label{eq:norm_relation}
-\mu_\infty = \frac{ \rho_\infty c_\infty^2 u_\infty L }{ \norm_{P,\infty}^{\mu} } 
+\kappa_\infty = \frac{ \rho_\infty c_\infty^2 u_\infty L }{ n_{P,\infty}^{\kappa} } 
 \end{equation}
 %
-where $\norm_{P,\infty}$ is the far-field quantity for the normalization parameter $n_P$. Substituting \eqt{eq:norm_relation} into \eqt{eq:ref_numb} and recalling that the numerical Reynolds number scales as unity yields:
+where $n_{P,\infty}$ is the reference quantity for the normalization parameter $n_P$. Substituting \eqt{eq:norm_relation} into \eqt{eq:ref_numb} and recalling that the numerical Prandlt number scales as unity, it yields:
 %
 \begin{equation}
 \label{eq:norm_relation_bis}
-\norm_{P,\infty}^{\mu} = \rho_\infty c_\infty^2 .
+n_{P,\infty}^{\kappa} = \rho_\infty c_\infty^2 .
 \end{equation}
 %
-\eqt{eq:norm_relation_bis} tells us that in the asymptotic limit, the normalization parameter $\norm_P$ scales as $\rho_\infty c_\infty^2$ which leaves us with two options:
-either $\norm_P = \rho c^2$ or $\norm_P = P$. The choice was made to use $\norm_P^{\mu} = \rho c^2$ in the low-Mach limit: it was found to behave well and the pressure can become locally negative and null in some particular case as shown in \sct{sec:results}. \\
-On the same model, the normalization parameter $\norm_P^{\kappa}$ for the viscosity coefficient $\kappa$ is derived for the two cases given in \eqt{eq:norm_ent}:
+\eqt{eq:norm_relation_bis} tells us that in the asymptotic limit, the normalization parameter $n_P^\kappa$ scales as $\rho_\infty c_\infty^2$ which leaves us with two options:
+either $n_P = \rho c^2$ or $n_P = P$. The choice was made to use $n_P^{\kappa} = \rho c^2$ in the low-Mach limit: it was found to behave well and the pressure can become locally negative and null in some particular case as shown in \sct{sec:results}. \\
+On the same model, the normalization parameter $\norm_P^{\mu}$ for the viscosity coefficient $\mu$ is derived for the two cases given in \eqt{eq:norm_ent}:
 \begin{eqnarray}  \label{eq:norm_ent2}
-&&\text{if } \left| \frac{dP}{dt} - c^2 \frac{d \rho}{dt}\right| < f(M) \text{ (non-isentropic flow)}\nonumber \\
-&&n_{P}^{\kappa} =\min( \rho ||\vec{u} ||^2, \rho c^2  ) \nonumber \\
+&&\text{if } \left| \resinew^* \right| \geq M \text{ (non-isentropic flow)}\nonumber \\
+&&n_{P}^{\mu} = \rho ||\vec{u} ||^2 \nonumber \\
 &&\text{else (isentropic flow)}\\
-&&n_{P}^{\kappa} = \rho c^2 = n_{P}^{\mu} \nonumber
+&&n_{P}^{\mu} = \rho c^2 = n_{P}^{\kappa} \nonumber
 \end{eqnarray}
 For clarity purpose, the definition of the viscosity coefficients $\mu$ and $\kappa$ are now recalled:
 \begin{equation}
 \label{eq:final_def_visc_coeff}
 \left\{
-\begin{array}{l}
-\mu(\vec{r},t) = \max (\mu_{\max}(\vec{r},t), \mu_e (\vec{r},t)) \\
-\kappa(\vec{r},t) = \max (\mu_{\max}(\vec{r},t), \kappa_e (\vec{r},t)) \\
-\text{where } \mu_{\max}(\vec{r},t) = \frac{h}{2} (||\vec{u}|| + c) \\
-\mu_{e} = h^2 \frac{\max(\tilde{\resi}, J)}{\rho c^2} \\
-\kappa_{e} = h^2 \frac{\max(\tilde{\resi}, J)}{\norm_P^{\kappa}} \\
+\begin{array}{c}
+\mu(\vec{r},t) = \min \Big (\mu_{\max}(\vec{r},t), \mu_e (\vec{r},t) \Big) \\
+\kappa(\vec{r},t) = \min \Big (\mu_{\max}(\vec{r},t), \kappa_e (\vec{r},t) \Big ) \\
+\text{where } \mu_{\max}(\vec{r},t) = \frac{h}{2} \Big ( ||\vec{u}|| + c \Big ) \\
+
+\mu_{e}(\vec{r},t) = h^2 \max(\resinew, J) / \rho c^2 \\
+\kappa_{e}(\vec{r},t) = h^2 \max(\resinew, J) / n_P^{\kappa} \\
+J = || \vec{u} || \max \Big ( [[ \grad P \cdot \vec{n} ]], c^2 [[\grad \rho \cdot \vec{n}]] \Big) 
 \end{array}
 \right.
 \end{equation}
-where $\norm_P^{\kappa}$ is computed from \eqt{eq:norm_ent2}. With the definition of the viscosity coefficients $\mu$ and $\kappa$ proposed in \eqt{eq:final_def_visc_coeff}, the low Mach asymptotic limit is ensured for isentropic flow, and flow with shocks should be correctly resolved. The viscosity coefficients are only function of local variables and thus should accurately resolved complex flow where both incompressible and compressible regimes coexist. As the flow becomes locally supersonic, the viscosity coefficients $\mu$ and $\kappa$ are equal to each other which is consistent with the original definition of the entropy viscosity method proposed by Guermond et al. in \cite{jlg1, jlg2}.
+where $n_P^{\kappa}$ is computed from \eqt{eq:norm_ent2}. The jump $J$ is a function of the jump of pressure and density gradients across the face with respect to the its normal vector $\vec{n}$. Then, the largest value over all faces is determined and used in the definition of the viscosity coefficients.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+With the definition of the viscosity coefficients $\mu$ and $\kappa$ proposed in \eqt{eq:final_def_visc_coeff}, the low Mach asymptotic limit is ensured for isentropic flow, and flow with shocks should be correctly resolved. The viscosity coefficients are only function of local variables and thus should accurately resolved complex flow where both incompressible and compressible regimes coexist. As the flow becomes locally supersonic, the viscosity coefficients $\mu$ and $\kappa$ will be of the same order of magnitude which is consistent with the original definition of the entropy viscosity method recalled in \sct{sec:background} and proposed by Guermond et al. in \cite{jlg1, jlg2}.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%s%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Extension of the entropy viscosity technique Euler equations with variable area} \label{sec:var_area_diss_terms}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
