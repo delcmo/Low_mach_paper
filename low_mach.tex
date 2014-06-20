@@ -731,7 +731,7 @@ As the flow becomes locally supersonic, the viscosity coefficients $\mu$ and $\k
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Fluid flows in pipes of varying cross-sectional area and in nozzle can be modeled using the variable area variant of the Euler equations, where the conservative variables are now multiplied by the area $A$. In addition, these equations differ from the standard Euler equations in that the the momentum equation \eqt{eq:euler_variable_A_mom} contains a non-conservative term proportional to the area gradient. For the purpose of this paper, the variable area is assumed to be a smooth function of space. 
+Fluid flows in nozzles and in pipes of varying cross-sectional area can be modeled using the variable-area variant of the Euler equations, where the conservative variables are now multiplied by the area $A$. In addition, these equations differ from the standard Euler equations in that the momentum equation \eqt{eq:euler_variable_A_mom} contains a non-conservative term proportional to the area gradient. For the purpose of this paper, the variable area is assumed to be a smooth function of space. 
 \begin{subequations}
 \label{eq:euler_variable_A}
 \begin{equation}
@@ -750,7 +750,9 @@ Fluid flows in pipes of varying cross-sectional area and in nozzle can be modele
 \end{equation}
 \end{subequations}
 %
-The application of the entropy viscosity method to the Euler equations with variable is not that different to its application for the standard Euler equations. However, we need to derive the appropriate dissipative terms and verify that the entropy minimum principle is satisfied. Details of the derivation are provided in  \app{app:diss_terms}. We summarized the process here: first, we verify that the entropy residual without dissipative terms present is positive; then, the entropy residual is derived with dissipative terms present and the entropy minimum principle is used as a condition to obtain a definition for each of the dissipative terms. Finally, the variable-area Euler equations with viscous regularization are given below:
+The application of the entropy viscosity method to the Euler equations with variable area is not fundamentally different to its application to the standard Euler equations. However, we need to derive the associated dissipative terms and verify that the entropy minimum principle is still satisfied.  
+%We summarize the process here: first, we verify that the entropy residual without dissipative terms present is positive; then, the entropy residual is derived with dissipative terms present and the entropy minimum principle is used as a condition to obtain a definition for each of the dissipative terms. 
+The variable-area Euler equations with viscous regularization are given below; details of the derivation are provided in \app{app:diss_terms}.
 %
 \tcr{\\ missing grad symmetric here \\ Added $A$ in the energy eq. double check for good measure} \tcb{I checked}
 \begin{subequations}
@@ -768,9 +770,10 @@ The application of the entropy viscosity method to the Euler equations with vari
 \end{equation}
 \end{subequations}
 %
-The dissipative terms are very similar to the ones obtained for the standard Euler equations: each dissipative flux is simply multiplied by the variable area $A$ in order to ensure conservation of the dissipative flux. When assuming a constant area, \eqt{eq:euler_visc} are recovered.
+The dissipative terms are indeed very similar to the ones obtained for the standard Euler equations: each dissipative flux is simply multiplied by the variable area $A$ in order to ensure conservation of the dissipative flux. When assuming a constant area, \eqt{eq:euler_visc} are recovered.
  
-A low-Mach asymptotic limit of the multi-D Euler equations with variable area on the same model as in \sct{sec:lowMach} will lead to the divergent constraint $\div (\vec{u} A) = 0$ that can be recast as $\div \vec{u} = -\vec{u} \cdot \grad{A} / A$. The gradient of the area acts alike a source term and will force the fluid to accelerate. Since the dissipation is done partially on the velocity in the momentum and the energy equations (see \eqt{eq:euler_eq_mom_var_A} and \eqt{eq:euler_eq_ener_var_A} ), in the presence of a strong gradient of the area, $\grad A$, an excess amount of dissipation will be added to the system, making the numerical system converge to a wrong solution. They are to remedies to this problem. The first one consists of replacing the dissipative term $\mu A \grad^s \vec{u}$ by $\mu \grad^s (A\vec{u})$ to ensure the correct scaling of the dissipative term in the low Mach limit. However, the entropy minimum principle is no longer verified. The second option is to change the normalization of the viscosity coefficient $\mu$ from $\rho || \vec{u} ||^2$ to $ \rho c^2$ to force the dissipative term to zero. The entropy minimum principle is still verified but such a choice will underestimate the dissipation and will not be able to stabilize shocks with low Mach number.
+A low-Mach asymptotic limit of the multi-D Euler equations with variable area on the same model as in \sct{sec:lowMach} will lead to the divergent constraint $\div (\vec{u} A) = 0$ that can be recast as $\div \vec{u} = -\vec{u} \cdot \grad{A} / A$. The gradient of the area acts as a source term and will force the fluid to accelerate or decellerate, depending on its sign. 
+%Since the dissipation is done partially on the velocity in the momentum and the energy equations (see \eqt{eq:euler_eq_mom_var_A} and \eqt{eq:euler_eq_ener_var_A} ), in the presence of a strong gradient of the area, $\grad A$, an excess amount of dissipation will be added to the system, making the numerical system converge to a wrong solution. They are to remedies to this problem. The first one consists of replacing the dissipative term $\mu A \grad^s \vec{u}$ by $\mu \grad^s (A\vec{u})$ to ensure the correct scaling of the dissipative term in the low Mach limit. However, the entropy minimum principle is no longer verified. The second option is to change the normalization of the viscosity coefficient $\mu$ from $\rho || \vec{u} ||^2$ to $ \rho c^2$ to force the dissipative term to zero. The entropy minimum principle is still verified but such a choice will underestimate the dissipation and will not be able to stabilize shocks with low Mach number.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -781,18 +784,27 @@ A low-Mach asymptotic limit of the multi-D Euler equations with variable area on
 In this section, we briefly describe the spatial and temporal techniques used to discretize and solve the system of equations \eqt{eq:euler_variable_A_bis}. For conciseness, we re-write the system of equations in the following form:
 \begin{equation}
 \label{eq:form}
-\partial_t U + \div \vec{F}\left( U \right) = S + \div D(U) \grad U
+\partial_t \mathbf{U} + \div \vec{\mathbf{F}}\left( \mathbf{U} \right) = \mathbf{S} + \div \mathbf{D}(\mathbf{U}) \grad \mathbf{U}
 \end{equation}
-where $U=[\rho A,\, \rho A \vec{u},\, \rho A E]^T$ is the solution vector, $F$ denotes the inviscid flux and $S$ is a source term that may contain the non-conservative term $P\grad A$. The term $\div D(U) \grad U$ represents the artificial dissipative terms. 
+where $\mathbf{U}=[\rho A,\, \rho A \vec{u},\, \rho A E]^T$ is the solution vector, $\mathbf{F}$ denotes the inviscid flux 
+\begin{equation}
+  \vec{\mathbf{F}} \equiv
+  \begin{bmatrix}
+    \rho u A                     \\
+    \left(\rho u^2 + p\right) A  \\
+    u (\rho E +P) A
+  \end{bmatrix}
+\end{equation}
+and $\mathbf{S}$ is a source term that contains the non-conservative term $P\grad A$. The term $\div D(\mathbf{U}) \grad \mathbf{U}$ stands for the artificial dissipative terms. 
 
 %===================================================================================================
 \subsection{Spatial and Temporal Discretizations} \label{sec:disc}
 %===================================================================================================
-The system of equations given in \eqt{eq:form} is discretized using a continuous Galerkin finite element method and temporal integrators available through the multiphysics MOOSE framework \cite{MOOSE}.
+The system of equations given in \eqt{eq:form} is discretized using a continuous Galerkin finite element method and temporal integrators available through the MOOSE multiphysics framework \cite{MOOSE}.
 %---------------------------------------------------------------------------------------------------
 \subsubsection{Continuous Finite Elements} 
 %---------------------------------------------------------------------------------------------------
-In order to apply the continuous finite element method, \eqt{eq:form} is multiplied by a test function $\phi(\vec{r})$, integrated by parts and each integral is split onto each finite element $K$ of the discrete mesh $\Omega$ to obtain a weak form:
+In order to apply the continuous finite element method, \eqt{eq:form} is multiplied by a test function $\phi(\vec{r})$, integrated by parts and each integral is decomposed into a sum of integrals over each element $K$ of the discrete mesh $\Omega$. The following weak form is obtained:
 \begin{multline}\label{eq:cfem}
 \sum_K \int_{K} \partial_t U \phi - \sum_K \int_{K} \vec{F}(U) \cdot \grad \phi + \int_{\partial \Omega} \vec{F}(U) \cdot \vec{n} \phi - \sum_K \int_{K} S \phi  \\
 + \sum_K \int_{K} D(U) \grad U \cdot \grad \phi - \int_{\partial \Omega} D(U) \grad U \cdot \vec{n} \phi = 0
