@@ -90,7 +90,7 @@ We extend the entropy viscosity method, proposed by Guermond et al. \cite{jlg1, 
 to low-Mach flows. The entropy viscosity technique is a viscous regularization technique
 that satisfies the entropy minimum principle; adequate dissipation terms (viscous fluxes)
 are added to the governing laws while ensuring the entropy minimum principle still holds.
-Viscosity coefficients modulates the magnitude of the added dissipation such that it is
+Viscosity coefficients modulate the magnitude of the added dissipation such that it is
 large in shock regions and vanishingly small elsewhere. The entropy viscosity coefficients
 are taken proportional to the entropy production while, at the same time, being bounded
 from above by a first-order viscosity coefficient that reduces the spatial discretization
@@ -99,14 +99,14 @@ monotone \cite{toro}). Hence, entropy production in shocks will result in large 
 coefficients and thus will avoid spurious oscillations. 
 
 The entropy method is independent of the type of spatial discretization (finite volume,
-continuous or discontinuous finite elements, ...) and thus can be applied ubiquitously. 
+continuous or discontinuous finite elements, ...) and thus may be applied ubiquitously. 
 For instance, it is currently being considered as one possible stabilization approach in 
-RELAP-7, the next-generation reactor system code build upon the MOOSE multiphysics framework
-\cite{moose}. However, it has mostly been tested for supersonic applications but not in low-Mach 
+RELAP-7, the next-generation reactor safety system code built upon the MOOSE multiphysics framework
+\cite{moose}. However, the entropy viscosity method has mostly been tested for supersonic applications but not in low-Mach 
 or transonic applications.  
 
 In this summary, we show that current entropy production residual definition is undetermined 
-in low-Mach regime and review an alternate and more suitable expression. Numerical results in 
+in low-Mach regime and review an alternate and more suitable expression. Numerical results for 
 low-Mach flows are presented.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -146,10 +146,10 @@ Then, the entropy viscosity coefficients are given by
 \kappa^K_e(\vec{r}_q,t) = Pr \, \mu^K_e(\vec{r}_q,t)
 \end{equation}
 \end{subequations}
-where $|| \cdot ||_\infty$ and $\bar{\cdot}$ denote the L$_\infty$-norm and the average operator over the entire computational domain, $K$ is a given element of the mesh, and $\vec{R}_q$ is a quadrature point location within cell $K$. $\Pr$ is the Prandtl number; see \cite{jlg1} for additional details..
+where $|| \cdot ||_\infty$ and $\bar{\cdot}$ denote the L$_\infty$-norm and the average operator over the entire computational domain, $K$ is a given element of the mesh, and $\vec{R}_q$ is a quadrature point location within cell $K$. $\Pr$ is the Prandtl number; see \cite{jlg1} for additional details.
 
 However, in low-Mach regime, the flow is isentropic, so both the numerator and denominator in \eqt{eq:ent_visc_coeff} tend towards 0, making
-the definition of the entropy viscosity coefficients ill-determined. One can recast demonstrate \cite{marco_inl_report} that
+the definition of the entropy viscosity coefficients ill-determined. One can demonstrate \cite{marco_low_mach_paper} that
 \begin{equation}
 \label{eq:ent_res}
 \resi(\vec{r},t) := \partial_t s + \vec{u} \cdot \grad s \propto \left( \matder{P} - c^2 \matder{\rho} \right)  :=\resinew(\vec{r},t) ,
@@ -172,8 +172,7 @@ where $c$ is the speed of sound and the weighting factor is the local Mach numbe
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results and Analysis}
 
-The Euler equation with viscous stabilization are discretized with {\it continuous} finite elements in space and BDF2 in time using MOOSE. The resulting nonlinear system of equations at each time step is solved using a Jacobian-free Newton Krylov technique. We present results a 2D flow over a circular hump \cite{Hump}. such problems are often employ to test the ability of a numerical scheme used in compressible  flow solvers to resolve low-Mach flows (i.e., in the incompressible limit)
-\cite{LowMach1}. 
+The Euler equation with viscous stabilization are discretized with {\it continuous} finite elements in space and BDF2 in time using MOOSE. The resulting nonlinear system of equations at each time step is solved using a Jacobian-free Newton Krylov technique. We present results for a 2D flow over a circular hump \cite{Hump}. Such problems are often employ to test the ability of numerical schemes used in compressible flow solvers to resolve low-Mach flows (i.e., in the incompressible limit) \cite{LowMach1}. 
 
 The results are shown in \fig{fig:2d_hump_mach_0p7}, \fig{fig:2d_hump_mach_0p01}, \fig{fig:2d_hump_mach_0p0001} and \fig{fig:2d_hump_mach_0p0000001} for inlet Mach numbers $M_{\infty}=0.7$, $M_{\infty}=0.01$, $M_{\infty}=10^{-4}$ and $M_{\infty}=10^{-7}$, respectively. It is expected that, within the low-Mach number range, the solution does not depend on the Mach number and is self-similar. The results showed in \fig{fig:2d_hump_mach_0p01}, \fig{fig:2d_hump_mach_0p0001} and \fig{fig:2d_hump_mach_0p0000001} correspond to the low-Mach regime. The iso-Mach lines are drawn ranging from the minimum and the maximum values (provided in each legend) using 50 equally-spaced intervals. The steady-state solution is symmetric and does not depend on the value of the inlet Mach number, as expected in the incompressible limit. 
 %
@@ -214,13 +213,13 @@ In \fig{fig:2d_hump_mach_0p7}, the steady-state numerical solution develops a sh
 				\label{fig:2d_hump}
 \end{figure}
 %
-The results presented in \fig{fig:2d_hump} were obtained with the new definitions of the viscosity coefficients and illustrate the ability of the entropy viscosity method to correctly simulate several types of flows (subsonic and transonic flows) without tuning parameters. 
+The results presented in \fig{fig:2d_hump} are obtained with the new definitions of the viscosity coefficients and illustrate the ability of the entropy viscosity method to correctly simulate several types of flows (subsonic and transonic flows) without tuning parameters. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 
-We have presented an extension of the entropy viscosity method for low-Mach flows. In the future, we plan on adding heat generation, gravity, and friction terms. Another possible extension of this work (reported in these proceedings) deals with applying the entropy viscosity method to a 7-equation two-phase flow model. These steps will further contribute to the assessment of the stabilization technique for reactor flows.
+We have presented an extension of the entropy viscosity method for low-Mach flows. In the future, we plan on adding heat generation, gravity, and friction terms. Another extension of this work (reported in these transactions as well) deals with applying the entropy viscosity method to a 7-equation two-phase flow model. This ongoing work will further contribute to the assessment of the entropy viscosity stabilization technique for reactor flows.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
