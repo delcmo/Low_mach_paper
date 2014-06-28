@@ -1,6 +1,6 @@
 \documentclass{anstrans}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Extension of the entropy viscosity method to the $1$-D Seven-Equation Model}
+\title{Application of the entropy viscosity method to the $1$-D Seven-Equation Model for Two-Phase Flows}
 \author{Marc O. Delchini$^{*}$, Jean C. Ragusa$^{*}$, Ray A. Berry$^\dagger$}
 
 \institute{
@@ -86,8 +86,8 @@ $^\dagger$Idaho National Laboratory
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 %
-We extend the entropy viscosity method, proposed by Guermond et al. \cite{jlg1, jlg2}
-to the well-posed $1$-D seven-equation model \cite{DEM}. The entropy viscosity technique is a viscous regularization technique
+In this paper, we extend the entropy viscosity method, proposed by Guermond et al. \cite{jlg1, jlg2}
+to the well-posed $1$-D 7-equation model \cite{DEM}. The entropy viscosity technique is a viscous regularization technique
 that satisfies the entropy minimum principle; adequate dissipation terms (viscous fluxes)
 are added to the governing laws while ensuring the entropy minimum principle still holds.
 Viscosity coefficients modulates the magnitude of the added dissipation such that it is
@@ -102,17 +102,17 @@ The entropy method is independent of the type of spatial discretization (finite 
 continuous or discontinuous finite elements, ...) and thus can be applied ubiquitously. 
 The results presented in this summary were obtained with RELAP-7, the next-generation 
 reactor system code build upon the MOOSE multiphysics framework
-\cite{moose} that uses \emph{Galerkin Continuous Finite Element Method}.
+\cite{moose} that uses a \emph{Galerkin Continuous Finite Element Method}.
 
-In this summary, the $1$-D seven-equation model is recalled along with the dissipative terms used 
+In this summary, the $1$-D 7-equation model is recalled along with the dissipative terms used 
 in the entropy method. Definition of the viscosity coefficients is also given and numerical 
 results are presented for a $1$-D pipe with wall-heat transfer.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Theory}
 %
-We recall the $1$-D seven-equation model for two phases $k$ and $j$ with viscous regularization (inside boxes) based on the entropy-viscosity 
-method (the equations are given for the phase $k$ and can be obtained for the phase $j$ by simply substituing $k$ by $j$ and vice versa):
+We recall the $1$-D seven-equation model for two phases $k$ and $j$ with viscous regularization  based on the entropy-viscosity 
+method (the equations are given for the phase $k$ and can be obtained for the phase $j$ by simply substituting $k$ by $j$):
 \begin{subequations}
 \label{eq:euler_visc}
 %
@@ -151,7 +151,7 @@ method (the equations are given for the phase $k$ and can be obtained for the ph
 \end{eqnarray}
 %
 \end{subequations}
-where the dissipative terms have the following definition:
+where the dissipative terms, boxed in Eq~.\ref{eq:euler_visc}, have the following definition:
 \begin{subequations}
 %
 \begin{equation}
@@ -192,7 +192,7 @@ where $c_k$ is the phase speed of sound and the weighting factor is the local Ma
 %
 where $s_k$ is the phase entropy, function of the density $\rho_k$ and the internal energy $e_k$. Proof of \eqt{eq:ent2_res} can be found in \cite{marco_inl_report}.
 
-The approach to define the viscosity coefficient $\beta_k$ is similar to the logic followed for hyperbolic scalar equations \cite{jlg1, jlg2}: an entropy equation can be derived from the volume fraction equation (\eqt{eq:vf_eq}) and used in the definition of the coefficient $\beta_k$. Following the work by Guermond et al. \cite{jlg1, jlg2}, it yields:
+The approach to define the viscosity coefficient $\beta_k$ is similar to the logic followed for hyperbolic scalar equations \cite{jlg1, jlg2}: an entropy equation can be derived from the volume fraction equation (\eqt{eq:vf_eq}) and used in the definition of the coefficient $\beta_k$. Following the work by Guermond et al. \cite{jlg1, jlg2}, one obtains:
 %
 \begin{subequations}
 \begin{equation}
@@ -205,53 +205,14 @@ R_{\alpha,k}^K(\vec{r}_q,t) =   \frac{1}{2} \left( \frac{\partial \alpha_{k}^2}{
 \end{equation} 
 \end{subequations}
 % 
-where $s_{\alpha,k} = \alpha_k^2/2$ can be seen at the entropy function associated to the volume fraction equation of phase $k$.
+where $s_{\alpha,k} = \alpha_k^2/2$ can be interpreted as the entropy function associated to the volume fraction equation of phase $k$.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results and Analysis}
 
-The Euler equation with viscous stabilization are discretized with {\it continuous} finite elements in space and BDF2 in time using MOOSE. The resulting nonlinear system of equations at each time step is solved using a Jacobian-free Newton Krylov technique. We present results a 2D flow over a circular hump . such problems are often employ to test the ability of a numerical scheme used in compressible  flow solvers to resolve low-Mach flows (i.e., in the incompressible limit)
-\cite{LowMach1}. 
+The Euler equation with viscous stabilization are discretized with {\it continuous} finite elements in space and BDF2 in time using the multiphysics framework MOOSE. The resulting nonlinear system of equations at each time step is solved using a Jacobian-free Newton Krylov technique. 
 
-The results are shown in \fig{fig:2d_hump_mach_0p7}, \fig{fig:2d_hump_mach_0p01}, \fig{fig:2d_hump_mach_0p0001} and \fig{fig:2d_hump_mach_0p0000001} for inlet Mach numbers $M_{\infty}=0.7$, $M_{\infty}=0.01$, $M_{\infty}=10^{-4}$ and $M_{\infty}=10^{-7}$, respectively. It is expected that, within the low-Mach number range, the solution does not depend on the Mach number and is self-similar. The results showed in \fig{fig:2d_hump_mach_0p01}, \fig{fig:2d_hump_mach_0p0001} and \fig{fig:2d_hump_mach_0p0000001} correspond to the low-Mach regime. The iso-Mach lines are drawn ranging from the minimum and the maximum values (provided in each legend) using 50 equally-spaced intervals. The steady-state solution is symmetric and does not depend on the value of the inlet Mach number, as expected in the incompressible limit. 
-%
-For a flow at $M=0.7$, the compressible effects become more important and shock can form. An uniform grid of $3352$ $Q_1$ elements was used to obtain the numerical solution for Mach numbers below $M_{\infty}=0.01$. A once-refined mesh was employed for the $M_{\infty}=0.7$ simulation in order to better resolve the shock. A $CFL$ of 20 was employed and the simulations were run until steady state. 
-%
-In \fig{fig:2d_hump_mach_0p7}, the steady-state numerical solution develops a shock: the compressibility effect are no longer negligible. The iso-Mach lines are also plotted with $50$ intervals and range from $0.4$ to $1.6$. The shock is well resolved and does not display any instabilities or spurious oscillations. 
-%
-\begin{figure}[H]
-        \centering
-        \begin{subfigure}[b]{0.5\textwidth}
-                \centering
-                \includegraphics[width=\textwidth]{Hump2D_mach_0p7.png}
-                \caption{Mach $0.7$}
-                \label{fig:2d_hump_mach_0p7}
-        \end{subfigure}%
 
-        \begin{subfigure}[b]{0.5\textwidth}
-                \centering
-                \includegraphics[width=\textwidth]{Hump2D_mach_0p01.png}
-                \caption{Mach $10^{-2}$}
-                \label{fig:2d_hump_mach_0p01}
-        \end{subfigure}%
-        
-        \begin{subfigure}[b]{0.495\textwidth}
-                \centering
-                \includegraphics[width=\textwidth]{Hump2D_mach_1em4.png}
-                \caption{Mach $10^{-5}$}
-                \label{fig:2d_hump_mach_0p0001}
-        \end{subfigure}
-
-        \begin{subfigure}[b]{0.495\textwidth}
-                \centering
-                \includegraphics[width=\textwidth]{Hump2D_mach_1em7.png}
-                \caption{Mach $10^{-7}$}
-                \label{fig:2d_hump_mach_0p0000001}
-        \end{subfigure}
-        \caption{Iso-Mach lines for a 2-D flow over a circular bump (steady-state solution).}
-				\label{fig:2d_hump}
-\end{figure}
-%
-The results presented in \fig{fig:2d_hump} were obtained with the new definitions of the viscosity coefficients and illustrate the ability of the entropy viscosity method to correctly simulate several types of flows (subsonic and transonic flows) without tuning parameters. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
