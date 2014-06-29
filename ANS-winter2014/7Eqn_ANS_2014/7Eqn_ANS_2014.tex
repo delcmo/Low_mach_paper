@@ -87,7 +87,7 @@ $^\dagger$Idaho National Laboratory
 \section{Introduction}
 %
 In this paper, we extend the entropy viscosity method, proposed by Guermond et al. \cite{jlg1, jlg2}
-to the well-posed $1$-D 7-equation model \cite{DEM}. The entropy viscosity technique is a viscous regularization technique
+to the well-posed $1$-D 7-equation model \cite{DEM, berry}. The entropy viscosity technique is a viscous regularization technique
 that satisfies the entropy minimum principle; adequate dissipation terms (viscous fluxes)
 are added to the governing laws while ensuring the entropy minimum principle still holds.
 Viscosity coefficients modulates the magnitude of the added dissipation such that it is
@@ -100,13 +100,13 @@ coefficients and thus will avoid spurious oscillations.
 
 The entropy method is independent of the type of spatial discretization (finite volume,
 continuous or discontinuous finite elements, ...) and thus can be applied ubiquitously. 
-The results presented in this summary were obtained with RELAP-7, the next-generation 
+The results presented in this summary were obtained with RELAP-7 \cite{Berry_2014}, the next-generation 
 reactor system code build upon the MOOSE multiphysics framework
 \cite{moose} that uses a \emph{Galerkin Continuous Finite Element Method}.
 
 In this summary, the $1$-D 7-equation model is recalled along with the dissipative terms used 
 in the entropy method. Definition of the viscosity coefficients is also given and numerical 
-results are presented for a $1$-D pipe with wall-heat transfer.
+results are presented for a $1$-D pipe with wall-heat transfer in the low Mach regime.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Theory}
@@ -210,16 +210,56 @@ where $s_{\alpha,k} = \alpha_k^2/2$ can be interpreted as the entropy function a
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results and Analysis}
 
-The Euler equation with viscous stabilization are discretized with {\it continuous} finite elements in space and BDF2 in time using the multiphysics framework MOOSE. The resulting nonlinear system of equations at each time step is solved using a Jacobian-free Newton Krylov technique. 
+The $1$-D seven-equation model with viscous stabilization is discretized with {\it continuous} finite elements in space and BDF2 in time using the multiphysics framework RELAP7. The resulting nonlinear system of equations at each time step is solved using a Jacobian-free Newton Krylov technique. We present results for a simple system in order to validate our approach that consists of a $1$-D straight pipe of area $A = 10^{-4}$ $m^2$ with a wall heat source (the wall temperature is constant: $T_w = 550$ $K$). The stiffened gas equation of state is used to model the liquid and vapor phases with the parameters taken from \cite{SGEOS}. The static pressure $P=7.1$ $MPa$ is set at the outlet. The volume fraction, the enthalpy and the mass flow rate are specified at the inlet for each phase. The wall friction coefficient is constant and the same for the two phases, $f_w = 4 \times 10^{-2}$. The interfacial area $A_{int}$ is set to a large value to equalize the pressure and velocity of the two phases. The initial conditions are uniform. The geometry is discretized with a uniform mesh of $100$ elements and the code is run $(CFL=100$)  until a steady state is obtained. 
 
+The pressure, temperature, velocity, volume fraction and viscosity coefficients profiles are plotted from \fig{fig:pressure} through \fig{fig:viscosity_coeff}. As expected, the liquid and vapor pressure profiles are identical (\fig{fig:pressure}) and decrease through the domain because of the wall friction force. The liquid and velocity profiles are also identical as shown in \fig{fig:velocity} and increase due to the wall friction force and the heat addition. In \fig{fig:temperature}, the liquid and vapor temperature profiles are distinct and have  the same variation: the temperature rises since energy is added to the flow by the wall heat source. The variations of the vapor and liquid volume fractions are opposite: vapor is produced since the liquid temperature is larger than the saturation temperature. All of the profiles are smooth and do not display any unphysical variations: the high-order viscosity coefficients shown in \fig{fig:viscosity_coeff}, $\kappa_{e,k}$ and $\beta_{e,k}$, are well-scale and large enough to stabilize the numerical solution without altering it (only $\beta_{e,liquid}$ is plotted since $\beta_{e,liquid}=\beta_{e,vapor}$). It is also noted the difference of several order of magnitude between the high-order and first-order viscosity coefficients denoted by the subscript $max$. The first-order viscosity coefficients are over-dissipative and ill-scaled in the low Mach regime.
+%
+\begin{figure}[H]
+        \centering
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{plots/ANS_WINTER_2014_7Eqn_pressure.png}
+                \caption{Pressure}
+                \label{fig:pressure}
+        \end{subfigure}%
 
-
-
+        \begin{subfigure}[b]{0.5\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{plots/ANS_WINTER_2014_7Eqn_temperature.png}
+                \caption{Temperature}
+                \label{fig:temperature}
+        \end{subfigure}%
+                
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{plots/ANS_WINTER_2014_7Eqn_velocity.png}
+                \caption{Velocity}
+                \label{fig:velocity}
+        \end{subfigure}
+\end{figure}
+%
+\begin{figure}[H]
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{plots/ANS_WINTER_2014_7Eqn_volume_fraction.png}
+                \caption{Volume fraction}
+                \label{fig:volume_fraction}
+        \end{subfigure}
+        
+        \begin{subfigure}[b]{0.495\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{plots/ANS_WINTER_2014_7Eqn_viscosity.png}
+                \caption{Viscosity coefficients}
+                \label{fig:viscosity_coeff}
+        \end{subfigure}        
+        \caption{Steady-state profiles for liquid water and vapor phases.}
+				\label{fig:2d_hump}
+\end{figure}
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 
-We have presented an extension of the entropy viscosity method for low-Mach flows. In the future, we plan on adding heat generation, gravity, and friction terms. Another possible extension of this work (reported in these proceedings) deals with applying the entropy viscosity method to a 7-equation two-phase flow model. These steps will further contribute to the assessment of the stabilization technique for reactor flows.
-
+We have presented an extension of the entropy viscosity method to the $1$-D seven-equation model and applied it to a low-Mach flow case including wall friction and gravity terms, wall heat source and mass and energy transfer between the phases. The stabilization method is capable of stabilizing the numerical solution and the viscosity coefficients are well-scaled. This work will further contribute to the assessment of the stabilization technique for reactor flows in RELAP7.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\appendix
