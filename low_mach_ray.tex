@@ -210,17 +210,17 @@ Various 1-D and 2-D numerical tests are presented : flow in a converging-divergi
 \section{Introduction} \label{sec:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\tcr{ not finished yet\\
-Items to mention:
-\begin{itemize}
-\item low Mach solution techniques using compressible equations. need to recover the incompressible limit. 
-\item entropy viscosity method, not yet assessed for low Mach and transonic flows
-\item low Mach also challenging when solved using compressible equations: if explicit, time step $\rightarrow 0$. We use MOOSE and implicit time stepping
-\item some flow problems have both low Mach and supersonic regions
-\item OTHERS ???
-\item 
-\end{itemize}
-}
+%\tcr{ not finished yet\\
+%Items to mention:
+%\begin{itemize}
+%\item low Mach solution techniques using compressible equations. need to recover the incompressible limit. 
+%\item entropy viscosity method, not yet assessed for low Mach and transonic flows
+%\item low Mach also challenging when solved using compressible equations: if explicit, time step $\rightarrow 0$. We use MOOSE and implicit time stepping
+%\item some flow problems have both low Mach and supersonic regions
+%\item OTHERS ???
+%\item 
+%\end{itemize}
+%}
 %\tcr{I think we should focus the introduction more}
 %
 %Incompressible flows are a particular case of compressible ones and therefore in principle, a
@@ -298,10 +298,10 @@ Items to mention:
 %\tcr{above are good snippets from some papers.}
 %
 Over the past years an increasing interest has been raised for computational methods that can solve both compressible and incompressible flows. In engineering applications, there is often the need to solve for complex flows where a near incompressible regime or low Mach flow coexists with a supersonic flow domain. For example, such flows are encountered in aerodynamics in the study of airships. In the nuclear industry, flows are nearly in the incompressible regime but compressible effects cannot be neglected because of the heat source and thus needs to be accurately resolved. \\
-When solving the multi-D Euler equations for a wide range of Mach numbers, multiple problems must be addressed: stability, accuracy and acceleration of the convergence in the low Mach regime. Because of the hyperbolic nature of the equations, shocks can form during transonic and supersonic flows, and require the use of the numerical methods in order to stabilize the scheme and correctly resolve the discontinuities. The literature offers a wide range of stabilization methods: flux-limiter \cite{FluxLimiter, FluxLimiter2}, pressure-based viscosity method (\cite{PBV_book}), Lapidus method (\cite{Lapidus_paper, LMP, Lapidus_book}), and the entropy-viscosity method(\cite{jlg1, jlg2}) among others. These numerical methods are usually developed using simple equations of state and tested for transonic and supersonic flows where the disparity between the acoustic waves and the fluid speed is not large since the Mach number is of order one. This approach, however, leads to a well-known accuracy problem in the low Mach regime where the fluid velocity is smaller that the speed of sound by multiple order of magnitude. The numerical dissipative terms become ill-scaled in the low Mach regime and lead to the wrong numerical solution by changing the nature of the equations solved. This behavior is well documented in the literature \cite{LowMach1, LowMach2, LowMach3} and often treated by performing a low Mach asymptotic study of the multi-D Euler equation. This method was originally used \cite{LowMach1} to show convergence of the compressible multi-D Euler equations to the incompressible ones. Thus, by using the same method, the effect of the dissipative terms in the low Mach regime, can be understood and, when needed, a fix is developed in order to ensure the convergence of the equations to the correct physical solution. This approach was used as a "fixing" method for multiple well known stabilization methods alike Roe scheme (\cite{Roe}) and SUPG \cite{LowMach3} while preserving the original stabilization properties of shocks.  \\
-We propose, through this paper, to investigate how the entropy viscosity method, when applied to the multi-D Euler equations with variable area, behaves in the low Mach regime. This method was initially introduced by Guermond et al. to solve for the hyperbolic systems and has shown good results when used for solving the multi-D Euler equations with various discretization schemes. More importantly, it is simple to implement, can be used with unstructured grids,  and its dissipative terms are consistent with the entropy minimum principle and it has proven valid for any equation of state under certain conditions \cite{jlg}. \\
+When solving the multi-D Euler equations for a wide range of Mach numbers, multiple problems must be addressed: stability, accuracy and acceleration of the convergence in the low Mach regime. Because of the hyperbolic nature of the equations, shocks can form during transonic and supersonic flows, and require the use of the numerical methods in order to stabilize the scheme and correctly resolve the discontinuities. The literature offers a wide range of stabilization methods: flux-limiter \cite{FluxLimiter, FluxLimiter2}, pressure-based viscosity method (\cite{PBV_book}), Lapidus method (\cite{Lapidus_paper, LMP, Lapidus_book}), and the entropy-viscosity method(\cite{jlg1, jlg2}) among others. These numerical methods are usually developed using simple equations of state and tested for transonic and supersonic flows where the disparity between the acoustic waves and the fluid speed is not large since the Mach number is of order one. This approach, however, leads to a well-known accuracy problem in the low Mach regime where the fluid velocity is smaller that the speed of sound by multiple order of magnitude. The numerical dissipative terms become ill-scaled in the low Mach regime and lead to the wrong numerical solution by changing the nature of the equations solved. This behavior is well documented in the literature \cite{LowMach1, LowMach2, LowMach3} and often treated by performing a low Mach asymptotic study of the multi-D Euler equation. This method was originally used \cite{LowMach1} to show convergence of the compressible multi-D Euler equations to the incompressible ones. Thus, by using the same method, the effect of the dissipative terms in the low Mach regime, can be understood and, when needed, a fix is developed in order to ensure the convergence of the equations to the correct physical solution. This approach was used as a "fixing" method for multiple well known stabilization methods alike Roe scheme (\cite{Roe}) and SUPG \cite{LowMach3} while preserving the original stabilization properties of shocks. Furthermore, it is also of common knowledge that low-Mach steady-state solutions can be difficult to obtain with a temporal explicit solver. For stability purpose, the time step must be chosen inversely proportional to the largest eigenvalue of the system which is approximately the speed of sound, c, for slow flows. However, other waves are convected at the fluid speed, which is much slower. Hence, these waves do not change very much over a time step. Thus, thousands of time steps are required to reach a steady state. Acceleration techniques were developed and proved efficient \cite{LowMach2}, but require to modify the temporal derivatives of the equation and thus, can only be used for steady-state flows. To avoid to modifying the temporal derivatives, the temporal implicit capabilities of the MOOSE multiphysics framework \cite{MOOSE} is used. Such a choice should allow us to quickly obtain low-Mach steady-state solutions, while preserving the accuracy of the transient solution, but also requires a preconditioner.\\
+We propose, through this paper, to investigate how the entropy viscosity method, when applied to the multi-D Euler equations with variable area, behaves in the low Mach regime. This method was initially introduced by Guermond et al. to solve for the hyperbolic systems and has shown good results when used for solving the multi-D Euler equations for supersonic flows with various discretization schemes. More importantly, it is simple to implement, can be used with unstructured grids,  and its dissipative terms are consistent with the entropy minimum principle and it has proven valid for any equation of state under certain conditions \cite{jlg}. \\
 
-%This paper is organized as follows: in \sct{sec:entro_visc} the current definition of the entropy viscosity method is recalled, and inconsistency with the low Mach regime are pointed out. Since our interest is in the variable area version of the multi-D Euler equation, the reader is guided trough the steps leading to the derivation of the dissipative terms on the model of \cite{jlg}. Then in \sct{sec:extension}, a new definition of the viscosity coefficient is introduced and derived from a low Mach asymptotic study. After detailing the spatial and temporal discretization method in \sct{sec:solution_tech}, 1-D and 2-D numerical results are presented in \sct{sec:results} for a wide range of Mach numbers: low Mach flow over a cylinder and a circular bump, and supersonic flow in a compression corner \cite{CompressionCorner}. Convergence studies are performed in 1-D, in order to demonstrate the accuracy of the solution. \\
+This paper is organized as follows: in \sct{sec:entro_visc} the current definition of the entropy viscosity method is recalled, and inconsistency with the low Mach regime are pointed out. Since our interest is in the variable area version of the multi-D Euler equation, the reader is guided trough the steps leading to the derivation of the dissipative terms on the model of \cite{jlg}. Then in \sct{sec:extension}, a new definition of the viscosity coefficient is introduced and derived from a low Mach asymptotic study. After detailing the spatial and temporal discretization method in \sct{sec:solution_tech}, 1-D and 2-D numerical results are presented in \sct{sec:results} for a wide range of Mach numbers: low Mach flow over a cylinder and a circular bump, and supersonic flow in a compression corner \cite{CompressionCorner}. Convergence studies are performed in 1-D, in order to demonstrate the accuracy of the solution. \\
 
 % keep this as a comment for now
 %\tcr{I wouldn't recall this here. Let me think about that.}\\
@@ -391,7 +391,7 @@ where $h$ denotes the local grid size (for higher than linear finite element rep
 %
 where $\vec{r}_q$ denotes the position of a quadrature point.
 As stated earlier, the entropy viscosity coefficients, which we denote by $\kappa_e$ and $\mu_e$, are set proportional to the entropy production evaluated by computing the local entropy residual $\resi$. The definitions also include the inter-element jump $J[s]$ of the entropy flux, % that is also a good entropy production indicator, thus 
-allowing for the detection of discontinuities other than shocks \tcr{(e.g., contact)}.
+allowing for the detection of discontinuities other than shocks (e.g., contact).
 %
 \begin{subequations}
 \label{eq:ent_visc_coeff}
@@ -403,16 +403,15 @@ allowing for the detection of discontinuities other than shocks \tcr{(e.g., cont
 \end{equation}
 \end{subequations}
 %
-where $|| \cdot ||_\infty$ and $\bar{\cdot}$ denote the L$_\infty$-norm and the average operator over the entire computational domain, respectively. The definition of the entropy jump $J[s]$ is spatial discretization-dependent and examples of definitions can be found in \cite{valentin} for discontinuous Galerkin discretization. For continuous finite element methods (FEM), the jump of a given quantity is defined as the inter-element change in its normal derivative ($\partial_n = \grad \cdot \vec{n}$) along the common face separating the two elements. We take the largest value over all faces $f$ present on the boundary $\partial K$ of element $K$:
+where $|| \cdot ||_\infty$ and $\bar{\cdot}$ denote the L$_\infty$-norm and the average operator over the entire computational domain, respectively. The definition of the entropy jump $J[s]$ is spatial discretization-dependent and examples of definitions can be found in \cite{valentin} for discontinuous Galerkin discretization. For continuous finite element methods (FEM), the jump of a given quantity is defined as the change of its normal derivative ($\partial_n = \grad \cdot \vec{n}$) across the common face separating the two elements, and will be further referred to as the inter-element jump. We take the largest value over all faces $f$ present on the boundary $\partial K$ of element $K$:
 %
 \begin{equation}
 \label{eq:jump_CFEM}
 J^K[s](t) = \max_{f\in\partial K}  \max_{\vec{r}_q \in f} \jmp{\grad s(\vec{r}_q,t) \cdot \vec{n}(\vec{r}_q) }_f \, ,
 \end{equation}
 %
-where $\jmp{a(\vec{r}_q)}_f$ denotes the inter-element jump in $a(\vec{r})$ at quadrature point $\vec{r}_q$ on face $f$ \tcr{This doesn't seem very clear. Is there a jump at the quadrature point?}.  
+where $\jmp{a(\vec{r}_q)}_f$ denotes the inter-element jump in $a(\vec{r})$ at quadrature point $\vec{r}_q$ on face $f$ (the quadrature points $\vec{r}_q$ are taken on the faces $f$ of the element $K$). With the definition given in \eqt{eq:jump_CFEM}, the jump is constant over each element $K$ of the computational domain. 
 The denominator $|| s - \bar{s} ||_\infty$ is used for dimensionality purposes.
-% \tcr{and should not be of the same order as $h$, on penalty of loosing the high-order accuracy} \tcb{you do not like this?}. 
 Currently, there is no theoretical justification for choosing the denominator beyond a dimensionality argument. 
 Finally, the viscosity coefficients $\mu$ and $\kappa$ are as follows:
 %
@@ -834,7 +833,7 @@ The system of equations given in \eqt{eq:form} is discretized using a continuous
 %---------------------------------------------------------------------------------------------------
 In order to apply the continuous finite element method, \eqt{eq:form} is multiplied by a test function $\mathbf W(\vec{r})$, integrated by parts and each integral is decomposed into a sum of integrals over each element $K$ of the discrete mesh $\Omega$. The following weak form is obtained:
 \begin{multline}\label{eq:cfem}
-\sum_K \int_{K} \partial_t \mathbf U \mathbf W - \sum_K \int_{K} \vec{\mathbf F}(\mathbf U) \cdot \grad \mathbf W + \int_{\partial \Omega} \vec{\mathbf F}(\mathbf U) \cdot \vec{n} \mathbf W - \sum_K \int_{K} \mathbf S W  \\
+\sum_K \int_{K} \partial_t \mathbf U \mathbf W - \sum_K \int_{K} \vec{\mathbf F}(\mathbf U) \cdot \grad \mathbf W + \int_{\partial \Omega} \vec{\mathbf F}(\mathbf U) \cdot \vec{n} \mathbf W - \sum_K \int_{K} \mathbf S \mathbf W  \\
 + \sum_K \int_{K} D(\mathbf U) \grad \mathbf U \cdot \grad \mathbf W 
 - \int_{\partial \Omega} D(\mathbf U) \grad \mathbf U \cdot \vec{n} \mathbf W = 0
 \end{multline}
@@ -861,10 +860,9 @@ where $\Delta t^{n} = t^n-t^{n-1}$ and $\Delta t^{n+1} = t^{n+1}-t^{n}$.
 %---------------------------------------------------------------------------------------------------
 Boundary conditions are implemented by performing a characteristic decomposition to compute the appropriate flux at the boundaries.
 Our implementation of the subsonic boundary conditions is inspired of the method described in \cite{SEM} and was adapted for an temporal implicit solver. Neumann boundary conditions are used for all of the boundary types, except for the inlet supersonic boundary that are imposed with Dirichlet boundary conditions.
-
 %\tcr{say a bit more, give 1-2 sentences to describe how to impose subsonic/supersonic inlet/outlet BCs}. \tcb{Is it enough?}
 
-For each numerical solution presented in \sct{sec:results}, the type of boundary conditions used will be specified and taken \tcr{???}amping\tcr{???} the following: supersonic inlet, subsonic inlet (stagnation pressure boundary) and supersonic outlet. 
+For each numerical solution presented in \sct{sec:results}, the type of boundary conditions used will be specified and taken among the following: supersonic inlet, subsonic inlet (stagnation pressure boundary) and supersonic outlet. 
 %and subsonic inlet \tcr{???} (static pressure boundary). \\
 The artificial diffusion coefficient $D(\mathbf  U)$ is set to zero at the boundary of the computational domain so that the boundary term $\int_{\partial \Omega} D(\mathbf  U) \grad \mathbf  U \cdot \vec{n} \mathbf W$ stemming from the integration by parts of the artificial dissipative terms in \eqt{eq:cfem} is ignored.
 
@@ -893,7 +891,7 @@ Next, a 1-D shock tube test (in a straight pipe), taken from the Leblanc test-ca
 %
 A slow moving shock is also investigated \cite{james}. This test helps in assessing the ability of the method to damp the post-shock low frequency noise (oscillations). 
 %
-Finally, a strong shock for a liquid phase is also investigated. \tcr{need ref for this}
+Finally, a strong shock for a liquid phase is also investigated\cite{abgrall}.
 
 The initial conditions (density in $kg.m^{-3}$, velocity in $m.s^{-1}$, pressure in $Pa$) for the afore mentioned 1-D shock tubes are given in \tbl{tbl:ic_1d_tests}.
 \begin{table}[!htbp]
@@ -960,7 +958,7 @@ where $|| \cdot ||$ denotes either the L$_1$ or L$_2$ norms and $h$ is the chara
 This simulation uses the Euler equations to solve liquid water flowing through a 1-D converging-diverging nozzle of length $L=1m$ and $A(x) = 1 + 0.5 \cos(2 \pi x / L)$.  At the inlet, the stagnation pressure and temperature are set to $P_0 = 1 MPa$ and $T_0 = 453 K$, respectively. At the outlet, only the static pressure is specified: $P_s = 0.5MPa$. 
 Initially, the liquid is at rest, the temperature is uniform and equal to the stagnation temperature and the pressure linearly decreases from the stagnation pressure inlet value to the static pressure outlet value. 
 The stiffened gas equation of state is used to model the liquid water with the parameters provided in \tbl{tbl:stff_gas_eos}.
-Because of the low pressure difference between the inlet and the outlet, the smooth initial conditions, and the large value of $P_\infty$, the flow remains subsonic and thus displays no shock. A detailed derivation of the exact steady-state solution can be found in \cite{nozzle_exact} \tcr{Check the references, when I make the pdf this pointer is wrong for some reason}. A uniform mesh of $50$ cells was used to obtain the numerical solution and the time step size was computed using a $CFL$ number of 750.
+Because of the low pressure difference between the inlet and the outlet, the smooth initial conditions, and the large value of $P_\infty$, the flow remains subsonic and thus displays no shock. A detailed derivation of the exact steady-state solution can be found in \cite{nozzle_exact}. A uniform mesh of $50$ cells was used to obtain the numerical solution and the time step size was computed using a $CFL$ number of 750.
 Plots of the Mach number, density, and pressure are given at steady-state in \fig{fig:1d_liq_nozzle} for the numerical and exact solutions. The viscosity coefficients are also graphed in \fig{fig:1d_nozzle_liq_visc}. 
 \begin{figure}[H]
         \centering
@@ -1045,7 +1043,7 @@ It is observed that the convergence rate for the L$_1$ and L$_2$ norm of the err
 %---------------------------------------------------------------------------------------------------
 
 We use the same nozzle geometry, initial conditions and boundary conditions as in the previously example but replace liquid water with steam and use the steam parameters of the stiffened gas equation of state, \tbl{tbl:stff_gas_eos}. In this example, compressible effects will become dominant. 
-The pressure difference between the inlet and outlet is large enough to accelerate the steam through the nozzle, leading to the formation of a shock in the diverging portion of the nozzle. The behavior is different from that observed for the liquid water phase in \sct{sec:liquid_nozzle} because of the liquid to gas density ratio is about $1,000$. An exact solution at steady state is available for the gas phase \cite{nozzle_exact} \tcr{Check the references, when I make the pdf this pointer is wrong for some reason}. The aim of this section is to show that when using the new definitions of the viscosity coefficients (\eqt{eq:final_def_visc_coeff}), the shock can be correctly resolved without spurious oscillations. The steady-state numerical solution, obtained using a uniform mesh with $1600$ cells, is shown in \fig{fig:1d_vap_nozzle}. The $CFL$ was set to $80$ (a high $CFL$ value can be used because the shock is stationary).
+The pressure difference between the inlet and outlet is large enough to accelerate the steam through the nozzle, leading to the formation of a shock in the diverging portion of the nozzle. The behavior is different from that observed for the liquid water phase in \sct{sec:liquid_nozzle} because of the liquid to gas density ratio is about $1,000$. An exact solution at steady state is available for the gas phase \cite{nozzle_exact}. The aim of this section is to show that when using the new definitions of the viscosity coefficients (\eqt{eq:final_def_visc_coeff}), the shock can be correctly resolved without spurious oscillations. The steady-state numerical solution, obtained using a uniform mesh with $1600$ cells, is shown in \fig{fig:1d_vap_nozzle}. The $CFL$ was set to $80$ (a high $CFL$ value can be used because the shock is stationary).
 
 \begin{figure}[H]
         \centering
@@ -1208,7 +1206,7 @@ $6400$&$7.3309974$ $10^{-4}$    & $0.53343397$ & $4.4545754$ $10^{-4}$ & $0.4939
 %\tcr{until now, you never gave the mu and kappa coefficients, yet they are now different due to their different normalizations.
 %Maybe very little for the previous cases, but we need to mention something because, in this section, you show both, and it is better
 %to say something than to let the reviewers wonder ... } \tcb{what do you think of the following?}
-The purpose of this test is to investigate the ability of the entropy viscosity method to stabilize a strong shock with a small Mach number \cite{abgrall}: the Mach number in the shock region is of the order of 0.1. In this case, as explained in \sct{sec:lowMach}, the viscosity coefficients are required to have different order of magnitude in order to ensure the correct scaling of the dissipative terms. This test allows us to validate the approach presented in \sct{sec:lowMach}.
+The purpose of this test is to investigate the ability of the entropy viscosity method to stabilize a strong shock with a small Mach number \cite{abgrall} (this reference is for a two-phase flow model but we are only interested in the initial conditions for the liquid phase): the Mach number in the shock region is of the order of 0.1. In this case, as explained in \sct{sec:lowMach}, the viscosity coefficients are required to have different order of magnitude in order to ensure the correct scaling of the dissipative terms. The purpose of this test is to validate the approach presented in \sct{sec:lowMach}. 
 
 The stiffened gas equation of state is used to model a liquid flow with the parameters given in \tbl{tbl:stff_gas_eos}. The computational domain of length $L=1m$ is uniformly discretized using 500 cells. The step initial conditions are given in \tbl{tbl:ic_1d_tests}.
 %
@@ -1296,7 +1294,7 @@ T_0 = T\left( 1 + \frac{\gamma-1}{2} M^2 \right)
 %
 A static pressure boundary condition, with static pressure $P_s = 101,325$ $Pa$, is set for the outlet boundary. The implementation of the pressure boundary conditions is based on \cite{SEM}. A solid wall boundary condition is set for the top and bottom walls of the computational domain. The simulations are run until a steady state is reached (with a $CFL$ of $40$). When the residual norm (for all equations) is less than $10^{-12}$ the steady state is considered to have been reached.
 
-Several simulations are performed, with inlet Mach numbers $M_{\text{inlet}}$ ranging from $10^{-3}$ to $10^{-7}$, and are shown in \fig{fig:cylinder} \tcr{Check this figure, on the pdf generated on my machine the figure doesn't fit and the caption missing}. The iso-Mach contour lines are drawn using 30 equally-spaced intervals $2 \ 10^{-10}$ to $M_{\text{inlet}}$ which allows the assessment of the symmetry of the numerical solution.
+Several simulations are performed, with inlet Mach numbers $M_{\text{inlet}}$ ranging from $10^{-3}$ to $10^{-7}$, and are shown in \fig{fig:cylinder}. The iso-Mach contour lines are drawn using 30 equally-spaced intervals $2 \ 10^{-10}$ to $M_{\text{inlet}}$ which allows the assessment of the symmetry of the numerical solution.
 %
 \begin{figure}[H]
         \centering
@@ -1571,7 +1569,7 @@ The Euler equations (without viscous regularization) with variable area are reca
 \end{equation}
 \end{subequations}
 %
-The specific entropy is a function of the density $\rho$ and the internal energy $e$, i.e., $s(e,\rho)$ , the above system of equations satisfies the minimum entropy principle \cite{Toro} \tcr{is this really shown in Toro?} \tcb{I think it is and will double check tomorrow} \tcr{rb: I think its in Leveque's or Smoller's book}
+The specific entropy is a function of the density $\rho$ and the internal energy $e$, i.e., $s(e,\rho)$ , the above system of equations satisfies the minimum entropy principle \cite{Leveque}.
 %
 \begin{equation}
 A \rho \left( \partial_t s + \vec{u} \cdot \div s \right) \geq 0 \, .
