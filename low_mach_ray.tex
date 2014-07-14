@@ -1123,7 +1123,7 @@ $640$ & $5.2191$ $10^{-2}$  & $0.44190$ & $9.4217$ $10^{3}$ & $0.43790$ & $16.91
 
 The 1-D Leblanc shock tube is a Riemann problem designed to test the robustness and the accuracy of stabilization methods. The initial conditions are given in \tbl{tbl:ic_1d_tests}. The ideal gas equation of state (with $\gamma=5/3$) is used to compute the pressure.
 This test is computationally challenging because of the large pressure ratio at the initial interface.
-The computational domain consists of a 1-D straight pipe of length $L=9m$ with the initial interface located at $x=2m$. At $t=0.s$, the interface is removed. The numerical solution is run until $t=4 s$ and the density, momentum and total energy profiles are given in \fig{fig:1d_leblanc}, along with the exact solution. The viscosity coefficients are also plotted in \fig{fig:1d_leblanc_visc}. These plots were  run with three different uniform meshs of $800$, $3200$ and $6000$ cells and a constant $CFL = 1$.
+The computational domain consists of a 1-D straight pipe of length $L=9m$ with the initial interface located at $x=2m$. At $t=0.s$, the interface is removed. The numerical solution is run until $t=4 s$ and the density, momentum and total energy profiles are given in \fig{fig:1d_leblanc}, along with the exact solution. The viscosity coefficients are also plotted in \fig{fig:1d_leblanc_visc}. These plots were  run with three different uniform meshes of $800$, $3200$ and $6000$ cells and a constant $CFL = 1$.
 \begin{figure}[H]
         \centering
         \begin{subfigure}[b]{0.495\textwidth}
@@ -1603,7 +1603,7 @@ Following \cite{jlg}, we first write the variable-area equation with dissipative
 \end{equation}
 \end{subequations}
 %
-where $f$, $g$ and $h$ are dissipative fluxes to be determined. Starting from the modified system of equations given in \eqt{app:euler_variable_A_diss}, the entropy residual is derived again. The derivation requires the following steps : express the governing laws in terms of primitive variables $(\rho, \vec{u}, e)$, multiply the continuity equation by $\rho s_\rho$ and the internal energy equation by $s_e$, and invoke multivariate chain rule, e.g., $\partial s /\partial x = s_e \partial e /\partial x + s_\rho \partial \rho /\partial x$. These steps are similar to the those used for the standard Euler equations \cite{jlg}. Some of the lengthy algebra is omitted here. The above steps yield:
+where $f$, $g$ and $h$ are dissipative fluxes to be determined. Starting from the modified system of equations given in \eqt{app:euler_variable_A_diss}, the entropy residual is derived again. The derivation requires the following steps : express the governing laws in terms of primitive variables $(\rho, \vec{u}, e)$, multiply the continuity equation by $\rho s_\rho$ and the internal energy equation by $s_e$, and invoke multivariate chain rule, e.g., $\partial s /\partial x = s_e \partial e /\partial x + s_\rho \partial \rho /\partial x$. These steps are similar to those used for the standard Euler equations \cite{jlg}. Some of the lengthy algebra is omitted here. The above steps yield:
 %
 \begin{multline}
 \label{eq:ent_res_app}
