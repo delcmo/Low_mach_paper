@@ -101,7 +101,7 @@ coefficients and thus will avoid spurious oscillations.
 The entropy method is independent of the type of spatial discretization (finite volume,
 continuous or discontinuous finite elements, ...) and thus may be applied ubiquitously. 
 For instance, it is currently being considered as one possible stabilization approach in 
-RELAP-7, the next-generation reactor safety system code built upon the MOOSE multiphysics framework
+RELAP-7 \cite{Berry_2014}, the next-generation reactor safety system code built upon the MOOSE multiphysics framework
 \cite{moose}. However, the entropy viscosity method has mostly been tested for supersonic applications but not in low-Mach 
 or transonic applications.  
 
@@ -172,7 +172,7 @@ where $c$ is the speed of sound and the weighting factor is the local Mach numbe
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results and Analysis}
 
-The Euler equation with viscous stabilization are discretized with {\it continuous} finite elements in space and BDF2 in time using MOOSE. The resulting nonlinear system of equations at each time step is solved using a Jacobian-free Newton Krylov technique. We present results for a 2D flow over a circular hump \cite{Hump}. Such problems are often employ to test the ability of numerical schemes used in compressible flow solvers to resolve low-Mach flows (i.e., in the incompressible limit) \cite{LowMach1}. 
+The Euler equation with viscous stabilization are discretized with {\it continuous} finite elements in space and BDF2 in time using MOOSE. The resulting nonlinear system of equations at each time step is solved using a Jacobian-free Newton Krylov technique. We present results for a 2D flow over a circular hump \cite{Hump}. Such problems are often employed to test the ability of numerical schemes used in compressible flow solvers to resolve low-Mach flows (i.e., in the incompressible limit) \cite{LowMach1}. 
 
 The results are shown in \fig{fig:2d_hump_mach_0p7}, \fig{fig:2d_hump_mach_0p01}, \fig{fig:2d_hump_mach_0p0001} and \fig{fig:2d_hump_mach_0p0000001} for inlet Mach numbers $M_{\infty}=0.7$, $M_{\infty}=0.01$, $M_{\infty}=10^{-4}$ and $M_{\infty}=10^{-7}$, respectively. It is expected that, within the low-Mach number range, the solution does not depend on the Mach number and is self-similar. The results showed in \fig{fig:2d_hump_mach_0p01}, \fig{fig:2d_hump_mach_0p0001} and \fig{fig:2d_hump_mach_0p0000001} correspond to the low-Mach regime. The iso-Mach lines are drawn ranging from the minimum and the maximum values (provided in each legend) using 50 equally-spaced intervals. The steady-state solution is symmetric and does not depend on the value of the inlet Mach number, as expected in the incompressible limit. 
 %
@@ -182,28 +182,28 @@ In \fig{fig:2d_hump_mach_0p7}, the steady-state numerical solution develops a sh
 %
 \begin{figure}[H]
         \centering
-        \begin{subfigure}[b]{0.5\textwidth}
+        \begin{subfigure}[b]{0.47\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{Hump2D_mach_0p7.png}
                 \caption{Mach $0.7$}
                 \label{fig:2d_hump_mach_0p7}
         \end{subfigure}%
 
-        \begin{subfigure}[b]{0.5\textwidth}
+        \begin{subfigure}[b]{0.47\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{Hump2D_mach_0p01.png}
                 \caption{Mach $10^{-2}$}
                 \label{fig:2d_hump_mach_0p01}
         \end{subfigure}%
         
-        \begin{subfigure}[b]{0.495\textwidth}
+        \begin{subfigure}[b]{0.47\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{Hump2D_mach_1em4.png}
                 \caption{Mach $10^{-5}$}
                 \label{fig:2d_hump_mach_0p0001}
         \end{subfigure}
 
-        \begin{subfigure}[b]{0.495\textwidth}
+        \begin{subfigure}[b]{0.47\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{Hump2D_mach_1em7.png}
                 \caption{Mach $10^{-7}$}
