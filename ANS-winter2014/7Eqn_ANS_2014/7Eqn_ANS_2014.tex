@@ -1,6 +1,6 @@
 \documentclass{anstrans}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Application of the entropy viscosity method to the $1$-D Seven-Equation Model for Two-Phase Flows}
+\title{Application of the entropy viscosity method to the $1$-D 7-equation Model for Two-Phase Flows}
 \author{Marc O. Delchini$^{*}$, Jean C. Ragusa$^{*}$, Ray A. Berry$^\dagger$}
 
 \institute{
@@ -62,7 +62,7 @@ $^\dagger$Idaho National Laboratory
 \newcommand{\Pe}{\textrm{P\'e}}
 \renewcommand{\Pr}{\textrm{Pr}}
 
-\newcommand{\resi}{R_e}
+\newcommand{\resi}{R}
 %\newcommand{\resinew}{\tilde{D}_e}
 \newcommand{\resinew}{\widetilde{\resi}}
 \newcommand{\matder}[1]{\frac{\textrm{D} #1}{\textrm{D} t}}
@@ -87,7 +87,7 @@ $^\dagger$Idaho National Laboratory
 \section{Introduction}
 %
 In this paper, we extend the entropy viscosity method, proposed by Guermond et al. \cite{jlg1, jlg2}
-to the well-posed $1$-D 7-equation two-phase model \cite{DEM, berry}. This model is obtained by integrating the single-phase flow balance equations weighed by a characteristic function for each phase. The resulting system of equations contains non-conservative terms that describe the interaction between phases but also an equation for the volume fraction. It is also known to be unconditionally hyperbolic which is highly desirable when working with approximate Riemann solvers and can treat a wide range of applications. Its particularity comes from the pressure and velocity relaxation terms in the volume fraction, momentum and energy equations that can bring the two phases in equilibrium when using large values of the relaxation parameters. In other words, the 7-equation model can degenerate into the 6 \cite{Toumi_1996} and 5-equation models \cite{Kapila_2001}. The 7-equation model is currently solved on \emph{discontinuous schemes} with approximate Riemann solvers derived from the well-established approach for single-phase flows, while using consistent discretization scheme for the non-conservative terms \cite{Saurel_2001a, Saurel_2001b, Li_2004, Zein_2010, Ambroso_2012}. 
+to the well-posed $1$-D 7-equation two-phase model \cite{DEM, berry}. This model is obtained by integrating the single-phase flow balance equations weighed by a characteristic function for each phase. The resulting system of equations contains non-conservative terms that describe the interaction between phases but also an equation for the volume fraction. It is also known to be unconditionally hyperbolic which is highly desirable when working with approximate Riemann solvers and can treat a wide range of applications. Its particularity comes from the pressure and velocity relaxation terms in the volume fraction, momentum and energy equations that can bring the two phases in equilibrium when using large values of the relaxation parameters. In other words, the 7-equation model can degenerate into the 6 \cite{Toumi_1996} and the 5-equation models \cite{Kapila_2001}. The 7-equation model is currently solved on \emph{discontinuous schemes} with approximate Riemann solvers derived from the well-established approach for single-phase flows, while using an upwind-type flux for the non-conservative terms \cite{Saurel_2001a, Saurel_2001b, Li_2004, Zein_2010, Ambroso_2012}. 
 
 The entropy viscosity technique is a viscous regularization technique
 that satisfies the entropy minimum principle; adequate dissipation terms (viscous fluxes)
@@ -108,19 +108,19 @@ reactor system code build upon the MOOSE multiphysics framework
 
 In this summary, the $1$-D 7-equation model is recalled along with the dissipative terms used 
 in the entropy method. Definition of the viscosity coefficients is also given and numerical 
-results are presented for a $1$-D pipe with wall-heat transfer in the low Mach regime.
+results are presented for a $1$-D two-phase flow shock tube.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Theory}
 %
-We recall the $1$-D seven-equation model for two phases $k$ and $j$ with viscous regularization  based on the entropy-viscosity 
-method (the equations are given for the phase $k$ and can be obtained for the phase $j$ by simply substituting $k$ by $j$):
+We recall the $1$-D 7-equation model for a phase $k$ in interaction with a phase $j$ and also added the viscous regularization  based on the entropy-viscosity 
+method (equation of the phase $j$ are obtained by simply substituting $k$ by $j$):
 \begin{subequations}
 \label{eq:euler_visc}
 %
 \begin{equation}\label{eq:vf_eq}
   \frac{\partial \alpha_{k} A}{\partial t} + u_{int} A \frac{\partial \alpha_{k}}{\partial x}
-  = A \mu (p_{k} - p_{j}) + \boxed{\frac{\partial }{\partial x} \left( A l_k  \right)}
+  = A \mu_P (p_{k} - p_{j}) + \boxed{\frac{\partial }{\partial x} \left( A l_k  \right)}
 \end{equation}
 %
 \begin{eqnarray}
@@ -133,7 +133,7 @@ method (the equations are given for the phase $k$ and can be obtained for the ph
  && \frac{\partial \left( \alpha \rho u \right)_{k} A}{\partial t}
   + \frac{\partial \alpha_{k} A \left( \rho u^2 + p \right)_{k} }{\partial x}   = p_{int} A \frac{\partial \alpha_{k}}{\partial x} \nonumber \\
  &&+ p_{k} \alpha_{k} \frac{\partial A}{\partial x}
-  + A \lambda (u_{j} - u_{k}) \nonumber \\
+  + A \lambda_u (u_{j} - u_{k}) \nonumber \\
  && + \boxed{\frac{\partial }{\partial x} \left[ A \left( g_k + u_k f_k \right) \right] }
 \end{eqnarray}
 %
@@ -142,7 +142,7 @@ method (the equations are given for the phase $k$ and can be obtained for the ph
   + \frac{\partial \alpha_{k} u_{k} A \left( \rho E + p \right)_{k}}{\partial x}
   = p_{int} u_{int} A \frac{\partial \alpha_{k}}{\partial x} 
   \nonumber \\
-  &&- \bar{p}_{int} A \mu (p_{k} - p_{j})+ \bar{u}_{int} A \lambda (u_{j} - u_{k})
+  &&- \bar{p}_{int} A \mu_P (p_{k} - p_{j})+ \bar{u}_{int} A \lambda_u (u_{j} - u_{k})
   \nonumber \\
  && + \boxed{\frac{\partial }{\partial x} \left[ A \left( h_k + u_k g_k - \frac{u_k^2}{2}f_k + \rho_k e_k l_k\right) \right] }
 \end{eqnarray}
@@ -171,25 +171,25 @@ where the dissipative terms, boxed in Eq~.\ref{eq:euler_visc}, have the followin
 The notation is standard: $\alpha_k$, $\rho_k$, $(\rho \vec{u})_k$ and $(\rho E)_k$ are the volume fraction, the density, the momentum and the total energy for phase $k$, respectively, and will be referred to as the conservative variables. $\vec{u}_k$ is the fluid velocity for phase $k$ and its specific internal energy is denoted by $e_k=E_k-\tfrac{u^2_k}{2}$. The area $A$ is a given and can be spatial-dependent. An equation of state is used to compute the pressure $P_k$. Definitions of the interfacial variables denoted by the subscript $int$ can be found in \cite{berry}. As mentioned in the introduction, each viscosity coefficient is function of an upper bound refer to as the first-order viscosity and denoted by the subscript max, and a high-order viscosity coefficient denoted by the subscript $e$ as follows: 
 %
 \begin{align}
-&\mu^K(\vec{r}_q,t) = \min ( \mu_{max}^K(\vec{r}_q,t), \mu_e^K(\vec{r}_q,t) ) \text{, } \nonumber \\
-&\kappa^K(\vec{r}_q,t) = \min ( \kappa_{max}^K(\vec{r}_q,t), \kappa_e^K(\vec{r}_q,t) )\nonumber  \\ 
-\text{ and } &\beta^K(\vec{r}_q,t) = \min ( \beta_{max}^K(\vec{r}_q,t), \beta_e^K(\vec{r}_q,t) ) \nonumber
+&\mu_k^K(\vec{r}_q,t) = \min ( \mu_{max,k}^K(\vec{r}_q,t), \mu_{e,k}^K(\vec{r}_q,t) ) \text{, } \nonumber \\
+&\kappa_k^K(\vec{r}_q,t) = \min ( \kappa_{max,k}^K(\vec{r}_q,t), \kappa_{e,k}^K(\vec{r}_q,t) )\nonumber  \\ 
+\text{ and } &\beta_k^K(\vec{r}_q,t) = \min ( \beta_{max,k}^K(\vec{r}_q,t), \beta_{e,k}^K(\vec{r}_q,t) ) \nonumber
 \end{align}
 %
 where $K$ is a given element of the mesh, and $\vec{r}_q$ is a quadrature point location within cell $K$.
-The first-order viscosity coefficients, $\mu_{max}$ and $\kappa_{max}$, are only present in the continuity, momentum and energy equations of each phase, and thus are defined proportional to the local maximum eigenvalue $|| \vec{u} || +c $. 
+The first-order viscosity coefficients, $\mu^K_{max,k}$ and $\kappa^K_{max,k}$, are only present in the continuity, momentum and energy equations of each phase, and thus are defined proportional to the local maximum eigenvalue $|| \vec{u}_k || + c_k$. 
 %
 \begin{align}
-&\kappa_{max}^K(\vec{r}_q,t) = \mu_{max}^K(\vec{r}_q,t) = \frac{h^k}{2} (|| \vec{u}(\vec{r}_q,t) || +c(\vec{r}_q,t) ) \nonumber \\
-&\beta_{max}^K(\vec{r}_q,t) = \frac{h^k}{2} ||\vec{u}_{int}(\vec{r}_q,t) ||, \nonumber
+&\kappa_{max,k}^K(\vec{r}_q,t) = \mu_{max,k}^K(\vec{r}_q,t) = \frac{h^k}{2} (|| \vec{u}_k(\vec{r}_q,t) || +c_k(\vec{r}_q,t) ) \nonumber \\
+&\beta_{max,k}^K(\vec{r}_q,t) = \frac{h^K}{2} ||\vec{u}_{int}(\vec{r}_q,t) ||, \nonumber
 \end{align}
 %
-where $h^k$ is the grid size. On the other hand, the first-order viscosity coefficient $\beta_{max}$ is defined proportional to the eigenvalue $\vec{u}_{int}$ since intimately related to the void fraction equation. The high-order viscosity coefficients, $\beta_{e,k}$, $\kappa_{e,k}$ and $\mu_{e,k}$ are distinct positive viscosity coefficients and are based on the local entropy production in phase $k$. The definition of the coefficients $\mu_{e,k}$ and $\kappa_{e,k}$ is identical to the one used for the multi-D Euler equations \cite{marco_inl_report} and yield well-scaled dissipative terms in the low-Mach regime \cite{LowMach1, LowMach2, LowMach3}:
+where $h^k$ is the grid size. On the other hand, the first-order viscosity coefficient $\beta^K_{max,k}$ is defined proportional to the eigenvalue $\vec{u}_{int}$ since intimately related to the void fraction equation. The high-order viscosity coefficients, $\beta^K_{e,k}$, $\kappa^K_{e,k}$ and $\mu^K_{e,k}$ are distinct positive viscosity coefficients and are based on the local entropy production in phase $k$. The definition of the coefficients $\mu^K_{e,k}$ and $\kappa^K_{e,k}$ is identical to the one used for the multi-D Euler equations \cite{marco_inl_report} and yield well-scaled dissipative terms in the low-Mach regime \cite{LowMach1, LowMach2, LowMach3}:
 %
 \begin{subequations}
 \label{eq:ent_visc_coeff2}
 \begin{equation}
-\kappa^K_{e,k}(\vec{r}_q,t) =  h_K^2 \frac{| \resinew^K(\vec{r}_q,t) |}{\rho c^2}  
+\kappa^K_{e,k}(\vec{r}_q,t) =  h_K^2 \frac{\max \left( | \resinew_k^K(\vec{r}_q,t) |, J_P^K \right)}{\rho_k c_k^2}  
 \end{equation}
 \begin{equation}
 \mu^K_{e,k}(\vec{r}_q,t) = Pr_k \, \mu^K_e(\vec{r}_q,t)
@@ -203,13 +203,13 @@ where $c_k$ is the phase speed of sound and the weighting factor is the local Ma
 \resinew(\vec{r_q},t) := \left( \matder{P_k} - c^2_k \matder{\rho_k} \right) \propto \partial_t s_k + \vec{u} \cdot \grad s_k = \matder{s_k},
 \end{equation} 
 %
-where $s_k$ is the phase entropy, function of the density $\rho_k$ and the internal energy $e_k$. Proof of \eqt{eq:ent2_res} can be found in \cite{marco_inl_report}.
+where $s_k$ is the phase entropy, function of the density $\rho_k$ and the internal energy $e_k$. Proof of \eqt{eq:ent2_res} can be found in \cite{marco_inl_report}. Lastly, the quantity $J_P$ denotes the inter element jumps of the gradient of the pressure and the density (see \cite{marco_inl_report} for details).
 
-The approach to define the viscosity coefficient $\beta_k$ is similar to the logic followed for hyperbolic scalar equations \cite{jlg1, jlg2}: an entropy equation can be derived from the volume fraction equation (\eqt{eq:vf_eq}) and used in the definition of the coefficient $\beta_k$. Following the work by Guermond et al. \cite{jlg1, jlg2}, one obtains:
+The approach to define the viscosity coefficient $\beta_{e,k}^K$ is similar to the logic followed for hyperbolic scalar equations \cite{jlg1, jlg2}: an entropy equation can be derived from the volume fraction equation (\eqt{eq:vf_eq}) and used in the definition of the coefficient $\beta_{e,k}^K$. Following the work by Guermond et al. \cite{jlg1, jlg2}, one obtains:
 %
 \begin{subequations}
 \begin{equation}
-\beta^K_{e,k}(\vec{r}_q,t) =  h_K^2 \frac{| R_{\alpha,k}^K(\vec{r}_q,t) |}{\alpha_k},
+\beta^K_{e,k}(\vec{r}_q,t) =  h_K^2 \frac{\max \left( | R_{\alpha,k}^K(\vec{r}_q,t) |, J^K_\alpha \right)}{\alpha_k},
 \end{equation}
 where the entropy residual associated to the volume fraction equation, \eqt{eq:vf_eq}, is
 \begin{equation}
@@ -218,25 +218,23 @@ R_{\alpha,k}^K(\vec{r}_q,t) =   \frac{1}{2} \left( \frac{\partial \alpha_{k}^2}{
 \end{equation} 
 \end{subequations}
 % 
-where $s_{\alpha,k} = \alpha_k^2/2$ can be interpreted as the entropy function associated to the volume fraction equation of phase $k$.
+where $s_{\alpha,k} = \alpha_k^2/2$ can be interpreted as the entropy function associated to the volume fraction equation of phase $k$. Once again, $J^K_\alpha$ denotes the inter element jump of the gradient of the volume fraction.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results and Analysis}
 
-The $1$-D seven-equation model with viscous stabilization is discretized with {\it continuous} finite elements in space and BDF2 in time using the multiphysics framework RELAP-7. The resulting nonlinear system of equations at each time step is solved using a Jacobian-free Newton Krylov technique. We present one sample result for a 1-D shock tube of length $L=1$ $m$ and area $A=1$ $m^2$ filled with two gas phases in equilibrium (same pressure and velocity) described by the Ideal Gas equation of state with $\gamma_1 = 3$ and $\gamma_2 = 1.4$. The diaphragm separates the pipe in two chambers with a high pressure ($P_{left} = 1$ $MPa$) on the left side and a low pressure ($P_{right} = 0.1$ $MPa$) in the right side. Both fluids are initially at rest. The volume fraction is set to $0.5$ which means each side of the chamber contains a mixture of two fluids with different equation of state parameters. The pressure and velocity relaxation coefficients are computed using the expression provided in \eqt{E-R:85} and \eqt{E-R:86}, respectively. 
+The $1$-D 7-equation model with viscous stabilization is discretized with {\it continuous} finite elements in space and BDF2 in time using the multiphysics framework RELAP-7. The resulting nonlinear system of equations at each time step is solved using a Jacobian-free Newton Krylov technique. We present one sample result for a 1-D two-phase flow shock tube of length $L=1$ $m$ and area $A=1$ $m^2$ filled with two gas phases in equilibrium (same pressure and velocity) described by the Ideal Gas equation of state with $\gamma_1 = 3$ and $\gamma_2 = 1.4$ with the objective of testing our numerical stabilization method. The diaphragm separates the pipe in two chambers with a high pressure ($P_{left} = 1$ $MPa$) on the left side and a low pressure ($P_{right} = 0.1$ $MPa$) in the right side. Both fluids are initially at rest. The volume fraction is set to $0.5$ which means each side of the chamber contains a mixture of two fluids with different equation of state parameters. The pressure and velocity relaxation coefficients are computed using the expression provided in \eqt{E-R:85}. 
 %
-\begin{subequations}
 \begin{equation}\label{E-R:85}
-  \lambda_u = \frac{1}{2} \mu_P Z_{1} Z_{2}
+  \lambda_u = \frac{1}{2} \mu_P Z_{1} Z_{2} \text{ and }
+  \mu_P = \frac{A_{int}}{Z_{1}+Z_{2}} 
 \end{equation}
-\begin{equation}\label{E-R:86}
-  \mu_P = \frac{A_{int}}{Z_{1}+Z_{2}}
-\end{equation}
-\end{subequations}
 %
-where the interfacial area is set to a large value, $A_{int} = 10^4 m^{-1}$, so that the two phases achieve pressure and velocity equilibrium at all time. The geometry is discretized with an uniform mesh of 500 cells and run with a $CFL$ of one until $t_{final} = 305$ $\mu s$. The numerical results are presented from \fig{fig:pressure} to \ref{fig:viscosity_coeff_beta}. This shock tube test can also be found in \cite{Saurel_2007} and use for eyeball comparison.\\
+where the interfacial area is set to a large value, $A_{int} = 10^4 m^{-1}$, so that the two phases achieve pressure and velocity equilibrium at all time. The geometry is discretized with an uniform mesh of 500 cells and run with a CFL of one until $t_{final} = 305$ $\mu s$. The numerical results are presented from \fig{fig:pressure} to \ref{fig:viscosity_coeff_beta}. An exact solution for this shock tube test is not available but numerical results obtained with a discontinuous scheme on a moving mesh can be found in \cite{Saurel_2007} and use for eyeball comparison.\\
 
-As expected, the two fluids have the same pressure and velocity profiles as shown in \fig{fig:pressure} and \fig{fig:velocity}, respectively. The shock is well resolved and does not display any instability. The density profiles The volume fraction varies because of the pressure relaxation term (\eqt{eq:vf_eq}) and displays a shock wave around $x=0.7$ $m$ as shown in \fig{fig:volume_fraction}. Consequently, the viscosity coefficient $\beta_k$ is peaked in the shock region.
+As expected, the two fluids have the same pressure and velocity profiles as shown in \fig{fig:pressure} and \fig{fig:velocity}, respectively. The shock is well resolved and does not display any instability. The density of phase $1$ and $2$ have different values but experience the same variations (shock, contact and rarefaction waves), as shown in \fig{fig:density}. The volume fraction varies because of the pressure relaxation term (\eqt{eq:vf_eq}) and displays a shock wave around $x=0.7$ $m$ as shown in \fig{fig:volume_fraction}. Consequently, the viscosity coefficient $\beta_k$ is peaked in the shock region and also displays a second peak of lower amplitude because of the jump. Overall, the numerical solution is efficiently stabilized by the entropy viscosity method and the discontinuity are well resolved. The viscosity coefficients are peaked in the shock region and thus, behave as expected. 
+
+%The same $1$-D shock tube could be run when setting the relaxation coefficients to zero: the two fluids would behave independently of each other and the volume fraction would remain constant. This test is 
 %of area $A = 10^{-4}$ $m^2$ with a wall heat source (the wall temperature is constant: $T_w = 550$ $K$). The stiffened gas equation of state is used to model the liquid and vapor phases with the parameters taken from \cite{SGEOS} for each phase. A static pressure of $P=7.1$ $MPa$ is set at the outlet. The volume fraction, the enthalpy and the mass flow rate are specified at the inlet for each phase. The wall friction coefficient is constant and the same for the two phases, $f_w = 4 \times 10^{-2}$. The interfacial area $A_{int}$ is set to a large value to equalize the pressure and velocity of the two phases (the 7-equation model degenerates in to the 5-equation model). The initial conditions are uniform. The geometry is discretized with a uniform mesh of 100 elements and the simulation is run with $CFL=100$  until a steady state is obtained. 
 %
 %The pressure, temperature, velocity, volume fraction and viscosity coefficients profiles are plotted from \fig{fig:pressure} through \fig{fig:viscosity_coeff}. As expected, the liquid and vapor pressure profiles are identical (\fig{fig:pressure}) and decrease through the domain because of the wall friction force. The liquid and velocity profiles are also identical as shown in \fig{fig:velocity} and increase due to the wall friction force and the heat addition. In \fig{fig:temperature}, the liquid and vapor temperature profiles are distinct and have  the same variation: the temperature rises since energy is added to the flow by the wall heat source. The variations of the vapor and liquid volume fractions are opposite: vapor is produced since the liquid temperature is larger than the saturation temperature. All of the profiles are smooth and do not display any spurious oscillations: the high-order viscosity coefficients shown in \fig{fig:viscosity_coeff}, $\kappa_{e,k}$ and $\beta_{e,k}$, are well-scaled and large enough to stabilize the numerical solution without altering it (only $\beta_{e,liquid}$ is plotted since $\beta_{e,liquid}=\beta_{e,vapor}$). It is also noted the difference of several order of magnitude between the high-order and first-order viscosity coefficients denoted by the subscript $max$. The first-order viscosity coefficients are over-dissipative and ill-scaled in the low Mach regime \cite{marco_inl_report}.
@@ -249,8 +247,7 @@ As expected, the two fluids have the same pressure and velocity profiles as show
                 \caption{Pressure}
                 \label{fig:pressure}
         \end{subfigure}%
-\end{figure}
-\begin{figure}[H]
+
         \begin{subfigure}[b]{0.5\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{plots/relaxation_two_phases_density.png}
@@ -264,15 +261,15 @@ As expected, the two fluids have the same pressure and velocity profiles as show
                 \caption{Velocity}
                 \label{fig:velocity}
         \end{subfigure}
-
+\end{figure}
+\begin{figure}[H]
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{plots/relaxation_two_phases_volume_fraction.png}
                 \caption{Volume fraction}
                 \label{fig:volume_fraction}
         \end{subfigure}
-\end{figure}
-\begin{figure}[H]        
+        
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{plots/relaxation_two_phases_liquid_viscosity_kappa_mu.png}
@@ -286,7 +283,8 @@ As expected, the two fluids have the same pressure and velocity profiles as show
                 \caption{Viscosity coefficients for phase $2$}
                 \label{fig:viscosity_coeff_vap}
         \end{subfigure}        
-				
+\end{figure}
+\begin{figure}[H]				
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{plots/relaxation_two_phases_liquid_beta.png}
@@ -304,7 +302,7 @@ As expected, the two fluids have the same pressure and velocity profiles as show
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 
-We have presented an extension of the entropy viscosity method to the 1-D seven-equation model and applied it to a low-Mach flow case including wall friction and gravity terms, wall heat source and mass and energy transfer between the phases. The stabilization method is capable of stabilizing the numerical solution and the viscosity coefficients are well-scaled. This work will further contribute to the assessment of the stabilization technique for reactor flows in RELAP-7.
+We have presented an extension of the entropy viscosity method to the 1-D 7-equation model and applied it to a $1$-D two-phase flow shock tube with large relaxation coefficients. The numerical results show that the stabilization method is capable of stabilizing the schemes and that the viscosity coefficients are well-scaled. This work will further contribute to the assessment of the stabilization technique for reactor flows in RELAP-7.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\appendix
