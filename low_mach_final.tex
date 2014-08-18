@@ -488,7 +488,7 @@ We remind the reader that the objective is to determine appropriate scaling for 
 (i) the isentropic limit where Euler equations degenerate to an incompressible system of equations in the low-Mach limit and 
 (ii) the non-isentropic limit with formation of shocks. 
 The isentropic limit of the Euler equations with viscous regularization should yield incompressible fluid flow solutions in the low-Mach limit, namely, that the pressure fluctuations are of the order $M^2$ and that the velocity satisfies the divergence constraint $\div \vec{u}_0 = 0$ \cite{LowMach1, LowMach2, LowMach3}. For non-isentropic situations, shocks may form for any value of Mach number and the minimum entropy principle should still be satisfied so that numerical oscillations, if any, be controlled by the entropy viscosity method independently of the value of the Mach number.
-Our objective is to determine the appropriate scaling for $\norm_P^\kappa}$ and $\norm_P^\mu}$ in these two limit cases.
+Our objective is to determine the appropriate scaling for $\norm_P^\kappa$ and $\norm_P^\mu$ in these two limit cases.
 % the Reynolds and P\'eclet numbers, $\Re_\infty$ and $\Pe_\infty$, in these two limit cases.
 
 %%%In this Section, we deal with the isentropic limit; the non-isentropic case is treated later.
@@ -793,7 +793,7 @@ The variable-area Euler equations with viscous regularization are given below; d
 \end{equation}
 %
 \begin{equation}\label{eq:euler_eq_mom_var_A}
-\partial_t \left( \rho \vec{u} A \right) + \div \left[A\left( \rho \vec{u} \otimes \vec{u} + P \mathbf{I} \right) \right] = P \grad A + \div \left[ A \left( \mu \rho \grad^s \vec{u}  + \kappa \vec{u} \otimes \grad \rho \right) \right]
+\partial_t \left( \rho \vec{u} A \right) + \div \left[A\left( \rho \vec{u} \otimes \vec{u} + P \mathbb{I} \right) \right] = P \grad A + \div \left[ A \left( \mu \rho \grad^s \vec{u}  + \kappa \vec{u} \otimes \grad \rho \right) \right]
 \end{equation}
 %
 \begin{equation}\label{eq:euler_eq_ener_var_A}
@@ -854,9 +854,9 @@ The MOOSE framework offers both first- and second-order explicit and implicit te
 %
 with
 \begin{multline}
-\omega_0 =\frac{2\Delta t^{n+1}+\Delta t^n}{\Delta t^{n+1} \left( \Delta t^{n+1}+\Delta t^n \right)} \,,\,
-\omega_1 = -\frac{\Delta t^{n+1}+\Delta t^n}{\Delta t^{n+1} \Delta t^n}  \\
-\text{, and } \omega_2 = \frac{\Delta t^{n+1}}{\Delta t^n \left( \Delta t^{n+1} + \Delta t^n \right)} \nonumber
+\omega_0 =\frac{2\Delta t^{n+1}+\Delta t^n}{\Delta t^{n+1} \left( \Delta t^{n+1}+\Delta t^n \right)} \, , \ 
+\omega_1 = -\frac{\Delta t^{n+1}+\Delta t^n}{\Delta t^{n+1} \Delta t^n}  \, , \\
+\text{ and } \omega_2 = \frac{\Delta t^{n+1}}{\Delta t^n \left( \Delta t^{n+1} + \Delta t^n \right)} \nonumber
 \end{multline}
 where $\Delta t^{n} = t^n-t^{n-1}$ and $\Delta t^{n+1} = t^{n+1}-t^{n}$.
 %---------------------------------------------------------------------------------------------------
