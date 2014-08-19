@@ -898,9 +898,10 @@ The derivation for $\norm_P^\mu$ is similar and yields
 \end{array}
 \right. \,.
 \end{equation}
-A smooth function to transition between these two states is the shifted sigmoid function
+A smooth function to transition between these two states is as follows: % the shifted sigmoid function
 \begin{equation}
- \sigma(M) = \frac{1}{1+\exp\big(-(M-M^\text{thresh})\big)} \,,
+% \sigma(M) = \frac{1}{1+\exp\big(-(M-M^\text{thresh})\big)} \,,
+ \sigma(M) = \frac{\tanh\big(a(M-M^\text{thresh})\big) + | \tanh\big(a(M-M^\text{thresh})\big) | }{2} \,,
 \end{equation}
 where $M^\text{thresh}$ is a threshold Mach number value beyond which the flow is no longer 
 considered  to be low-Mach (we use $M^\text{thresh}=0.05$), $M$ is the local Mach number, 
