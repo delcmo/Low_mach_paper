@@ -859,34 +859,18 @@ regularization of the continuity equation unaffected because $\Pe_\infty = 1$.
 %
 
 %===================================================================================================
-\subsection{New normalization for the entropy residual} \label{sec:new_normaliz}
+\subsection{An All-speed normalization of the entropy residual} \label{sec:new_normaliz}
 %===================================================================================================
 
 The study of the above limit cases yields two different possible scalings for the Reynolds number: 
-$\Re_\infty = 1$ in the isentropic case and $\Re_\infty  = M_\infty^2$ for non-isentropic case, 
+$\Re_\infty = 1$ in the low-Mach limit and $\Re_\infty  = M_\infty^2$ for non-isentropic flows, 
 whereas the numerical P\'eclet number always scales as one. In order to have a stabilization method 
-valid for a wide range of Mach numbers, including situations with shocks, these two scalings should 
-be combined in a unique definition. The non-dimensionalized entropy residual, $\resinew^*$, scales 
-differently for differing flow types (isentropic and non-isentropic) \cite{alazard}. For isentropic 
-flows, the non-dimensionalized entropy residual is known to scale as the Mach number. For non-isentropic 
-flows, the non-dimensionalized entropy residual is large and presents a peak at the location of the shock. 
-Thus, by inspecting the  \emph{local} variation of the non-dimensionalized entropy residual, an 
-appropriate transition for the scaling of the Reynolds number can be obtained:
-\begin{equation}  
-\label{eq:norm_ent}
-\Re_\infty =  \left\{
-\begin{array}{ll}
-M^2  & \text{ if } \left| \resinew^* \right| \geq M \text{ (i.e., non-isentropic flow)} \\
-1    & \text{ otherwise}
-\end{array}
-\right.
-\, .
-\end{equation}
+valid for a wide range of Mach numbers, from very low-Mach to supersonic flows, these two scalings should 
+be combined in a unique definition. 
 
-Now that we have determined a scaling for $\Re_\infty$ and $\Pe_\infty$, the normalization parameters 
-$\norm_P^\mu$ and $\norm_P^\kappa$ can be finalized. For brevity, only the steps leading to the 
-derivation of $\norm_P^\kappa$ are provided; the algebra for $\norm_P^\mu$ is similar. Using the 
-definition of the viscosity coefficients given in \eqt{eq:visc_definition} and the scaling of \eqt{eq:norm_param}, it can be shown that:
+We begin with the  normalization parameter $\norm_P^\kappa$. Using the 
+definition of the viscosity coefficients given in \eqt{eq:visc_definition} and the scaling of 
+\eqt{eq:norm_param}, it can be shown that:
 %
 \begin{equation}
 \label{eq:norm_relation}
@@ -894,7 +878,8 @@ definition of the viscosity coefficients given in \eqt{eq:visc_definition} and t
 \end{equation}
 %
 where $\norm_{P,\infty}$ is the reference far-field quantity for the normalization parameter $\norm_P$. 
-Substituting \eqt{eq:norm_relation} into \eqt{eq:ref_numb} and recalling that the numerical P\'eclet number scales as unity, we obtain:
+Substituting \eqt{eq:norm_relation} into \eqt{eq:ref_numb} and recalling that the numerical P\'eclet 
+number scales as unity, we obtain:
 %
 \begin{equation}
 \label{eq:norm_relation_bis}
@@ -902,29 +887,96 @@ Substituting \eqt{eq:norm_relation} into \eqt{eq:ref_numb} and recalling that th
 \end{equation}
 %
 \eqt{eq:norm_relation_bis} provides a proper normalization factor to define the $\kappa$ viscosity coefficient.
-% the normalization parameter $\norm_P^\kappa$ should scale as $\rho_\infty c_\infty^2$, which leaves us with two options:
-%either $\norm_P = \rho c^2$ or $\norm_P = P$. The choice was made to use $\norm_P^{\kappa} = \rho c^2$ in the low-Mach limit: it was found to behave well and the pressure can become locally negative and null in some particular case as shown in \sct{sec:results}. 
-Similarly, the normalization parameter $\norm_P^\mu$ for the $\mu$ viscosity coefficient is derived for the two cases given in \eqt{eq:norm_ent}:
 %
+The derivation for $\norm_P^\mu$ is similar and yields
 \begin{equation}
 \label{eq:norm_ent2}
 \norm_P^\mu = \Re_\infty \rho_\infty c_\infty^2 =  \left\{
 \begin{array}{ll}
- \rho ||\vec{u} ||^2       & \text{ if } \left| \resinew^* \right| \geq M \text{ (i.e., non-isentropic flow)} \\
- \rho c^2 = \norm_P^\kappa & \text{ otherwise}
+ \rho ||\vec{u} ||^2       & \text{ for non-isentropic flows} \\
+ \rho c^2 = \norm_P^\kappa & \text{ for low-Mach flows}
 \end{array}
 \right. \,.
 \end{equation}
+A smooth function to transition between these two states is the shifted sigmoid function
+\begin{equation}
+ \sigma(M) = \frac{1}{1+\exp\big(-(M-M^\text{thresh})\big)} \,,
+\end{equation}
+where $M^\text{thresh}$ is a threshold Mach number value beyond which the flow is no longer 
+considered  to be low-Mach (we use $M^\text{thresh}=0.05$), $M$ is the local Mach number, 
+and the scalar $a$ determines how rapid the transition from  
+$\norm_P^\mu= \rho c^2$ to $\norm_P^\mu=\rho \| \vec{u}\|^2$ occurs in the vicinity of $M^\text{thresh}$. 
+It is easy to verify that
+\begin{equation}
+\label{eq:norm_ent3}
+\norm_P^\mu = (1-\sigma(M)) \rho c^2  + \sigma(M)  \rho ||\vec{u} ||^2  
+\end{equation}
+satisfies \eqt{eq:norm_ent2}.
+%%%%%%%%%%%%%%%%%%%%%%%%%% OLD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-
-Finally, we summarize the definition of the viscosity coefficients $\mu$ and $\kappa$ devised here:
+%The non-dimensionalized entropy residual, $\resinew^*$, scales 
+%differently for differing flow types (isentropic and non-isentropic) \cite{alazard}. For isentropic 
+%flows, the non-dimensionalized entropy residual is known to scale as the Mach number. For non-isentropic 
+%flows, the non-dimensionalized entropy residual is large and presents a peak at the location of the shock. 
+%Thus, by inspecting the  \emph{local} variation of the non-dimensionalized entropy residual, an 
+%appropriate transition for the scaling of the Reynolds number can be obtained:
+%\begin{equation}  
+%\label{eq:norm_ent}
+%\Re_\infty =  \left\{
+%\begin{array}{ll}
+%M^2  & \text{ if } \left| \resinew^* \right| \geq M \text{ (i.e., non-isentropic flow)} \\
+%1    & \text{ otherwise}
+%\end{array}
+%\right.
+%\, .
+%\end{equation}
+%
+%Now that we have determined a scaling for $\Re_\infty$ and $\Pe_\infty$, the normalization parameters 
+%$\norm_P^\mu$ and $\norm_P^\kappa$ can be finalized. For brevity, only the steps leading to the 
+%derivation of $\norm_P^\kappa$ are provided; the algebra for $\norm_P^\mu$ is similar. Using the 
+%definition of the viscosity coefficients given in \eqt{eq:visc_definition} and the scaling of \eqt{eq:norm_param}, it can be shown that:
+%%
+%\begin{equation}
+%\label{eq:norm_relation}
+%\kappa_\infty = \frac{ \rho_\infty c_\infty^2 u_\infty L }{ \norm_{P,\infty}^{\kappa} } \, ,
+%\end{equation}
+%%
+%where $\norm_{P,\infty}$ is the reference far-field quantity for the normalization parameter $\norm_P$. 
+%Substituting \eqt{eq:norm_relation} into \eqt{eq:ref_numb} and recalling that the numerical P\'eclet number scales as unity, we obtain:
+%%
+%\begin{equation}
+%\label{eq:norm_relation_bis}
+%\norm_{P,\infty}^{\kappa} = \Pe_\infty \rho_\infty c_\infty^2 = \rho_\infty c_\infty^2 \, .
+%\end{equation}
+%%
+%\eqt{eq:norm_relation_bis} provides a proper normalization factor to define the $\kappa$ viscosity coefficient.
+%% the normalization parameter $\norm_P^\kappa$ should scale as $\rho_\infty c_\infty^2$, which leaves us with two options:
+%%either $\norm_P = \rho c^2$ or $\norm_P = P$. The choice was made to use $\norm_P^{\kappa} = \rho c^2$ in the low-Mach limit: it was found to behave well and the pressure can become locally negative and null in some particular case as shown in \sct{sec:results}. 
+%Similarly, the normalization parameter $\norm_P^\mu$ for the $\mu$ viscosity coefficient is derived for the two cases given in \eqt{eq:norm_ent}:
+%%
+%\begin{equation}
+%\label{eq:norm_ent2}
+%\norm_P^\mu = \Re_\infty \rho_\infty c_\infty^2 =  \left\{
+%\begin{array}{ll}
+ %\rho ||\vec{u} ||^2       & \text{ if } \left| \resinew^* \right| \geq M \text{ (i.e., non-isentropic flow)} \\
+ %\rho c^2 = \norm_P^\kappa & \text{ otherwise}
+%\end{array}
+%\right. \,.
+%\end{equation}
+%%
+%
+%%%%%%%%%%%%%%%%%%%%%% END OLD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+Finally, we summarize the definition of the viscosity coefficients $\mu$ and $\kappa$ for completeness: 
 %
 \begin{subequations}
 \label{eq:final_def_visc_coeff}
 %
 \begin{equation}
-\mu(\vec{r},t)    = \min \Big (\mu_{\max}(\vec{r},t), \mu_e (\vec{r},t)    \Big) \text{  and  }
-\kappa(\vec{r},t) = \min \Big (\mu_{\max}(\vec{r},t), \kappa_e (\vec{r},t) \Big ) 
+\kappa(\vec{r},t) = \min \Big (\mu_{\max}(\vec{r},t)\,, \kappa_e (\vec{r},t) \Big ) \,,
+\end{equation}
+\begin{equation}
+\mu(\vec{r},t)    = \min \Big (\mu_{\max}(\vec{r},t)\,, \mu_e (\vec{r},t)    \Big) \,,
 \end{equation}
 %
 where the first-order viscosity is given by
@@ -946,16 +998,18 @@ J = || \vec{u} || \max \Big ( [[ \grad P \cdot \vec{n} ]], c^2 [[\grad \rho \cdo
 \end{equation}
 \end{subequations}
 %
-where $\norm_P^\kappa$ is computed from \eqt{eq:norm_ent2}. The jump $J$ is a function of the jump of pressure 
+where $\norm_P^\kappa$ is computed from \eqt{eq:norm_ent3}. The jump $J$ is a function of the jump of pressure 
 and density gradients across the face with respect to its normal vector $\vec{n}$. Then, the largest value 
 over all faces is determined and used in the definition of the viscosity coefficients.
-
+%
 With the definition of the viscosity coefficients $\mu$ and $\kappa$ proposed in \eqt{eq:final_def_visc_coeff}, 
-the low-Mach asymptotic limit is ensured for isentropic flow, and transonic flows with shocks will be correctly resolved. 
+the dissipative terms are expected to scale appropriately for very low-Mach regimes as well for transonic
+and supersonic flows. 
+% with shocks will be correctly resolved. 
 %The viscosity coefficients are only function of local variables and thus should accurately resolved complex flow where both incompressible and compressible regimes coexist. 
-As the flow becomes locally supersonic, the viscosity coefficients $\mu$ and $\kappa$ will be of the 
-same order of magnitude, which is consistent with the original definition of the entropy viscosity 
-method \cite{jlg1, jlg2} recalled in \sct{sec:background}.
+%As the flow becomes locally supersonic, the viscosity coefficients $\mu$ and $\kappa$ will be of the 
+%same order of magnitude, which is consistent with the original definition of the entropy viscosity 
+%method \cite{jlg1, jlg2} recalled in \sct{sec:background}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%s%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
