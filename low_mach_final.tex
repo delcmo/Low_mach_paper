@@ -510,10 +510,9 @@ derivative ($\partial_n = \grad \cdot \vec{n}$) across the common face separatin
 be further referred to as the inter-element jump. We take the largest value over all faces $f$ present on the 
 boundary $\partial K$ of element $K$:
 %
-\tcr{I added $\| \vec{u} \|$ below. The units between the residual and the jumps were not the same. Check} \tcb{it is correct}
 \begin{equation}
 \label{eq:jump_CFEM}
-J^K[s](t) = \max_{f\in\partial K}  \max_{\vec{r}_q \in f} \| \vec{u}(\vec{r}_q,t) \| \jmp{\grad s(\vec{r}_q,t) \cdot \vec{n}(\vec{r}_q) }_f \, ,
+J^K[s](t) = \max_{f\in\partial K}  \max_{\vec{r}_q \in f} \Big \| \vec{u}(\vec{r}_q,t) \| \jmp{\grad s(\vec{r}_q,t) \cdot \vec{n}(\vec{r}_q) }_f \Big) \, ,
 \end{equation}
 %
 where $\jmp{a(\vec{r}_q)}_f$ denotes the inter-element jump in $a(\vec{r})$ at quadrature point $\vec{r}_q$ on face $f$ 
@@ -1199,7 +1198,7 @@ convergence of the numerical solution to the exact solution.
 A slow moving shock is also investigated \cite{james}. This test helps in assessing the ability of 
 the method to damp the post-shock low frequency noise (oscillations). 
 %
-Finally, a strong shock for a liquid phase \tcr{(Mach number around 0.1)}\tcr{I added this info. Check if you agree} \tcb{it is correct} is also performed \cite{abgrall}.
+Finally, a strong shock for a liquid phase (Mach number around 0.1) is also performed \cite{abgrall}.
 
 The initial conditions for the aforementioned 1-D test cases are given in \tbl{tbl:ic_1d_tests}.
 \begin{table}[!htbp]
@@ -1221,7 +1220,7 @@ $1$ & $-0.81$ & $1$ & $3.86$ & $-3.44$ & $10.33$                                
 The 2-D simulations are outlined next. 
 First, 2-D subsonic flows around a cylinder \cite{LowMach3} and over a circular hump \cite{Hump} 
 are presented for various far-field Mach numbers (as low of $10^{-7}$). Numerical results of a 
-supersonic \tcr{you had transonic here but I think this problem is 100\% supersonic} \tcb{it is probably better to use supersonic instead of transonic since the inlet is supersonic} flow over a compression corner are provided to illustrate the ability of the new viscosity 
+supersonic flow over a compression corner are provided to illustrate the ability of the new viscosity 
 definitions to handle supersonic flows. Convergence studies are performed when analytical solutions are available. 
 
 For each simulation, data relative to the boundary conditions, the Courant-Friedrichs-Lewy number ($CFL$), 
@@ -1233,7 +1232,7 @@ conservative variables. \tcr{I have removed your portion about the total residua
 you don't clearly define total residual. Since we are implicit and thus have nonlinear residual in Newton solves, a 
 reader may think you're talking about that residual. I think you wanted to say norm of the steady state residual, but
 in this case we still need to define it. I decided to say something simpler, rate of change, that means $\frac{u^{n+1}-u^n}{\Delta t}$
-but this may be wrong as well. It depends on how the steady-state residual are defined. Are they multiplied by $\Delta t$ or not. Please advise\\} \tcb{The stt residual is not multiplied by $\Delta t$ if I remember correctly. I monitored the norm of the total residual (time dependent and stt terms) and started with a residual of the order of $10$}
+but this may be wrong as well. It depends on how the steady-state residual are defined. Are they multiplied by $\Delta t$ or not. Please advise\\} \tcb{The stt residual is not multiplied by $\Delta t$ if I remember correctly. I monitored the norm of the total residual (time dependent and stt terms) and started with a residual of the order of $10$} \tcr{your definitions of residual above, ss + time terms, is what you want your Newton solve to reduce to a small value. Newton does this at every time step during the transient. I still do not understand how monitoring this value tells you when ss is reached. Don't you agree that this residual is driven to 0 by Newton at every time step?}
 The ideal gas \cite{IGEOS} or stiffened gas equations of state \cite{SGEOS} are used; a 
 generic expression is given in \eqt{eq:eos}.
 %
@@ -1260,7 +1259,7 @@ liquid water (\sct{sec:liquid_shock})  & 4.4      & 1000                       &
 \end{center}
 \end{table}
 %
-The entropy function for the stiffened gas equation of state is concave \tcr{am I tired or should this be concave?} \tcb{done} and given by
+The entropy function for the stiffened gas equation of state is concave \tcr{am I tired or should this be concave?} \tcb{done} \tcr{Ok. It's likely still wrong in the dissertation files. You can delete these comments after you read this.} and given by
 %
 \begin{equation*}
 s = C_v \ln \left( \frac{P+P_\infty}{\rho^{\gamma-1}} \right) ,
@@ -1286,7 +1285,30 @@ Second, here I believe that you do have an exact solution available. So, why do 
 $[u(2h)-u(exact)]/[u(h)-u(exact)] = 2^p$.
 So, why use the formula that requires 3 data points when you do have the exact solution and just need two data points?
 }
-\tcb{I only did convergence tests using the exact solution. I modified the formula. I do not know what happened but this is not the one I used.}
+\tcb{I only did convergence tests using the exact solution. I modified the formula. I do not know what happened but this is not the one I used.} \tcr{I am very confused. Why don't you have a data point for the 4-cell run in tables 3 and 4 then?  Do you want to know why? Here are the density convergence rates computed with the 3-data-point formula:}
+                       n/a  \\
+         0.497853160115594  \\ 
+          2.10066309721854  \\
+          2.58043832278016  \\
+          2.30875723293862  \\
+          2.17681585582442  \\
+          2.08147540790485  \\
+          2.07422068901013  \\
+                       n/a  \\
+\tcr{Exactly what you have in your table. So, yes, the 3-data-point is what you used to generate the rates in tables 3-4.
+%
+The 2-data-point formula would give these values:}
+                      n/a   \\                        
+         1.07124891291942   \\ 
+         2.18352054680744   \\
+         2.52253088089074   \\
+         2.27555126516373   \\
+         2.15464731325216   \\
+         2.08062517386829   \\
+         2.07788241680274   \\
+         2.08974364066811   \\
+\tcr{Clearly, yo do NOT have these values.			Any reviewer can check this in 3 minutes. Stating we did it one way but doing it another way can hurt credibility. It makes sense to use the 2-pt formula when the exact solution is known, so please change the rates of tables 3-4 so that they are indeed computed with the 2-pt formula.}
+
 %---------------------------------------------------------------------------------------------------
 \subsection{Liquid water in a 1-D converging-diverging nozzle} \label{sec:liquid_nozzle}
 %---------------------------------------------------------------------------------------------------
@@ -1344,7 +1366,7 @@ illustration of the effect of ill-scaled dissipative terms.
 Note that the entropy viscosity coefficient is very small compared to the first-order one (\fig{fig:1d_nozzle_liq_visc}): 
 (i) the numerical solution is smooth as shown in \fig{fig:1d_liq_nozzle} and (ii) the flow is in a isentropic low-Mach regime 
 %and thus isentropic 
-\tcr{should we keep isentropic here? maybe} \tcb{done}. A convergence study was performed using the exact solution as a reference: the L$_1$ and L$_2$ norms of the 
+A convergence study was performed using the exact solution as a reference: the L$_1$ and L$_2$ norms of the 
 error and the corresponding convergence rates are computed at steady state on various uniform meshes from 4 to 256 cells.
 Spatial convergence results using linear finite elements are reported in \tbl{tbl:l1_norm_liq} and \tbl{tbl:l2_norm_liq} 
 for the primitive variables: density, velocity and pressure.
@@ -1471,6 +1493,16 @@ $640$& $0.0059715$ $10^{-2}$ & $1.0160$  & $1.2754$ $10^{3}$ & $0.9776$  & $1.83
 \end{center}
 \nonumber
 \end{table}
+\tcr{I was NOT able to reproduce all of the L1 density convergence rates with the 2-pt formula. I have\\
+         0.800897725302031\\
+          1.01042916619427\\
+          1.14172018626244\\
+         0.985401280471854\\
+          4.30369311248011\\
+         0.206566651507186\\
+          1.79819701118663\\
+My last 3 rates are wrong. 	It could be because you table does not give enough digits but you give many digits so please investigate this.}
+
 \begin{table}[H]
 \begin{center}
  \caption{\label{tbl:l2_norm_vap} L$_2$ norm of the error for the vapor phase in a 1-D converging-diverging nozzle at steady state.}
@@ -1489,7 +1521,7 @@ $640$ & $5.2191$ $10^{-2}$  & $0.44190$ & $9.4217$ $10^{3}$ & $0.43790$ & $16.91
 \end{center}
 \nonumber
 \end{table}
-
+\tcr{I was able to reproduce the L2 density convergence rate with the 2-pt formula. Table 6 is Ok}
 %---------------------------------------------------------------------------------------------------
 \subsection{Leblanc shock tube} \label{sec:Leblanc}
 %---------------------------------------------------------------------------------------------------
@@ -2202,7 +2234,6 @@ or known to be positive. Thus, the entropy minimum principle holds.
 \section{Entropy residual with a barotropic equations of state} \label{app:ise_equ}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\tcr{what is an isentropic EoS? Do you want to say entropy residual formulation with a barotropic fluid instead?} \tcb{done}
 
 This appendix shows that the entropy residual is zero when assuming an isentropic flow. The entropy residual as a 
 function of the pressure, density, velocity, and speed of sound is recalled here:
@@ -2210,7 +2241,6 @@ function of the pressure, density, velocity, and speed of sound is recalled here
 \begin{equation}\label{eq:app_entr}
 \resinew = \matder P - c^2  \matder \rho \,.
 \end{equation}
-\tcr{check everywhere in this section. I have put the material derivative sign where you only had $d/dt$.} \tcb{looks good}
 %
 Assuming an isentropic flow, the pressure is only a function of the density $P = f( \rho )$ or $\rho = f^{-1}( P )$. 
 Using the definition of the speed of sound $c^2 = \left. \frac{\partial P}{\partial \rho} \right)_s$ and the above 
