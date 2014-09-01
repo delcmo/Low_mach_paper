@@ -235,7 +235,7 @@ The 1-D 7-equation model with viscous stabilization is discretized with {\it con
 %
 where the interfacial area is set to a large value, $A_{int} = 10^4 m^{-1}$, so that the two phases achieve pressure and velocity equilibrium at all time. The geometry is discretized with an uniform mesh of 500 cells and the simulation is run with a CFL of 1 until $t_{final} = 305$ $\mu s$. The numerical results are presented in\fig{fig:pressure} to \ref{fig:viscosity_coeff_beta}. An exact solution for this shock tube test is not available but numerical results obtained with a discontinuous scheme on a moving mesh can be found in \cite{Saurel_2007} and use for comparison.\\
 
-As expected, the two fluids have the same pressure and velocity profiles as shown in \fig{fig:pressure} and \fig{fig:velocity}, respectively. The shock is well resolved and does not display any instability. The density of phases 1 and 2 have different values but experience similar variations (shock, contact and rarefaction waves), as shown in \fig{fig:density}. The volume fraction varies because of the pressure relaxation term (\eqt{eq:vf_eq}) and displays a shock wave around $x=0.7$ $m$ as shown in \fig{fig:volume_fraction}. Consequently, the viscosity coefficient $\beta_k$ is peaked in the shock region and also displays a second peak of lower amplitude at the location of the contact wave. Overall, the numerical solution is efficiently stabilized by the entropy viscosity method and the discontinuities are well resolved. %The viscosity coefficients are peaked in the shock region and thus, behave as expected. 
+As expected, the two fluids have the same pressure and velocity profiles as shown in \fig{fig:pressure} and \fig{fig:velocity}, respectively. The shock is well resolved and does not display any instability. The density of phases 1 and 2 have different values but experience similar variations (shock, contact and rarefaction waves), as shown in \fig{fig:density}. The volume fraction varies because of the pressure relaxation term (\eqt{eq:vf_eq}) and displays a shock wave around $x=0.7$ $m$ as shown in \fig{fig:volume_fraction}. Consequently, the viscosity coefficient $\beta_k$ is peaked in the shock region and also displays a second peak of lower amplitude at the location of the contact wave. \fig{fig:viscosity_coeff_vap} and \fig{fig:viscosity_coeff_liq} show the viscosity coefficients $\mu_k$ and $\kappa_k$ for phase $1$ and $2$, respectively: they are peaked in the shock region and also display a smaller peak in the contact wave. Overall, the numerical solution is efficiently stabilized by the entropy viscosity method and the discontinuities are well resolved. %The viscosity coefficients are peaked in the shock region and thus, behave as expected. 
 
 %The same 1-D shock tube could be run when setting the relaxation coefficients to zero: the two fluids would behave independently of each other and the volume fraction would remain constant. This test is 
 %of area $A = 10^{-4}$ $m^2$ with a wall heat source (the wall temperature is constant: $T_w = 550$ $K$). The stiffened gas equation of state is used to model the liquid and vapor phases with the parameters taken from \cite{SGEOS} for each phase. A static pressure of $P=7.1$ $MPa$ is set at the outlet. The volume fraction, the enthalpy and the mass flow rate are specified at the inlet for each phase. The wall friction coefficient is constant and the same for the two phases, $f_w = 4 \times 10^{-2}$. The interfacial area $A_{int}$ is set to a large value to equalize the pressure and velocity of the two phases (the 7-equation model degenerates in to the 5-equation model). The initial conditions are uniform. The geometry is discretized with a uniform mesh of 100 elements and the simulation is run with $CFL=100$  until a steady state is obtained. 
@@ -284,22 +284,19 @@ We have presented an extension of the entropy viscosity method to the 1-D 7-equa
         %\end{subfigure}
 				%\caption{Pressure, density, velocity and void fraction at steady state.}
 \end{figure}
-\begin{figure}[H]
-        
-        \begin{subfigure}[b]{0.495\textwidth}
+\begin{figure}[H]    
+%        \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{plots/relaxation_two_phases_liquid_viscosity_kappa_mu.png}
+                \includegraphics[width=0.495\textwidth]{plots/relaxation_two_phases_liquid_viscosity_kappa_mu.png}
                 \caption{Viscosity coefficients for phase 1}
                 \label{fig:viscosity_coeff_liq}
-        \end{subfigure}        
-				
-        \begin{subfigure}[b]{0.495\textwidth}
+\end{figure}
+\begin{figure}[H]								
+%        \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{plots/relaxation_two_phases_vapor_viscosity_kappa_mu.png}
+                \includegraphics[width=0.495\textwidth]{plots/relaxation_two_phases_vapor_viscosity_kappa_mu.png}
                 \caption{Viscosity coefficients for phase $2$}
-                \label{fig:viscosity_coeff_vap}
-        \end{subfigure}        
-        \caption{Artificial viscosity coefficients.}
+                \label{fig:viscosity_coeff_vap}      
 \end{figure}
 \begin{figure}[H]				
         %\begin{subfigure}[b]{0.495\textwidth}
