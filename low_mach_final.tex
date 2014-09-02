@@ -217,7 +217,7 @@ equations of state are employed.
 \section{Introduction} \label{sec:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\tcr{I need to continue working on the Introduction}
+\tcr{I need to continue working on the Introduction} \tcb{what is it you want to change?}
 
 %\tcr{ not finished yet\\
 %Items to mention:
@@ -540,9 +540,9 @@ examples and various 2-D tests \cite{jlg1, jlg2, valentin}.
 \subsection{Issues in the Low-Mach Regime} 
 %===================================================================================================
 \tcr{I worked on Yunhuang's 2 papers last week so I will let you change, wherever needed, isentropic for 
-low-Mach as was suggested during your defense. If I recall correctly, we said } \tcb{ I still have to do this}
+low-Mach as was suggested during your defense. If I recall correctly, we said } \tcb{done}
 
-In the low-Mach Regime, the flow is known to approach the isentropic limit, resulting in very little 
+In the low-Mach Regime, a smooth flow is known to approach the isentropic limit, resulting in very little 
 entropy production. Since the entropy viscosity method is directly based on the evaluation of the 
 local entropy production, it is of interest to study how the entropy viscosity coefficients $\mu_e$ 
 and $\kappa_e$ scale in the low-Mach regime. In practice, the entropy residual $\resi$ will be very 
@@ -574,7 +574,7 @@ transonic and supersonic flows.
 The first step in defining viscosity coefficients that behave well in the low-Mach limit is to recast 
 the entropy residual in terms of thermodynamic variables. This provides physical insight on possible 
 normalization choices that can be valid in both low-Mach and transonic flows. The alternate definition 
-of the entropy residual, the derivation of which is given in Appendix A, is given %in \eqt{eq:ent_res}. The derivation that leads to this equation is provided in \app{app:ent_res}. 
+of the entropy residual, the derivation of which is given in Appendix A, is the following: %in \eqt{eq:ent_res}. The derivation that leads to this equation is provided in \app{app:ent_res}. 
 %
 \begin{equation}
 \label{eq:ent_res}
@@ -624,7 +624,7 @@ coefficients can be different. The low-Mach asymptotic study presented next will
 
 The Euler equations with viscous stabilization, \eqt{eq:ent_visc_coeff}, bear some similarities with 
 the Navier-Stokes equations in the sense that dissipative terms (containing second-order spatial derivatives) 
-are present in both sets of equations. An abundant literature exists regarding the low-Mach asymptotics 
+are present in both sets of equations. An abundant literature exists regarding the low-Mach asymptotic 
 of the Navier-Stokes equations \cite{LowMach1, LowMach2, LowMach3, Muller}.   
 %
 The asymptotic study presented here is inspired by the work of Muller et al. \cite{Muller} where 
@@ -1228,11 +1228,14 @@ mesh and equation of state are provided. All of the numerical solutions presente
 as temporal integrator and linear (1-D mesh), $\mathbb{P}_1$ (2-D triangular mesh), and $\mathbb{Q}_1$ 
 (2-D quadrangular mesh) finite elements. The spatial integrals are numerically computed using a second-order 
 Gauss quadrature rule. Steady-state is detected in a transient simulation by monitoring the rate of change of the
-conservative variables. \tcr{I have removed your portion about the total residual falling below $10^{-6}$: 
-you don't clearly define total residual. Since we are implicit and thus have nonlinear residual in Newton solves, a 
-reader may think you're talking about that residual. I think you wanted to say norm of the steady state residual, but
-in this case we still need to define it. I decided to say something simpler, rate of change, that means $\frac{u^{n+1}-u^n}{\Delta t}$
-but this may be wrong as well. It depends on how the steady-state residual are defined. Are they multiplied by $\Delta t$ or not. Please advise\\} \tcb{The stt residual is not multiplied by $\Delta t$ if I remember correctly. I monitored the norm of the total residual (time dependent and stt terms) and started with a residual of the order of $10$} \tcr{your definitions of residual above, ss + time terms, is what you want your Newton solve to reduce to a small value. Newton does this at every time step during the transient. I still do not understand how monitoring this value tells you when ss is reached. Don't you agree that this residual is driven to 0 by Newton at every time step?}
+conservative variables. 
+%
+%\tcr{I have removed your portion about the total residual falling below $10^{-6}$: 
+%you don't clearly define total residual. Since we are implicit and thus have nonlinear residual in Newton solves, a 
+%reader may think you're talking about that residual. I think you wanted to say norm of the steady state residual, but
+%in this case we still need to define it. I decided to say something simpler, rate of change, that means $\frac{u^{n+1}-u^n}{\Delta t}$
+%but this may be wrong as well. It depends on how the steady-state residual are defined. Are they multiplied by $\Delta t$ or not. Please advise\\} \tcb{The stt residual is not multiplied by $\Delta t$ if I remember correctly. I monitored the norm of the total residual (time dependent and stt terms) and started with a residual of the order of $10$} \tcr{your definitions of residual above, ss + time terms, is what you want your Newton solve to reduce to a small value. Newton does this at every time step during the transient. I still do not understand how monitoring this value tells you when ss is reached. Don't you agree that this residual is driven to 0 by Newton at every time step?}
+%
 The ideal gas \cite{IGEOS} or stiffened gas equations of state \cite{SGEOS} are used; a 
 generic expression is given in \eqt{eq:eos}.
 %
@@ -1259,7 +1262,9 @@ liquid water (\sct{sec:liquid_shock})  & 4.4      & 1000                       &
 \end{center}
 \end{table}
 %
-The entropy function for the stiffened gas equation of state is concave \tcr{am I tired or should this be concave?} \tcb{done} \tcr{Ok. It's likely still wrong in the dissertation files. You can delete these comments after you read this.} and given by
+The entropy function for the stiffened gas equation of state is concave 
+%\tcr{am I tired or should this be concave?} \tcb{done} \tcr{Ok. It's likely still wrong in the dissertation files. You can delete these comments after you read this.} 
+and given by
 %
 \begin{equation*}
 s = C_v \ln \left( \frac{P+P_\infty}{\rho^{\gamma-1}} \right) ,
@@ -1277,37 +1282,37 @@ Finally, the convergence rates are computed using the following relation
 \end{equation}
 where $|| \cdot ||$ denotes either the L$_1$ or L$_2$ norms and $h$ is the characteristic grid size.
 
-\tcr{What is this formula for the convergence rates?
-First, if the exact solution is NOT known, then the formula should be
- $[u(2h)-u(h)]/[u(h)-u(h/2)]=2^p$. 
-That is, without u(exact) at all! Why do you need 3 numerical values to get the rate? Because you have 3 unknowns: u(exact), the error constant C, and p.\\
-Second, here I believe that you do have an exact solution available. So, why do you need 3 numerical solutions? Two solutions would be enough:
-$[u(2h)-u(exact)]/[u(h)-u(exact)] = 2^p$.
-So, why use the formula that requires 3 data points when you do have the exact solution and just need two data points?
-}
-\tcb{I only did convergence tests using the exact solution. I modified the formula. I do not know what happened but this is not the one I used.} \tcr{I am very confused. Why don't you have a data point for the 4-cell run in tables 3 and 4 then?  Do you want to know why? Here are the density convergence rates computed with the 3-data-point formula:}
-                       n/a  \\
-         0.497853160115594  \\ 
-          2.10066309721854  \\
-          2.58043832278016  \\
-          2.30875723293862  \\
-          2.17681585582442  \\
-          2.08147540790485  \\
-          2.07422068901013  \\
-                       n/a  \\
-\tcr{Exactly what you have in your table. So, yes, the 3-data-point is what you used to generate the rates in tables 3-4.
-%
-The 2-data-point formula would give these values:}
-                      n/a   \\                        
-         1.07124891291942   \\ 
-         2.18352054680744   \\
-         2.52253088089074   \\
-         2.27555126516373   \\
-         2.15464731325216   \\
-         2.08062517386829   \\
-         2.07788241680274   \\
-         2.08974364066811   \\
-\tcr{Clearly, yo do NOT have these values.			Any reviewer can check this in 3 minutes. Stating we did it one way but doing it another way can hurt credibility. It makes sense to use the 2-pt formula when the exact solution is known, so please change the rates of tables 3-4 so that they are indeed computed with the 2-pt formula.}
+%\tcr{What is this formula for the convergence rates?
+%First, if the exact solution is NOT known, then the formula should be
+% $[u(2h)-u(h)]/[u(h)-u(h/2)]=2^p$. 
+%That is, without u(exact) at all! Why do you need 3 numerical values to get the rate? Because you have 3 unknowns: u(exact), the error constant C, and p.\\
+%Second, here I believe that you do have an exact solution available. So, why do you need 3 numerical solutions? Two solutions would be enough:
+%$[u(2h)-u(exact)]/[u(h)-u(exact)] = 2^p$.
+%So, why use the formula that requires 3 data points when you do have the exact solution and just need two data points?
+%}
+%\tcb{I only did convergence tests using the exact solution. I modified the formula. I do not know what happened but this is not the one I used.} \tcr{I am very confused. Why don't you have a data point for the 4-cell run in tables 3 and 4 then?  Do you want to know why? Here are the density convergence rates computed with the 3-data-point formula:}
+%                       n/a  \\
+%         0.497853160115594  \\ 
+%          2.10066309721854  \\
+%          2.58043832278016  \\
+%          2.30875723293862  \\
+%          2.17681585582442  \\
+%          2.08147540790485  \\
+%          2.07422068901013  \\
+%                       n/a  \\
+%\tcr{Exactly what you have in your table. So, yes, the 3-data-point is what you used to generate the rates in tables 3-4.
+%%
+%The 2-data-point formula would give these values:}
+%                      n/a   \\                        
+%         1.07124891291942   \\ 
+%         2.18352054680744   \\
+%         2.52253088089074   \\
+%         2.27555126516373   \\
+%         2.15464731325216   \\
+%         2.08062517386829   \\
+%         2.07788241680274   \\
+%         2.08974364066811   \\
+%\tcr{Clearly, yo do NOT have these values.			Any reviewer can check this in 3 minutes. Stating we did it one way but doing it another way can hurt credibility. It makes sense to use the 2-pt formula when the exact solution is known, so please change the rates of tables 3-4 so that they are indeed computed with the 2-pt formula.}
 
 %---------------------------------------------------------------------------------------------------
 \subsection{Liquid water in a 1-D converging-diverging nozzle} \label{sec:liquid_nozzle}
@@ -1378,14 +1383,14 @@ for the primitive variables: density, velocity and pressure.
  \hline
 cells & density         & rate   & pressure        & rate    & velocity         & rate     \\ \hline
 4    & 2.8037 $10^{-1}$ & $-$    & 8.4705 $10^{5}$ & $-$     & 7.2737           & $-$      \\ \hline
-8    & 1.3343 $10^{-1}$ & 0.495 & 4.7893 $10^{5}$ & 0.24 & 6.1493           & 0.0747 \\ \hline
-16   & 2.9373 $10^{-2}$ & 2.10 & 1.0613 $10^{5}$ & 2.09  & 1.2275           & 2.25   \\ \hline
-32   & 5.1120 $10^{-3}$ & 2.58 & 1.8446 $10^{4}$ & 2.58  & 1.8943 $10^{-1}$ & 2.78   \\ \hline
-64   & 1.0558 $10^{-3}$ & 2.31 & 3.7938 $10^{3}$ & 2.31  & 3.7919 $10^{-2}$ & 2.37   \\ \hline
-128  & 2.3712 $10^{-4}$ & 2.18 & 8.4471 $10^{2}$ & 2.19  & 8.5517 $10^{-3}$ & 2.17   \\ \hline
-256  & 5.6058 $10^{-5}$ & 2.08 & 1.9839 $10^{2}$ & 2.09  & 2.0475 $10^{-3}$ & 2.07   \\ \hline
-512  & 1.3278 $10^{-5}$ & $2.07$ & 4.6622 $10^{1}$ & 2.08  & 4.9516 $10^{-4}$ & $2.06$   \\ \hline
-1024  & 3.1193 $10^{-6}$ & $-$ & 1.1755 $10^{1}$ & $-$  & 1.2379 $10^{-4}$ & $-$   \\ \hline
+8    & 1.3343 $10^{-1}$ & 1.07 & 4.7893 $10^{5}$ & 0.82 & 6.1493           & 0.24 \\ \hline
+16   & 2.9373 $10^{-2}$ & 2.18 & 1.0613 $10^{5}$ & 2.17  & 1.2275           & 2.32   \\ \hline
+32   & 5.1120 $10^{-3}$ & 2.52 & 1.8446 $10^{4}$ & 2.52  & 1.8943 $10^{-1}$ & 2.69   \\ \hline
+64   & 1.0558 $10^{-3}$ & 2.28 & 3.7938 $10^{3}$ & 2.28  & 3.7919 $10^{-2}$ & 2.32   \\ \hline
+128  & 2.3712 $10^{-4}$ & 2.15 & 8.4471 $10^{2}$ & 2.17  & 8.5517 $10^{-3}$ & 2.15   \\ \hline
+256  & 5.6058 $10^{-5}$ & 2.08 & 1.9839 $10^{2}$ & 2.09  & 2.0475 $10^{-3}$ & 2.06   \\ \hline
+512  & 1.3278 $10^{-5}$ & $2.08$ & 4.6622 $10^{1}$ & 2.09  & 4.9516 $10^{-4}$ & $2.04$   \\ \hline
+1024  & 3.1193 $10^{-6}$ & $2.08$ & 1.1755 $10^{1}$ & 1.99  & 1.2379 $10^{-4}$ & 2.00   \\ \hline
 \end{tabular}
 \end{center}
 \end{table}
@@ -1398,13 +1403,13 @@ cells & density         & rate   & pressure        & rate    & velocity         
  \hline
 cells& density            & rate & pressure          & rate & velocity           & rate \\ \hline
 4    & 3.106397 $10^{-1}$ & $-$  & 5.254445 $10^{5}$ & $-$  & 3.288543           & $-$  \\ \hline
-8    & 7.491623 $10^{-2}$ & 2.06 & 1.636966 $10^{5}$ & 1.62 & 1.823880           & 0.14 \\ \hline
-16   & 2.079858 $10^{-2}$ & 1.81 & 4.627338 $10^{4}$ & 1.77 & 4.990605 $10^{-1}$ & 1.83 \\ \hline
-32   & 5.329627 $10^{-3}$ & 1.96 & 1.180287 $10^{4}$ & 1.96 & 1.261018 $10^{-1}$ & 1.98 \\ \hline
+8    & 7.491623 $10^{-2}$ & 2.05 & 1.636966 $10^{5}$ & 1.68 & 1.823880           & 0.85 \\ \hline
+16   & 2.079858 $10^{-2}$ & 1.85 & 4.627338 $10^{4}$ & 1.49 & 4.990605 $10^{-1}$ & 0.87 \\ \hline
+32   & 5.329627 $10^{-3}$ & 1.96 & 1.180287 $10^{4}$ & 1.97 & 1.261018 $10^{-1}$ & 1.98 \\ \hline
 64   & 1.341583 $10^{-3}$ & 1.99 & 2.967104 $10^{3}$ & 1.99 & 3.160914 $10^{-2}$ & 1.99 \\ \hline
 128  & 3.359766 $10^{-4}$ & 1.99 & 7.428087 $10^{2}$ & 1.99 & 7.907499 $10^{-3}$ & 1.99 \\ \hline
-256  & 8.403859 $10^{-5}$ & 1.99 & 1.857861 $10^{2}$ & 2.01 & 1.977292 $10^{-3}$ & 2.00 \\ \hline
-512  & 2.10075  $10^{-5}$ & $-$ & 4.7024   $10^{1}$ & $-$ & 4.9516   $10^{-4}$ & $-$ \\ \hline
+256  & 8.403859 $10^{-5}$ & 1.99 & 1.857861 $10^{2}$ & 1.99 & 1.977292 $10^{-3}$ & 1.99 \\ \hline
+512  & 2.10075  $10^{-5}$ & 2.00 & 4.7024   $10^{1}$ & 1.98 & 4.9516   $10^{-4}$ & 1.99 \\ \hline
 \end{tabular}
 \end{center}
 \end{table}
@@ -1482,26 +1487,26 @@ are in good agreement with the theoretical values.
  \hline
 cells & density              & rate      & pressure          & rate      & velocity & rate      \\ \hline
 $5$  & $0.72562$   $10^{-1}$ & $-$       & $1.5657$ $10^{5}$ & $-$       & $173.69$ & $-$       \\ \hline
-$10$ & $0.4165$    $10^{-1}$ & $0.80088$ & $9.6741$ $10^{4}$ & $0.63425$ & $120.69$ & $0.52519$ \\ \hline
-$20$ & $0.20675$   $10^{-1}$ & $1.0104$  & $4.9193$ $10^{4}$ & $0.96971$ & $72.149$ & $0.74228$ \\ \hline
-$40$ & $0.093703$  $10^{-1}$ & $1.1417$  & $2.0103$ $10^{4}$ & $0.72728$ & $34.716$ & $1.0554$  \\ \hline
-$80$ & $0.047328$  $10^{-1}$ & $0.9854$  & $1.0208$ $10^{4}$ & $0.9777$  & $16.082$ & $1.1101$  \\ \hline
-$160$& $0.023965$  $10^{-2}$ & $0.9817$  & $5.1969$ $10^{3}$ & $0.9739$  & $7.9573$ & $1.0150$  \\ \hline
-$320$& $0.020768$  $10^{-2}$ & $0.9886$  & $2.5116$ $10^{3}$ & $1.0490$  & $3.7812$ & $1.0734$  \\ \hline
-$640$& $0.0059715$ $10^{-2}$ & $1.0160$  & $1.2754$ $10^{3}$ & $0.9776$  & $1.8353$ & $1.0428$  \\ \hline
+$10$ & $0.4165$    $10^{-1}$ & $0.80$ & $9.6741$ $10^{4}$ & $0.63$ & $120.69$ & $0.53$ \\ \hline
+$20$ & $0.20675$   $10^{-1}$ & $1.01$  & $4.9193$ $10^{4}$ & $0.97$ & $72.149$ & $0.74$ \\ \hline
+$40$ & $0.093703$  $10^{-1}$ & $1.14$  & $2.0103$ $10^{4}$ & $0.73$ & $34.716$ & $1.06$  \\ \hline
+$80$ & $0.047328$  $10^{-1}$ & $0.99$  & $1.0208$ $10^{4}$ & $0.98$  & $16.082$ & $1.11$  \\ \hline
+$160$& $0.023965$  $10^{-2}$ & $0.98$  & $5.1969$ $10^{3}$ & $0.97$  & $7.9573$ & $1.02$  \\ \hline
+$320$& $0.020768$  $10^{-2}$ & $1.03$  & $2.5116$ $10^{3}$ & $1.05$  & $3.7812$ & $1.07$  \\ \hline
+$640$& $0.0059715$ $10^{-2}$ & $0.98$  & $1.2754$ $10^{3}$ & $0.98$  & $1.8353$ & $1.04$  \\ \hline
 \end{tabular}
 \end{center}
 \nonumber
 \end{table}
-\tcr{I was NOT able to reproduce all of the L1 density convergence rates with the 2-pt formula. I have\\
-         0.800897725302031\\
-          1.01042916619427\\
-          1.14172018626244\\
-         0.985401280471854\\
-          4.30369311248011\\
-         0.206566651507186\\
-          1.79819701118663\\
-My last 3 rates are wrong. 	It could be because you table does not give enough digits but you give many digits so please investigate this.}
+%\tcr{I was NOT able to reproduce all of the L1 density convergence rates with the 2-pt formula. I have\\
+%         0.800897725302031\\
+%          1.01042916619427\\
+%          1.14172018626244\\
+%         0.985401280471854\\
+%          4.30369311248011\\
+%         0.206566651507186\\
+%          1.79819701118663\\
+%My last 3 rates are wrong. 	It could be because you table does not give enough digits but you give many digits so please investigate this.}
 
 \begin{table}[H]
 \begin{center}
@@ -1510,18 +1515,18 @@ My last 3 rates are wrong. 	It could be because you table does not give enough d
  \hline
 cells & density             & rate      & pressure          & rate      & velocity & rate       \\ \hline
 $5$   & $9.7144$ $10^{-1}$  & $-$       & $2.0215$ $10^{5}$ & $-$       & $236.94$ & $-$        \\ \hline
-$10$  & $5.9718$ $10^{-1}$  & $0.70195$ & $1.3024$ $10^{5}$ & $0.63425$ & $166.56$ & $0.50854$  \\ \hline
-$20$  & $2.9503$ $10^{-1}$  & $1.0173$  & $6.6503$ $10^{4}$ & $0.96971$ & $103.36$ & $0.68831$  \\ \hline
-$40$  & $1.8193$ $10^{-1}$  & $0.69747$ & $4.0171$ $10^{4}$ & $0.72728$ & $66.374$ & $0.6390$   \\ \hline
-$80$  & $1.3366$ $10^{-1}$  & $0.44485$ & $2.3163$ $10^{4}$ & $0.43576$ & $42.981$ & $0.62692$  \\ \hline
-$160$ & $9.6638$ $10^{-2}$  & $0.46790$ & $1.7263$ $10^{4}$ & $0.42413$ & $31.717$ & $0.43844$  \\ \hline
-$320$ & $7.0896$ $10^{-2}$  & $0.44688$ & $1.2763$ $10^{4}$ & $0.43571$ & $23.138$ & $0.45499$  \\ \hline
-$640$ & $5.2191$ $10^{-2}$  & $0.44190$ & $9.4217$ $10^{3}$ & $0.43790$ & $16.910$ & $0.45238$  \\ \hline
+$10$  & $5.9718$ $10^{-1}$  & $0.70$ & $1.3024$ $10^{5}$ & $0.63$ & $166.56$ & $0.51$  \\ \hline
+$20$  & $2.9503$ $10^{-1}$  & $1.02$  & $6.6503$ $10^{4}$ & $0.97$ & $103.36$ & $0.69$  \\ \hline
+$40$  & $1.8193$ $10^{-1}$  & $0.69$ & $4.0171$ $10^{4}$ & $0.73$ & $66.374$ & $0.64$   \\ \hline
+$80$  & $1.3366$ $10^{-1}$  & $0.44$ & $2.3163$ $10^{4}$ & $0.44$ & $42.981$ & $0.63$  \\ \hline
+$160$ & $9.6638$ $10^{-2}$  & $0.47$ & $1.7263$ $10^{4}$ & $0.42$ & $31.717$ & $0.44$  \\ \hline
+$320$ & $7.0896$ $10^{-2}$  & $0.45$ & $1.2763$ $10^{4}$ & $0.44$ & $23.138$ & $0.45$  \\ \hline
+$640$ & $5.2191$ $10^{-2}$  & $0.44$ & $9.4217$ $10^{3}$ & $0.44$ & $16.910$ & $0.45$  \\ \hline
 \end{tabular}
 \end{center}
 \nonumber
 \end{table}
-\tcr{I was able to reproduce the L2 density convergence rate with the 2-pt formula. Table 6 is Ok}
+%\tcr{I was able to reproduce the L2 density convergence rate with the 2-pt formula. Table 6 is Ok}
 %---------------------------------------------------------------------------------------------------
 \subsection{Leblanc shock tube} \label{sec:Leblanc}
 %---------------------------------------------------------------------------------------------------
@@ -1594,13 +1599,13 @@ for the conservative variables: density, momentum and total energy. The converge
  \hline
   cells & density               & rate         & momentum              & rate          & total energy          & rate         \\  \hline
 $100$   & $1.0354722$ $10^{-2}$ & $-$          & $3.5471714$ $10^{-3}$ & $-$           & $1.4033046$ $10^{-3}$ & $-$          \\  \hline
-$200$   & $7.2680512$ $10^{-3}$ & $0.51064841$ & $2.5933119$ $10^{-3}$ & $0.45187331$  & $9.8611746$ $10^{-4}$ & $0.5089968$  \\  \hline
-$400$   & $5.0825628$ $10^{-3}$ & $0.51601245$ & $2.0668092$ $10^{-3}$ & $0.32739054$  & $7.7844421$ $10^{-4}$ & $0.34116585$ \\  \hline
-$800$   & $3.4025056$ $10^{-3}$ & $0.57895861$ & $1.4793838$ $10^{-3}$ & $0.48240884$  & $5.5702549$ $10^{-4}$ & $0.48285029$ \\  \hline
-$1600$  & $2.1649953$ $10^{-3}$ & $0.65223363$ & $9.7152832$ $10^{-4}$ & $0.6066684$   & $3.5720171$ $10^{-4}$ & $0.64100438$ \\  \hline
-$3200$  & $1.2465433$ $10^{-3}$ & $0.79643094$ & $5.5937409$ $10^{-4}$ & $0.79644263$  & $2.0491799$ $10^{-4}$ & $0.80169235$ \\  \hline
-$6400$  & $6.4476928$ $10^{-4}$ & $0.95107804$ & $3.0244198$ $10^{-4}$ & $0.88715502$  & $1.0914891$ $10^{-4}$ & $0.90874889$ \\  \hline
-$12800$ & $3.3950948$ $10^{-4}$ & $0.92533116$ & $1.5958118$ $10^{-4}$ & $0.9223679$   & $5.7909794$ $10^{-5}$ & $0.91441847$ \\  \hline
+$200$   & $7.2680512$ $10^{-3}$ & $0.51$ & $2.5933119$ $10^{-3}$ & $0.45$  & $9.8611746$ $10^{-4}$ & $0.51$  \\  \hline
+$400$   & $5.0825628$ $10^{-3}$ & $0.52$ & $2.0668092$ $10^{-3}$ & $0.33$  & $7.7844421$ $10^{-4}$ & $0.34$ \\  \hline
+$800$   & $3.4025056$ $10^{-3}$ & $0.58$ & $1.4793838$ $10^{-3}$ & $0.48$  & $5.5702549$ $10^{-4}$ & $0.48$ \\  \hline
+$1600$  & $2.1649953$ $10^{-3}$ & $0.65$ & $9.7152832$ $10^{-4}$ & $0.61$   & $3.5720171$ $10^{-4}$ & $0.64$ \\  \hline
+$3200$  & $1.2465433$ $10^{-3}$ & $0.79$ & $5.5937409$ $10^{-4}$ & $0.79$  & $2.0491799$ $10^{-4}$ & $0.80$ \\  \hline
+$6400$  & $6.4476928$ $10^{-4}$ & $0.95$ & $3.0244198$ $10^{-4}$ & $0.89$  & $1.0914891$ $10^{-4}$ & $0.91$ \\  \hline
+$12800$ & $3.3950948$ $10^{-4}$ & $0.93$ & $1.5958118$ $10^{-4}$ & $0.92$   & $5.7909794$ $10^{-5}$ & $0.91$ \\  \hline
  \end{tabular}
 \end{center}
 \end{table}
@@ -1612,13 +1617,13 @@ $12800$ & $3.3950948$ $10^{-4}$ & $0.92533116$ & $1.5958118$ $10^{-4}$ & $0.9223
  \hline
    cells & density & rate & momentum & rate & total energy & rate \\ \hline
 $100$ &   $5.7187851$ $10^{-3}$ & $-$ & $1.7767236$ $10^{-3}$ & $-$ & $7.6112265$  $10^{-4}$& $-$\\   \hline
-$200$  &  $3.8995238$ $10^{-3}$ & $0.55241073$ & $1.4913161$ $10^{-3}$ & $0.25263314$ &  $5.5497308$ $10^{-4}$& $0.45571115$\\ \hline
-$400$ & $2.8103526$ $10^{-3}$   & $0.4725468$ & $1.3305301$ $10^{-3}$ & $0.164585$ & $4.6063172$ $10^{-4}$ & $0.26880405$\\ \hline
-$800$ & $2.1081933$ $10^{-3}$   & $0.41474398$ & $1.1398931$ $10^{-3}$ & $0.22310254$ & $3.7798953$ $10^{-4}$ & $0.28526749$\\ \hline
-$1600$ & $1.5731052$ $10^{-3}$  & $0.42239201$ & $9.0394227$ $10^{-4}$ & $0.33459602$ & $2.9584646$ $10^{-4}$ & $0.35349763$\\ \hline
-$3200$&$1.0610667$ $10^{-3}$    & $0.56809979$ & $6.2735595$ $10^{-4}$ & $0.52694639$ & $2.054455$ $10^{-4}$ & $0.52609289$\\ \hline
-$6400$&$7.3309974$ $10^{-4}$    & $0.53343397$ & $4.4545754$ $10^{-4}$ & $0.49399631$ & $1.4670834$ $10^{-4}$ & $0.48580482$\\ \hline
- $12800$&$5.1020991$ $10^{-4}$  & $0.52291857$ & $3.1266758$ $10^{-4}$ & $0.5106583$ & $1.0299897$ $10^{-5}$ & $0.51032105$\\  \hline
+$200$  &  $3.8995238$ $10^{-3}$ & $0.55$ & $1.4913161$ $10^{-3}$ & $0.25$ &  $5.5497308$ $10^{-4}$& $0.46$\\ \hline
+$400$ & $2.8103526$ $10^{-3}$   & $0.47$ & $1.3305301$ $10^{-3}$ & $0.16$ & $4.6063172$ $10^{-4}$ & $0.27$\\ \hline
+$800$ & $2.1081933$ $10^{-3}$   & $0.41$ & $1.1398931$ $10^{-3}$ & $0.22$ & $3.7798953$ $10^{-4}$ & $0.29$\\ \hline
+$1600$ & $1.5731052$ $10^{-3}$  & $0.42$ & $9.0394227$ $10^{-4}$ & $0.33$ & $2.9584646$ $10^{-4}$ & $0.35$\\ \hline
+$3200$&$1.0610667$ $10^{-3}$    & $0.57$ & $6.2735595$ $10^{-4}$ & $0.53$ & $2.054455$ $10^{-4}$ & $0.53$\\ \hline
+$6400$&$7.3309974$ $10^{-4}$    & $0.53$ & $4.4545754$ $10^{-4}$ & $0.49$ & $1.4670834$ $10^{-4}$ & $0.49$\\ \hline
+ $12800$&$5.1020991$ $10^{-4}$  & $0.52$ & $3.1266758$ $10^{-4}$ & $0.51$ & $1.0299897$ $10^{-5}$ & $0.51$\\  \hline
 \end{tabular}
 \end{center}
 \nonumber
@@ -1716,7 +1721,6 @@ the \emph{local maximum eigenvalue} $||\vec{u}||+c$ and not to the eigenvalue of
         \end{subfigure} 
         \caption{Slow moving shock profiles at $t=1.1s$.}\label{fig:low_moving_shock}
 \end{figure} 
-
 
 %---------------------------------------------------------------------------------------------------
 \subsection{Subsonic flow over a 2-D cylinder} \label{sec:cylinder}
