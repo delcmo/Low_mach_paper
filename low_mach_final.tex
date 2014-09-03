@@ -1227,14 +1227,8 @@ For each simulation, data relative to the boundary conditions, the Courant-Fried
 mesh and equation of state are provided. All of the numerical solutions presented are obtained using BDF2 
 as temporal integrator and linear (1-D mesh), $\mathbb{P}_1$ (2-D triangular mesh), and $\mathbb{Q}_1$ 
 (2-D quadrangular mesh) finite elements. The spatial integrals are numerically computed using a second-order 
-Gauss quadrature rule. Steady-state is detected in a transient simulation by monitoring the rate of change of the
-conservative variables. 
-%
-%\tcr{I have removed your portion about the total residual falling below $10^{-6}$: 
-%you don't clearly define total residual. Since we are implicit and thus have nonlinear residual in Newton solves, a 
-%reader may think you're talking about that residual. I think you wanted to say norm of the steady state residual, but
-%in this case we still need to define it. I decided to say something simpler, rate of change, that means $\frac{u^{n+1}-u^n}{\Delta t}$
-%but this may be wrong as well. It depends on how the steady-state residual are defined. Are they multiplied by $\Delta t$ or not. Please advise\\} \tcb{The stt residual is not multiplied by $\Delta t$ if I remember correctly. I monitored the norm of the total residual (time dependent and stt terms) and started with a residual of the order of $10$} \tcr{your definitions of residual above, ss + time terms, is what you want your Newton solve to reduce to a small value. Newton does this at every time step during the transient. I still do not understand how monitoring this value tells you when ss is reached. Don't you agree that this residual is driven to 0 by Newton at every time step?}
+Gauss quadrature rule. Steady-state is detected in a transient simulation by monitoring the nonlinear residual before
+proceeding with the Newton solves for a given time step.
 %
 The ideal gas \cite{IGEOS} or stiffened gas equations of state \cite{SGEOS} are used; a 
 generic expression is given in \eqt{eq:eos}.
@@ -1263,7 +1257,6 @@ liquid water (\sct{sec:liquid_shock})  & 4.4      & 1000                       &
 \end{table}
 %
 The entropy function for the stiffened gas equation of state is concave 
-%\tcr{am I tired or should this be concave?} \tcb{done} \tcr{Ok. It's likely still wrong in the dissertation files. You can delete these comments after you read this.} 
 and given by
 %
 \begin{equation*}
@@ -2257,11 +2250,11 @@ c^2 = \left. \frac{\partial P}{\partial \rho} \right)_s = \frac{d P}{d \rho} = \
 Using the chain rule, the entropy residual in \eqt{eq:app_entr} can be recast as a function of the density, velocity, 
 and speed of sound, and proven equal to zero:
 %
-\begin{eqnarray*}
-\resinew &=& \frac{d f(\rho)}{d \rho}  \matder \rho - c^2  \matder  \rho  \\
-\resinew &=& c^2                       \matder \rho - c^2  \matder  \rho  \\
-\resinew &=&  0 \,.
-\end{eqnarray*}
+\begin{equation}
+\resinew = \frac{d f(\rho)}{d \rho}  \matder \rho - c^2  \matder  \rho  
+         = c^2                       \matder \rho - c^2  \matder  \rho  
+         =  0 \,.
+\end{equation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
