@@ -2010,25 +2010,31 @@ to correctly simulate several types of flows (from very low Mach subsonic to tra
 \section{Conclusions} \label{sec:ccl}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\tcr{I need to continue working on the conclusions}
 
-A new version of the entropy viscosity method valid for a wide range of Mach numbers has been derived 
+A new version of the entropy viscosity method that is valid for a wide range of Mach numbers has been derived 
 and presented for the inviscid Euler equations.
 % in multi-dimensions and the 1-D Euler equations with variable area. 
 The definition of the viscosity coefficients
 is now consistent with the low-Mach asymptotic limit, does not require an analytical expression 
-for the entropy function, and is therefore applicable to a larger set of problems. 
-In 1-D, convergence of the numerical solution (either smooth or with shocks) to 
-the exact solution was demonstrated by computing the convergence rates of the L$1$ and L$2$ norms of 
-the error for flows in a converging-diverging nozzle and a straight pipe. 2-D simulations were also 
-performed for both subsonic and supersonic flows, and various geometries wherein the entropy viscosity 
-method behaved well for a wide range of Mach numbers. 
+for the entropy function, and is therefore applicable to a larger variety of flow regimes, from very 
+low-Mach flows to supersonic flows. 
+The method has also been extended to Euler equation with variable area to solve nozzle flow problems.
+In 1-D, convergence of the numerical solution to 
+the exact solution was demonstrated by computing the convergence rates of the L$1$ and L$2$ norms 
+for flows in a converging-diverging nozzle and in straight pipes. For smooth solutions, second-order 
+convergence was verified; solutions with shocks converged with the expected theoretical rates of 1 (L$_1$-norm)
+and 0.5 (L$_2$-norm).
+
+The effectiveness of the method was also demonstrated in 2-D using a series of benchmark problems
+for both subsonic and supersonic flows in various geometries, with Mach numbers ranging from $10^{-7}$ to 
+2.5. For very low-Mach flows, we numerically verified that the pressure fluctuations were proportional to 
+the square of the Mach number, as expected in the incompressible limit.
 %The numerical results obtained for a flow over a 
 %circular bump (subsonic and transonic flows) illustrated the capabilities of the method to adapt to the flow type.
 
-In the future, the entropy viscosity method will be extended to the seven-equation two-phase flow fluid model \cite{SEM}. 
+In the future, we plan to further extend the entropy viscosity method to the seven-equation two-phase flow fluid model \cite{SEM}. 
 This two-phase flow system of equations is a good candidate for two reasons: it is unconditionally hyperbolic 
-and degenerates to the Euler equations when one phase disappears.
+and degenerates to the standard Euler equations when one phase disappears.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
