@@ -328,14 +328,14 @@ Solving accurately compressible fluid equations in the low-Mach limit is an ongo
 In many engineering applications, compressibility effects require the solution of the compressible fluid equations
 in nearly incompressible regimes and/or for low-Mach flow problems. For example, such flows are encountered 
 in aerodynamics in the study of airships. In the nuclear industry, flows are nearly in the incompressible regime but 
-compressible effects cannot be neglected because of the heat source, and \tcb{because} of postulated accident scenarios, 
+compressible effects cannot be neglected because of the intense heat source, and because of some postulated accident scenarios, 
 and thus need to be accurately resolved. Hence, there is a strong interest to develop computational methods 
 that can solve both compressible and incompressible flow problems.  
 
 When solving Euler equations for a wide range of Mach numbers, multiple questions must be addressed: stability, 
 accuracy and solution convergence in the low-Mach regime. Because of the hyperbolic nature of the equations, 
 shocks can form during transonic and supersonic flows and require the use of adequate numerical techniques to stabilize solution
-and correctly resolve the discontinuities. A wide range of stabilization methods are available in the literature: \tcb{approximate Riemann solvers} \cite{Toro}, flux-limiter techniques 
+and correctly resolve the discontinuities. A wide range of stabilization methods are available in the literature: approximate Riemann solvers \cite{Toro}, flux-limiter techniques 
 \cite{FluxLimiter, FluxLimiter2}, pressure-based viscosity methods \cite{PBV_book}, Lapidus method \cite{Lapidus_paper, LMP, Lapidus_book}, 
 and the entropy-viscosity method \cite{jlg1, jlg2}, among others. These numerical methods are usually developed using simple equations 
 of state and tested for transonic and supersonic flows where the disparity between the acoustic wave speed and the fluid speed is not 
@@ -347,7 +347,7 @@ behavior is well documented in the literature \cite{LowMach1, LowMach2, LowMach3
 In \cite{LowMach1}, a low-Mach asymptotic study has demonstrated convergence of the 
 compressible Euler equations to the incompressible ones. 
 Many well-known stabilization techniques, for instance, the Roe scheme and the SUPG technique,
-do not yield the correct solution in the low-Mach regime and suitable modifications have been proposed \cite{Roe,LowMach3}
+do not yield the correct solution in the low-Mach regime and suitable modifications have been proposed (see \cite{Roe} for the Roe scheme and \cite{LowMach3} for the SUPG method).
 to ensure the convergence to the correct solution while preserving the original shock stabilization 
 properties of these schemes. 
 %
@@ -372,7 +372,7 @@ steady-state solutions for low-Mach flows using explicit schemes.
 %temporal derivatives of the equation and, thus, can only be used for steady-state flows. 
 To avoid modifying the time derivatives, 
 the temporal implicit capabilities of the MOOSE multiphysics framework \cite{MOOSE} are used. With such a choice, low-Mach steady-state solutions 
-can be obtained effective\tcb{ly} while preserving the accuracy of the transient solution; however, it requires the use of nonlinear solvers \tcb{and a preconditioner}.
+can be obtained effectively while preserving the accuracy of the transient solution; however, it requires the use of nonlinear solvers.
 
 In this paper, we employ the entropy viscosity method as a numerical stabilization for the inviscid Euler equation and assess its performance 
 in the low-Mach regime. 
@@ -2043,7 +2043,7 @@ the square of the Mach number, as expected in the incompressible limit.
 %circular bump (subsonic and transonic flows) illustrated the capabilities of the method to adapt to the flow type.
 
 In the future, we plan to further extend the entropy viscosity method to the seven-equation two-phase flow fluid model \cite{SEM}. 
-This two-phase flow system of equations is a good candidate for three reasons: it is unconditionally hyperbolic, degenerates to the standard Euler equations when one phase disappears, \tcb{and was derived by assuming that each phase obeys to the Euler equations.}
+This two-phase flow system of equations is a good candidate for two reasons: it is unconditionally hyperbolic and degenerates to the standard Euler equations when one phase disappears.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -2263,18 +2263,18 @@ or known to be positive. Thus, the entropy minimum principle holds.
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Entropy residual with a barotropic equations of state} \label{app:ise_equ}
+\section{Entropy residual for isentropic flows} \label{app:ise_equ}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-This appendix shows that the entropy residual is zero when assuming an isentropic flow. The entropy residual as a 
-function of the pressure, density, velocity, and speed of sound is recalled here:
+This appendix shows that the entropy residual is zero for isentropic flows. For convenience, we recall
+here the entropy residual as a function of the pressure, density, velocity, and speed of sound:
 %
 \begin{equation}\label{eq:app_entr}
 \resinew = \matder P - c^2  \matder \rho \,.
 \end{equation}
 %
-Assuming an isentropic flow, the pressure is only a function of the density $P = f( \rho )$ or $\rho = f^{-1}( P )$. 
+Assuming an isentropic flow, pressure is only a function of density, i.e., $P = f( \rho )$ or equivalently $\rho = f^{-1}( P )$. 
 Using the definition of the speed of sound $c^2 = \left. \frac{\partial P}{\partial \rho} \right)_s$ and the above 
 form of the equation of state, we have
 %
@@ -2282,8 +2282,7 @@ form of the equation of state, we have
 c^2 = \left. \frac{\partial P}{\partial \rho} \right)_s = \frac{d P}{d \rho} = \frac{d f(\rho)}{d \rho} \,.
 \end{equation}
 %
-Using the chain rule, the entropy residual in \eqt{eq:app_entr} can be recast as a function of the density, velocity, 
-and speed of sound, and proven equal to zero:
+Using the chain rule, the entropy residual in \eqt{eq:app_entr} can be recast as follows and proven equal to zero:
 %
 \begin{equation}
 \resinew = \frac{d f(\rho)}{d \rho}  \matder \rho - c^2  \matder  \rho  
