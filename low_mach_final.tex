@@ -69,7 +69,7 @@
 \usepackage{lineno}
 \usepackage{cancel}
 
-\journal{Computers \& fluids}
+\journal{Computers \& Fluids}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % operators
 \renewcommand{\div}{\vec{\nabla}\! \cdot \!}
@@ -191,22 +191,32 @@
 %-------------------------
 %-------------------------
 \begin{abstract}
-The entropy viscosity method, introduced by Guermond et al. \cite{jlg1, jlg2}, is extended to the multi-dimensional Euler 
-equations for both subsonic (very low Mach numbers) and supersonic flows. 
-We show that the current definition of the viscosity coefficients is not adapted to low-Mach flows 
-and we provide a robust alternate definition valid for any Mach number value. The new definitions are derived from a 
-low-Mach asymptotic study. 
-In addition, the entropy minimum principle is used to derive the viscous regularization terms for Euler equations with 
-variable area for nozzle flow problems. 
-Various 1-D and 2-D numerical tests are presented : flow in a converging-diverging nozzle, Leblanc shock tube, slow moving 
-shock, strong shock for liquid phase, subsonic flows around a 2-D cylinder and over a circular hump, and supersonic flow in a 
-compression corner. Convergence studies are performed using analytical solutions in 1-D. The ideal gas and stiffened gas 
-equations of state are employed.
+%We show that the current version of the entropy viscosity method, a viscous regularization technique for hyperbolic 
+%conservation laws, is not well-suited to low-Mach flows. 
+We present a new version of the entropy viscosity method, a viscous regularization technique for hyperbolic 
+conservation laws, that is well-suited to low-Mach flows. 
+By means of a low-Mach asymptotic study, new expressions for the entropy viscosity coefficients are derived.
+These definitions are valid for a wide range of Mach numbers, from subsonic flows (with very low Mach  numbers) to 
+supersonic flows, and no longer depend on an analytical expression for the entropy function.
+In addition, the entropy viscosity method is extended to Euler equations with variable area for nozzle flow problems.
+%
+%and our numerical results confirm that the new expressions are valid for a wide range of Mach numbers, from subsonic flows (with very low Mach  numbers) to supersonic flows. 
+%The new expressions for the entropy viscosity coefficients, obtained by means of an low-Mach asymptotic study,
+%  We show that, in the existing method, the definition of the viscosity coefficients is not adapted to low-Mach flows 
+%and we provide a robust alternate definition valid for any Mach number value by means of an asymptotic study. 
+%The entropy viscosity method is also extended to Euler equations with variable area for nozzle flow problems.
+ %In addition, the entropy minimum principle is used to derive the viscous regularization terms for Euler equations with 
+%variable area for nozzle flow problems. 
+The effectiveness of the method is demonstrated using various 1-D and 2-D benchmark tests: flow in a converging-diverging 
+nozzle; Leblanc shock tube; slow moving shock; strong shock for liquid phase; low-Mach flows around a 
+cylinder and over a circular hump; and supersonic flow in a compression corner. 
+Convergence studies are performed for both smooth solutions and solutions with shocks present. 
+%The ideal gas and stiffened gas equations of state are employed.
 \end{abstract}
 %-------------------------
 %-------------------------
 \begin{keyword}
-  entropy viscosity method \sep viscous stabilization method \sep low-Mach regime \sep shocks \sep Euler equations with variable area.
+  entropy viscosity method \sep artificial  viscosity \sep low-Mach regime \sep shock capturing \sep Euler equations with variable area.
 \end{keyword}
 %-------------------------
 \end{frontmatter}
@@ -2043,6 +2053,7 @@ and degenerates to the standard Euler equations when one phase disappears.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Acknowledgments} 
 The authors (M.D. and J.R.) would like to thank Bojan Popov and Jean-Luc Guermond for many fruitful discussions.  
+the research was carried out under the auspices the Idaho National Laboratory for the US Department of Energy.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
