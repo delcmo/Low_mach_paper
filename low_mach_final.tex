@@ -193,7 +193,7 @@
 \begin{abstract}
 The entropy viscosity method, introduced by Guermond et al. \cite{jlg1, jlg2}, is extended to the multi-dimensional Euler 
 equations for both subsonic (very low Mach numbers) and supersonic flows. 
-We show that the current definition of the viscosity coefficients \cite{jlg1, jlg2} is not adapted to low-Mach flows 
+We show that the current definition of the viscosity coefficients is not adapted to low-Mach flows 
 and we provide a robust alternate definition valid for any Mach number value. The new definitions are derived from a 
 low-Mach asymptotic study. 
 In addition, the entropy minimum principle is used to derive the viscous regularization terms for Euler equations with 
@@ -217,7 +217,7 @@ equations of state are employed.
 \section{Introduction} \label{sec:intro}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\tcr{I need to continue working on the Introduction} \tcb{what is it you want to change?}
+%\tcr{I need to continue working on the Introduction} \tcb{what is it you want to change?}
 
 %\tcr{ not finished yet\\
 %Items to mention:
@@ -314,16 +314,16 @@ equations of state are employed.
 %flow solvers cannot deal with strong temperature or strong density gradients. This sets a
 %demand for codes that can deal with flows at all Mach numbers.
 
-Solving accurately for the low-Mach limit of the compressible fluid equations is on ongoing topic of research. 
-In many engineering applications, near incompressible regime or low-Mach flow problems exist where the compressibility effects and local
-Mach number vary strongly in space and time. For example, such flows are encountered 
+Solving accurately compressible fluid equations in the low-Mach limit is an ongoing topic of research. 
+In many engineering applications, compressibility effects require the the solution of the compressible fluid equations
+in nearly incompressible regimes and/or for low-Mach flow problems. For example, such flows are encountered 
 in aerodynamics in the study of airships. In the nuclear industry, flows are nearly in the incompressible regime but 
 compressible effects cannot be neglected because of the heat source, and because of postulated accident scenarios, 
 and thus need to be accurately resolved. Hence, there is a strong interest to develop computational methods 
 that can solve both compressible and incompressible flow problems.  
 
-When solving the multi-dimensional Euler equations for a wide range of Mach numbers, multiple problems must be addressed: stability, 
-accuracy and acceleration of the convergence in the low-Mach regime. Because of the hyperbolic nature of the equations, 
+When solving Euler equations for a wide range of Mach numbers, multiple questions must be addressed: stability, 
+accuracy and solution convergence in the low-Mach regime. Because of the hyperbolic nature of the equations, 
 shocks can form during transonic and supersonic flows and require the use of adequate numerical techniques to stabilize solution
 and correctly resolve the discontinuities. A wide range of stabilization methods are available in the literature: flux-limiter techniques 
 \cite{FluxLimiter, FluxLimiter2}, pressure-based viscosity methods \cite{PBV_book}, Lapidus method \cite{Lapidus_paper, LMP, Lapidus_book}, 
@@ -332,39 +332,58 @@ of state and tested for transonic and supersonic flows where the disparity betwe
 excessively large and thus the Mach number is of order one. This approach, however, leads to a well-known accuracy problem in the low-Mach regime 
 where the fluid velocity is smaller that the speed of sound by multiple orders of magnitude. The numerical dissipative terms become 
 ill-scaled in the low-Mach regime and lead to the wrong numerical solution by changing the nature of the equations solved. This 
-behavior is well documented in the literature \cite{LowMach1, LowMach2, LowMach3} and often treated by performing a low-Mach 
-asymptotic study of Euler equations. This method was originally used \cite{LowMach1} to show convergence of the 
-compressible Euler equations to the incompressible ones. Thus, by using the same method, the effect of the dissipative 
-terms in the low Mach regime, can be understood and, when needed, a fix is developed in order to ensure the convergence of the 
-equations to the correct physical solution. This approach was used as a ``fixing'' method for multiple well-known stabilization 
-methods, for instance, the Roe scheme (\cite{Roe}) and the SUPG technique \cite{LowMach3}, while preserving the original stabilization 
-properties for shocks. Furthermore, it is also of common knowledge that low-Mach steady-state solutions can be difficult to obtain with 
-a temporal explicit solver. For stability purpose, the time step must be chosen inversely proportional to the largest eigenvalue of the 
-system which is approximately the speed of sound, $c$, for slow flows. However, other waves are convected at the fluid speed, which may 
-be significantly smaller than $c$. Hence, these waves do not change very much over a time step. Thus, thousands of time steps are required 
-to reach a steady state. Acceleration techniques were developed and proved efficient \cite{LowMach2} but require the modification of the 
-temporal derivatives of the equation and, thus, can only be used for steady-state flows. To avoid modifying the temporal derivatives, 
-the temporal implicit capabilities of the MOOSE multiphysics framework \cite{MOOSE} are used. Such a choice should allow us to quickly 
-obtain low-Mach steady-state solutions while preserving the accuracy of the transient solution; however, it requires the use of 
-preconditioning techniques due to the time-implicit solves.
+behavior is well documented in the literature \cite{LowMach1, LowMach2, LowMach3}.
+% and often treated by performing a low-Mach  asymptotic study of Euler equations. 
+In \cite{LowMach1}, a low-Mach asymptotic study has demonstrated convergence of the 
+compressible Euler equations to the incompressible ones. 
+Many well-known stabilization techniques, for instance, the Roe scheme and the SUPG technique \cite{},
+do not yield the correct solution in the low-Mach regime and suitable modifications have been proposed \cite{Roe,LowMach3}
+to ensure the convergence to the correct solution while preserving the original shock stabilization 
+properties of these schemes. 
+%
+%Using an asymptotic approach, the effect of the dissipative 
+%terms 
+%%
+%\tcr{not clear for a reader, what dissipative are you talking about? you just said Euler equation and you have not made the link in the above text between stabilization techniques and dissipative terms. I think a reader who only does DG would not understand what you are trying to say}
+%%
+%in the low-Mach regime can be understood and, when needed, a fix is developed in order to ensure the convergence of the 
+%equations to the correct physical solution. This approach was used as a ``fixing'' method for multiple well-known stabilization 
+%methods, for instance, the Roe scheme (\cite{Roe}) and the SUPG technique \cite{LowMach3}, while preserving the original stabilization 
+%properties for shocks. 
+Additionally, the time step size may be severely restricted when solving compressible fluid equations with an explicit time discretization 
+because of the large disparity between the fluid velocity and the speed of sound. 
+To avoid an excessive number of explicit time steps, time preconditioners have been proposed and proved efficient \cite{LowMach2};
+however, because they modify the time derivatives in the governing equations, such acceleration techniques can only be used to obtain
+steady-state solutions for low-Mach flows using explicit schemes.
+%for stability purpose, the time step must be chosen inversely proportional to the largest eigenvalue of the 
+%system which is approximately the speed of sound, $c$, for slow flows. However, other waves are convected at the fluid speed, which may 
+%be significantly smaller than $c$. Hence, these waves do not change very much over a time step. Thus, thousands of time steps are required 
+%to reach a steady state. Acceleration techniques were developed and proved efficient \cite{LowMach2} but require the modification of the 
+%temporal derivatives of the equation and, thus, can only be used for steady-state flows. 
+To avoid modifying the time derivatives, 
+the temporal implicit capabilities of the MOOSE multiphysics framework \cite{MOOSE} are used. With such a choice, low-Mach steady-state solutions 
+can be obtained effective while preserving the accuracy of the transient solution; however, it requires the use of nonlinear solvers.
 
-In this paper, we propose to investigate how the entropy viscosity method behaves when applied to Euler equations in the low-Mach regime. 
-The entropy viscosity method, initially introduced by Guermond et al. to solve hyperbolic systems of equations, has shown promising 
-results when applied to Euler equations for multi-dimensional supersonic flows with various spatial discretization schemes. 
-More importantly, its implementation is fairly 
-straightforward, it can be used with unstructured grids, its dissipative terms are consistent with the entropy minimum principle, and it 
-has proven valid for any equation of state under certain conditions \cite{jlg}.
+In this paper, we employ the entropy viscosity method as a numerical stabilization for the inviscid Euler equation and assess its performance 
+in the low-Mach regime. 
+The entropy viscosity method is a viscous regularization technique introduced by Guermond et al. to solve hyperbolic systems of equations
+and has successfully been applied to multi-dimensional supersonic flows with various spatial discretization schemes \cite{jlg}. 
+It is fairly straightforward to implement, can be used with unstructured grids, and has dissipative terms that are consistent with the 
+entropy minimum principle. However, it has not been evaluated in the low-Mach regime.
 
 This paper is organized as follows: in \sct{sec:entro_visc} the current definition of the entropy viscosity method is recalled and 
-its inconsistency the low-Mach regime is discussed. 
+its ill-scaled nature in the low-Mach regime is discussed. 
 In \sct{sec:extension}, a new formulation of the viscosity residual is derived. This formulation no longer requires an analytical expression 
 for the entropy function. A low-Mach asymptotic study is carried out to adapt the definition of the entropy viscosity coefficients 
-in the incompressible limit while making sure the viscosity coefficients scale appropriately for all flow speeds (from low-Mach to supersonic).
-For nozzle flows modeled using Euler equations with variable area, we modify the viscous dissipative terms so that the entropy minimum principle 
-remains satisfied, \sct{sec:var_area_diss_terms}.
-After describing the spatial and temporal discretizations in \sct{sec:solution_tech}, 1-D and 2-D numerical results 
-are presented in \sct{sec:results} for a wide range of Mach numbers: liquid and gas nozzle flow problems, 
-low-Mach flow over a cylinder and a circular bump, and supersonic flow in a compression corner \cite{CompressionCorner}. 
+in the incompressible limit while ensuring that the viscosity coefficients scale appropriately for all flow speeds (from low-Mach to supersonic).
+%
+In  \sct{sec:var_area_diss_terms}, we extend the entropy viscosity method to Euler equations with variable area in order to model nozzle flows: 
+the viscous dissipative terms are adapted so that the entropy minimum principle remains satisfied.
+Spatial and temporal discretizations and solution tehcniques are presented in \sct{sec:solution_tech}.
+ 1-D and 2-D numerical results 
+are provided in \sct{sec:results} for a wide range of Mach numbers: liquid and gas nozzle flow problems, 
+low-Mach flows over a cylinder and a circular bump (with Mach numbers as low as $10^{-7}$), and supersonic flows 
+in a compression corner \cite{CompressionCorner}. 
 Convergence studies are performed in 1-D in order to demonstrate the accuracy of the solution technique. 
 
 % keep this as a comment for now
@@ -539,8 +558,6 @@ examples and various 2-D tests \cite{jlg1, jlg2, valentin}.
 %===================================================================================================
 \subsection{Issues in the Low-Mach Regime} 
 %===================================================================================================
-\tcr{I worked on Yunhuang's 2 papers last week so I will let you change, wherever needed, isentropic for 
-low-Mach as was suggested during your defense. If I recall correctly, we said } \tcb{done}
 
 In the low-Mach Regime, a smooth flow is known to approach the isentropic limit, resulting in very little 
 entropy production. Since the entropy viscosity method is directly based on the evaluation of the 
@@ -631,7 +648,7 @@ The asymptotic study presented here is inspired by the work of Muller et al. \ci
 an asymptotic derivation for the Navier-Stokes was presented. 
 We remind the reader that the objective is to determine appropriate scaling for the entropy 
 viscosity coefficients so that the dissipative terms remain well-scaled for two limit cases: 
-(i) the isentropic limit where Euler equations degenerate to an incompressible system of 
+(i) the isentropic low-Mach limit where Euler equations degenerate to an incompressible system of 
 equations in the low-Mach limit and 
 (ii) the non-isentropic limit with formation of shocks. 
 The isentropic limit of the Euler equations with viscous regularization should yield incompressible 
@@ -904,7 +921,7 @@ A smooth function to transition between these two states is as follows: % the sh
 \end{equation}
 where $M^\text{thresh}$ is a threshold Mach number value beyond which the flow is no longer 
 considered  to be low-Mach (we use $M^\text{thresh}=0.05$), $M$ is the local Mach number, 
-and the scalar $a$ determines how rapid the transition from  
+and the scalar $a$ determines how rapidly the transition from  
 $\norm_P^\mu= \rho c^2$ to $\norm_P^\mu=\rho \| \vec{u}\|^2$ occurs in the vicinity of $M^\text{thresh}$ (we use $a = 3$). 
 It is easy to verify that
 \begin{equation}
@@ -1170,7 +1187,7 @@ For instance, this is shown in \eqt{eq:jac_diss_term} for the dissipative terms 
 \frac{\partial}{\partial \mathbf U} \left( \kappa \div \rho \grad W \right) \simeq \kappa \div \frac{\partial \rho}{\partial \mathbf U} \grad W ,
 \end{equation}  
 where $\mathbf  U$ denotes any of the conservative variables and $W$ denotes the component of $\mathbf  W$ associated with the 
-continuity equation. In the above, we have neglected $\frac{\partial \kappa}{\partial U}$.
+continuity equation. In the above, we have neglected $\frac{\partial \kappa}{\partial \mathbf U}$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1995,10 +2012,12 @@ to correctly simulate several types of flows (from very low Mach subsonic to tra
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \tcr{I need to continue working on the conclusions}
 
-A new version of the entropy viscosity method valid for a wide range of Mach numbers was derived and presented.
-It has been to the multi-dimensional Euler equations and the 1-D Euler equations with variable area. 
+A new version of the entropy viscosity method valid for a wide range of Mach numbers has been derived 
+and presented for the inviscid Euler equations.
+% in multi-dimensions and the 1-D Euler equations with variable area. 
 The definition of the viscosity coefficients
-is now consistent with a low-Mach asymptotic limit, does not require an analytical expression for the entropy function. 
+is now consistent with the low-Mach asymptotic limit, does not require an analytical expression 
+for the entropy function, and is therefore applicable to a larger set of problems. 
 In 1-D, convergence of the numerical solution (either smooth or with shocks) to 
 the exact solution was demonstrated by computing the convergence rates of the L$1$ and L$2$ norms of 
 the error for flows in a converging-diverging nozzle and a straight pipe. 2-D simulations were also 
