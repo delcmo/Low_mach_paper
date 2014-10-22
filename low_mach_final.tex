@@ -2237,13 +2237,13 @@ rhs = \div (\rho A \kappa \grad s ) - A \kappa \underbrace{\left[ \grad (\rho e)
 It remains to treat the term $\mathbf{Q}$ that can be recast under a quadratic form. Following \cite{jlg}, one obtain:
 %
 \begin{eqnarray}
-\mathbf{Q} &=& X^t \Sigma X \nonumber \\
+\mathbf{Q} &=& \rho X^t \Sigma X \nonumber \\
 \text{with } X &=& \begin{bmatrix}
 \grad \rho \\
 \grad e 
 \end{bmatrix}
 \text{and } \Sigma = \begin{bmatrix}
-       \partial_{\rho} (\rho^2 \partial_{\rho} s) & \partial_{\rho,e} s  \\[0.3em]
+       \rho^{-2}\partial_{\rho} (\rho^2 \partial_{\rho} s) & \partial_{\rho,e} s  \\[0.3em]
        \partial_{\rho,e} s & \partial_{e,e} s           \\[0.3em]
      \end{bmatrix} \nonumber 
 \end{eqnarray}
