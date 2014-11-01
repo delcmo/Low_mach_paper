@@ -116,7 +116,7 @@ $^\dagger$ Idaho National Laboratory, Idaho Falls, ID, USA}
 
 \begin{block}{\normalsize Discretization and numerical methods}
 \hspace{0.5cm} $\bullet$ T-PFM are solved on discontinuous schemes (FV, DGFEM) \\
-\hspace{0.5cm} $\bullet$ Numerical methods: approximate Riemann solver $\rightarrow$ Godunov-type solver \\
+\hspace{0.5cm} $\bullet$ Numerical methods: approximate Riemann solver $\rightarrow$ Godunov-type solvers \\
 \hspace{0.5cm} $\bullet$ All-speed fluid flow solver $\rightarrow$ low-Mach, transonic and supersonic flows \\
 \hspace{0.5cm} $\bullet$ Achieve spatial and temporal high-order accuracy.
 \end{block}
@@ -344,19 +344,19 @@ $\mu_{k,e}(\vec{r},t)    = \frac{h^2 \max(\resinew_k, J_k)}{ \textcolor{red}{\no
 \end{block}
 %
 \vspace{1cm}
-Two tests for two limit cases:
+Two 1-D shock tests for two limit cases  (heavy fluid $1$ and light fluid $2$):
 \begin{block}{First test: two independent fluids}
-\hspace{0.5cm} $\bullet$ Both fluids initially at rest, ($P_{left} = $,  $P_{right} = $) and ($T_{left} = $, $T_{right} = $) \\
+\hspace{0.5cm} $\bullet$ Both fluids initially at rest, ($P_{left} = 1$ MPa,  $P_{right} = 0.1$ MPa) and ($\rho_1 = 10$, $\rho_2 = 1$ $kg/m^3$) \\
 \hspace{0.5cm} $\bullet$ Zero relaxation coefficients: $\mu_rel = \lambda_{rel} = 0$
 \end{block}
 %
 \begin{block}{Second test: infinite relaxation parameters (Kapila)}
 \hspace{0.5cm} $\bullet$ Same initial conditions \\
-\hspace{0.5cm} $\bullet$ Zero relaxation coefficients: $\mu_{rel} = \lambda_{rel} = \infty$
+\hspace{0.5cm} $\bullet$ Zero relaxation coefficients: $\mu_{rel} = \lambda_{rel} \to \infty$
 \end{block}
 \end{frame}
 %************************************************
-\begin{frame}[shrink]{$1$-D shock tube with two independent fluids}
+\begin{frame}[shrink]{First test: two independent fluids}
 \begin{figure}
         \begin{subfigure}[h]{\textwidth}
                 \centering
@@ -382,7 +382,7 @@ Two tests for two limit cases:
 \end{figure}
 \end{frame}
 %************************************************
-\begin{frame}[shrink]{$1$-D shock tube with two independent fluids}
+\begin{frame}[shrink]{First test: two independent fluids}
 \begin{figure}
         \begin{subfigure}[b]{\textwidth}
                 \centering
@@ -402,7 +402,7 @@ Two tests for two limit cases:
 \end{figure}
 \end{frame}
 %************************************************
-\begin{frame}[shrink]{\normalsize $1$-D shock tube with infinite relaxation coefficients}
+\begin{frame}[shrink]{\normalsize Second test: with infinite relaxation coefficients}
 \begin{figure}
         \begin{subfigure}[b]{\textwidth}
                 \centering
@@ -428,7 +428,7 @@ Two tests for two limit cases:
 \end{figure}
 \end{frame}
 %************************************************
-\begin{frame}[shrink]{\normalsize $1$-D shock tube with infinite relaxation coefficients}
+\begin{frame}[shrink]{\normalsize Second test: with infinite relaxation coefficients}
 \begin{figure}
         \begin{subfigure}[b]{\textwidth}
                 \centering
