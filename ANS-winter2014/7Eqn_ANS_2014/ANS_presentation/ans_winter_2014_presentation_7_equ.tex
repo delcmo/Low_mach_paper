@@ -105,17 +105,17 @@ $^\dagger$ Idaho National Laboratory, Idaho Falls, ID, USA}
 
 \begin{block}{\normalsize Interest for Two-Phase Flow Models (T-PFM)}
 \hspace{0.5cm} $\bullet$ Engineering applications: oil/gas, combustion, nuclear \dots \\
-\hspace{0.5cm} $\bullet$ Accurately predict flow behavior $\rightarrow$ reduce safety margins
+\hspace{0.5cm} $\bullet$ Accurately predict flow behavior $\rightarrow$ improve safety margins
 
 \end{block}
 \begin{block}{\normalsize Two-Phase Flow Models}
-\hspace{0.5cm} $\bullet$ Example of models: HEM, 5-equ model of Kapila, 6-equ and 7-equ model \\
+\hspace{0.5cm} $\bullet$ Example of models: HEM, 5-equ model of Kapila, 6-equ and 7-equ models \\
 \hspace{0.5cm} $\bullet$ Use a well-posed compressible model $\rightarrow$ real eigenvalues \\
 \hspace{0.5cm} $\bullet$ Allow to develop/use numerical methods
 \end{block}
 
 \begin{block}{\normalsize Discretization and numerical methods}
-\hspace{0.5cm} $\bullet$ T-PFM are solved on discontinuous schemes (FV, DGFEM) \\
+\hspace{0.5cm} $\bullet$ T-PFM are usually solved on discontinuous schemes (FV, DGFEM) \\
 \hspace{0.5cm} $\bullet$ Numerical methods: approximate Riemann solver $\rightarrow$ Godunov-type solvers \\
 \hspace{0.5cm} $\bullet$ All-speed fluid flow solver $\rightarrow$ low-Mach, transonic and supersonic flows \\
 \hspace{0.5cm} $\bullet$ Achieve spatial and temporal high-order accuracy.
@@ -124,15 +124,15 @@ $^\dagger$ Idaho National Laboratory, Idaho Falls, ID, USA}
 \begin{block}{\normalsize The Seven-Equation two-phase flow Model (SEM)}
 \hspace{0.5cm} $\bullet$ Each phase obeys Euler equations + void fraction equation + exchange terms \\
 \hspace{0.5cm} $\bullet$ Has 7 real eigenvalues: acoustic, contact and interfacial waves \\
-\hspace{0.5cm} $\bullet$ Degenerate to Euler equations when one phase disappears
+\hspace{0.5cm} $\bullet$ Degenerates to Euler equations when one phase disappears
 \end{block}
 \end{frame}
 %************************************************
-\begin{frame} 
+\begin{frame}[shrink] 
 \frametitle{\normalsize All-speed fluid flow solver}
 \begin{block}{Goal}
 To use \tcm{compressible} fluid equations for \tcm{all Mach} numbers\\
-To solve them using \textcolor{red}{{\it continuous} FEM} using MOOSE 
+To solve them using \textcolor{red}{{\it continuous} FEM} using MOOSE $\rightarrow$ RELAP-7
 \end{block}
 
 \begin{block}{All-speed fluid flow solver}
@@ -145,7 +145,7 @@ Low-Mach: huge disparity in speeds (pressure waves move much faster)\\
 
 \begin{block}{Regularization technique for discretization of fluid flow}
 We will employ novel artificial viscosity schemes based on the entropy production residual
-{\scriptsize (Guermond et al., {\it Entropy viscosity method for nonlinear  conservation laws}, J. of Comput. Phys. (2011).}\\
+{ (Guermond et al., {\it Entropy viscosity method for nonlinear  conservation laws}, J. of Comput. Phys. (2011).}\\
 \medskip
 The \tcm{entropy viscosity method} is \tcr{discretization-independent} and was significantly tested in the low-Mach, transonic and supersonic regimes
 for the single-phase Euler equations (including using \tcr{continuous FEM}).
@@ -162,29 +162,30 @@ We consider two phases ${j,k}$. Phase $k$ obeys the following system of equation
 %\begin{array}{lcll}
 Void fraction equation:
 \begin{equation}
-\partial_t \left( \alpha_k  A\right) + A {\color{violet}\vec{u}_{int}} \cdot \grad \alpha_k = {\color{red}\mu_{rel}} {\color{blue}A \left( P_k - P_j \right)} \nonumber 
+\partial_t \alpha_k + {\color{violet}\vec{u}_{int}} \cdot \grad \alpha_k = {\color{red}\mu_{rel}} {\color{blue} \left( P_k - P_j \right)} \nonumber 
 \end{equation}
 Continuity equation:
 \begin{equation}
-\partial_t \left( \alpha_k \rho_k A \right) + \div \left( \alpha_k \rho_k \vec{u}_k A \right) = 0 \nonumber
+\partial_t \left( \alpha_k \rho_k \right) + \div \left( \alpha_k \rho_k \vec{u}_k \right) = 0 \nonumber
 \end{equation}
 Momentum equation:
 \begin{align}
-\partial_t \left( \alpha_k \rho_k \vec{u}_k A \right) +& \div \left[ \alpha_k A \left( \rho_k \vec{u}_k\otimes \vec{u}_k \right) \right]  + \grad(\alpha_k A P_k) =  \nonumber \\
-&\alpha_k P_k \grad A +  {\color{violet}P_{int}} A \grad \alpha_k +  {\color{red}\lambda_{rel}}{\color{blue}A  \left( \vec{u}_j - \vec{u}_k \right)} \nonumber
+\partial_t \left( \alpha_k \rho_k \vec{u}_k \right) +& \div \left[ \alpha_k \left( \rho_k \vec{u}_k\otimes \vec{u}_k \right) \right]  + \grad(\alpha_k P_k) =  \nonumber \\
+& {\color{violet}P_{int}} \grad \alpha_k +  {\color{red}\lambda_{rel}}{\color{blue}  \left( \vec{u}_j - \vec{u}_k \right)} \nonumber
 \end{align}
 Energy equation:
 \begin{align}
-\partial_t \left( \alpha_k \rho_k E_k A \right) +& \div \left[ \alpha_k A \vec{u}_j \left( \rho_k E_k + P_k \right) \right] = \nonumber \\
-&A {\color{violet}P_{int} \vec{u}_{int}} \cdot \grad \alpha_k - {\color{red}\mu_{rel}} {\color{violet}\bar{P}_{int}} {\color{blue}A\left( P_k-P_j \right)} + {\color{red}\lambda_{rel}} {\color{violet}\bar{\vec{u}}_{int}} {\color{blue}A \cdot \left( \vec{u}_j - \vec{u}_k \right)} \nonumber
+\partial_t \left( \alpha_k \rho_k E_k \right) +& \div \left[ \alpha_k \vec{u}_j \left( \rho_k E_k + P_k \right) \right] = \nonumber \\
+& {\color{violet}P_{int} \vec{u}_{int}} \cdot \grad \alpha_k - {\color{red}\mu_{rel}} {\color{violet}\bar{P}_{int}} {\color{blue}\left( P_k-P_j \right)} + {\color{red}\lambda_{rel}} {\color{violet}\bar{\vec{u}}_{int}} {\color{blue} \cdot \left( \vec{u}_j - \vec{u}_k \right)} \nonumber
 \end{align}
 %\end{array}
 %\right.
 \end{subequations}
 \end{block}
+The mass, momentum and energy exchange terms between the phases $k$ and $j$ are missing in the above equations.
 \end{frame}
 %************************************************
-\begin{frame}{\normalsize The Seven-Equation two-phase flow Model (2/2)}
+\begin{frame}[shrink]{\normalsize The Seven-Equation two-phase flow Model (2/2)}
 \begin{block}{\normalsize Interfacial ($P_{int}$ and $\vec{u}_{int}$) and relaxation parameters ($\lambda_{rel}$ and $\mu_{rel}$)}
 \begin{equation}
 \left\{
@@ -208,11 +209,13 @@ A_{int} = 6.25 \ A^{max}_{int} \ \alpha_k \left( 1-\alpha_k \right)^2
 \end{block}
 \begin{block}{\normalsize Phasic entropy residual}
 \begin{align}
-(s_{e})_k^{-1} \alpha_k \rho_k A \frac{Ds_k}{Dt} &= \mu_{rel} \frac{Z_k}{Z_k+Z_j} (P_j - P_k)^2 + \lambda_{rel} \frac{Z_j}{Z_k+Z_j} (\vec{u}_j -\vec{u}_k)^2 \nonumber
+(s_{e})_k^{-1} \alpha_k \rho_k \frac{Ds_k}{Dt} &= \mu_{rel} \frac{Z_k}{Z_k+Z_j} (P_j - P_k)^2 + \lambda_{rel} \frac{Z_j}{Z_k+Z_j} (\vec{u}_j -\vec{u}_k)^2 \nonumber
 \\
 & \frac{Z_k}{\left( Z_k+Z_j \right)^2} \left[ Z_j (\vec{u}_j-\vec{u}_k)+\frac{\grad \alpha_k}{|| \grad \alpha_k ||}(P_k-P_j)\right]^2 \geq 0 \nonumber
 \end{align}
 \end{block}
+R. Berry, R. Saurel, O. LeMetayer, \emph{The discrete equation method (DEM) for fully compressible, two-phase flows in ducts of spatially varying cross-section,}
+  Nuclear Engineering and Design, 240 (2010) 3797-3818.
 \end{frame}
 %************************************************************************************
 \section{A viscous regularization for the Seven-Equation two-phase flow Model}
@@ -277,27 +280,28 @@ v_e := h \frac{|R_e(x_q)|_K}{|s-\overline{s}|_\infty}
 %\begin{array}{lcll}
 Void fraction equation: \\[-4pt]
 \begin{equation}
-\partial_t \left( \alpha_k  A\right) + A {\color{violet}\vec{u}_{int}} \cdot \grad \alpha_k = {\color{red}\mu_{rel}} {\color{blue}A \left( P_k - P_j \right)} + {\color{cyan}\div \left( A \beta_k \grad \alpha_k \right)}\nonumber 
+\partial_t \alpha_k + {\color{violet}\vec{u}_{int}} \cdot \grad \alpha_k = {\color{red}\mu_{rel}} {\color{blue} \left( P_k - P_j \right)} + {\color{cyan}\div \left( \beta_k \grad \alpha_k \right)}\nonumber 
 \end{equation}
 Continuity equation: \\[-4pt]
 \begin{equation}
-\partial_t \left( \alpha_k \rho_k A \right) + \div \left( \alpha_k \rho_k \vec{u}_k A \right) = {\color{cyan}\div \vec{f}} = {\color{cyan}\div \left[ A \left( \alpha_k \kappa_k \grad \rho_k + \rho_k \beta_k \grad \alpha_k \right) \right]} \nonumber
+\partial_t \left( \alpha_k \rho_k \right) + \div \left( \alpha_k \rho_k \vec{u}_k \right) = {\color{cyan}\div \vec{f}} = {\color{cyan}\div \left[\alpha_k \kappa_k \grad \rho_k + \rho_k \beta_k \grad \alpha_k \right]} \nonumber
 \end{equation}
 Momentum equation: \\[-4pt]
 \begin{align}
-\partial_t \left( \alpha_k \rho_k \vec{u}_k A \right) + \div \left[ \alpha_k A \left( \rho_k \vec{u}_k\otimes \vec{u}_k \right) \right]  + \grad(\alpha_k A P_k) &=  \nonumber \\
-\alpha_k P_k \grad A +  {\color{violet}P_{int}} A \grad \alpha_k +  {\color{red}\lambda_{rel}}{\color{blue}A  \left( \vec{u}_j - \vec{u}_k \right)} &+ {\color{cyan}\div \left[ A \alpha_k \rho_k \mu_k \grad^s \vec{u} + \vec{u} \otimes \vec{f} \right]}\nonumber
+\partial_t \left( \alpha_k \rho_k \vec{u}_k \right) + \div \left[ \alpha_k \left( \rho_k \vec{u}_k\otimes \vec{u}_k \right) \right]  + \grad(\alpha_k P_k) &=  \nonumber \\
+{\color{violet}P_{int}} \grad \alpha_k +  {\color{red}\lambda_{rel}}{\color{blue}  \left( \vec{u}_j - \vec{u}_k \right)} &+ {\color{cyan}\div \left[ \alpha_k \rho_k \mu_k \grad^s \vec{u} + \vec{u} \otimes \vec{f} \right]}\nonumber
 \end{align}
 Energy equation:
 \begin{align}
-\partial_t \left( \alpha_k \rho_k E_k A \right) +& \div \left[ \alpha_k A \vec{u}_j \left( \rho_k E_k + P_k \right) \right] = \nonumber \\
-&A {\color{violet}P_{int} \vec{u}_{int}} \cdot \grad \alpha_k - {\color{red}\mu_{rel}} {\color{violet}\bar{P}_{int}} {\color{blue}A\left( P_k-P_j \right)} + {\color{red}\lambda_{rel}} {\color{violet}\bar{\vec{u}}_{int}} {\color{blue}A \cdot \left( \vec{u}_j - \vec{u}_k \right)} +\nonumber \\
-& {\color{cyan}\div \left[ A \alpha_k \kappa_k \grad (\rho e)_k - \frac{|| \vec{u}_k ||^2}{2} \vec{f} + A \alpha_k \mu_k \vec{u}_k : \grad^s \vec{u}_k \right]} \nonumber
+\partial_t \left( \alpha_k \rho_k E_k \right) +& \div \left[ \alpha_k \vec{u}_j \left( \rho_k E_k + P_k \right) \right] = \nonumber \\
+& {\color{violet}P_{int} \vec{u}_{int}} \cdot \grad \alpha_k - {\color{red}\mu_{rel}} {\color{violet}\bar{P}_{int}} {\color{blue}\left( P_k-P_j \right)} + {\color{red}\lambda_{rel}} {\color{violet}\bar{\vec{u}}_{int}} {\color{blue} \cdot \left( \vec{u}_j - \vec{u}_k \right)} +\nonumber \\
+& {\color{cyan}\div \left[ \alpha_k \kappa_k \grad (\rho e)_k - \frac{|| \vec{u}_k ||^2}{2} \vec{f} + \alpha_k \mu_k \vec{u}_k : \grad^s \vec{u}_k \right]} \nonumber
 \end{align}
 %\end{array}
 %\right.
 \end{subequations}
 \end{block}
+M. Delchini, J. Ragusa and R. Berry, \emph{A Viscous Regularization for the Seven-Equation Two-Phase Flow Model,} in preparation.
 \end{frame}
 %************************************************
 \begin{frame}[shrink]{\normalsize An all-Mach flow definition of the viscosity coefficients}
@@ -318,6 +322,7 @@ $\mu_{k,e}(\vec{r},t)    = \frac{h^2 \max(\resinew_k, J_k)}{ \textcolor{red}{\no
 \hspace{0.5cm} $\bullet$ $\beta_{max} = \frac{h}{2} || \vec{u}_{int} ||$ and $\beta_{k,e} = h^2 \frac{\max( R_{k,\alpha}, J_{k,\alpha} )}{|| \eta_k - \bar{\eta}_k ||_\infty}$  \\ [3pt]
 \hspace{0.5cm} $\bullet$ $R_{k,\alpha} = \partial_t \eta_k + \vec{u}_{int}\cdot \grad \eta_k$ with $\eta_k = \frac{\alpha_k^2}{2}$ and $J_{k,\alpha} = ||\vec{u}_{int} || \  [[\ \grad \alpha_k \cdot \vec{n}\ ]]$
 \end{block}
+M. Delchini, J. Ragusa and R. Berry, \emph{1-D Numerical Solution of the Seven-Equation Two-Phase Flow Model Using an Entropy-Based Artificial Dissipative Method,} in preparation.
 \end{frame}
 %************************************************
 %\subsection{RELAP-7: reactor safety analysis code.}
@@ -338,7 +343,8 @@ $\mu_{k,e}(\vec{r},t)    = \frac{h^2 \max(\resinew_k, J_k)}{ \textcolor{red}{\no
 %************************************************
 \begin{frame}{}
 \begin{block}{\normalsize Spatial and temporal discretizations}
-\hspace{0.5cm} $\bullet$ BDF2 and linear polynomial test function \\
+\hspace{0.5cm} $\bullet$ BDF2 \\
+\hspace{0.5cm} $\bullet$ Linear polynomial test functions $\rightarrow$ second-order accuracy \\
 \hspace{0.5cm} $\bullet$ Ideal gas equation of states: $\gamma_1=1.4$ and $\gamma_2=3$ \\
 \hspace{0.5cm} $\bullet$ 1-D pipe
 \end{block}
@@ -347,12 +353,13 @@ $\mu_{k,e}(\vec{r},t)    = \frac{h^2 \max(\resinew_k, J_k)}{ \textcolor{red}{\no
 Two 1-D shock tests for two limit cases  (heavy fluid $1$ and light fluid $2$):
 \begin{block}{First test: two independent fluids}
 \hspace{0.5cm} $\bullet$ Both fluids initially at rest, ($P_{left} = 1$ MPa,  $P_{right} = 0.1$ MPa) and ($\rho_1 = 10$, $\rho_2 = 1$ $kg/m^3$) \\
-\hspace{0.5cm} $\bullet$ Zero relaxation coefficients: $\mu_rel = \lambda_{rel} = 0$
+\hspace{0.5cm} $\bullet$ Zero relaxation coefficients: $\mu_rel = \lambda_{rel} = 0$ \\
+\hspace{0.5cm} $\bullet$ Exact solutions are available
 \end{block}
 %
 \begin{block}{Second test: infinite relaxation parameters (Kapila)}
 \hspace{0.5cm} $\bullet$ Same initial conditions \\
-\hspace{0.5cm} $\bullet$ Zero relaxation coefficients: $\mu_{rel} = \lambda_{rel} \to \infty$
+\hspace{0.5cm} $\bullet$ Infinite relaxation coefficients: $\mu_{rel} = \lambda_{rel} \to \infty$
 \end{block}
 \end{frame}
 %************************************************
@@ -455,12 +462,12 @@ Two 1-D shock tests for two limit cases  (heavy fluid $1$ and light fluid $2$):
 \hspace{0.5cm} $\bullet$ Derived a viscous regularization for the SEM that is consistent with the entropy minimum principle \\
 \hspace{0.5cm} $\bullet$ All-Mach flow definition of the viscosity coefficients \\
 \hspace{0.5cm} $\bullet$ Presented numerical results using a \emph{continuous} FEM spatial discretization and an implicit (BDF2) temporal integration \\
-\hspace{0.5cm} $\bullet$ Method is a RELAP-7, a MOOSE-based application of the INL
+\hspace{0.5cm} $\bullet$ Method is implemented in RELAP-7, a MOOSE-based application of the INL
 \end{block}
 \begin{block}{Future work}
 \hspace{0.5cm} $\bullet$ Further 1-D tests: hydrostatic tests, stronger shocks \\
 \hspace{0.5cm} $\bullet$ Multi-D simulations $\rightarrow$ requires a preconditioner \\
-\hspace{0.5cm} $\bullet$ Implement the EVM using a discontinuous schemes for comparison against approximate Riemann solver
+\hspace{0.5cm} $\bullet$ Implement the EVM using discontinuous schemes for comparison against approximate Riemann solver
 \end{block}
 \end{frame}
 %************************************************
@@ -479,10 +486,10 @@ Two 1-D shock tests for two limit cases  (heavy fluid $1$ and light fluid $2$):
 %************************************************
 %\bibliographystyle{ans}
 %\bibliography{mybibfile}
-\begin{frame}[allowframebreaks]
-\bibliographystyle{apalike}
-\bibliography{Biblio-Database}
-\begin{thebibliography}{47}
+%\begin{frame}[allowframebreaks]
+%\bibliographystyle{apalike}
+%\bibliography{Biblio-Database}
+%\begin{thebibliography}{47}
   
 %  \bibitem{jlg1}
 %  {\em Entropy viscosity method for nonlinear conservation laws}, 
@@ -613,10 +620,10 @@ Two 1-D shock tests for two limit cases  (heavy fluid $1$ and light fluid $2$):
 %  \emph{The solution of the compressible Euler equations at low Mach numbers using a stabilized finite element algorithm},
 %  J. S. Wong, D.L. Darmofal, J. Peraire, Comput. Methods Appl. Mech. Engrg. 190 (2001) 5719-5737.
   
-  \bibitem{SEM}
-  \emph{The discrete equation method (DEM) for fully compressible, two-phase flows in ducts of spatially varying cross-section.}
-  R. Berry, R. Saurel, O. LeMetayer,
-  Nuclear Engineering and Design, 240 (2010) 3797-3818.
+%  \bibitem{SEM}
+%  \emph{The discrete equation method (DEM) for fully compressible, two-phase flows in ducts of spatially varying cross-section.}
+%  R. Berry, R. Saurel, O. LeMetayer,
+%  Nuclear Engineering and Design, 240 (2010) 3797-3818.
   
 %  \bibitem{Riemann12}
 %  \emph{Comparison of several difference schemes on 1D and 2D test problems for the Euler equations}, 
@@ -631,9 +638,9 @@ Two 1-D shock tests for two limit cases  (heavy fluid $1$ and light fluid $2$):
 %  Anderson, J.D. (1982), McGraw Hill Inc., New York. ASME (2006). V\&V 10-2006 Guide for Verification and Validation in Computational Solid
 %Mechanic.
 %  
-%  \bibitem{Hump}
-%  \emph{A Robust Multigrid Algorithm for the Euler Equations with Local Preconditioning and Semi-coarsening},
-%  D. L. Darmofal and K. Siu, Journal of Computational Physics 151, 728Ð756 (1999).
+% \bibitem{SEM_Marco1}
+% \emph{A Viscous Regularization for the Seven-Equation Two-Phase Flow Model},
+% D. L. Darmofal and K. Siu, Journal of Computational Physics 151, 728Ð756 (1999).
 %  
 %  \bibitem{Leblanc}
 %  \emph{Validation Test Case Suite for compressible hydrodynamics computation},
@@ -642,8 +649,8 @@ Two 1-D shock tests for two limit cases  (heavy fluid $1$ and light fluid $2$):
 %  \bibitem{ShockTEOS}
 %  \emph{A New Averaging Scheme for the Riemann Problem in Pure Water},
 %  Tze-Jang Chen, C. H. Cooke, Mathl. Comput. Modeling Vol. 25 No. 3, pp. 25-36, 1997.
-\end{thebibliography}
-\end{frame}
+%\end{thebibliography}
+%\end{frame}
 %************************************************
 %************************************************
 %************************************************
