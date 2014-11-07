@@ -73,7 +73,7 @@
 
 %style et couleur
 %\usetheme{Frankfurt}
-\date{09/30/2014}
+\date{11/11/2014}
 
 %\addtobeamertemplate{footline}{\hfill\insertframenumber/\inserttotalframenumber\hspace{2em}\null}
 
@@ -84,7 +84,7 @@
 	\usebeamerfont{author in head/foot}\insertshortauthor%~~(\insertshortinstitute)
 \end{beamercolorbox}%
 \begin{beamercolorbox}[wd=.25\paperwidth,ht=3.25ex,dp=1ex,center]{section in head/foot}%
-	\usebeamerfont{section in head/foot} PHYSOR-2014 % \insertshorttitle
+	\usebeamerfont{section in head/foot} ANS Winter 2014 % \insertshorttitle
 \end{beamercolorbox}%
 \begin{beamercolorbox}[wd=.25\paperwidth,ht=3.25ex,dp=1ex,left]{section in head/foot}%
 	\usebeamerfont{section in head/foot}\insertshortdate{}\hspace*{2em}
@@ -104,7 +104,7 @@
 \author{Marc O. Delchini$^\star$, Jean C. Ragusa$^\star$, Ray Berry$^\ddagger$}
 \institute{
 $^\star$   Texas A\&M University, College Station, TX, USA\\
-$^\dagger$ Idaho National Laboratory, Idaho Falls, ID, USA}
+$^\ddagger$ Idaho National Laboratory, Idaho Falls, ID, USA}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -137,12 +137,12 @@ $^\dagger$ Idaho National Laboratory, Idaho Falls, ID, USA}
 \begin{frame} 
 \frametitle{The RELAP (Reactor Excursion and Leak Analysis Program) family of codes}
 
-Current industry standard: RELAP-5 (mod 3.2)\\
-\begin{itemize}
-\item 6-equation two-phase flow model with time- and volume-averaged equations. The 6-eq model is ill-posed (non hyperbolic) and needs artificial viscosity and surface tension to be well-posed.
-\item Semi-implicit in time with staggered spatial grids (momentum grid half-shifted from the mass/energy grid)
-\item Original model developed in the mid 1970s-early 1980s with continued enhancements since then.
-\end{itemize}
+%Current industry standard: RELAP-5 (mod 3.2)\\
+%\begin{itemize}
+%\item 6-equation two-phase flow model with time- and volume-averaged equations. The 6-eq model is ill-posed (non hyperbolic) and needs artificial viscosity and surface tension to be well-posed.
+%\item Semi-implicit in time with staggered spatial grids %(momentum grid half-shifted from the mass/energy grid)
+%\item Original model developed in the mid 1970s-early 1980s with continued enhancements since then.
+%\end{itemize}
 
 \begin{block}{\tcm{Relap-7}: next-generation reactor safety code}
 \begin{itemize}
@@ -178,15 +178,21 @@ Many multiphysics \tcm{MOOSE-applications} already built using MOOSE:
 \end{enumerate}
 \end{block}
 
-\begin{block}{Other Relap-7 talk}
+\vspace{-2mm}
+
+\begin{block}{Other RELAP-7 talks}
 \hspace{0.5cm} $\bullet$ 
-\tcb{Tuesday Nov. 11, 10:10AM:} {\it Status Update on RELAP-7: A Next Generation Reactor System
+\tcb{Tuesday Nov. 11, 10:10 AM:} {\it Status Update on RELAP-7: A Next Generation Reactor System
 Analysis Code},
 Richard Martineau, Hongbin Zhang, Haihua Zhao,
 Ling Zou (INL) \\
 \hspace{0.5cm} $\bullet$ 
-\tcb{Tuesday Nov. 11, 2:40AM:} {\it Methodology for the Incorporation of Passive Component Aging
-Modeling into the RAVEN/RELAP-7Environment}, A. Guler, D. Mandelli, A. Alfonsi, J.  Cogliati, C. Rabiti, T. Aldemir
+\tcb{Wednesday Nov. 12, 8:30 AM:} {\it Application of the Entropy Viscosity Method to the 1-D 7-Equation
+Model for Two-Phase Flows}, 
+Marc O. Delchini, Jean C. Ragusa (TAMU), Ray A. Berry (INL)\\
+%\hspace{0.5cm} $\bullet$ 
+%\tcb{Tuesday Nov. 11, 2:40AM:} {\it Methodology for the Incorporation of Passive Component Aging
+%Modeling into the RAVEN/RELAP-7Environment}, A. Guler, D. Mandelli, A. Alfonsi, J.  Cogliati, C. Rabiti, T. Aldemir
 \end{block}
 
 
@@ -215,12 +221,12 @@ To solve them using \textcolor{red}{{\it continuous} FEM} using MOOSE
 Low-Mach: huge disparity in speeds (pressure waves move much faster)\\
 \hspace{0.5cm} $\bullet$ Severely CFL-constrained if using explicit time-stepping\\
 \hspace{0.5cm} $\bullet$ Best to use \tcr{implicit} time stepping \\
-\hspace{0.5cm} $\bullet$ Nonlinear system of equations \\%(preconditioner: pressure-correction ICE, for example)\\
-\hspace{0.5cm} $\bullet$ Fits the JFNK formalism in MOOSE where all physic components are tightly coupled \\
+\hspace{0.9cm} $\to$ Nonlinear system of equations \\%(preconditioner: pressure-correction ICE, for example)\\
+\hspace{0.9cm} $\to$ Fits the JFNK formalism in MOOSE % where all physic components are tightly coupled \\
 \end{block}
 
-\begin{block}{Regularization technique for discretization of fluid flow}
-We will employ novel artificial viscosity schemes based on the entropy production residual
+\begin{block}{Viscous regularization of the discretized fluid flow equations}
+We will employ novel \textcolor{magenta}{artificial viscosity} schemes based on the entropy production residual
 \small{ (Guermond et al., {\it Entropy viscosity method for nonlinear  conservation laws}, J. of Comput. Phys. (2011).}\\
 \medskip
 The \tcm{entropy viscosity method} is \tcr{discretization-independent} and was significantly tested in the supersonic regime
@@ -248,11 +254,11 @@ The \tcm{entropy viscosity method} is \tcr{discretization-independent} and was s
 \begin{frame} 
 \frametitle{Quick overview of the entropy-based artificial viscosity formalism}
 
-General scalar conservation law: $\partial_t u + \div \vec{f}(u) = 0$.
+General scalar conservation law: $\boxed{\partial_t u + \div \vec{f}(u) = 0}$.
 
 \begin{enumerate}
 \item Determine an entropy pair ($s(u),\, \vec{\Psi}(u)$) for the PDE under consideration
-\item Compute the entropy residual $R_e:=\partial_t s(u_h) + \div \Psi(u_h)$, in each cell $K$, at each quadrature point $x_q$
+\item Compute the entropy residual $\boxed{R_e:=\partial_t s(u_h) + \div \Psi(u_h)}$, in each cell $K$, at each quadrature point $x_q$
 \item Compute the speed associated with this residual
 \be
 v_e := h \frac{|R_e(x_q)|_K}{|s-\overline{s}|_\infty}
@@ -324,49 +330,8 @@ v_e := h \frac{|R_e(x_q)|_K}{|s-\overline{s}|_\infty}
 \begin{frame} 
 \frametitle{Euler equations with viscous regularization}
 
-\begin{block}{Eulers equations with viscous regularization}
-\begin{subequations}
-\label{eq:euler_visc_reg}
-%
-\begin{equation}
-\partial_t \rho + \div \bs{m} - \tcr{\div \bs{f}} = 0
-\end{equation}
-%
-\begin{equation}
-\partial_t \bs{m} + \div (\bs{u} \otimes \bs{m}) + \grad p - \tcr{\div \mathbb{g}}  = 0
-\end{equation}
-%
-\begin{equation}
-\partial_t E + \div (\bs{u}(E+p)) - \tcr{\div (\bs{h}+ \mathbb{g} \cdot \bs{u} )}= 0
-\end{equation}
-%
-\end{subequations}
-+ Equation of State $P=P(\rho,e)$ %(here stiffened gas EOS)  $P = (\gamma-1) \rho (e-q) - \gamma P_\infty$
-\end{block}
 
-\medskip
-
-The viscous fluxes $\bs{f}\,,\mathbb{g}\,,\bs{h}$ need to be determined. \textcolor{red}{How?} \\
-
-\medskip
-
-By proving that the equations with the regularization terms satisfy a minimum principle on the specific entropy:
-\begin{block}{Minimum entropy principle}
-\be
-\inf_{x\in \mathbb{R}^d} s(x,t) \ge \inf_{x\in \mathbb{R}^d} s_0(x) \qquad \forall t \ge 0
-\ee
-\end{block}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame} 
-\frametitle{}
-
-\begin{block}{Euler equations with viscous regularization}
+\begin{block}{Euler equations with viscous regularization (final form)}
 \begin{subequations}
 \label{eq:euler_visc}
 %
@@ -382,6 +347,9 @@ By proving that the equations with the regularization terms satisfy a minimum pr
 \partial_t \left( \rho E \right) + \div \left[ \vec{u} \left( \rho E + P \right) \right] = \textcolor{red}{\div \left( \kappa \grad \left( \rho e \right) + \frac{1}{2}|| \vec{u} ||^2 \kappa \grad \rho +  \rho \mu \vec{u} \grad \vec{u}  \right) }
 \end{equation}
 \end{subequations}
+
+\smallskip
+
 where $\kappa$ and $\mu$ are positive viscosity coefficients.
 \end{block}
 
@@ -397,7 +365,7 @@ where $\kappa$ and $\mu$ are positive viscosity coefficients.
 \begin{block}{\textcolor{red}{Entropy-based viscosity coefficients} $\kappa_e$ and $\mu_e$ :}
 \begin{itemize}
 \item are based on the local entropy production,  
-\item are numerically \tcm{evaluated} using the local entropy residual $\resi(\vec{r},t) := \partial_t s + \vec{u} \cdot \grad s$ %
+\item are numerically \tcm{evaluated} using the local entropy residual $\boxed{\resi(\vec{r},t) := \partial_t s + \vec{u} \cdot \grad s}$ %
 %\begin{equation}
 %\label{eq:ent_residual}
 %\resi(\vec{r}, t) := \partial_t s + \vec{u} \cdot \grad s
@@ -441,171 +409,6 @@ If $\mu_{\max}$ and $\kappa_{\max}$ are used, the discretization scheme is over-
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Extension of the Entropy Viscosity Method to Low-Mach Flows}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{New Formulation of the Entropy Residual}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame} 
-\frametitle{Low-Mach studies: New formulation for the entropy residual}
-
-Recall that 
-
-\begin{equation}
-\mu^K_e(\vec{r}_q,t) =  h_K^2 \frac{|\resi^K(\vec{r}_q,t) |}{|| s - \bar{s} ||_\infty}  
-\qquad
-\kappa^K_e(\vec{r}_q,t) = \Pr \, \mu^K_e(\vec{r}_q,t)
-\end{equation}
-
-
-\begin{block}{Issues with current formulation in the low-Mach limit}
-\begin{itemize}
-\item In the low-Mach Regime, the flow is known to be \textcolor{red}{isentropic}, resulting in very little entropy production
-\item In practice, the entropy residual $\resi$ will be very small in that regime  (i.e., small numerator in the expression for the viscosity coefficients)
-\item and so will be the denominator $|| s - \bar{s} ||_\infty$,
-\item Thus, the formula for the viscosity coefficients are not determined \textcolor{red}{(ill-scaled) in the low-Mach limit}
-\end{itemize}
-\end{block}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame} 
-\frametitle{Alternate definition of the entropy residual}
-
-%We can show that
-\begin{equation}
-\label{eq:ent_res}
-\resi(\vec{r},t) := \partial_t s + \vec{u} \cdot \grad s = \matder{s} = \frac{s_e}{P_e} \underbrace{\left( \matder{P} - c^2 \matder{\rho} \right)}_{\resinew(\vec{r},t)} 
-\end{equation} 
-
-%Idea for the demonstration: 
-%$s$ is a function of $e$ and $\rho$, thus $\matder{s} = s_e\matder{e} + s_\rho \matder{\rho}$\\
-%Re-express the internal energy $e$ as a function of $P$ and $\rho$ through the EoS.
-
-\begin{block}{Consequences}
-\begin{itemize}
-\item The entropy residuals $\resi$ and $\resinew$ are proportional to one another %and will experience similar variations in space and time. 
-\item Thus, one may elect to employ $\resinew$ instead of $\resi$ %for the evaluation of the local entropy residual.
-\item {\it An analytical expression of the entropy function $s$ is no longer needed} %: the residual $\resinew$ is evaluated using the local values of $P\,,\rho\,,u\,,c$ %pressure, density, velocity and speed of sound.
-\item \textcolor{red}{Suitable normalizations for the residual} $\resinew$ can be devised (e.g., $P$, $\rho c^2$, $\rho c || \vec{u} ||$ or $\rho || \vec{u} ||^2$)%. Examples include the pressure itself or combinations of the density, the speed of sound and the norm of the velocity, i.e., $\rho c^2$, $\rho c || \vec{u} ||$ or $\rho || \vec{u} ||^2$. 
-\end{itemize}
-\end{block}
-
-
-\begin{block}{What is the proper normalization for $\resinew(\vec{r},t)$?}
-Requirements
-\begin{enumerate}
-\item To recover the incompressible results in the low-Mach limit %(i.e., pressure fluctuations $\propto M^2$; divergence-free flow; incompressible continuity equation)
-\item To remain valid and accurate for supersonic flows
-\end{enumerate}
-\textcolor{red}{Asymptotic analysis} to determine the proper scaling in the low-Mach limit.
-
-\end{block}
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame} 
-\frametitle{Bridging the gap from low-Mach to supersonic}
-
-\begin{block}{Answer from low-Mach asymptotic study}
-\begin{subequations}
-\begin{equation}
-\mu^K_e(\vec{r}_q,t)    = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{ \rho_\infty c_\infty^2 }    \, ,
-\end{equation} 
-\text{and} 
-\begin{equation}
-\kappa^K_e(\vec{r}_q,t) = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{ \rho_\infty c_\infty^2 } \, .
-\end{equation}
-\end{subequations}
-\end{block}
-
-However, we want to keep the all-speed aspect of the flow solver, so
-
-\begin{block}{New definitions}
-%\begin{subequations}
-%\begin{equation}
-%\mu^K_e(\vec{r},t)    = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{\textcolor{magenta}{M \rho \|\vec{u}\|^2 + (1-M) \rho c^2}}  \, ,
-%\end{equation} 
-%\text{and} 
-%\begin{equation}
-%\kappa^K_e(\vec{r},t) = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{\textcolor{magenta}{M \rho \|\vec{u}\|^2 + (1-M) \rho c^2}}  \, .
-%\end{equation}
-%\end{subequations}
-%
-%\underline{\textcolor{blue}{or, more generally,}}
-
-\begin{subequations}
-\begin{equation}
-\mu^K_e(\vec{r},t)    = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{\textcolor{magenta}{a(M) \rho \|\vec{u}\|^2 + (1-a(M)) \rho c^2}}  \, ,
-\end{equation} 
-\text{and} 
-\begin{equation}
-\kappa^K_e(\vec{r},t) = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{\textcolor{magenta}{b(M) \rho \|\vec{u}\|^2 + (1-b(M)) \rho c^2}} \, .
-\end{equation}
-\end{subequations}
-
-\end{block}
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Results}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame} 
-\frametitle{Numerical examples}
-
-\bigskip 
-All examples are obtained using MOOSE with linear continuous FEM (spatial discretization) and BDF2 (temporal integration).
-
-\bigskip
-Several shock tube examples available in the Appendix, if needed.
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame} 
 \frametitle{Mach-3 forward facing step: density contour}
@@ -635,6 +438,7 @@ Several shock tube examples available in the Appendix, if needed.
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Extension of the Entropy Viscosity Method to Low-Mach Flows}
@@ -642,26 +446,24 @@ Several shock tube examples available in the Appendix, if needed.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{New formulation for the entropy residual}
+\subsection{New Formulation of the Entropy Residual}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame} 
-\frametitle{Low-Mach studies: New formulation for the entropy residual}
+\frametitle{\textcolor{red}{Low-Mach issues} with current viscosity definitions}
 
 Recall that 
-\begin{subequations}
+
 \begin{equation}
-\mu^K_e(\vec{r}_q,t) =  h_K^2 \frac{|\resi^K(\vec{r}_q,t) |}{|| s - \bar{s} ||_\infty}  
+\mu^K_e(\vec{r}_q,t) =  h_K^2 \frac{|\resi^K(\vec{r}_q,t) |}{\textcolor{magenta}{|| s - \bar{s} ||_\infty}} 
+%\qquad
+%\kappa^K_e(\vec{r}_q,t) = \Pr \, \mu^K_e(\vec{r}_q,t)
 \end{equation}
-\begin{equation}
-\kappa^K_e(\vec{r}_q,t) = \Pr \, \mu^K_e(\vec{r}_q,t)
-\end{equation}
-\end{subequations}
 
 
-\begin{block}{Issue with current formulation in the low-Mach limit}
+\begin{block}{Issues with current formulation in the low-Mach limit}
 \begin{itemize}
 \item In the low-Mach Regime, the flow is known to be \textcolor{red}{isentropic}, resulting in very little entropy production
 \item In practice, the entropy residual $\resi$ will be very small in that regime  (i.e., small numerator in the expression for the viscosity coefficients)
@@ -678,61 +480,86 @@ Recall that
 \begin{frame} 
 \frametitle{Alternate definition of the entropy residual}
 
+We can show that
 \begin{equation}
 \label{eq:ent_res}
-\resi(\vec{r},t) := \partial_t s + \vec{u} \cdot \grad s = \matder{s} = \frac{s_e}{P_e} \left( \underbrace{\matder{P} - c^2 \matder{\rho} }_{\resinew(\vec{r},t)} \right) ,
+\resi(\vec{r},t) := \partial_t s + \vec{u} \cdot \grad s = \matder{s} = \frac{s_e}{P_e} \underbrace{\left( \matder{P} - c^2 \matder{\rho} \right)}_{\resinew(\vec{r},t)} 
 \end{equation} 
 
 Idea for the demonstration: 
 $s$ is a function of $e$ and $\rho$, thus $\matder{s} = s_e\matder{e} + s_\rho \matder{\rho}$\\
 Re-express the internal energy $e$ as a function of $P$ and $\rho$ through the EoS.
 
-\begin{block}{Outcome}
+\begin{block}{Consequences}
 \begin{itemize}
-\item The entropy residuals $\resi$ and $\resinew$ are proportional to one another and will experience similar variations in space and time. 
-\item Thus, one may elect to employ $\resinew$ instead of $\resi$ %for the evaluation of the local entropy residual.
-\item {\it An analytical expression of the entropy function $s$ is no longer needed}: the residual $\resinew$ is evaluated using the local values of $P\,,\rho\,,u\,,c$ %pressure, density, velocity and speed of sound.
-\item \textcolor{red}{Suitable normalizations for the residual} $\resinew$ can be devised. Examples include the pressure itself or combinations of the density, the speed of sound and the norm of the velocity, i.e., $\rho c^2$, $\rho c || \vec{u} ||$ or $\rho || \vec{u} ||^2$. 
+\item Residuals $\resi$ and $\resinew$ are proportional to one another %and will experience similar variations in space and time. 
+\item We elect to employ $\resinew$ instead of $\resi$ %for the evaluation of the local entropy residual.
+\item {\it An analytical expression of the entropy function $s$ is no longer needed} %: the residual $\resinew$ is evaluated using the local values of $P\,,\rho\,,u\,,c$ %pressure, density, velocity and speed of sound.
+\item \textcolor{red}{Suitable normalizations for the residual} $\resinew$ can be devised (e.g., $P$, $\rho c^2$, $\rho c || \vec{u} ||$ or $\rho || \vec{u} ||^2$)%. Examples include the pressure itself or combinations of the density, the speed of sound and the norm of the velocity, i.e., $\rho c^2$, $\rho c || \vec{u} ||$ or $\rho || \vec{u} ||^2$. 
 \end{itemize}
 \end{block}
 
+
+%\begin{block}{What is a proper normalization for $\resinew(\vec{r},t)$?}
+%Requirements
+%\begin{enumerate}
+%\item To recover the incompressible results in the low-Mach limit %(i.e., pressure fluctuations $\propto M^2$; divergence-free flow; incompressible continuity equation)
+%\item To remain valid and accurate for supersonic flows
+%\end{enumerate}
+%\textcolor{red}{Asymptotic analysis} to determine the proper scaling in the low-Mach limit.
+%
+%\end{block}
+
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame} 
-\frametitle{New definition for the entropy viscosity coefficients}
+\frametitle{What is a proper normalization for $\resinew(\vec{r},t)$?}
 
-Let's pose
-\begin{subequations}
-\label{eq:visc_definition}
+\begin{block}{Requirements} % {What is a proper normalization for $\resinew(\vec{r},t)$?}
+\begin{enumerate}
+\item To recover the incompressible results in the low-Mach limit (i.e., pressure fluctuations $\propto M^2$; divergence-free flow; incompressible continuity equation)
+\item To remain valid and accurate for supersonic flows
+\end{enumerate}
+
+\end{block}
+
+\smallskip 
+
+We pose
 \begin{equation}
-\mu^K_e(\vec{r}_q,t)    = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{\norm_P^\mu}    \, ,
-\end{equation} 
+\mu^K_e(\vec{r}_q,t)    = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{\norm_P^\mu}    
+%\end{equation} 
+\quad
 \text{and} 
-\begin{equation}
-\kappa^K_e(\vec{r}_q,t) = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{\norm_P^\kappa} \, .
+\quad
+%\begin{equation}
+\kappa^K_e(\vec{r}_q,t) = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{\norm_P^\kappa} 
 \end{equation}
-\end{subequations}
 
 \bigskip
 
-We now need to determine $\norm_P^\mu$ and $\norm_P^\kappa$.
-
-\bigskip
-
-\textcolor{red}{Asymptotic analysis} to determine the viscosity coefficient scaling in the low-Mach limit.
+We now need to determine $\norm_P^\mu$ and $\norm_P^\kappa$. $\longrightarrow$
+\textcolor{red}{Asymptotic analysis} to determine the proper scaling in the low-Mach limit.
+%\textcolor{red}{Low-Mach Asymptotic analysis}. % to determine the viscosity coefficient scaling in the low-Mach limit.
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Asymptotic and more}
+\subsection{Low-Mach Asymptotics}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame} 
-\frametitle{Dimensionless variables}
+\frametitle{Low-Mach Asymptotics: non-dimensionalization}
+
+\begin{block}{Non-dimensionalized variables}
 
 \begin{multline}
 \label{eq:norm_param}
@@ -746,19 +573,21 @@ t^* = \frac{t}{L_\infty / u_\infty}           ,\
 \kappa^* = \frac{\kappa}{\kappa_\infty}       ,
 \end{multline}
 %
-where  the subscript $\infty$ denote the far-field or stagnation quantities and the superscript $*$ stands for the adimensional variables.
+where  the subscript $\infty$ denote the far-field  quantities and the superscript $*$ stands for the non-dimensionalized variables.
 
 \medskip
 
-The far-field reference quantities are chosen such that the dimensionless flow quantities are of order 1. 
-
-\medskip
+%The far-field reference quantities are chosen such that the dimensionless flow quantities are of order 1. 
+%
+%\medskip
 
 The reference Mach number is given by
 %
 \begin{equation}
 M_\infty = \frac{u_\infty}{c_\infty} ,
 \end{equation}
+
+\end{block}
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -793,21 +622,21 @@ M_\infty = \frac{u_\infty}{c_\infty} ,
 =
 \frac{1}{\tcr{\Pe_\infty}} \divv{*}  \left( \kappa^*  \gradd{*} (\rho^* e^*) \right)   \\
 +
-\frac{M_\infty^2}{\Re_\infty} \divv{*}  \left( \vec{u}^* \rho^* \mu^* \gradd{s,*} \vec{u}^* \right)
+\frac{\tcr{M_\infty^2}}{\tcr{\Re_\infty}} \divv{*}  \left( \vec{u}^* \rho^* \mu^* \gradd{s,*} \vec{u}^* \right)
 + 
-\frac{M_\infty^2}{2 \Pe_\infty} \divv{*}  \left(\kappa^* (u^*)^2 \gradd{*} \rho^* \right) \, ,
+\frac{\tcr{M_\infty^2}}{2 \tcr{\Pe_\infty}} \divv{*}  \left(\kappa^* (u^*)^2 \gradd{*} \rho^* \right) \, ,
 \end{multline}
 %
 \end{subequations}
 
 \medskip
 
-where the numerical Reynolds $(\Re_\infty)$ and P\'eclet $(\Pe_\infty)$ numbers are :
+\textcolor{magenta}{with the Reynolds $(\Re_\infty)$ and P\'eclet $(\Pe_\infty)$ numbers} :
 %
 \begin{equation}
 \label{eq:ref_numb}
-\Re_\infty = \frac{u_\infty L_\infty}{\mu_\infty} \text{ and }
-\Pe_\infty = \frac{u_\infty L_\infty}{\kappa_\infty} \, .
+\boxed{\Re_\infty = \frac{u_\infty L_\infty}{\mu_\infty}} \quad \text{ and } \quad 
+\boxed{\Pe_\infty = \frac{u_\infty L_\infty}{\kappa_\infty}} \, .
 \end{equation}
 %
 %The Prandlt number used in the original version of the method is simply given by 
@@ -820,102 +649,119 @@ where the numerical Reynolds $(\Re_\infty)$ and P\'eclet $(\Pe_\infty)$ numbers 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame} 
-\frametitle{How should $\Re$ and $\Pe$ scale with the Mach number???}
+\frametitle{Low-Mach Asymptotics: How should $\Re$ and $\Pe$ scale with the Mach number?}
 
-Expand each variable in powers of the Mach number. As an example, 
+\begin{block}{Expand each variable in powers of the Mach number}
+E.g.,
 %
 \begin{equation}
 \label{eq:expansion}
 P(\vec{r}, t) = P_0(\vec{r}, t) + P_1(\vec{r}, t) M_\infty + P_2(\vec{r}, t) M_\infty^2 + \dots 
 \end{equation}
+\end{block}
 
-By studying the resulting momentum equations for various powers of $M_\infty$, we observe the following: the leading order and first-order pressure terms, $P_0$ and $P_1$, are spatially constant \textcolor{magenta}{if and only if} $\Re_\infty = \Pe_\infty = 1$. 
+\begin{block}{Pressure spatial fluctuations}
+To recover the low-Mach results that the leading order and first-order pressure terms ($P_0$ and $P_1$) are spatially constant, we require \textcolor{red}{$\Re_\infty = \Pe_\infty = 1$}. \\
+$\longrightarrow$ pressure fluctuations $\propto M^2$
+\end{block}
 
-
-In this case, the leading-order expressions for the continuity, momentum, and energy equations are:
-\begin{subequations}
-\label{eq:asympt_equ2}
-%
+\begin{block}{Divergence of the flow}
+With this scaling, one can also show that
 \begin{equation}
-\label{eq:asympt_equ2_cont}
- \partial_t \rho_0 + \div ( \rho \vec{u} )_0 = \div ( \kappa \grad \rho )_0
+\partial_t \rho_0 + \vec{u}_0 \cdot \div \rho_0 = 0 \, .
 \end{equation}
-%
-\begin{equation}
-\label{eq:asympt_equ2_mom}
-\partial_t (\rho \vec{u})_0 + \div ( \rho \vec{u} \otimes \vec{u})_0 + \grad P_2 = \div (\rho \mu \grad^s \vec{u} +\kappa \vec{u} \otimes \grad \rho )_0
-\end{equation}
-%
-\begin{equation}
-\label{eq:asympt_equ2_ener}
- \partial_t(\rho E)_0 + \div \left[ \vec{u} (\rho E + P) \right]_0 = \div(\kappa \grad(\rho e))_0
-\end{equation}
-%
-\end{subequations}
+$\longrightarrow$ steady-state divergence-free flows.
+\end{block}
 
-This is consistent with the \textcolor{magenta}{the results in the incompressible limit}
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame} 
-%\frametitle{}
-The leading-order of the equation of state is given by 
-\begin{equation}
-\label{eq:leading_order_eos}
- P_0 = (\gamma - 1) (\rho E)_0 .
-\end{equation}
+%In this case, the leading-order expressions for the continuity, momentum, and energy equations are:
+%\begin{subequations}
+%\label{eq:asympt_equ2}
+%%
+%\begin{equation}
+%\label{eq:asympt_equ2_cont}
+ %\partial_t \rho_0 + \div ( \rho \vec{u} )_0 = \div ( \kappa \grad \rho )_0
+%\end{equation}
+%%
+%\begin{equation}
+%\label{eq:asympt_equ2_mom}
+%\partial_t (\rho \vec{u})_0 + \div ( \rho \vec{u} \otimes \vec{u})_0 + \grad P_2 = \div (\rho \mu \grad^s \vec{u} +\kappa \vec{u} \otimes \grad \rho )_0
+%\end{equation}
+%%
+%\begin{equation}
+%\label{eq:asympt_equ2_ener}
+ %\partial_t(\rho E)_0 + \div \left[ \vec{u} (\rho E + P) \right]_0 = \div(\kappa \grad(\rho e))_0
+%\end{equation}
+%%
+%\end{subequations}
 %
-Using \eqt{eq:leading_order_eos}, the energy equation can be recast as a function of the leading-order pressure, $P_0$, as follows:
-%
-\begin{equation}\label{eq:asympt_equ3_ener}
- \partial_t P_0 + \gamma \div \left( \vec{u} P \right)_0 =  \div(\kappa \grad(P))_0
-\end{equation}
-%
-Since $P_0$ is spatially constant, \eqt{eq:asympt_equ3_ener} becomes
-%
-\begin{equation}
-\frac{1}{\gamma P_0} \frac{d P_0}{dt} = - \div \vec{u}_0 
-\end{equation}
-%
-and, at steady state, we have
-%
-\begin{equation}
-% \gamma P_0 \div  \vec{u}_0 = 0 \Rightarrow \div  \vec{u}_0 = 0.
- \div  \vec{u}_0 = 0 \, .
-\end{equation}
+%This is consistent with the \textcolor{magenta}{the results in the incompressible limit}
 
 
-The same reasoning can be applied to the leading-order of the continuity equation to show that
-\begin{equation}
-\matder{\rho_0} := \partial_t \rho_0 + \vec{u}_0 \cdot \div \rho_0 = 0 \, .
-\end{equation}
-%
-Therefore, by setting the $\Re=\Pe=1$, the \tcr{incompressible fluid results are retrieved in the low-Mach limit when employing the compressible Euler equations with viscous regularization terms present}.
+Therefore, by setting the $\Re_\infty=\Pe_\infty=1$, the \tcr{incompressible fluid results are retrieved in the low-Mach limit when employing the compressible Euler equations {\it with viscous regularization terms present}.}
 
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame} 
+%%\frametitle{}
+%The leading-order of the equation of state is given by 
+%\begin{equation}
+%\label{eq:leading_order_eos}
+ %P_0 = (\gamma - 1) (\rho E)_0 .
+%\end{equation}
+%%
+%Using \eqt{eq:leading_order_eos}, the energy equation can be recast as a function of the leading-order pressure, $P_0$, as follows:
+%%
+%\begin{equation}\label{eq:asympt_equ3_ener}
+ %\partial_t P_0 + \gamma \div \left( \vec{u} P \right)_0 =  \div(\kappa \grad(P))_0
+%\end{equation}
+%%
+%Since $P_0$ is spatially constant, \eqt{eq:asympt_equ3_ener} becomes
+%%
+%\begin{equation}
+%\frac{1}{\gamma P_0} \frac{d P_0}{dt} = - \div \vec{u}_0 
+%\end{equation}
+%%
+%and, at steady state, we have
+%%
+%\begin{equation}
+%% \gamma P_0 \div  \vec{u}_0 = 0 \Rightarrow \div  \vec{u}_0 = 0.
+ %\div  \vec{u}_0 = 0 \, .
+%\end{equation}
+%
+%
+%The same reasoning can be applied to the leading-order of the continuity equation to show that
+%\begin{equation}
+%\matder{\rho_0} := \partial_t \rho_0 + \vec{u}_0 \cdot \div \rho_0 = 0 \, .
+%\end{equation}
+%%
+%Therefore, by setting the $\Re=\Pe=1$, the \tcr{incompressible fluid results are retrieved in the low-Mach limit when employing the compressible Euler equations with viscous regularization terms present}.
+%
+%
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame} 
 \frametitle{Back to $\norm_P^\mu$ and $\norm_P^\kappa$}
 
-From the definition of the entropy viscosity coefficient, we have
+From the definition of the entropy viscosity coefficient $\left( \kappa^K_e(\vec{r}_q,t)    = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{\norm_P^\kappa} \right)$, we have
 \begin{equation}
 \label{eq:norm_relation}
 \kappa_\infty 
-= \frac{ \rho_\infty c_\infty^2 L_\infty^2 }{ L_\infty/u_\infty  \norm_{P,\infty}^{\kappa} }
-= \frac{ \rho_\infty c_\infty^2 u_\infty L_\infty }{ \norm_{P,\infty}^{\kappa} } \, .
+= L_\infty^2  \frac{ \rho_\infty c_\infty^2 }{ L_\infty/u_\infty  \norm_{P,\infty}^{\kappa} }
+\quad \to \quad \boxed{\norm_{P,\infty}^{\kappa} = \Pe_\infty \rho_\infty c_\infty^2} 
+%= \frac{ \rho_\infty c_\infty^2 u_\infty L_\infty }{ \norm_{P,\infty}^{\kappa} } \, .
 \end{equation}
 
 Since $\Pe$ scales as unity,  we obtain:
 %
 \begin{equation}
 \label{eq:norm_relation_bis}
-\norm_{P,\infty}^{\kappa} = \Pe_\infty \rho_\infty c_\infty^2 = \rho_\infty c_\infty^2 \, .
+\boxed{\norm_{P,\infty}^{\kappa} =  \rho_\infty c_\infty^2 } \, .
 \end{equation}
 %
 \eqt{eq:norm_relation_bis} provides a proper normalization factor to define the $\kappa$ viscosity coefficient.\\
@@ -923,7 +769,25 @@ Since $\Pe$ scales as unity,  we obtain:
 \medskip 
 Similarly :  $\norm_{P,\infty}^{\mu} = \rho_\infty c_\infty^2 $.
 
-\begin{block}{Thus, some possible new definitions in the low-Mach limit are}
+\begin{block}{Thus, the new definitions for the viscosities in the low-Mach limit are}
+\begin{equation}
+\mu^K_e(\vec{r}_q,t)    = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{ \rho_\infty c_\infty^2 }    \, ,
+\quad
+\text{and} 
+\quad
+\kappa^K_e(\vec{r}_q,t) = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{ \rho_\infty c_\infty^2 } \, .
+\end{equation}
+\end{block}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame} 
+\frametitle{Bridging the gap from low-Mach to supersonic}
+
+\begin{block}{Answer from low-Mach asymptotic study}
 \begin{subequations}
 \begin{equation}
 \mu^K_e(\vec{r}_q,t)    = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{ \rho_\infty c_\infty^2 }    \, ,
@@ -935,28 +799,20 @@ Similarly :  $\norm_{P,\infty}^{\mu} = \rho_\infty c_\infty^2 $.
 \end{subequations}
 \end{block}
 
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame} 
-\frametitle{Bridging the gap from low-Mach to supersonic}
-
-However, we want to keep the all-speed aspect of the flow solver, so
+However, we want to keep the \textcolor{red}{all-speed aspect of the flow solver}, so
 
 \begin{block}{New definitions}
-\begin{subequations}
-\begin{equation}
-\mu^K_e(\vec{r},t)    = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{\textcolor{magenta}{M \rho \|\vec{u}\|^2 + (1-M) \rho c^2}}  \, ,
-\end{equation} 
-\text{and} 
-\begin{equation}
-\kappa^K_e(\vec{r},t) = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{\textcolor{magenta}{M \rho \|\vec{u}\|^2 + (1-M) \rho c^2}}  \, .
-\end{equation}
-\end{subequations}
-
-\underline{\textcolor{blue}{or, more generally,}}
+%\begin{subequations}
+%\begin{equation}
+%\mu^K_e(\vec{r},t)    = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{\textcolor{magenta}{M \rho \|\vec{u}\|^2 + (1-M) \rho c^2}}  \, ,
+%\end{equation} 
+%\text{and} 
+%\begin{equation}
+%\kappa^K_e(\vec{r},t) = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{\textcolor{magenta}{M \rho \|\vec{u}\|^2 + (1-M) \rho c^2}}  \, .
+%\end{equation}
+%\end{subequations}
+%
+%\underline{\textcolor{blue}{or, more generally,}}
 
 \begin{subequations}
 \begin{equation}
@@ -964,7 +820,7 @@ However, we want to keep the all-speed aspect of the flow solver, so
 \end{equation} 
 \text{and} 
 \begin{equation}
-\kappa^K_e(\vec{r},t) = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{\textcolor{magenta}{b(M) \rho \|\vec{u}\|^2 + (1-b(M)) \rho c^2}}  \, .
+\kappa^K_e(\vec{r},t) = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{\textcolor{magenta}{b(M) \rho \|\vec{u}\|^2 + (1-b(M)) \rho c^2}} \, .
 \end{equation}
 \end{subequations}
 
@@ -974,15 +830,40 @@ However, we want to keep the all-speed aspect of the flow solver, so
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
-
-
-
-
-
-
-
-
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame} 
+%\frametitle{Bridging the gap from low-Mach to supersonic}
+%
+%However, we want to keep the all-speed aspect of the flow solver, so
+%
+%\begin{block}{New definitions}
+%\begin{subequations}
+%\begin{equation}
+%\mu^K_e(\vec{r},t)    = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{\textcolor{magenta}{M \rho \|\vec{u}\|^2 + (1-M) \rho c^2}}  \, ,
+%\end{equation} 
+%\text{and} 
+%\begin{equation}
+%\kappa^K_e(\vec{r},t) = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{\textcolor{magenta}{M \rho \|\vec{u}\|^2 + (1-M) \rho c^2}}  \, .
+%\end{equation}
+%\end{subequations}
+%
+%\underline{\textcolor{blue}{or, more generally,}}
+%
+%\begin{subequations}
+%\begin{equation}
+%\mu^K_e(\vec{r},t)    = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{\textcolor{magenta}{a(M) \rho \|\vec{u}\|^2 + (1-a(M)) \rho c^2}}  \, ,
+%\end{equation} 
+%\text{and} 
+%\begin{equation}
+%\kappa^K_e(\vec{r},t) = h_K^2 \frac{ | \resinew^K(\vec{r}_q,t) | }{\textcolor{magenta}{b(M) \rho \|\vec{u}\|^2 + (1-b(M)) \rho c^2}}  \, .
+%\end{equation}
+%\end{subequations}
+%
+%\end{block}
+%
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
@@ -1026,16 +907,22 @@ However, we want to keep the all-speed aspect of the flow solver, so
 %\end{figure}
 %\end{frame}
 %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame} 
 \frametitle{Fluid flow over a 2-D cylinder with an inlet Mach of $10^{-7}$ (CFL=40)}
 
 \begin{figure}
-	\includegraphics[height=7cm, keepaspectratio=true]{figs/CylinderMach1em7ZoomIn.png}
+	\includegraphics[height=6cm, keepaspectratio=true]{figs/CylinderMach1em7ZoomIn.png}
   \caption{$M_{\text{inlet}}=10^{-7}$}
 \end{figure}
 \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{}Velocity ratio for different Mach numbers}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Fluid flow over a 2-D cylinder}
 \begin{table}[H]
 \begin{center}
  \caption{\label{tbl:velocity_ratio}Velocity ratio for different Mach numbers.}
@@ -1052,8 +939,10 @@ $10^{-7}$ & $2.283$ $10^{-7}$ & $1.144$ $10^{-7}$ & $1.99$ \\ \hline
 \nonumber
 \end{table}
 \end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Pressure and velocity fluctuations versus $M$}
 \begin{figure}
 	\includegraphics[height=7cm, keepaspectratio=true]{figs/pressure_fluctuation.png}
@@ -1065,7 +954,7 @@ $10^{-7}$ & $2.283$ $10^{-7}$ & $1.144$ $10^{-7}$ & $1.99$ \\ \hline
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame} 
-\frametitle{Flow over a circular hump (CFL=20)}
+\frametitle{Flow over a circular hump  with an inlet Mach of $0.7$  (CFL=20)}
 
 At steady state:
 \begin{figure}
@@ -1074,73 +963,34 @@ At steady state:
 \end{figure}
 \end{frame}
 
-\begin{frame} 
+\begin{frame}{Flow over a circular hump  with an inlet Mach of $10^{-2}$} 
 \begin{figure}
 	\includegraphics[height=3cm, keepaspectratio=true]{figs/Hump2D_mach_0p01.png}
   \caption{$M_{\text{inlet}}=10^{-2}$}
 \end{figure}
 \end{frame}
 
-\begin{frame} 
-\begin{figure}
-	\includegraphics[height=3cm, keepaspectratio=true]{figs/Hump2D_mach_0p001.png}
-  \caption{$M_{\text{inlet}}=10^{-3}$}
-\end{figure}
-\end{frame}
+%\begin{frame} 
+%\begin{figure}
+	%\includegraphics[height=3cm, keepaspectratio=true]{figs/Hump2D_mach_0p001.png}
+  %\caption{$M_{\text{inlet}}=10^{-3}$}
+%\end{figure}
+%\end{frame}
 
-\begin{frame} 
-\begin{figure}
-	\includegraphics[height=3cm, keepaspectratio=true]{figs/Hump2D_mach_1em4.png}
-  \caption{$M_{\text{inlet}}=10^{-4}$}
-\end{figure}
-\end{frame}
+%\begin{frame} 
+%\begin{figure}
+	%\includegraphics[height=3cm, keepaspectratio=true]{figs/Hump2D_mach_1em4.png}
+  %\caption{$M_{\text{inlet}}=10^{-4}$}
+%\end{figure}
+%\end{frame}
 
-\begin{frame} 
+\begin{frame}{Flow over a circular hump  with an inlet Mach of $10^{-7}$} 
 \begin{figure}
 	\includegraphics[height=3cm, keepaspectratio=true]{figs/Hump2D_mach_1em7.png}
   \caption{$M_{\text{inlet}}=10^{-7}$}
 \end{figure}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame} 
-\frametitle{Compression corner: Mach number contour}
-
-\begin{center}
-\movie[width=6cm,height=4cm,showcontrols=true,externalviewer]{\includegraphics[width=6cm,height=4cm]{engr.pdf}}{movs/compression_mach_number_movie.mpeg}\\
-\end{center}
-\end{frame}
-
-\begin{frame} 
-\frametitle{Compression corner: viscosity contour}
-
-\begin{center}
-\movie[width=6cm,height=4cm,showcontrols=true,externalviewer]{\includegraphics[width=6cm,height=4cm]{engr.pdf}}{movs/compression_viscosity_movie.mpeg}\\
-\end{center}
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame} 
-\frametitle{Compression corner: Mach number contour}
-
-\begin{table}[H]
-\begin{center}
-\begin{tabular}{|c|c|c|}  \hline
-            & analytical & numerical\\ \hline
-Pressure    & 2.47       & 2.467    \\ \hline
-Mach number &  0.74      & 0.741    \\ \hline
-Entropy     & 1.03       & 1.026    \\ \hline 
-\end{tabular}
-\caption{\label{tbl:corner_exact_sol} Ratio of analytical and numerical downstream to upstream quantities for 
-the compression corner problems (corner angle of $15^\circ$ and inlet $M=2.5$ (analytical values from \cite{CompressionCorner}).}
-\end{center}
-\end{table}
-%
-\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -1298,13 +1148,108 @@ the compression corner problems (corner angle of $15^\circ$ and inlet $M=2.5$ (a
 \ben
 \item Ongoing extension the entropy viscosity method to fluid governing laws with wall heat source, wall friction, and gravity forces
 \item Ongoing extension of the technique to the 7-equation two-phase flow fluid model in RELAP-7
-\item Other RELAP-7 presentations: \tcb{Tuesday Nov. 11, 10:10 AM}
+\item Other RELAP-7 presentations: \\
+\tcb{Tuesday Nov. 11, 10:10 AM {\it Update on RELAP-7}} and \\
+\tcb{Wednesday Nov. 12, 8:30 AM {\it Two-phase Flow Model of RELAP-7}}
 \een
 \end{block}
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[noframenumbering] 
+
+\begin{center}
+Thank you.
+\end{center}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[noframenumbering] 
+\frametitle{Euler equations with viscous regularization}
+
+\begin{block}{Eulers equations with viscous regularization}
+\begin{subequations}
+\label{eq:euler_visc_reg}
+%
+\begin{equation}
+\partial_t \rho + \div \bs{m} - \tcr{\div \bs{f}} = 0
+\end{equation}
+%
+\begin{equation}
+\partial_t \bs{m} + \div (\bs{u} \otimes \bs{m}) + \grad p - \tcr{\div \mathbb{g}}  = 0
+\end{equation}
+%
+\begin{equation}
+\partial_t E + \div (\bs{u}(E+p)) - \tcr{\div (\bs{h}+ \mathbb{g} \cdot \bs{u} )}= 0
+\end{equation}
+%
+\end{subequations}
++ Equation of State $P=P(\rho,e)$ %(here stiffened gas EOS)  $P = (\gamma-1) \rho (e-q) - \gamma P_\infty$
+\end{block}
+
+\medskip
+
+The viscous fluxes $\bs{f}\,,\mathbb{g}\,,\bs{h}$ need to be determined. \ \ \textcolor{red}{How?} \\
+
+\medskip
+
+By proving that the equations {\it with regularization terms} satisfy a minimum principle on the specific entropy:
+\begin{block}{Minimum entropy principle}
+\be
+\inf_{x\in \mathbb{R}^d} s(x,t) \ge \inf_{x\in \mathbb{R}^d} s_0(x) \qquad \forall t \ge 0
+\ee
+\end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[noframenumbering] 
+\frametitle{Compression corner: Mach number contour}
+
+\begin{center}
+\movie[width=6cm,height=4cm,showcontrols=true,externalviewer]{\includegraphics[width=6cm,height=4cm]{engr.pdf}}{movs/compression_mach_number_movie.mpeg}\\
+\end{center}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[noframenumbering] 
+\frametitle{Compression corner: viscosity contour}
+
+\begin{center}
+\movie[width=6cm,height=4cm,showcontrols=true,externalviewer]{\includegraphics[width=6cm,height=4cm]{engr.pdf}}{movs/compression_viscosity_movie.mpeg}\\
+\end{center}
+
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[noframenumbering] 
+\frametitle{Compression corner: Mach number contour}
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|c|c|c|}  \hline
+            & analytical & numerical\\ \hline
+Pressure    & 2.47       & 2.467    \\ \hline
+Mach number &  0.74      & 0.741    \\ \hline
+Entropy     & 1.03       & 1.026    \\ \hline 
+\end{tabular}
+\caption{\label{tbl:corner_exact_sol} Ratio of analytical and numerical downstream to upstream quantities for 
+the compression corner problems (corner angle of $15^\circ$ and inlet $M=2.5$ (analytical values from \cite{CompressionCorner}).}
+\end{center}
+\end{table}
+%
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
