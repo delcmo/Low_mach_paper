@@ -56,7 +56,7 @@
 	\usebeamerfont{author in head/foot}\insertshortauthor%~~(\insertshortinstitute)
 \end{beamercolorbox}%
 \begin{beamercolorbox}[wd=.25\paperwidth,ht=3.25ex,dp=1ex,center]{section in head/foot}%
-	\usebeamerfont{section in head/foot} PHYSOR-2014 % \insertshorttitle
+	\usebeamerfont{section in head/foot} ANS-2014-WINTER % \insertshorttitle
 \end{beamercolorbox}%
 \begin{beamercolorbox}[wd=.25\paperwidth,ht=3.25ex,dp=1ex,left]{section in head/foot}%
 	\usebeamerfont{section in head/foot}\insertshortdate{}\hspace*{2em}
@@ -68,7 +68,7 @@
 \beamertemplatetransparentcovered
 
 \urldef{\ragusa}\url{jean.ragusa@tamu.edu}
-\urldef{\delchini}\url{delcmo@tamu.edu}
+\urldef{\delchini}\url{delchinm@tamu.edu}
 \urldef{\berry}\url{ray.berry@inl.gov}
 
 \title{Extension of the Entropy Viscosity Method to the Seven-Equation two-phase flow Model}
@@ -313,9 +313,10 @@ $\mu_{k,e}(\vec{r},t)    = \frac{h^2 \max(\resinew_k, J_k)}{ \textcolor{red}{\no
 %
 \hspace{0.5cm} $\bullet$ $\resinew_k= \frac{DP_k}{Dt} - c_k^2 \frac{D\rho_k}{Dt}$ and $J_k = ||\vec{u_k} || \max \left( [[\ \grad P_k \cdot \vec{n}\ ]]  ,\ [[c_k^2 \grad \rho_k \cdot \vec{n} \ ]]\right)$ \\[3pt]
 %
-\hspace{0.5cm} $\bullet$ $\textcolor{red}{\norm_{k,P}^\mu} = \mathbb{G}(M_k) \rho_k || \vec{u}_k ||^2 + (1-\mathbb{G}(M_k)) \rho_k c_k^2$ and $\lim_{M_k \to 0} \mathbb{G}(M_k) = 0$ \\ [4pt]
+\hspace{0.5cm} $\bullet$ $\textcolor{red}{\norm_{k,P}^\mu} = \mathbb{G}(M_k) \rho_k || \vec{u}_k ||^2 + (1-\mathbb{G}(M_k)) \rho_k c_k^2$ \\ [4pt]
 %
-\hspace{0.5cm} $\bullet$ $\mathbb{G}(M_k) = \frac{\tanh (a(M_k-M_\infty)) + |\tanh (a(M_k-M_\infty))|}{2}$
+\hspace{0.5cm} $\bullet$ $\lim_{M_k \to 0} \mathbb{G}(M_k) = 0$ and $\lim_{M_k \to + \infty} \mathbb{G}(M_k) = 1$
+%\hspace{0.5cm} $\bullet$ $\mathbb{G}(M_k) = \frac{\tanh (a(M_k-M_\infty)) + |\tanh (a(M_k-M_\infty))|}{2}$
 \end{block}
 %
 \begin{block}{\normalsize $\beta_k(\vec{r},t) = \min \Big (\beta_{k,\max}(\vec{r},t), \beta_{k,e} (\vec{r},t) \Big )$}
@@ -345,7 +346,7 @@ M. Delchini, J. Ragusa and R. Berry, \emph{1-D Numerical Solution of the Seven-E
 \begin{block}{\normalsize Spatial and temporal discretizations}
 \hspace{0.5cm} $\bullet$ BDF2 \\
 \hspace{0.5cm} $\bullet$ Linear polynomial test functions $\rightarrow$ second-order accuracy \\
-\hspace{0.5cm} $\bullet$ Ideal gas equation of states: $\gamma_1=1.4$ and $\gamma_2=3$ \\
+\hspace{0.5cm} $\bullet$ Ideal gas equation of states: $\gamma_1=3$ and $\gamma_2=1.4$ \\
 \hspace{0.5cm} $\bullet$ 1-D pipe
 \end{block}
 %
@@ -353,7 +354,7 @@ M. Delchini, J. Ragusa and R. Berry, \emph{1-D Numerical Solution of the Seven-E
 Two 1-D shock tests for two limit cases  (heavy fluid $1$ and light fluid $2$):
 \begin{block}{First test: two independent fluids}
 \hspace{0.5cm} $\bullet$ Both fluids initially at rest, ($P_{left} = 1$ MPa,  $P_{right} = 0.1$ MPa) and ($\rho_1 = 10$, $\rho_2 = 1$ $kg/m^3$) \\
-\hspace{0.5cm} $\bullet$ Zero relaxation coefficients: $\mu_rel = \lambda_{rel} = 0$ \\
+\hspace{0.5cm} $\bullet$ Zero relaxation coefficients: $\mu_{rel} = \lambda_{rel} = 0$ \\
 \hspace{0.5cm} $\bullet$ Exact solutions are available
 \end{block}
 %
