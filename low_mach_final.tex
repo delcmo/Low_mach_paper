@@ -349,7 +349,7 @@ behavior is well documented in the literature \cite{LowMach1, LowMach2, LowMach3
 In \cite{LowMach1}, a low-Mach asymptotic study has demonstrated convergence of the 
 compressible Euler equations to the incompressible ones. 
 Many well-known stabilization techniques, for instance, the Roe scheme and the SUPG technique,
-do not yield the correct solution in the low-Mach regime and suitable modifications have been proposed (see \cite{Roe} for the Roe scheme and \cite{LowMach3} for the SUPG method).
+do not yield the correct solution in the low-Mach regime and suitable modifications have been proposed (see \cite{Roe} for the Roe scheme and \cite{LowMach3} for the SUPG method)
 to ensure the convergence to the correct solution while preserving the original shock stabilization 
 properties of these schemes. 
 %
@@ -441,7 +441,7 @@ Euler equations in conservative form are given by
 \end{equation}
 \end{subequations}
 %
-where $\rho$, $\rho \vec{u}$ and $\rho E$ are the density, the momentum and the total specific energy, 
+where $\rho$, $\rho \vec{u}$ and $E$ are the density, the momentum and the total specific energy, 
 respectively, and will be referred to as the conservative variables. $\vec{u}$ is the fluid velocity and 
 its specific internal energy is denoted by $e=E-\tfrac{u^2}{2}$. An equation of state, dependent upon 
 $\rho$ and $e$, is used to compute the pressure $P$. The tensor product $\vec{a} \otimes \vec{b}$ is 
@@ -537,13 +537,13 @@ where $|| \cdot ||_\infty$ and $\bar{\cdot}$ denote the L$_\infty$-norm and the 
 computational domain, respectively. The definition of the entropy jump $J[s]$ is spatial discretization-dependent 
 and examples of definitions can be found in \cite{valentin} for discontinuous Galerkin discretization. For 
 continuous finite element methods (FEM), the jump of a given quantity is defined as the change of its normal 
-derivative ($\partial_n = \grad \cdot \vec{n}$) across the common face separating the two elements, and will 
+derivative ($\partial_n ( \cdot ) =  \vec{n} \cdot \grad (\cdot)$) across the common face separating the two elements, and will 
 be further referred to as the inter-element jump. We take the largest value over all faces $f$ present on the 
 boundary $\partial K$ of element $K$:
 %
 \begin{equation}
 \label{eq:jump_CFEM}
-J^K[s](t) = \max_{f\in\partial K}  \max_{\vec{r}_q \in f} \Big \| \vec{u}(\vec{r}_q,t) \| \jmp{\grad s(\vec{r}_q,t) \cdot \vec{n}(\vec{r}_q) }_f \Big) \, ,
+J^K[s](t) = \max_{f\in\partial K}  \max_{\vec{r}_q \in f} \Big( \| \vec{u}(\vec{r}_q,t) \| \jmp{\grad s(\vec{r}_q,t) \cdot \vec{n}(\vec{r}_q) }_f \Big) \, ,
 \end{equation}
 %
 where $\jmp{a(\vec{r}_q)}_f$ denotes the inter-element jump in $a(\vec{r})$ at quadrature point $\vec{r}_q$ on face $f$ 
@@ -553,11 +553,11 @@ The denominator $|| s - \bar{s} ||_\infty$ is used for dimensionality purposes.
 Currently, there are no theoretical justifications for choosing the denominator beyond a dimensionality argument. 
 Finally, the viscosity coefficients $\mu$ and $\kappa$ are as follows:
 %
-\begin{equation}
-\mu(\vec{r},t)    = \min\Big( \mu_e(\vec{r},t)   \,,\, \mu_{\max}(\vec{r},t)    \Big) 
-\quad \text{ and } \quad 
+\begin{multline}
+\mu(\vec{r},t)    = \min\Big( \mu_e(\vec{r},t)   \,,\, \mu_{\max}(\vec{r},t)    \Big) \\
+ \text{ and }
 \kappa(\vec{r},t) = \min\Big( \kappa_e(\vec{r},t)\,,\, \kappa_{\max}(\vec{r},t) \Big).
-\end{equation}
+\end{multline}
 %
 Given these definitions, we have the following properties.
 In shock regions, the entropy viscosity coefficients will experience a peak because of entropy production and thus 
@@ -632,15 +632,21 @@ and $\kappa_e$ can be re-defined as follows:
 \begin{subequations}
 \label{eq:visc_definition}
 \begin{equation}
-\mu^K_e(\vec{r},t)    = h_K^2 \frac{\max\left( | \resinew^K(\vec{r}_q,t) |\,, || \vec{u}(\vec{r}_q,t) || J^K[P](t) \,, || \vec{u}(\vec{r}_q,t) c^2(\vec{r}_q,t) || J^K[\rho](t) \right)}{\norm_P^\mu}    \, ,
+%\mu^K_e(\vec{r}_q,t)    = h_K^2 \frac{\max\left( | \resinew^K(\vec{r}_q,t) |\,, || \vec{u}(\vec{r}_q,t) || J^K[P](t) \,, || \vec{u}(\vec{r}_q,t) c^2(\vec{r}_q,t) || J^K[\rho](t) \right)}{\norm_P^\mu}    \, ,
+\mu^K_e(\vec{r}_q,t)    = h_K^2 \frac{\max\left( | \resinew^K(\vec{r}_q,t) |\,, J^K(t) \right)}{\norm_P^\mu} \, , 
 \end{equation} 
 \text{and} 
 \begin{equation}
-\kappa^K_e(\vec{r},t) = h_K^2 \frac{\max\left( | \resinew^K(\vec{r}_q,t) |\,, || \vec{u}(\vec{r}_q,t) || J^K[P](t) \,, || \vec{u}(\vec{r}_q,t) c^2(\vec{r}_q,t) || J^K[\rho](t) \right)}{\norm_P^\kappa} \, .
+%\kappa^K_e(\vec{r}_q,t) = h_K^2 \frac{\max\left( | \resinew^K(\vec{r}_q,t) |\,, || \vec{u}(\vec{r}_q,t) || J^K[P](t) \,, || \vec{u}(\vec{r}_q,t) c^2(\vec{r}_q,t) || J^K[\rho](t) 
+\kappa^K_e(\vec{r}_q,t) = h_K^2 \frac{\max\left( | \resinew^K(\vec{r}_q,t) |\,, J^K(t) \right)}{\norm_P^\kappa} \, ,
+\end{equation}
+\text{where}
+\begin{equation}
+J^K( t) = \max_{f\in\partial K}  \max_{\vec{r}_q \in f} || \Big( \vec{u}(\vec{r}_q,t) || \max \left( J^K[P](t) \, ,  c^2(\vec{r}_q,t) || J^K[\rho](t) \right) \Big)
 \end{equation}
 \end{subequations}
 %
-Note that now the jump operator acts on the variables appearing in $\resinew$, namely, pressure and density. 
+Note that now the jump operator $J^K$ acts on the variables appearing in $\resinew$, namely, pressure and density. 
 The $\mu$ and $\kappa$ coefficients are kinematic viscosities (units of $m^2/s$); the normalization 
 parameters $\norm_P$ are thus in units of pressure, hence the use of the subscript $P$.  Note also 
 that we are not requiring the same normalization for both $\mu_e$ and $\kappa_e$ so the entropy viscosity 
@@ -1042,7 +1048,7 @@ and supersonic flows.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%s%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Extension of the entropy viscosity technique Euler equations with variable area} \label{sec:var_area_diss_terms}
+\section{Extension of the entropy viscosity technique to Euler equations with variable area} \label{sec:var_area_diss_terms}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1086,9 +1092,9 @@ The variable-area Euler equations with viscous regularization are given below; d
 \partial_t \left( \rho \vec{u} A \right) + \div \left[A\left( \rho \vec{u} \otimes \vec{u} + P \mathbb{I} \right) \right] = P \grad A + \div \left[ A \left( \mu \rho \grad^s \vec{u}  + \kappa \vec{u} \otimes \grad \rho \right) \right] \,,
 \end{equation}
 %
-\begin{equation}\label{eq:euler_eq_ener_var_A}
-\partial_t \left( \rho A E \right) + \div \left[ \vec{u} A\left( \rho E + P \right) \right] = \div \left[ A \left( \kappa \grad \left( \rho e \right) + \frac{1}{2}|| \vec{u} ||^2 \kappa \grad \rho +  \rho \mu \vec{u} \grad^s \vec{u}  \right) \right] \,.
-\end{equation}
+\begin{multline}\label{eq:euler_eq_ener_var_A}
+\partial_t \left( \rho A E \right) + \div \left[ \vec{u} A\left( \rho E + P \right) \right] = \\ \div \left[ A \left( \kappa \grad \left( \rho e \right) + \frac{1}{2}|| \vec{u} ||^2 \kappa \grad \rho +  \rho \mu \vec{u} \grad^s \vec{u}  \right) \right] \,.
+\end{multline}
 \end{subequations}
 %
 The dissipative terms are quite similar to the ones obtained for the standard Euler equations: each dissipative 
@@ -1196,7 +1202,7 @@ Jacobian matrix are approximated by lagging the viscosity coefficients (computin
 For instance, this is shown in \eqt{eq:jac_diss_term} for the dissipative terms present in the continuity equation:
 \begin{equation}
 \label{eq:jac_diss_term}
-\frac{\partial}{\partial \mathbf U} \left( \kappa \div \rho \grad W \right) \simeq \kappa \div \frac{\partial \rho}{\partial \mathbf U} \grad W ,
+\frac{\partial}{\partial \mathbf U} \left( \kappa \div \rho \grad W \right) \simeq \kappa \frac{\partial}{\partial \mathbf U} \left( \div \rho \grad W \right),
 \end{equation}  
 where $\mathbf  U$ denotes any of the conservative variables and $W$ denotes the component of $\mathbf  W$ associated with the 
 continuity equation. In the above, we have neglected $\frac{\partial \kappa}{\partial \mathbf U}$.
@@ -1355,14 +1361,13 @@ for the numerical and exact solutions. The viscosity coefficients are also graph
 %
 \begin{figure}[H]
         \centering
-        \begin{subfigure}[b]{0.495\textwidth}
+        \begin{subfigure}[b]{0.5\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{liquid_mach_numerical_and_exact_50.png}
                 \caption{Mach number}
                 \label{fig:1d_nozzle_liq_vel}
         \end{subfigure}%
-
-        \begin{subfigure}[b]{0.495\textwidth}
+        \begin{subfigure}[b]{0.5\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{liquid_density_numerical_and_exact_50.png}
                 \caption{Density}
@@ -1374,8 +1379,7 @@ for the numerical and exact solutions. The viscosity coefficients are also graph
                 \includegraphics[width=\textwidth]{liquid_pressure_numerical_and_exact_50.png}
                 \caption{Pressure}
                 \label{fig:1d_nozzle_liq_press}
-        \end{subfigure}
-        
+        \end{subfigure}        
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{liquid_viscosity_numerical50.png}
@@ -1460,28 +1464,26 @@ mesh with $1600$ cells, is shown in \fig{fig:1d_vap_nozzle}. The $CFL$ was set t
         \centering
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{vapor_mach_numerical_and_exact_1280.png}
+                \includegraphics[width=\textwidth]{vapor_mach_numerical_and_exact_500.png}
                 \caption{Mach number}
                 \label{fig:1d_nozzle_vap_vel}
         \end{subfigure}%
-
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{vapor_density_numerical_and_exact_1600.png}
+                \includegraphics[width=\textwidth]{vapor_density_numerical_and_exact_500.png}
                 \caption{Density}
                 \label{fig:1d_nozzle_vap_density}
         \end{subfigure}
 
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{vapor_pressure_numerical_and_exact_1600.png}
+                \includegraphics[width=\textwidth]{vapor_pressure_numerical_and_exact_500.png}
                 \caption{Pressure}
                 \label{fig:1d_nozzle_vap_press}
         \end{subfigure}
-
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
-                \includegraphics[width=\textwidth]{vapor_viscosity_numerical1600.png}
+                \includegraphics[width=\textwidth]{vapor_viscosity_numerical_500.png}
                 \caption{Viscosity coefficients}
                 \label{fig:1d_nozzle_vap_visc}
         \end{subfigure}
@@ -1751,18 +1753,18 @@ the \emph{local maximum eigenvalue} $||\vec{u}||+c$ and not to the eigenvalue of
 
 Fluid flow over a 2-D cylinder is often used as a benchmark case to test numerical schemes in the 
 low-Mach regime \cite{LowMach1, LowMach2, LowMach3}. For this test, an analytical solution is available 
-in the incompressible limit and is often referred to as the potential flow solution. 
+in the incompressible limit and is often referred to as the potential steady-state flow solution. 
 The main features of the potential flow are the following:
 %
 \begin{itemize}
 \item The solution is symmetric: the iso-Mach contour lines are used to assess the symmetry of the numerical solution;
 \item The velocity at the top of the cylinder is twice the incoming velocity set at the inlet;
-\item The pressure fluctuations are proportional to the square of inlet Mach number, i.e., 
+\item The steady-state pressure fluctuations are proportional to the square of inlet Mach number, i.e., 
 \begin{equation}
 \delta P = \frac{\max(P(\vec{r})) - \min(P(\vec{r}))}{\max(P(\vec{r}))}  \propto M_\infty^2
 %||\tilde{\vec{u}}|| = \frac{\max(||\vec{u}||) - \min(||\vec{u}||)}{\max(||\vec{u}||)}  \propto M_\infty\nonumber 
 \end{equation}
-where $\delta P$ and $M_\infty$ denote the pressure fluctuations and the inlet Mach number, respectively.
+where $\delta P$ and $M_\infty$ denote the steady-state pressure fluctuations and the inlet Mach number, respectively.
 \end{itemize}
 %
 The computational domain consists of a $1\times 1$ square with a circular hole of radius $0.05$ in its center. 
@@ -1798,7 +1800,6 @@ $2\times 10^{-10}$ to $M_{\text{inlet}}$.
                 \caption{$M_{\text{inlet}}=10^{-3}$}
                 \label{fig:cyl_1em3}
         \end{subfigure}%
-
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{CylinderMach1em4ZoomIn.png}
@@ -1812,7 +1813,6 @@ $2\times 10^{-10}$ to $M_{\text{inlet}}$.
                 \caption{$M_{\text{inlet}}=10^{-5}$}
                 \label{fig:cyl_1em5}
         \end{subfigure}
-
         \begin{subfigure}[b]{0.495\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{CylinderMach1em6ZoomIn.png}
@@ -1863,7 +1863,7 @@ the correct orders in the low-Mach limit. For ease of comparison, reference line
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{pressure_fluctuation.png}
-\caption{Log-log plot of the pressure and velocity fluctuations as a function of the far-field Mach number.}
+\caption{Log-log plot of the steady-state pressure and velocity fluctuations as a function of the far-field Mach number.}
 \label{fig:pressure_vel_fluc}
 \end{figure}
 
@@ -1891,28 +1891,28 @@ and the simulations were run until steady state.
 %
 \begin{figure}[H]
         \centering
-        \begin{subfigure}[b]{0.5\textwidth}
+        \begin{subfigure}[b]{\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{Hump2D_mach_0p7.png}
                 \caption{Mach $0.7$}
                 \label{fig:2d_hump_mach_0p7}
         \end{subfigure}%
 
-        \begin{subfigure}[b]{0.5\textwidth}
+        \begin{subfigure}[b]{\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{Hump2D_mach_0p01.png}
                 \caption{Mach $10^{-2}$}
                 \label{fig:2d_hump_mach_0p01}
         \end{subfigure}%
         
-        \begin{subfigure}[b]{0.495\textwidth}
+        \begin{subfigure}[b]{\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{Hump2D_mach_1em4.png}
                 \caption{Mach $10^{-5}$}
                 \label{fig:2d_hump_mach_0p0001}
         \end{subfigure}
 
-        \begin{subfigure}[b]{0.495\textwidth}
+        \begin{subfigure}[b]{\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{Hump2D_mach_1em7.png}
                 \caption{Mach $10^{-7}$}
@@ -1979,7 +1979,6 @@ the compression corner problems (corner angle of $15^\circ$ and inlet $M=2.5$ (a
                 \caption{Mach number}
                 \label{fig:2d_corner_mach}
         \end{subfigure}%
-
         \begin{subfigure}[b]{0.52\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{CompressionCorner2D_viscosity.png}
@@ -1993,7 +1992,6 @@ the compression corner problems (corner angle of $15^\circ$ and inlet $M=2.5$ (a
                 \caption{Pressure and Mach number}
                 \label{fig:2d_corner_isomach}
         \end{subfigure}        
-
         \begin{subfigure}[b]{0.49\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{CompressionCorner2DQ.png}
@@ -2012,7 +2010,7 @@ because of the treatment of the wall boundary condition: at this particular node
 defined and may cause some numerical errors. The 1-D graphs at $y=0$ for the pressure and the Mach number 
 are given in \fig{fig:2d_corner_isomach}: no spurious oscillations are observed and the shock is well resolved. 
 Finally, the difference between the inlet and outlet mass flow rates is plotted in \fig{fig:2d_convergence} 
-and shows that a steady state has indded been reached. 
+and shows that a steady state has indeed been reached. 
 
 The results presented in this paper demonstrate the ability of the entropy viscosity method with the new definitions of the viscosity coefficients 
 to correctly simulate several types of flows (from very low Mach subsonic to transonic flows) without tuning parameters.
