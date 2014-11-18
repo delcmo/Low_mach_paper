@@ -128,6 +128,7 @@
 \newcommand{\tbl}[1]{Table~\ref{#1}}                     % table
 \newcommand{\sct}[1]{Section~\ref{#1}}                   % section
 \newcommand{\app}[1]{Appendix~\ref{#1}}                   % appendix
+\newcommand{\rmk}[1]{Remark~\ref{#1}}                   % remark
 
 \newcommand\br{\mathbf{r}}
 %\newcommand{\tf}{\varphi}
@@ -614,7 +615,7 @@ where $\matder{\ }$ denotes the material derivative ($\matder{\ }:= \frac{\parti
 is the standard shorthand notation for the partial derivative of $x$ with respect to $y$, e.g., $P_e:=\frac{\partial P}{\partial e}$. 
 %
 The entropy residuals $\resi$ and $\resinew$ are proportional to one another and will experience similar 
-variations in space and time. Thus, one may elect to employ $\resinew$ instead of $\resi$ for the evaluation 
+variations in space and time. When using the SGEOS, the coefficient of proportionality $\frac{s_e}{P_e}$ can be recast under the form $\frac{s_e}{P_e} = \frac{C_v ( \gamma-1)}{P + \gamma P_\infty}$ which remains positive. Thus, one may elect to employ $\resinew$ instead of $\resi$ for the evaluation 
 of the local entropy residual. The new expression presents several advantages which include:
 %
 \begin{itemize}
@@ -1045,7 +1046,11 @@ and supersonic flows.
 %As the flow becomes locally supersonic, the viscosity coefficients $\mu$ and $\kappa$ will be of the 
 %same order of magnitude, which is consistent with the original definition of the entropy viscosity 
 %method \cite{jlg1, jlg2} recalled in \sct{sec:background}.
-
+%
+\begin{remark}\label{rm:ill-scaled}
+When using the definition of the first-order viscosity coefficient $\mu_{max}$, it can be shown that the Reynolds and P\'eclet numbers scale as the inverse of the Mach number leading to ill-scaled dissipative terms in the low-Mach limit. This behavior is undesirable but in the shock region where the second-order viscosity coefficient saturates to the first-order viscosity coefficient.
+\end{remark}
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%s%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Extension of the entropy viscosity technique to Euler equations with variable area} \label{sec:var_area_diss_terms}
@@ -1393,7 +1398,7 @@ In \fig{fig:1d_liq_nozzle}, the numerical solutions obtained using the first-ord
 viscosity method (EVM) are plotted against the exact solution. The numerical solution obtained with the EVM and the 
 exact solution overlap, even for a fairly coarse mesh (50 cells).
 On the other hand, the numerical solution obtained with the FOV does not give the correct steady state: this is an 
-illustration of the effect of ill-scaled dissipative terms. 
+illustration of the effect of ill-scaled dissipative terms in the low-Mach limit that was pointed out in \rmk{rm:ill-scaled}.
 %
 Note that the entropy viscosity coefficient is very small compared to the first-order one (\fig{fig:1d_nozzle_liq_visc}): 
 (i) the numerical solution is smooth as shown in \fig{fig:1d_liq_nozzle} and (ii) the flow is in a isentropic low-Mach regime 
@@ -1458,7 +1463,7 @@ liquid water phase in \sct{sec:liquid_nozzle} because of the liquid to gas densi
 solution at steady state is available for the gas phase \cite{nozzle_exact}. The aim of this section is to show that 
 when using the new definitions of the viscosity coefficients (\eqt{eq:final_def_visc_coeff}), the shock can be 
 correctly resolved without spurious oscillations. The steady-state numerical solution, obtained using a uniform 
-mesh with $1600$ cells, is shown in \fig{fig:1d_vap_nozzle}. The $CFL$ was set to $80$ (a high $CFL$ value can be used because the shock is stationary).
+mesh with $500$ cells, is shown in \fig{fig:1d_vap_nozzle}. The $CFL$ was set to $80$ (a high $CFL$ value can be used because the shock is stationary).
 
 \begin{figure}[H]
         \centering
@@ -1495,9 +1500,11 @@ The steady-state solution of the density, Mach number and pressure are given in 
 The steady-state solution exhibits a shock around $x=0.8m$ and matches the exact solution. In \fig{fig:1d_nozzle_vap_visc}, 
 the first-order and entropy viscosity coefficients are plotted at steady state (on a log scale): the entropy viscosity 
 coefficient is peaked in the shock region around $x=0.8m$ where it saturates to the first-order viscosity 
-coefficient. The graph also presents another peak at $x=0.5m$  corresponding to the position of the sonic point for the 
-1-D converging-diverging nozzle. This particular point is known to exhibit small instabilities that are detected when 
-computing the jumps of the pressure and density gradients. Elsewhere, the entropy  viscosity coefficient is small. 
+coefficient. 
+%The graph also presents another peak at $x=0.5m$  corresponding to the position of the sonic point for the 
+%1-D converging-diverging nozzle. This particular point is known to exhibit small instabilities that are detected when 
+%computing the jumps of the pressure and density gradients. 
+Elsewhere, the entropy  viscosity coefficient is small. 
 In order to prove convergence of the numerical solution to the exact solution, a convergence study is performed. Because 
 of the presence of a shock, second-order accuracy is not expected and the convergence rate of a numerical solution 
 should be 1 and $1/2$ when measured in the L$_1$ and L$_2$ norms, respectively (see Theorem 9.3 in \cite{convergence_book}). 
