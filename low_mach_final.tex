@@ -614,7 +614,7 @@ of the entropy residual, the derivation of which is given in Appendix A, is the 
 where $\matder{\ }$ denotes the material derivative ($\matder{\ }:= \frac{\partial }{\partial t} + \vec{u} \cdot \grad $), and $x_y$ 
 is the standard shorthand notation for the partial derivative of $x$ with respect to $y$, e.g., $P_e:=\frac{\partial P}{\partial e}$. 
 %
-When using the SGEOS, the coefficient of proportionality $\frac{s_e}{P_e}$ can be recast under the form $\frac{s_e}{P_e} = \frac{C_v ( \gamma-1)}{P + \gamma P_\infty}$ which remains positive. Note that the definition of the speed of sound can be used to show that $\resinew$ is zero when the flow becomes isentropic. The entropy residuals $\resi$ and $\resinew$ are proportional to one another and will experience similar 
+When using the SGEOS, the coefficient of proportionality $\frac{s_e}{P_e}$ can be recast under the form $\frac{s_e}{P_e} = \frac{C_v ( \gamma-1)}{P + \gamma P_\infty}$ which remains positive. Note that the definition of the speed of sound, $c^2 = \left. \frac{\partial P}{\partial \rho} \right|_s$, can be used to show that $\resinew$ is zero in isentropic flow regions. The entropy residuals $\resi$ and $\resinew$ are proportional to one another and will experience similar 
 variations in space and time. Thus, one may elect to employ $\resinew$ instead of $\resi$ for the evaluation 
 of the local entropy residual. The new expression presents several advantages which include:
 %
@@ -1762,7 +1762,7 @@ The main features of the potential flow are the following:
 %
 \begin{itemize}
 \item The solution is symmetric: the iso-Mach contour lines are used to assess the symmetry of the numerical solution;
-\item The velocity at the top of the cylinder is twice the incoming velocity set at the inlet;
+\item The steady-state velocity at the top of the cylinder is twice the incoming velocity set at the inlet;
 \item The spatial steady-state pressure variations are proportional to the square of inlet Mach number, i.e., 
 \begin{equation}
 \delta P = \frac{\max(P(\vec{r})) - \min(P(\vec{r}))}{\max(P(\vec{r}))}  \propto M_\infty^2
@@ -1835,14 +1835,14 @@ $2\times 10^{-10}$ to $M_{\text{inlet}}$.
 				\label{fig:cylinder}
 \end{figure}
 %
-The velocity at the top of the cylinder and at the inlet are given for different Mach-number values 
+The steady-state velocity at the top of the cylinder and at the inlet are given for different Mach-number values 
 (ranging from $10^{-3}$ to $10^{-7}$) in \tbl{tbl:velocity_ratio}. The ratio of the inlet velocity to 
 the velocity at the top of cylinder is also computed and is very close to the theoretical value of $2$ 
 that is expected in the incompressible limit.
 %
 \begin{table}[H]
 \begin{center}
- \caption{\label{tbl:velocity_ratio}Velocity ratio for different Mach numbers.}
+ \caption{\label{tbl:velocity_ratio}Steady-state velocity ratio for different Mach numbers.}
 \begin{tabular}{|c|c|c|c|}
 \hline
 Mach number & inlet velocity & velocity at the top of the cylinder & ratio \\ \hline
