@@ -1,0 +1,154 @@
+\documentclass{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath,amssymb}
+% more math
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amstext}
+\usepackage{amsbsy}
+
+\usepackage{color}
+\newcommand{\mt}[1]{\marginpar{\small #1}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% new commands
+\newcommand{\nc}{\newcommand}
+% operators
+\renewcommand{\div}{\vec{\nabla}\! \cdot \!}
+\newcommand{\grad}{\vec{\nabla}}
+% latex shortcuts
+\newcommand{\bea}{\begin{eqnarray}}
+\newcommand{\eea}{\end{eqnarray}}
+\newcommand{\be}{\begin{equation}}
+\newcommand{\ee}{\end{equation}}
+\newcommand{\bal}{\begin{align}}
+\newcommand{\eali}{\end{align}}
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end{itemize}}
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+% DGFEM commands
+\newcommand{\jmp}[1]{[\![#1]\!]}                     % jump
+\newcommand{\mvl}[1]{\{\!\!\{#1\}\!\!\}}             % mean value
+\newcommand{\keff}{\ensuremath{k_{\textit{eff}}}\xspace}
+% shortcut for domain notation
+\newcommand{\D}{\mathcal{D}}
+% vector shortcuts
+\newcommand{\vo}{\vec{\Omega}}
+\newcommand{\vr}{\vec{r}}
+\newcommand{\vn}{\vec{n}}
+\newcommand{\vnk}{\vec{\mathbf{n}}}
+\newcommand{\vj}{\vec{J}}
+% extra space
+\newcommand{\qq}{\quad\quad}
+% common reference commands
+\newcommand{\eqt}[1]{Eq.~(\ref{#1})}                     % equation
+\newcommand{\fig}[1]{Fig.~\ref{#1}}                      % figure
+\newcommand{\tbl}[1]{Table~\ref{#1}}                     % table
+
+\newcommand{\ud}{\,\mathrm{d}}
+
+\newcommand{\tcr}[1]{\textcolor{red}{#1}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\begin{center}
+{ \Large Answers to Reviewer \#2}
+\end{center}
+
+\bigskip
+
+\noindent Ms. Ref. No.: CAF-D-14-00634\\
+Title: ``Entropy-based viscous regularization for the multi-dimensional Euler equations in low-Mach and transonic flows', \\
+{\it Computers and Fluids}\\
+
+\bigskip
+\bigskip
+
+{
+\color{blue}
+The paper focuses on the FEM solution of the Euler equations using for stabilization the entropy viscosity method (EVM). The main goal is to derive expressions of the entropy viscosity scaling parameters that can be used in all Mach number regimes, from supersonic flows to incompressible ones. Rather than considering the entropy residual to set up the entropy viscosity, the authors propose to consider a quantity closely related to this residual, but that only depends on the flow variables (pressure and density). On this basis, they carry out an asymptotic study with respect to the Mach number to derive expressions of the relevant scaling of the transport coefficients. It turns out that it is the dynamic viscosity scaling that must be smoothly change, to go  from high Mach number flows to low Mach number ones. Several one-dimensional and two-dimensional examples are used to validate the approach. The paper makes use of very recent works, e.g. the regularization
+of the Euler equations recently introduced by Guermond and Popov  (SIAM J. Appl. Math., 2014), and proposes new advances of interest. My remarks are the following:
+}
+
+\bigskip
+
+{
+\color{blue}
+1. Citations: I think there is a problem with the  bibliography. All citations are relevant, but often not used at the right place... This should be checked carefully.}
+This has been corrected. Thank you.
+\bigskip
+
+
+{
+\color{blue}
+2. lines 160-163: To justify the study of the low Mach regime, the authors postulate that since the residual of the entropy equation is small (the solution being smooth) then the variations of the entropy with respect to its mean value is also small, so that the denominator in (6a) vanishes. This should be discussed.}
+
+Deriving the limit of the ratio of the entropy residual to the variation of the entropy with respect to its mean value is not simple: it requires a power expansion of each term. We agree that in some cases that would have to be identified, the ratio may admit a finite limit. We opted for a different expression of the entropy residual so that we have control over the denominator which ensures the correct limit in the low-Mach asymptotic limit. 
+\bigskip
+
+
+{
+\color{blue}
+3. lines 185-188: In eq. (9), it is assumed that $\tilde{R}$ and the entropy residual R vary similarly. It would be nice to go into the details, by explaining, e.g. on the basis of the perfect gas law, how behaves the multiplicative coefficient in (9). 
+}
+
+Using the stiffened gas law, we derived $\frac{s_e}{P_e} = \frac{\gamma-1}{P+P_\infty}$ which means that the multiplicative coefficient remains positive and also justify the use of a normalization parameter of same units as pressure. Also, it is easy to see with the definition of the sound speed, $c^2 = \frac{\partial P}{\partial \rho}_s$, that $\tilde{R} = \frac{DP}{Dt}-c^2 \frac{D\rho}{Dt}$ is zero when the solution remains smooth/isentropic. Thus, $\tilde{R}$ and $R$ will be both peaked in the shock region but will different magnitude.
+\bigskip
+
+
+{
+\color{blue}
+5. The definition of the entropy viscosity is rather complex, since not only based on  the entropy residual as in the native form of the EVM but also on  the "inter-element jump" and so, in the formulation (10) proposed by the authors, on two of these jumps, for the pressure and the density. On the basis of the numerical experiments, it  would be of interest to know which of the 3 terms in the numerator of (10) is really active.  Moreover, rather than essentially repeating in (10b) the eq. (10a), it would be clearer to use the viscosity coefficient in the definition of the diffusion coefficient.
+}
+
+We modify the definition of the viscosity coefficients in (10a) and (10b). Thank you. We also added a sentence in the paper to explain when the terms involved in the definition of the viscosity coefficients become active (lines 197-199). 
+\bigskip
+
+
+{
+\color{blue}
+6. lines 475-476: The fact that the first order viscosity (FOV)  does not give the correct solution is associated to a scaling problem of the dissipative terms. However, the scaling proposed in the paper only acts on the the viscosity associated to the entropy residual and not on its first order upper bound, which is assumed correct by the authors. This should be discussed.
+}
+
+When deriving the non-dimensionalized equations with the first-order viscosity coefficients, the dissipative terms are ill-scaled since multiplied by $\frac{1}{Mach}$. The first-order viscosity should only be used in the shock region where it is needed to stabilize the numerical solution. 
+\bigskip
+
+
+{
+\color{blue}
+7. section 6.6: in this example I understand that one focuses on the steady solution. What are then the fluctuations defined in eq. 40 and shown in the graph of Fig. 7?
+}
+
+We changed the term 'fluctuation' to 'variation' to make it clearer and also modified the labels of Fig 7. We are looking at the \emph{steady-state} spatial variations of pressure for different inlet Mach numbers.
+\bigskip
+
+
+{
+\color{blue}
+8. lines 501-503: if the shock is correctly resolved it is also because a huge number of grid-points is used (1600 elements). The features  of the EVM solution would be better pointed out by using much less grid-points.
+}
+
+We now have plots of the steady-state numerical solution run with $500$ cells. The shock is still resolved.
+\bigskip
+
+
+{
+\color{blue}
+9. the text should be checked carefully, e.g. line 33, lines 78-80 (use of specific), line 137 (definition of $\partial_n$), eq. 7, eq. 37, line 330, line 704, line 740 etc...
+}
+
+This has been corrected. Thank you.
+\bigskip
+
+
+{
+\color{blue}
+10. The graphs are often not clear, see e.g. Fig. 2a, 2d, 3b, 4 etc...
+}
+
+This has been corrected. Thank you.
+\bigskip
+
+\end{document}
+
