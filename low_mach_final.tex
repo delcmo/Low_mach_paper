@@ -554,11 +554,15 @@ The denominator $|| s - \bar{s} ||_\infty$ is used for dimensionality purposes.
 Currently, there are no theoretical justifications for choosing the denominator beyond a dimensionality argument. 
 Finally, the viscosity coefficients $\mu$ and $\kappa$ are as follows:
 %
-\begin{multline}
-\mu(\vec{r},t)    = \min\Big( \mu_e(\vec{r},t)   \,,\, \mu_{\max}(\vec{r},t)    \Big) \\
- \text{ and }
-\kappa(\vec{r},t) = \min\Big( \kappa_e(\vec{r},t)\,,\, \kappa_{\max}(\vec{r},t) \Big).
-\end{multline}
+\begin{subequations}
+\begin{equation}
+\mu(\vec{r},t)    = \min\Big( \mu_e(\vec{r},t)   \,,\, \mu_{\max}(\vec{r},t)    \Big) 
+\end{equation}
+and
+\begin{equation}
+\kappa(\vec{r},t) = \min\Big( \kappa_e(\vec{r},t)\,,\, \kappa_{\max}(\vec{r},t) \Big) .
+\end{equation}
+\end{subequations}
 %
 Given these definitions, we have the following properties.
 In shock regions, the entropy viscosity coefficients will experience a peak because of entropy production and thus 
@@ -614,7 +618,7 @@ of the entropy residual, the derivation of which is given in Appendix A, is the 
 where $\matder{\ }$ denotes the material derivative ($\matder{\ }:= \frac{\partial }{\partial t} + \vec{u} \cdot \grad $), and $x_y$ 
 is the standard shorthand notation for the partial derivative of $x$ with respect to $y$, e.g., $P_e:=\frac{\partial P}{\partial e}$. 
 %
-When using the SGEOS, the coefficient of proportionality $\frac{s_e}{P_e}$ can be recast under the form $\frac{s_e}{P_e} = \frac{C_v ( \gamma-1)}{P + \gamma P_\infty}$ which remains positive. Note that the definition of the speed of sound, $c^2 = \left. \frac{\partial P}{\partial \rho} \right|_s$, can be used to show that $\resinew$ is zero in isentropic flow regions. The entropy residuals $\resi$ and $\resinew$ are proportional to one another and will experience similar 
+For isntance, when employing the ideal gas equation of state, the proportionality coefficient $\frac{s_e}{P_e}$ simply is $\frac{s_e}{P_e} = \frac{C_v ( \gamma-1)}{P}$. Note that the definition of the speed of sound, $c^2 = \left. \frac{\partial P}{\partial \rho} \right|_s$, can be used to show that $\resinew$ is zero in isentropic flow regions. The entropy residuals $\resi$ and $\resinew$ are proportional to one another and will experience similar 
 variations in space and time. Thus, one may elect to employ $\resinew$ instead of $\resi$ for the evaluation 
 of the local entropy residual. The new expression presents several advantages which include:
 %
@@ -647,7 +651,8 @@ J^K( t) = \max_{f\in\partial K}  \max_{\vec{r}_q \in f} || \Big( \vec{u}(\vec{r}
 \end{equation}
 \end{subequations}
 %
-Note that now the jump operator $J^K$ acts on the variables appearing in $\resinew$, namely, pressure and density. The residual $\resinew$ and the pressure jump will only contribute to the viscosity coefficients in the shock region. On the other hand, the density jump will contribute both in contact and shock regions. 
+Note that now the jump operator $J^K$ acts on the variables appearing in $\resinew$, namely, pressure and density. The residual 
+$\resinew$ and the pressure jump will only contribute to the viscosity coefficients in the shock region. On the other hand, the density jump will contribute in both contact and shock regions. 
 The $\mu$ and $\kappa$ coefficients are kinematic viscosities (units of $m^2/s$); the normalization 
 parameters $\norm_P$ are thus in units of pressure, hence the use of the subscript $P$.  Note also 
 that we are not requiring the same normalization for both $\mu_e$ and $\kappa_e$ so the entropy viscosity 
@@ -935,15 +940,24 @@ The derivation for $\norm_P^\mu$ is similar and yields
 \end{array}
 \right. \,.
 \end{equation}
-A smooth function to transition between these two states is as follows: % the shifted sigmoid function
+A smooth function to transition between these two states is obtained by employing a smoothed shifted Heaviside function
+defined as follows: % the shifted sigmoid function
 \begin{equation}
 % \sigma(M) = \frac{1}{1+\exp\big(-(M-M^\text{thresh})\big)} \,,
- \sigma(M) = \frac{\tanh\big(a(M-M^\text{thresh})\big) + | \tanh\big(a(M-M^\text{thresh})\big) | }{2} \,,
+% \sigma(M) = \frac{\tanh\big(a(M-M^\text{thresh})\big) + | \tanh\big(a(M-M^\text{thresh})\big) | }{2} \,,
+\sigma(M) =
+\left\{
+\begin{array}{ll}
+0 & \text{if } M \le M^\text{thresh} - a \\
+1 & \text{if } M \ge M^\text{thresh} + a \\
+\tfrac{1}{2} \left( 1 + \tfrac{M-M^\text{thresh}}{a} + \tfrac{1}{\pi} \sin \left(\tfrac{\pi(M-M^\text{thresh})}{a}\right) \right) & \text{otherwise}
+\end{array}
+\right.
 \end{equation}
 where $M^\text{thresh}$ is a threshold Mach number value beyond which the flow is no longer 
 considered  to be low-Mach (we use $M^\text{thresh}=0.05$), $M$ is the local Mach number, 
 and the scalar $a$ determines how rapidly the transition from  
-$\norm_P^\mu= \rho c^2$ to $\norm_P^\mu=\rho \| \vec{u}\|^2$ occurs in the vicinity of $M^\text{thresh}$ (we use $a = 3$). 
+$\norm_P^\mu= \rho c^2$ to $\norm_P^\mu=\rho \| \vec{u}\|^2$ occurs in the vicinity of $M^\text{thresh}$ (e.g., $a = 0.005$). 
 It is easy to verify that
 \begin{equation}
 \label{eq:norm_ent3}
