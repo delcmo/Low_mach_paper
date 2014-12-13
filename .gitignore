@@ -38,4 +38,7 @@
 .DS_Store
 Plots
 *.txt
-
+*Copy*.*
+CAF*
+*.pdf
+*initial_submit*
