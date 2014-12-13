@@ -38,6 +38,7 @@
 .DS_Store
 Plots
 *.txt
+<<<<<<< HEAD
 *Copy*.*
 CAF*
 *.pdf
