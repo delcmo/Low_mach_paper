@@ -76,6 +76,7 @@ of the Euler equations recently introduced by Guermond and Popov  (SIAM J. Appl.
 {
 \color{blue}
 1. Citations: I think there is a problem with the  bibliography. All citations are relevant, but often not used at the right place... This should be checked carefully.}
+
 This has been corrected. Thank you.
 \bigskip
 
@@ -84,7 +85,10 @@ This has been corrected. Thank you.
 \color{blue}
 2. lines 160-163: To justify the study of the low Mach regime, the authors postulate that since the residual of the entropy equation is small (the solution being smooth) then the variations of the entropy with respect to its mean value is also small, so that the denominator in (6a) vanishes. This should be discussed.}
 
-Deriving the limit of the ratio of the entropy residual to the variation of the entropy with respect to its mean value does not seem simple to us. It would require a power expansion of each term. We agree that in some cases that would have to be identified, the ratio may admit a finite limit. We opted for a different expression of the entropy residual so that we have control over the denominator and thus over the limit of the ratio in the low-Mach asymptotic limit. 
+Initially, we considered deriving the limit of the ratio of the entropy residual to the variation of the entropy with respect to its mean value.  It would require a power expansion of each term. We agree that in some cases that would have to be identified, the ratio may admit a finite limit.
+
+However, we noted that a more general formulation could be obtained for the entropy residual so that we have control over the choice of the denominator. It turns out that our expression no longer requires a formula for the entropy function but simply utilizes variables that are typically readily available in a fluid solver (pressure, density, sound speed). We further discuss this in the revised manuscript. 
+% We believe the expression we arrived at  and thus over the limit of the ratio in the low-Mach asymptotic limit. 
 \bigskip
 
 
@@ -93,7 +97,8 @@ Deriving the limit of the ratio of the entropy residual to the variation of the 
 3. lines 185-188: In eq. (9), it is assumed that $\tilde{R}$ and the entropy residual R vary similarly. It would be nice to go into the details, by explaining, e.g. on the basis of the perfect gas law, how behaves the multiplicative coefficient in (9). 
 }
 
-Using the stiffened gas law, we derived $\frac{s_e}{P_e} = \frac{\gamma-1}{P+P_\infty}$ which means that the multiplicative coefficient remains positive and also justify the use of a normalization parameter of same units as pressure. Also, it is easy to see with the definition of the sound speed, $c^2 = \frac{\partial P}{\partial \rho}_s$, that $\tilde{R} = \frac{DP}{Dt}-c^2 \frac{D\rho}{Dt}$ is zero when the solution remains smooth/isentropic. Thus, $\tilde{R}$ and $R$ will be both peaked in the shock region but will different magnitude.
+\tcr{he asked for IGEOS, so let's use that. Your formula here is not the same as in the manuscript. There is a Cv added. Also, I think I have Cv/P only.\\}
+For instance, using the ideal gas law, one has $\frac{s_e}{P_e} = \frac{\gamma-1}{P}$,  which means that the multiplicative coefficient remains positive and also justifies the use of a normalization parameter of same units as pressure. Also, it is easy to see with the definition of the sound speed, $c^2 = \frac{\partial P}{\partial \rho}_s$, that $\tilde{R} = \frac{DP}{Dt}-c^2 \frac{D\rho}{Dt}$ is zero when the solution remains smooth/isentropic (a new appendix, Appendix C, has been added to that effect). Thus, $\tilde{R}$ and $R$ will be both peaked in shock regions.
 \bigskip
 
 
@@ -102,7 +107,7 @@ Using the stiffened gas law, we derived $\frac{s_e}{P_e} = \frac{\gamma-1}{P+P_\
 5. The definition of the entropy viscosity is rather complex, since not only based on  the entropy residual as in the native form of the EVM but also on  the "inter-element jump" and so, in the formulation (10) proposed by the authors, on two of these jumps, for the pressure and the density. On the basis of the numerical experiments, it  would be of interest to know which of the 3 terms in the numerator of (10) is really active.  Moreover, rather than essentially repeating in (10b) the eq. (10a), it would be clearer to use the viscosity coefficient in the definition of the diffusion coefficient.
 }
 
-We modify the definition of the viscosity coefficients in (10a) and (10b). Thank you. We also added a sentence in the paper to explain when the terms involved in the definition of the viscosity coefficients become active (lines 197-199).
+Thank you for pointing this out. We have re-formulated the definition of the viscosity coefficients in (10a) and (10b) to improve readability. We have also commented on when the jump terms are activated (lines 197-199) \tcr{re-check lines numbers once we truly have a final version}.
 \bigskip
 
 
@@ -111,7 +116,7 @@ We modify the definition of the viscosity coefficients in (10a) and (10b). Thank
 6. lines 475-476: The fact that the first order viscosity (FOV)  does not give the correct solution is associated to a scaling problem of the dissipative terms. However, the scaling proposed in the paper only acts on the the viscosity associated to the entropy residual and not on its first order upper bound, which is assumed correct by the authors. This should be discussed.
 }
 
-When deriving the non-dimensionalized equations with the first-order viscosity coefficients, the dissipative terms are ill-scaled since multiplied by $\frac{1}{Mach}$. The first-order viscosity should only be used in the shock region where it is needed to stabilize the numerical solution. 
+When deriving the non-dimensionalized equations with the first-order viscosity coefficients, the dissipative terms are ill-scaled since they are multiplied by $\frac{1}{Mach}$. The first-order viscosity (FOV) should only be used in the shock region where it is needed to stabilize the numerical solution. Since in low-Mach zones, the FOV is not expected to be active, we have not adapted the FOV to low-Mach situations. \tcr{Our goal was to emphasize the fact that a FOV-solution may not be correct in low-Mach flows, and thus one should not rely on it as is (as opposed to supersonic situations where using the FOV generally degrades the accuracy of the solution but usually does not lead to a completely erroneous answer.} \tcr{Marco: maybe we should add such a sentence in the MS}.
 \bigskip
 
 
@@ -129,7 +134,7 @@ We changed the term 'fluctuation' to 'variation' to make it clearer and also mod
 8. lines 501-503: if the shock is correctly resolved it is also because a huge number of grid-points is used (1600 elements). The features  of the EVM solution would be better pointed out by using much less grid-points.
 }
 
-We now have plots of the steady-state numerical solution run with $500$ cells. The shock is still resolved.
+We have replaced that plot with one that uses only $500$ cells and the shock is still resolved with the EVM.
 \bigskip
 
 
