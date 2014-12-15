@@ -1155,7 +1155,7 @@ each element $K$ of the discrete mesh $\Omega$. The following weak form is obtai
 The integrals over the elements $K$ are evaluated using a numerical quadrature. The MOOSE framework 
 provides a wide range of test functions and quadrature rules. Linear Lagrange polynomials are employed 
 as test functions in the results section. Second-order spatial convergence will be demonstrated for smooth solutions. 
-
+%
 %---------------------------------------------------------------------------------------------------
 \subsubsection{Temporal integration} 
 %---------------------------------------------------------------------------------------------------
@@ -1193,7 +1193,7 @@ The artificial diffusion coefficient $D(\mathbf  U)$ is set to zero at the bound
 domain so that the boundary term 
 $\int_{\partial \Omega} D(\mathbf  U) \grad \mathbf  U \cdot \vec{n} \mathbf W$ stemming from the 
 integration by parts of the artificial dissipative terms in \eqt{eq:cfem} is ignored.
-
+%
 %---------------------------------------------------------------------------------------------------
 \subsection{Solver} \label{sec:solver}
 %---------------------------------------------------------------------------------------------------
@@ -1210,7 +1210,7 @@ For instance, this is shown in \eqt{eq:jac_diss_term} for the dissipative terms 
 \end{equation}  
 where $\mathbf  U$ denotes any of the conservative variables and $W$ denotes the component of $\mathbf  W$ associated with the 
 continuity equation. In the above, we have neglected $\frac{\partial \kappa}{\partial \mathbf U}$.
-
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Numerical Results} \label{sec:results}
