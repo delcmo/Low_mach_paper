@@ -1162,9 +1162,9 @@ In order to apply the continuous finite element method, \eqt{eq:form} is multipl
 $\mathbf W(\vec{r})$, integrated by parts and each integral is decomposed into a sum of integrals over 
 each element $K$ of the discrete mesh $\Omega$. The following weak form is obtained:
 \begin{multline}\label{eq:cfem}
-\sum_K \int_{K} \partial_t \mathbf U \mathbf W - \sum_K \int_{K} \vec{\mathbf F}(\mathbf U) \cdot \grad \mathbf W + \int_{\partial \Omega} \vec{\mathbf F}(\mathbf U) \cdot \vec{n} \mathbf W - \sum_K \int_{K} \mathbf S \mathbf W  \\
+\sum_K \int_{K} \partial_t \mathbf U \, \mathbf W - \sum_K \int_{K} \vec{\mathbf F}(\mathbf U) \cdot \grad \mathbf W + \int_{\partial \Omega} \vec{\mathbf F}(\mathbf U) \cdot \vec{n} \, \mathbf W - \sum_K \int_{K} \mathbf S \, \mathbf W  \\
 + \sum_K \int_{K} D(\mathbf U) \grad \mathbf U \cdot \grad \mathbf W 
-- \int_{\partial \Omega} D(\mathbf U) \grad \mathbf U \cdot \vec{n} \mathbf W = 0 \,.
+- \int_{\partial \Omega} D(\mathbf U) \grad \mathbf U \cdot \vec{n} \, \mathbf W = 0 \,.
 \end{multline}
 The integrals over the elements $K$ are evaluated using a numerical quadrature. The MOOSE framework 
 provides a wide range of test functions and quadrature rules. Linear Lagrange polynomials are employed 
@@ -1179,7 +1179,7 @@ evaluated using the second-order, backward difference temporal integrator BDF2. 
 consecutive solutions, $\mathbf U^{n-1}$, $\mathbf U^n$ and $\mathbf U^{n+1}$, at times $t^{n-1}$, $t^n$ and $t^{n+1}$, respectively, BDF2 can be expressed as:
 \begin{equation}
 \label{eq:BDF2}
-\int_{K} \partial_t \mathbf U \mathbf  W = \int_{K} \left( \omega_0 \mathbf U^{n+1}  + \omega_1 \mathbf U^n + \omega_2 \mathbf U^{n-1} \right) \mathbf W \,,
+\int_{K} \partial_t \mathbf U \, \mathbf  W = \int_{K} \left( \omega_0 \mathbf U^{n+1}  + \omega_1 \mathbf U^n + \omega_2 \mathbf U^{n-1} \right) \mathbf W \,,
 \end{equation}
 %
 with
