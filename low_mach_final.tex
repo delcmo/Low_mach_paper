@@ -1193,7 +1193,7 @@ where $\Delta t^{n} = t^n-t^{n-1}$ and $\Delta t^{n+1} = t^{n+1}-t^{n}$.
 Boundary conditions are implemented by performing a characteristic decomposition to compute the 
 appropriate flux at the boundaries.
 Our implementation of the subsonic boundary conditions is inspired by the method described in \cite{SEM} 
-and was adapted for a time implicit solver. Neumann boundary conditions are used for all of the 
+and was adapted for a time implicit solver. Weakly enforced boundary conditions are used for all of the 
 boundary types, except for the inlet supersonic boundary that are strongly imposed with Dirichlet boundary conditions.
 %\tcr{say a bit more, give 1-2 sentences to describe how to impose subsonic/supersonic inlet/outlet BCs}. \tcb{Is it enough?}
 
