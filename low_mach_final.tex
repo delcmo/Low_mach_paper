@@ -577,18 +577,18 @@ examples and various 2-D tests \cite{jlg1, jlg2, valentin}.
 %===================================================================================================
 
 In the low-Mach Regime, a smooth flow is known to approach the isentropic limit, resulting in very little 
-entropy production. Since the entropy viscosity method is directly based on the evaluation of the 
+entropy production \cite{alazard}. Since the entropy viscosity method is directly based on the evaluation of the 
 local entropy production, it is of interest to study how the entropy viscosity coefficients $\mu_e$ 
 and $\kappa_e$ scale in the low-Mach regime. In practice, the entropy residual $\resi$ will be very 
 small in that regime and so will be the denominator $\| s - \bar{s} \|_\infty$, thus making the 
 definition of the viscosity coefficients in \eqt{eq:ent_visc_coeff} undetermined and likely ill-scaled.  
 One possible approach would consist of expanding the numerator and denominator in terms of the Mach number 
-and deriving its limit when the Mach number goes to zero. Such derivation may not be straightforward, 
-especially for general equations of state. However, this can be avoided by noting that the entropy 
+and deriving their limits when the Mach number tends to zero. Such derivation may not be straightforward, 
+especially for general equations of state. However, this approach can be avoided by noting that the entropy 
 residual $\resi$ can be recast as a function of pressure, density, velocity, and speed of sound as 
 will be shown in \eqt{eq:ent_res} of \sct{sec:new_ent_prod}. This alternate entropy residual definition 
 is the basis for the low-Mach analysis carried out in this paper and possesses several advantages that 
-are detailed next. %in \sct{sec:new_ent_prod}.
+are discussed next. %in \sct{sec:new_ent_prod}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -618,20 +618,20 @@ of the entropy residual, the derivation of which is given in \app{app:ent_res}, 
 where $\matder{\ }$ denotes the material derivative ($\matder{\ }:= \frac{\partial }{\partial t} + \vec{u} \cdot \grad $), and the form $x_y$ 
 denotes the partial derivative of $x$ with respect to $y$, e.g., $P_e:=\frac{\partial P}{\partial e}$. 
 %
-For instance, when employing the ideal gas equation of state, the proportionality coefficient is $\frac{s_e}{P_e} = \frac{C_v}{P}$. Note that the definition of the speed of sound, $c^2 = \left. \frac{\partial P}{\partial \rho} \right|_s$, can be used to show that $\resinew$ is zero in isentropic flow regions (see \app{app:ise_equ}). The entropy residuals $\resi$ and $\resinew$ are proportional to one another and will experience similar 
+For instance, when employing the ideal gas equation of state, the proportionality coefficient is simply $\frac{s_e}{P_e} = \frac{C_v}{P}$. Note that the definition of the speed of sound, $c^2 = \left. \frac{\partial P}{\partial \rho} \right|_s$, can be used to show that $\resinew$ is zero in isentropic flow regions (see \app{app:ise_equ}). The entropy residuals $\resi$ and $\resinew$ are proportional to one another and will experience similar 
 variations in space and time. Thus, we elect to employ $\resinew$ instead of $\resi$ for the evaluation 
 of the local entropy residual. The new expression presents several advantages which include:
 %
 \begin{itemize}
 \item An analytical expression of the entropy function $s$ is no longer needed: the residual $\resinew$ is 
 evaluated using the local values of pressure, density, velocity and speed of sound. This avoids the potential difficulty of deriving an entropy 
-function for some complex equations of state may be difficult;
+function for some complex equations of state;
 \item Suitable normalizations for the residual $\resinew$ can be devised. Examples include the pressure 
 itself or combinations of the density, the speed of sound and the norm of the velocity, 
 i.e., $\rho c^2$, $\rho c \| \vec{u} \|$ or $\rho \| \vec{u} \|^2$. 
 \end{itemize}
 %
-Denoting the normalization of $\resinew$ by "$\norm_P$", the entropy-based viscosity coefficients $\mu_e$ 
+Denoting the normalization of $\resinew$ by ``$\norm_P$'', the entropy-based viscosity coefficients $\mu_e$ 
 and $\kappa_e$ can be re-defined as follows:
 %
 \begin{subequations}
@@ -645,16 +645,16 @@ and $\kappa_e$ can be re-defined as follows:
 %\kappa^K_e(\vec{r}_q,t) = h_K^2 \frac{\max\left( | \resinew^K(\vec{r}_q,t) |\,, \| \vec{u}(\vec{r}_q,t) \| J^K[P](t) \,, \| \vec{u}(\vec{r}_q,t) c^2(\vec{r}_q,t) \| J^K[\rho](t) 
 \kappa^K_e(\vec{r}_q,t) = h_K^2 \frac{\max\left( | \resinew^K(\vec{r}_q,t) |\,, J^K(t) \right)}{\norm_P^\kappa} \, ,
 \end{equation}
-\text{where}
+where the jump term is now based on the jumps in the normal derivatives of the pressure and in the normal derivatives of the density (multiplied by $c^2$): 
 \begin{equation}
-J^K( t) = \max_{f\in\partial K}  \max_{ \vec{r}_q \in f}  \Big( \| \vec{u}(\vec{r}_q,t) \| \max \left( J^K[P](t) \, ,  c^2(\vec{r}_q,t)  J^K[\rho](t) \right) \Big)
+J^K( t) = \max_{f\in\partial K}  \max_{ \vec{r}_q \in f}  \Big( \| \vec{u}(\vec{r}_q,t) \| \max \left( J^K[P](t) \, ,  c^2(\vec{r}_q,t)  J^K[\rho](t) \right) \Big) \,.
 \end{equation}
 \end{subequations}
 %
-Note that now the jump operator $J^K$ acts on the variables appearing in $\resinew$, namely, pressure and density. The residual 
+The jump operator $J^K$ acts on the same variables appearing in $\resinew$, namely, pressure and density. The residual 
 $\resinew$ and the pressure jump will only contribute to the viscosity coefficients in a shock region. On the other hand, the density jump will contribute in both contact and shock regions. 
 The $\mu$ and $\kappa$ coefficients are kinematic viscosities (units of $m^2/s$); the normalization 
-parameters $\norm_P$ are thus in units of pressure, hence the use of the subscript $P$.  It is emphasized that we are not requiring the same normalization for both $\mu_e$ and $\kappa_e$ so the entropy viscosity 
+parameters ``$\norm_P$'' are thus in units of pressure, hence the use of the subscript $P$.  It is emphasized that we are not requiring the same normalization for both $\mu_e$ and $\kappa_e$ so the entropy viscosity 
 coefficients can be different. The low-Mach asymptotic study presented next will determine the proper normalization.
 
 %===================================================================================================
@@ -671,7 +671,7 @@ The asymptotic study presented here is inspired by the work of Muller et al. \ci
 an asymptotic derivation for the Navier-Stokes was presented. 
 We remind the reader that the objective is to determine appropriate scaling for the entropy 
 viscosity coefficients so that the dissipative terms remain well-scaled for two limit cases: 
-(i) the isentropic low-Mach limit where Euler equations degenerate to an incompressible system of 
+(i) the isentropic limit where Euler equations degenerate to an incompressible system of 
 equations in the low-Mach limit and 
 (ii) the non-isentropic limit with formation of shocks. 
 The isentropic limit of the Euler equations with viscous regularization should yield incompressible 
@@ -680,7 +680,7 @@ order $M^2$ and that the velocity satisfies the divergence constraint $\div \vec
 \cite{LowMach1, LowMach2, LowMach3}. For non-isentropic situations, shocks may form for any 
 value of Mach number and the minimum entropy principle should still be satisfied so that numerical 
 oscillations, if any, be controlled by the entropy viscosity method independently of the value of the Mach number.
-Our objective is to determine the appropriate scaling for "$\norm_P^\kappa$" and "$\norm_P^\mu$" in these two limit cases.
+Our objective is to determine the appropriate scaling for ``$\norm_P^\kappa$'' and ``$\norm_P^\mu$'' in these two limit cases.
 % the Reynolds and P\'eclet numbers, $\Re_\infty$ and $\Pe_\infty$, in these two limit cases.
 
 %%%In this Section, we deal with the isentropic limit; the non-isentropic case is treated later.
@@ -909,7 +909,7 @@ whereas the numerical P\'eclet number always scales as one. In order to have a s
 valid for a wide range of Mach numbers, from very low-Mach to supersonic flows, these two scalings should 
 be combined in a unique definition. 
 
-We begin with the  normalization parameter "$\norm_P^\kappa$". Using the 
+We begin with the  normalization parameter ``$\norm_P^\kappa$''. Using the 
 definition of the viscosity coefficients given in \eqt{eq:visc_definition} and the scaling of 
 \eqt{eq:norm_param}, it can be shown that:
 %
@@ -918,7 +918,7 @@ definition of the viscosity coefficients given in \eqt{eq:visc_definition} and t
 \kappa_\infty = \frac{ \rho_\infty c_\infty^2 u_\infty L }{ \norm_{P,\infty}^{\kappa} } \, ,
 \end{equation}
 %
-where "$\norm_{P,\infty}$" is the reference far-field quantity for the normalization parameter "$\norm_P$". 
+where ``$\norm_{P,\infty}$'' is the reference far-field quantity for the normalization parameter ``$\norm_P$''. 
 Substituting \eqt{eq:norm_relation} into \eqt{eq:ref_numb} and recalling that the numerical P\'eclet 
 number scales as unity, we obtain:
 %
@@ -929,7 +929,7 @@ number scales as unity, we obtain:
 %
 \eqt{eq:norm_relation_bis} provides a proper normalization factor to define the $\kappa$ viscosity coefficient.
 %
-The derivation for "$\norm_P^\mu$" is similar and yields
+The derivation for ``$\norm_P^\mu$'' is similar and yields
 \begin{equation}
 \label{eq:norm_ent2}
 \norm_P^\mu = \Re_\infty \rho_\infty c_\infty^2 =  \left\{
@@ -1068,8 +1068,8 @@ and supersonic flows.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Fluid flows in nozzles and in pipes of varying cross-sectional area can be modeled using the variable-area 
-form of the Euler equations, where the conservative variables are now multiplied by the area $A$. 
+Fluid flows in nozzles and in pipes of varying cross-sectional area can be modeled using the ``variable-area 
+form'' of the Euler equations, where the conservative variables are now multiplied by the area $A$. 
 In addition, these equations differ from the standard Euler equations in that the momentum equation 
 \eqt{eq:euler_variable_A_mom} contains a non-conservative term proportional to the area gradient. 
 Here, the variable area is assumed to be a smooth function of space only. 
@@ -1409,7 +1409,8 @@ In \fig{fig:1d_liq_nozzle}, the numerical solutions obtained using the first-ord
 viscosity method (EVM) are plotted against the exact solution. The numerical solution obtained with the EVM and the 
 exact solution overlap, even for a fairly coarse mesh (50 cells).
 On the other hand, the numerical solution obtained with the FOV does not give the correct steady state: this is an 
-illustration of the effect of ill-scaled dissipative terms in the low-Mach limit when using the FOV.
+illustration of the effect of ill-scaled dissipative terms in the low-Mach limit when using the FOV given in \eqt{eq:fo}.
+
 %
 Note that the entropy viscosity coefficient is very small compared to the first-order one (\fig{fig:1d_nozzle_liq_visc}) because 
 (i) the numerical solution is smooth as shown in \fig{fig:1d_liq_nozzle} and (ii) the flow is in a isentropic low-Mach regime. 
@@ -1417,7 +1418,7 @@ Note that the entropy viscosity coefficient is very small compared to the first-
 A convergence study was performed using the exact solution as a reference: the L$_1$ and L$_2$ norms of the 
 error and the corresponding convergence rates are computed at steady state on various uniform meshes from 4 to 256 cells.
 Spatial convergence results using linear finite elements are reported in \tbl{tbl:l1_norm_liq} and \tbl{tbl:l2_norm_liq} 
-for the primitive variables density, velocity and pressure.
+for the primitive variables~: density, velocity and pressure.
 %
 \begin{table}[H]
 \begin{center}
@@ -1468,7 +1469,7 @@ appropriately in the low-Mach limit.
 We use the same nozzle geometry, initial conditions and boundary conditions as in the previously example but replace liquid water 
 with steam and use the steam parameters of the stiffened gas equation of state, \tbl{tbl:stff_gas_eos}. In this example, 
 compressible effects will become dominant. 
-The pressure difference between the inlet and outlet is large enough to accelerate the steam through the nozzle, which upon deceleration, leads 
+The pressure difference between the inlet and outlet is large enough to accelerate the steam through the nozzle which, upon deceleration, leads 
 to the formation of a shock in the diverging portion of the nozzle. The behavior is different from the one observed for the 
 liquid water phase in \sct{sec:liquid_nozzle} because of the liquid to gas density ratio is about $1,000$ and the compressibilities are much different. An exact 
 solution at steady state is available for the gas phase \cite{nozzle_exact}. The aim of this section is to show that 
@@ -1700,13 +1701,13 @@ stabilize the numerical scheme.
 %
 \begin{figure}[H]
         \centering
-        \begin{subfigure}[b]{0.495\textwidth}
+        \begin{subfigure}[b]{0.75\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{figures/LiquidSrongShock_density_velocity_pressure_profiles.png}
                 \caption{Density, velocity and pressure profiles.}
                 \label{fig:1d_strong_shock_var}
-        \end{subfigure}%
-        \begin{subfigure}[b]{0.495\textwidth}
+        \end{subfigure}\\
+        \begin{subfigure}[b]{0.75\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{figures/LiquidSrongShock_viscosity.png}
                 \caption{Viscosity coefficients profile.}
@@ -1748,13 +1749,13 @@ the \emph{local maximum eigenvalue} $\|\vec{u}\|+c$ and not to the eigenvalue of
 %
 \begin{figure}[H]
         \centering
-        \begin{subfigure}[b]{0.495\textwidth}
+        \begin{subfigure}[b]{0.75\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{figures/SlowMovingShock_density_velocity_pressure_profiles.png}
                 \caption{Velocity, density and pressure}
                 \label{fig:profiles_sms}
-        \end{subfigure}%
-        \begin{subfigure}[b]{0.495\textwidth}
+        \end{subfigure}\\
+        \begin{subfigure}[b]{0.75\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{figures/SlowMovingShock_viscosity.png}
                 \caption{Viscosity coefficients}
@@ -2066,7 +2067,7 @@ This two-phase flow system of equations is a good candidate for two reasons: it 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Acknowledgments} 
 The authors (M.D. and J.R.) would like to thank Bojan Popov and Jean-Luc Guermond for many fruitful discussions.  
-The research was carried out under the auspices the Idaho National Laboratory for the US Department of Energy.
+The research was carried out under the auspices of the Idaho National Laboratory for the US Department of Energy.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
