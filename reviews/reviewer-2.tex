@@ -6,6 +6,7 @@
 \usepackage{amssymb}
 \usepackage{amstext}
 \usepackage{amsbsy}
+%\usepackage{dtklogos}
 
 \usepackage{color}
 \newcommand{\mt}[1]{\marginpar{\small #1}}
@@ -48,6 +49,9 @@
 \newcommand{\ud}{\,\mathrm{d}}
 
 \newcommand{\tcr}[1]{\textcolor{red}{#1}}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
@@ -77,7 +81,7 @@ of the Euler equations recently introduced by Guermond and Popov  (SIAM J. Appl.
 \color{blue}
 1. Citations: I think there is a problem with the  bibliography. All citations are relevant, but often not used at the right place... This should be checked carefully.}
 
-This has been corrected. Thank you.
+This has been corrected (we had a BibTeX issue). Thank you.
 \bigskip
 
 
@@ -115,7 +119,7 @@ Thank you for pointing this out. We have re-formulated the definition of the vis
 6. lines 475-476: The fact that the first order viscosity (FOV)  does not give the correct solution is associated to a scaling problem of the dissipative terms. However, the scaling proposed in the paper only acts on the the viscosity associated to the entropy residual and not on its first order upper bound, which is assumed correct by the authors. This should be discussed.
 }
 
-When deriving the non-dimensionalized equations with the first-order viscosity coefficients, the dissipative terms are ill-scaled since they are multiplied by $\frac{1}{Mach}$. The first-order viscosity (FOV) should only be used in the shock region where it is needed to stabilize the numerical solution. Since in low-Mach zones, the FOV is not expected to be active, we have not adapted the FOV to low-Mach situations. Our goal was to emphasize the fact that a FOV-solution may not be correct in low-Mach flows, and thus one should not rely on it as is (as opposed to supersonic situations where using the FOV generally degrades the accuracy of the solution but usually does not lead to a completely erroneous answer. \tcr{Marco/Jean: double check we have such an explanation in the MS}.
+When one inspects the non-dimensionalized equations with the first-order viscosity coefficients, one notes the dissipative terms are ill-scaled since they are multiplied by $\frac{1}{Mach}$. The first-order viscosity (FOV) should only be used in the shock region where it is needed to stabilize the numerical solution. Since in low-Mach situations, the FOV is not expected to be active, we have not adapted the definition of the FOV to low-Mach situations. Our goal in showing FOV-results in Fig. 1 was to emphasize the fact that a FOV-solution may not be correct in low-Mach flows, and thus one should not rely on it as is (as opposed to supersonic situations where using the FOV generally degrades the accuracy of the solution but usually does not lead to a completely erroneous answer). \tcr{Marco/Jean: double check we have such an explanation in the MS}.
 \bigskip
 
 
@@ -133,7 +137,7 @@ We changed the term 'fluctuation' to 'variation' to make it clearer and also mod
 8. lines 501-503: if the shock is correctly resolved it is also because a huge number of grid-points is used (1600 elements). The features  of the EVM solution would be better pointed out by using much less grid-points.
 }
 
-We have replaced that plot with one that uses only $500$ cells and the shock is still resolved with the EVM.
+We have replaced that plot with one that uses only $500$ cells and the shock is still well resolved with the EVM.
 \bigskip
 
 

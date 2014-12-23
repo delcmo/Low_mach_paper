@@ -327,7 +327,7 @@ Convergence studies are performed for both smooth solutions and solutions with s
 %flow solvers cannot deal with strong temperature or strong density gradients. This sets a
 %demand for codes that can deal with flows at all Mach numbers.
 
-Compressible fluid equations in the low-Mach limit is an ongoing topic of research. 
+Accurately solving compressible fluid equations in the low-Mach limit is an ongoing topic of research. 
 In many engineering applications, compressibility effects require the solution of the compressible fluid equations
 in nearly incompressible regimes and/or for low-Mach flow problems. For example, such flows are encountered 
 in aerodynamics in the study of airships. In the nuclear industry, flows are nearly in the incompressible regime but 
@@ -470,7 +470,7 @@ $e$ and the specific volume $1/\rho$.  The Euler equations with viscous regulari
 \end{equation}
 %
 \begin{equation}
-\partial_t \left( \rho E \right) + \div \left[ \vec{u} \left( \rho E + P \right) \right] = \div \left( \kappa \grad \left( \rho e \right) + \frac{1}{2}|| \vec{u} ||^2 \kappa \grad \rho +  \rho \mu \vec{u} \grad \vec{u}  \right) 
+\partial_t \left( \rho E \right) + \div \left[ \vec{u} \left( \rho E + P \right) \right] = \div \left( \kappa \grad \left( \rho e \right) + \frac{1}{2}\| \vec{u} \|^2 \kappa \grad \rho +  \rho \mu \vec{u} \grad \vec{u}  \right) 
 \end{equation}
 \end{subequations}
 %
@@ -500,11 +500,11 @@ scheme is known to be over-dissipative but guarantees monotonicity \cite{Toro}. 
 viscosity coefficients only saturate to the first-order viscosity coefficients in shocks and are 
 much smaller elsewhere, hence avoiding the over-dissipation of the upwind method.  The first-order 
 viscosity coefficients $\mu_{\max}$ and $\kappa_{\max}$ are equal and set proportional to the 
-largest local eigenvalue $|| \vec{u} || + c $:
+largest local eigenvalue $\| \vec{u} \| + c $:
 %
 \begin{equation}
 \label{eq:fo}
-\mu_{\max}(\vec{r}, t) = \kappa_{\max}(\vec{r}, t) = \frac{h}{2} \left( || \vec{u}(\vec{t,r}) || + c(\vec{t,r}) \right),
+\mu_{\max}(\vec{r}, t) = \kappa_{\max}(\vec{r}, t) = \frac{h}{2} \left( \| \vec{u}(\vec{t,r}) \| + c(\vec{t,r}) \right),
 \end{equation}
 %
 where $h$ denotes the local grid size (for higher than linear finite element representations, $h$ is defined 
@@ -514,7 +514,7 @@ In practice, these quantities are evaluated within a given cell $K$ at quadratur
 %
 \begin{equation}
 \label{eq:fo_quad}
-\kappa^K_{\max}(\vec{r}_q, t) = \frac{h_K}{2} \left( || \vec{u}(\vec{t,r_q}) || + c(\vec{t,r_q}) \right),
+\kappa^K_{\max}(\vec{r}_q, t) = \frac{h_K}{2} \left( \| \vec{u}(\vec{t,r_q}) \| + c(\vec{t,r_q}) \right),
 \end{equation}
 %
 where $\vec{r}_q$ denotes the position of a quadrature point.
@@ -527,14 +527,14 @@ as follows
 \begin{subequations}
 \label{eq:ent_visc_coeff}
 \begin{equation}
-\mu^K_e(\vec{r}_q,t) =  h_K^2 \frac{\max\left( | \resi^K(\vec{r}_q,t) |, J^K[s](t) \right)}{|| s - \bar{s} ||_\infty}  
+\mu^K_e(\vec{r}_q,t) =  h_K^2 \frac{\max\left( | \resi^K(\vec{r}_q,t) |, J^K[s](t) \right)}{\| s - \bar{s} \|_\infty}  
 \end{equation}
 \begin{equation}
 \kappa^K_e(\vec{r}_q,t) = \Pr \, \mu^K_e(\vec{r}_q,t) \,,
 \end{equation}
 \end{subequations}
 %
-where $|| \cdot ||_\infty$ and $\bar{\cdot}$ denote the L$_\infty$-norm and the average operator over the entire 
+where $\| \cdot \|_\infty$ and $\bar{\cdot}$ denote the L$_\infty$-norm and the average operator over the entire 
 computational domain, respectively. The definition of the entropy jump $J[s]$ is spatial discretization-dependent 
 and examples of definitions can be found in \cite{valentin} for discontinuous Galerkin discretization. For 
 continuous finite element methods (FEM), the jump of a given quantity is defined as the change of its normal 
@@ -550,7 +550,7 @@ J^K[s](t) = \max_{f\in\partial K}  \max_{\vec{r}_q \in f} \Big( \| \vec{u}(\vec{
 where $\jmp{a(\vec{r}_q)}_f$ denotes the inter-element jump in $a(\vec{r})$ at quadrature point $\vec{r}_q$ on face $f$ 
 (the quadrature points $\vec{r}_q$ are taken on the faces $f$ of the element $K$). With the definition given in 
 \eqt{eq:jump_CFEM}, the jump is constant over each element $K$ of the computational domain. 
-The denominator $|| s - \bar{s} ||_\infty$ is used for dimensionality purposes.
+The denominator $\| s - \bar{s} \|_\infty$ is used for dimensionality purposes.
 Currently, there are no theoretical justifications for choosing the denominator beyond a dimensionality argument. 
 Finally, the viscosity coefficients $\mu$ and $\kappa$ are as follows:
 %
@@ -580,7 +580,7 @@ In the low-Mach Regime, a smooth flow is known to approach the isentropic limit,
 entropy production. Since the entropy viscosity method is directly based on the evaluation of the 
 local entropy production, it is of interest to study how the entropy viscosity coefficients $\mu_e$ 
 and $\kappa_e$ scale in the low-Mach regime. In practice, the entropy residual $\resi$ will be very 
-small in that regime and so will be the denominator $|| s - \bar{s} ||_\infty$, thus making the 
+small in that regime and so will be the denominator $\| s - \bar{s} \|_\infty$, thus making the 
 definition of the viscosity coefficients in \eqt{eq:ent_visc_coeff} undetermined and likely ill-scaled.  
 One possible approach would consist of expanding the numerator and denominator in terms of the Mach number 
 and deriving its limit when the Mach number goes to zero. Such derivation may not be straightforward, 
@@ -628,7 +628,7 @@ evaluated using the local values of pressure, density, velocity and speed of sou
 function for some complex equations of state may be difficult;
 \item Suitable normalizations for the residual $\resinew$ can be devised. Examples include the pressure 
 itself or combinations of the density, the speed of sound and the norm of the velocity, 
-i.e., $\rho c^2$, $\rho c || \vec{u} ||$ or $\rho || \vec{u} ||^2$. 
+i.e., $\rho c^2$, $\rho c \| \vec{u} \|$ or $\rho \| \vec{u} \|^2$. 
 \end{itemize}
 %
 Denoting the normalization of $\resinew$ by "$\norm_P$", the entropy-based viscosity coefficients $\mu_e$ 
@@ -637,12 +637,12 @@ and $\kappa_e$ can be re-defined as follows:
 \begin{subequations}
 \label{eq:visc_definition}
 \begin{equation}
-%\mu^K_e(\vec{r}_q,t)    = h_K^2 \frac{\max\left( | \resinew^K(\vec{r}_q,t) |\,, || \vec{u}(\vec{r}_q,t) || J^K[P](t) \,, || \vec{u}(\vec{r}_q,t) c^2(\vec{r}_q,t) || J^K[\rho](t) \right)}{\norm_P^\mu}    \, ,
+%\mu^K_e(\vec{r}_q,t)    = h_K^2 \frac{\max\left( | \resinew^K(\vec{r}_q,t) |\,, \| \vec{u}(\vec{r}_q,t) \| J^K[P](t) \,, \| \vec{u}(\vec{r}_q,t) c^2(\vec{r}_q,t) \| J^K[\rho](t) \right)}{\norm_P^\mu}    \, ,
 \mu^K_e(\vec{r}_q,t)    = h_K^2 \frac{\max\left( | \resinew^K(\vec{r}_q,t) |\,, J^K(t) \right)}{\norm_P^\mu} \, , 
 \end{equation} 
 \text{and} 
 \begin{equation}
-%\kappa^K_e(\vec{r}_q,t) = h_K^2 \frac{\max\left( | \resinew^K(\vec{r}_q,t) |\,, || \vec{u}(\vec{r}_q,t) || J^K[P](t) \,, || \vec{u}(\vec{r}_q,t) c^2(\vec{r}_q,t) || J^K[\rho](t) 
+%\kappa^K_e(\vec{r}_q,t) = h_K^2 \frac{\max\left( | \resinew^K(\vec{r}_q,t) |\,, \| \vec{u}(\vec{r}_q,t) \| J^K[P](t) \,, \| \vec{u}(\vec{r}_q,t) c^2(\vec{r}_q,t) \| J^K[\rho](t) 
 \kappa^K_e(\vec{r}_q,t) = h_K^2 \frac{\max\left( | \resinew^K(\vec{r}_q,t) |\,, J^K(t) \right)}{\norm_P^\kappa} \, ,
 \end{equation}
 \text{where}
@@ -934,7 +934,7 @@ The derivation for "$\norm_P^\mu$" is similar and yields
 \label{eq:norm_ent2}
 \norm_P^\mu = \Re_\infty \rho_\infty c_\infty^2 =  \left\{
 \begin{array}{ll}
- \rho ||\vec{u} ||^2       & \text{ for non-isentropic flows} \\
+ \rho \|\vec{u} \|^2       & \text{ for non-isentropic flows} \\
  \rho c^2 = \norm_P^\kappa & \text{ for low-Mach flows}
 \end{array}
 \right. \,.
@@ -959,7 +959,7 @@ and the scalar $a$ determines how rapidly the function $\sigma(M)$ changes in th
 It is easy to verify that the construction
 \begin{equation}
 \label{eq:norm_ent3}
-\norm_P^\mu = (1-\sigma(M)) \rho c^2  + \sigma(M)  \rho ||\vec{u} ||^2  
+\norm_P^\mu = (1-\sigma(M)) \rho c^2  + \sigma(M)  \rho \|\vec{u} \|^2  
 \end{equation}
 satisfies \eqt{eq:norm_ent2}.
 %%%%%%%%%%%%%%%%%%%%%%%%%% OLD %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1008,7 +1008,7 @@ satisfies \eqt{eq:norm_ent2}.
 %\label{eq:norm_ent2}
 %\norm_P^\mu = \Re_\infty \rho_\infty c_\infty^2 =  \left\{
 %\begin{array}{ll}
- %\rho ||\vec{u} ||^2       & \text{ if } \left| \resinew^* \right| \geq M \text{ (i.e., non-isentropic flow)} \\
+ %\rho \|\vec{u} \|^2       & \text{ if } \left| \resinew^* \right| \geq M \text{ (i.e., non-isentropic flow)} \\
  %\rho c^2 = \norm_P^\kappa & \text{ otherwise}
 %\end{array}
 %\right. \,.
@@ -1031,7 +1031,7 @@ Finally, we summarize the definition of the viscosity coefficients $\mu$ and $\k
 %
 where the first-order viscosity is given by
 \begin{equation}
-  \kappa_{\max}(\vec{r},t)  = \mu_{\max} (\vec{r},t) = \frac{h}{2} \Big ( ||\vec{u}|| + c \Big ) 
+  \kappa_{\max}(\vec{r},t)  = \mu_{\max} (\vec{r},t) = \frac{h}{2} \Big ( \|\vec{u}\| + c \Big ) 
 \end{equation}
 %
 and the entropy viscosity coefficients by 
@@ -1044,7 +1044,7 @@ and the entropy viscosity coefficients by
 with the jumps given by
 %
 \begin{equation}
-J = \max \Big ( || \vec{u} || [[ \grad P \cdot \vec{n} ]], || \vec{u} || c^2 [[\grad \rho \cdot \vec{n}]] \Big) 
+J = \max \Big ( \| \vec{u} \| [[ \grad P \cdot \vec{n} ]], \| \vec{u} \| c^2 [[\grad \rho \cdot \vec{n}]] \Big) 
 \end{equation}
 \end{subequations}
 %
@@ -1109,7 +1109,7 @@ The variable-area Euler equations with viscous regularization are given below; d
 \end{equation}
 %
 \begin{multline}\label{eq:euler_eq_ener_var_A}
-\partial_t \left( \rho A E \right) + \div \left[ \vec{u} A\left( \rho E + P \right) \right] = \\ \div \left[ A \left( \kappa \grad \left( \rho e \right) + \frac{1}{2}|| \vec{u} ||^2 \kappa \grad \rho +  \rho \mu \vec{u} \grad^s \vec{u}  \right) \right] \,.
+\partial_t \left( \rho A E \right) + \div \left[ \vec{u} A\left( \rho E + P \right) \right] = \\ \div \left[ A \left( \kappa \grad \left( \rho e \right) + \frac{1}{2}\| \vec{u} \|^2 \kappa \grad \rho +  \rho \mu \vec{u} \grad^s \vec{u}  \right) \right] \,.
 \end{multline}
 \end{subequations}
 %
@@ -1121,7 +1121,7 @@ A low-Mach asymptotic limit of the Euler equations with variable area on the sam
 \sct{sec:lowMach} will lead to the divergence constraint $\div (\vec{u} A) = 0$ that can be recast 
 as $\div \vec{u} = -\vec{u} \cdot \grad{A} / A$. The gradient of the area acts as a source term and 
 will force the fluid to accelerate or decelerate, depending on its sign. 
-%Since the dissipation is done partially on the velocity in the momentum and the energy equations (see \eqt{eq:euler_eq_mom_var_A} and \eqt{eq:euler_eq_ener_var_A} ), in the presence of a strong gradient of the area, $\grad A$, an excess amount of dissipation will be added to the system, making the numerical system converge to a wrong solution. They are to remedies to this problem. The first one consists of replacing the dissipative term $\mu A \grad^s \vec{u}$ by $\mu \grad^s (A\vec{u})$ to ensure the correct scaling of the dissipative term in the low Mach limit. However, the entropy minimum principle is no longer verified. The second option is to change the normalization of the viscosity coefficient $\mu$ from $\rho || \vec{u} ||^2$ to $ \rho c^2$ to force the dissipative term to zero. The entropy minimum principle is still verified but such a choice will underestimate the dissipation and will not be able to stabilize shocks with low Mach number.
+%Since the dissipation is done partially on the velocity in the momentum and the energy equations (see \eqt{eq:euler_eq_mom_var_A} and \eqt{eq:euler_eq_ener_var_A} ), in the presence of a strong gradient of the area, $\grad A$, an excess amount of dissipation will be added to the system, making the numerical system converge to a wrong solution. They are to remedies to this problem. The first one consists of replacing the dissipative term $\mu A \grad^s \vec{u}$ by $\mu \grad^s (A\vec{u})$ to ensure the correct scaling of the dissipative term in the low Mach limit. However, the entropy minimum principle is no longer verified. The second option is to change the normalization of the viscosity coefficient $\mu$ from $\rho \| \vec{u} \|^2$ to $ \rho c^2$ to force the dissipative term to zero. The entropy minimum principle is still verified but such a choice will underestimate the dissipation and will not be able to stabilize shocks with low Mach number.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1318,13 +1318,13 @@ where $C_v$ is the heat capacity at constant volume. \\
 Finally, the convergence rates are computed using the following relation 
 %\begin{equation}
 %\label{eq:conv_rates}
-%\text{rate}_h = \ln \left( \frac{|| U_{2h}-U_{\text{exact}} || - || U_{h}-U_{\text{exact}} ||}{|| U_{h}-U_{\text{exact}} || - || U_{h/2}-U_{\text{exact}} || } \right) / \ln 2
+%\text{rate}_h = \ln \left( \frac{\| U_{2h}-U_{\text{exact}} \| - \| U_{h}-U_{\text{exact}} \|}{\| U_{h}-U_{\text{exact}} \| - \| U_{h/2}-U_{\text{exact}} \| } \right) / \ln 2
 %\end{equation}
 \begin{equation}
 \label{eq:conv_rates}
-\text{rate}_h = \ln \left( \frac{|| U_{2h}-U_{\text{exact}} ||}{|| U_{h}-U_{\text{exact}}|| } \right) / \ln 2
+\text{rate}_h = \ln \left( \frac{\| U_{2h}-U_{\text{exact}} \|}{\| U_{h}-U_{\text{exact}}\| } \right) / \ln 2
 \end{equation}
-where $|| \cdot ||$ denotes either the L$_1$ or L$_2$ norms and $h$ is the characteristic grid size.
+where $\| \cdot \|$ denotes either the L$_1$ or L$_2$ norms and $h$ is the characteristic grid size.
 
 %\tcr{What is this formula for the convergence rates?
 %First, if the exact solution is NOT known, then the formula should be
@@ -1744,7 +1744,7 @@ to post-shock noise. In the case of the entropy viscosity method, the entropy re
 the shock position and the viscosity coefficients saturate to the first-order viscosity values in 
 the shock region. The main difference between a  Godunov's type method and the entropy viscosity 
 method lies in the definition of the first-order viscosity coefficients that are proportional to 
-the \emph{local maximum eigenvalue} $||\vec{u}||+c$ and not to the eigenvalue of the characteristic field.
+the \emph{local maximum eigenvalue} $\|\vec{u}\|+c$ and not to the eigenvalue of the characteristic field.
 %
 \begin{figure}[H]
         \centering
@@ -1778,7 +1778,7 @@ The main features of the potential flow are the following:
 \item The spatial steady-state pressure variations are proportional to the square of inlet Mach number, i.e., 
 \begin{equation}
 \delta P = \frac{\max(P(\vec{r})) - \min(P(\vec{r}))}{\max(P(\vec{r}))}  \propto M_\infty^2
-%||\tilde{\vec{u}}|| = \frac{\max(||\vec{u}||) - \min(||\vec{u}||)}{\max(||\vec{u}||)}  \propto M_\infty\nonumber 
+%\|\tilde{\vec{u}}\| = \frac{\max(\|\vec{u}\|) - \min(\|\vec{u}\|)}{\max(\|\vec{u}\|)}  \propto M_\infty\nonumber 
 \end{equation}
 where $\delta P$ and $M_\infty$ denote the spatial steady-state pressure variations and the inlet Mach number, respectively.
 \end{itemize}
@@ -2213,7 +2213,7 @@ A \rho \left( \partial_t s + \vec{u} \cdot \grad s \right) = s_e \left[ \div h +
 \end{equation}
 %
 The next step consists of choosing a definition for each of the dissipative terms so that the left hand-side is positive. 
-The right hand-side of \eqt{eq:ent_res_app} can be simplified using the relations $g = A \mu \grad^s \vec{u} + f \otimes \vec{u}$ and $h = \tilde{h} - 0.5 || \vec{u} ||^2 f$ to give
+The right hand-side of \eqt{eq:ent_res_app} can be simplified using the relations $g = A \mu \grad^s \vec{u} + f \otimes \vec{u}$ and $h = \tilde{h} - 0.5 \| \vec{u} \|^2 f$ to give
 %
 \begin{equation}
 \label{eq:ent_res_app2}
@@ -2293,7 +2293,7 @@ Using the definition of the speed of sound $c^2 = \left. \frac{\partial P}{\part
 form of the equation of state, we have
 %
 \begin{equation}\label{eq:app_sp}
-c^2 = \left. \frac{\partial P}{\partial \rho} \right)_s = \frac{d P}{d \rho} = \frac{d f(\rho)}{d \rho} \,.
+c^2 = \left. \frac{\partial P}{\partial \rho} \right|_s = \frac{d P}{d \rho} = \frac{d f(\rho)}{d \rho} \,.
 \end{equation}
 %
 Using the chain rule, the entropy residual in \eqt{eq:app_entr} can be recast as follows and proven equal to zero:
