@@ -221,7 +221,6 @@ Convergence studies are performed for both smooth solutions and solutions with s
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 Accurately solving compressible fluid equations in the low-Mach limit is an ongoing topic of research. 
 In many engineering applications, compressibility effects require the solution of the compressible fluid equations
 in nearly incompressible regimes and/or for low-Mach flow problems. For example, such flows are encountered 
@@ -233,7 +232,7 @@ that can solve both compressible and incompressible flow problems.
 When solving Euler equations for a wide range of Mach numbers, multiple questions must be addressed: stability, 
 accuracy and solution convergence in the low-Mach regime. Because of the hyperbolic nature of the equations, 
 shocks can form during transonic and supersonic flows and require the use of adequate numerical techniques to stabilize the solution
-and correctly resolve the discontinuities. A wide range of stabilization methods are available in the literature: approximate Riemann solvers \cite{Toro}, flux-limiter techniques 
+and correctly resolve the discontinuities \cite{lax-peter, harten-hyman}. A wide range of stabilization methods are available in the literature: approximate Riemann solvers \cite{Toro}, flux-limiter techniques 
 \cite{FluxLimiter, FluxLimiter2}, pressure-based viscosity methods \cite{PBV_book}, Lapidus method \cite{Lapidus_paper, LMP, Lapidus_book}, 
 and the entropy-viscosity method \cite{jlg1, jlg2}, among others. These numerical methods are usually developed using simple equations 
 of state and tested for transonic and supersonic flows where the disparity between the acoustic wave speed and the fluid speed is not 
@@ -362,10 +361,10 @@ range $[ 0.001; 1 ]$. Since the entropy residual $\resi(\vec{r},t)$ may be extre
 the definition of the viscosity coefficients also includes a first-order viscosity coefficient that 
 serves as an upper bound for the entropy-based viscosity coefficients. The first-order viscosity 
 coefficients, denoted by $\mu_{\max}$ and $\kappa_{\max}$, are chosen so that the numerical scheme 
-becomes equivalent to an upwind scheme when the first-order coefficients are employed. The upwind 
+becomes equivalent to a local Lax-Friedrichs scheme \cite{lf} when the first-order coefficients are employed. The local Lax-Friedrichs 
 scheme is known to be over-dissipative but guarantees monotonicity \cite{Toro}. In practice, the 
 viscosity coefficients only saturate to the first-order viscosity coefficients in shocks and are 
-much smaller elsewhere, hence avoiding the over-dissipation of the upwind method.  The first-order 
+much smaller elsewhere, hence avoiding the over-dissipation of the local Lax-Friedrichs.  The first-order 
 viscosity coefficients $\mu_{\max}$ and $\kappa_{\max}$ are equal and set proportional to the 
 largest local eigenvalue $\| \vec{u} \| + c $:
 %
@@ -1297,7 +1296,7 @@ coefficient.
 Elsewhere, the entropy  viscosity coefficient is small. 
 In order to prove convergence of the numerical solution to the exact solution, a convergence study is performed. Because 
 of the presence of a shock, second-order accuracy is not expected and the convergence rate of a numerical solution 
-should be 1 and $1/2$ when measured in the L$_1$ and L$_2$ norms, respectively (see Theorem 9.3 in \cite{convergence_book}). 
+should be 1 and $1/2$ when measured in the L$_1$ and L$_2$ norms, respectively \cite{banks-jeffrey, majda-andrew}. 
 Results are reported in \tbl{tbl:l1_norm_vap} and \tbl{tbl:l2_norm_vap} for the primitive variables density, 
 velocity and pressure. The convergence rates for the L$_1$ and L$_2$ norms of the error computed using \eqt{eq:conv_rates} 
 are in good agreement with the theoretical values.
