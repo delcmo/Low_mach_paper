@@ -234,7 +234,7 @@ accuracy and solution convergence in the low-Mach regime. Because of the hyperbo
 shocks can form during transonic and supersonic flows and require the use of adequate numerical techniques to stabilize the solution
 and correctly resolve the discontinuities \cite{lax-peter, harten-hyman}. A wide range of stabilization methods are available in the literature: approximate Riemann solvers \cite{Toro}, flux-limiter techniques 
 \cite{FluxLimiter, FluxLimiter2}, pressure-based viscosity methods \cite{PBV_book}, Lapidus method \cite{Lapidus_paper, LMP, Lapidus_book}, 
-and the entropy-viscosity method \cite{jlg1, jlg2}, among others. These numerical methods are usually developed using simple equations 
+and the entropy-viscosity method \cite{jlg1, jlg2}, flux-corrected transport \cite{fct-zalesak, fct-kuzmin-lohner}, among others. These numerical methods are usually developed using simple equations 
 of state and tested for transonic and supersonic flows where the disparity between the acoustic wave speed and the fluid speed is not 
 excessively large and thus the Mach number is of order one. This approach, however, leads to a well-known accuracy problem in the low-Mach regime 
 where the fluid velocity is smaller that the speed of sound by multiple orders of magnitude. The numerical dissipative terms become 
@@ -1820,7 +1820,7 @@ for both subsonic and supersonic flows in various geometries, with Mach numbers 
 2.5. For very low-Mach flows, we numerically verified that the spatial steady-state pressure variations were proportional to 
 the square of the Mach number, as expected in the incompressible limit.
 
-In the future, we plan to further extend the entropy viscosity method to the seven-equation two-phase flow model \cite{SEM}. 
+In the future, we plan to investigate how the entropy viscosity method could be used as a high-order scheme with the concept of Flux-Corrected Transport. We also plan to further extend the entropy viscosity method to the seven-equation two-phase flow model \cite{SEM}. 
 This two-phase flow system of equations is a good candidate for two reasons: it is unconditionally hyperbolic and degenerates to the standard Euler equations when one phase disappears.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
