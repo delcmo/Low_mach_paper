@@ -150,29 +150,8 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frontmatter}
-
-%% Title, authors and addresses
-
-%% use the tnoteref command within \title for footnotes;
-%% use the tnotetext command for theassociated footnote;
-%% use the fnref command within \author or \address for footnotes;
-%% use the fntext command for theassociated footnote;
-%% use the corref command within \author for corresponding author footnotes;
-%% use the cortext command for theassociated footnote;
-%% use the ead command for the email address,
-%% and the form \ead[url] for the home page:
-%\title{Title\tnoteref{label1}}
-%% \tnotetext[label1]{}
-%% \author{Name\corref{cor1}\fnref{label2}}
-%% \ead{email address}
-%% \ead[url]{home page}
-%% \fntext[label2]{}
-%% \cortext[cor1]{}
-%% \address{Address\fnref{label3}}
-%% \fntext[label3]{}
 %-------------------------
 %-------------------------
-%\title{Extension of the entropy viscosity method to the low Mach regime for the multi-dimensional Euler equations\\
 \title{Entropy-based viscous regularization for the multi-dimensional Euler equations in low-Mach and transonic flows}
 %-------------------------
 %-------------------------
@@ -233,14 +212,13 @@ When solving Euler equations for a wide range of Mach numbers, multiple question
 accuracy and solution convergence in the low-Mach regime. Because of the hyperbolic nature of the equations, 
 shocks can form during transonic and supersonic flows and require the use of adequate numerical techniques to stabilize the solution
 and correctly resolve the discontinuities \cite{lax-peter, harten-hyman}. A wide range of stabilization methods are available in the literature: approximate Riemann solvers \cite{Toro}, flux-limiter techniques 
-\cite{FluxLimiter, FluxLimiter2}, pressure-based viscosity methods \cite{PBV_book}, Lapidus method \cite{Lapidus_paper, LMP, Lapidus_book}, 
-and the entropy-viscosity method \cite{jlg1, jlg2}, flux-corrected transport \cite{fct-zalesak, fct-kuzmin-lohner}, among others. These numerical methods are usually developed using simple equations 
+\cite{FluxLimiter, FluxLimiter2, fct-zalesak, fct-kuzmin-lohner}, pressure-based viscosity methods \cite{PBV_book}, Lapidus method \cite{Lapidus_paper, LMP, Lapidus_book}, 
+and the entropy-viscosity method \cite{jlg1, jlg2}, among others. These numerical methods are usually developed using simple equations 
 of state and tested for transonic and supersonic flows where the disparity between the acoustic wave speed and the fluid speed is not 
 excessively large and thus the Mach number is of order one. This approach, however, leads to a well-known accuracy problem in the low-Mach regime 
 where the fluid velocity is smaller that the speed of sound by multiple orders of magnitude. The numerical dissipative terms become 
 ill-scaled in the low-Mach regime and lead to the wrong numerical solution by changing the nature of the equations solved. This 
 behavior is well documented in the literature \cite{LowMach1, LowMach2, LowMach3}.
-% and often treated by performing a low-Mach  asymptotic study of Euler equations. 
 In \cite{LowMach1}, a low-Mach asymptotic study has demonstrated convergence of the 
 compressible Euler equations to the incompressible ones. 
 Many well-known stabilization techniques, for instance, the Roe scheme and the SUPG technique,
@@ -475,7 +453,7 @@ transonic and supersonic flows.
 The first step in defining viscosity coefficients that behave well in the low-Mach limit is to recast 
 the entropy residual in terms of thermodynamic variables. This provides physical insight on possible 
 normalization choices that can be valid in both low-Mach and transonic flows. The alternate definition 
-of the entropy residual, whose derivation is given in \app{app:ent_res}, is the following: %in \eqt{eq:ent_res}. The derivation that leads to this equation is provided in \app{app:ent_res}. 
+of the entropy residual, whose derivation is given in \app{app:ent_res}, is the following:
 %
 \begin{equation}
 \label{eq:ent_res}
@@ -628,9 +606,6 @@ For simplicity, we use here the ideal gas equation of state; its non-dimensional
 \label{eq:euler_eq2_eos}
 P^* = \left( \gamma-1 \right) \rho^*\left(  E^* -\frac{1}{2} M_\infty^2 (u^*)^2 \right) = \left( \gamma-1 \right) \rho^* e^* \, .
 \end{equation}
-%\tcb{this assumption is only useful in the asymptotic limit. I believe it is possible to carry the same asymptotic limit by assuming a more generic form of the equation of state such as $P = f(\rho)$ for isentropic flow. Do you think it is a good idea to do so?}\\
-
-%We consider two limit cases: isentropic flows \tcr{(the low-Mach asymptotic limit)} and non-isentropic situations (both subsonic and supersonic since we do not wish to specialize the entropy viscosity method to only low-Mach flows). 
 
 In the low-Mach isentropic limit, shocks cannot form and the compressible Euler equations are known to 
 converge to the incompressible equations when the Mach number tends to zero. When adding dissipative 
@@ -787,8 +762,6 @@ The derivation for ``$\norm_P^\mu$'' is similar and yields
 A smooth function to transition between these two states is obtained by employing a smoothed shifted Heaviside function
 defined as follows: % the shifted sigmoid function
 \begin{equation}
-% \sigma(M) = \frac{1}{1+\exp\big(-(M-M^\text{thresh})\big)} \,,
-% \sigma(M) = \frac{\tanh\big(a(M-M^\text{thresh})\big) + | \tanh\big(a(M-M^\text{thresh})\big) | }{2} \,,
 \sigma(M) =
 \left\{
 \begin{array}{ll}
@@ -905,7 +878,6 @@ A low-Mach asymptotic limit of the Euler equations with variable area on the sam
 \sct{sec:lowMach} will lead to the divergence constraint $\div (\vec{u} A) = 0$ that can be recast 
 as $\div \vec{u} = -\vec{u} \cdot \grad{A} / A$. The gradient of the area acts as a source term and 
 will force the fluid to accelerate or decelerate, depending on its sign. 
-%Since the dissipation is done partially on the velocity in the momentum and the energy equations (see \eqt{eq:euler_eq_mom_var_A} and \eqt{eq:euler_eq_ener_var_A} ), in the presence of a strong gradient of the area, $\grad A$, an excess amount of dissipation will be added to the system, making the numerical system converge to a wrong solution. They are to remedies to this problem. The first one consists of replacing the dissipative term $\mu A \grad^s \vec{u}$ by $\mu \grad^s (A\vec{u})$ to ensure the correct scaling of the dissipative term in the low Mach limit. However, the entropy minimum principle is no longer verified. The second option is to change the normalization of the viscosity coefficient $\mu$ from $\rho \| \vec{u} \|^2$ to $ \rho c^2$ to force the dissipative term to zero. The entropy minimum principle is still verified but such a choice will underestimate the dissipation and will not be able to stabilize shocks with low Mach number.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1104,38 +1076,6 @@ Finally, the convergence rates are computed using the following relation
 \end{equation}
 where $\| \cdot \|$ denotes either the L$_1$ or L$_2$ norms and $h$ is the characteristic grid size.
 
-%\tcr{What is this formula for the convergence rates?
-%First, if the exact solution is NOT known, then the formula should be
-% $[u(2h)-u(h)]/[u(h)-u(h/2)]=2^p$. 
-%That is, without u(exact) at all! Why do you need 3 numerical values to get the rate? Because you have 3 unknowns: u(exact), the error constant C, and p.\\
-%Second, here I believe that you do have an exact solution available. So, why do you need 3 numerical solutions? Two solutions would be enough:
-%$[u(2h)-u(exact)]/[u(h)-u(exact)] = 2^p$.
-%So, why use the formula that requires 3 data points when you do have the exact solution and just need two data points?
-%}
-%\tcb{I only did convergence tests using the exact solution. I modified the formula. I do not know what happened but this is not the one I used.} \tcr{I am very confused. Why don't you have a data point for the 4-cell run in tables 3 and 4 then?  Do you want to know why? Here are the density convergence rates computed with the 3-data-point formula:}
-%                       n/a  \\
-%         0.497853160115594  \\ 
-%          2.10066309721854  \\
-%          2.58043832278016  \\
-%          2.30875723293862  \\
-%          2.17681585582442  \\
-%          2.08147540790485  \\
-%          2.07422068901013  \\
-%                       n/a  \\
-%\tcr{Exactly what you have in your table. So, yes, the 3-data-point is what you used to generate the rates in tables 3-4.
-%%
-%The 2-data-point formula would give these values:}
-%                      n/a   \\                        
-%         1.07124891291942   \\ 
-%         2.18352054680744   \\
-%         2.52253088089074   \\
-%         2.27555126516373   \\
-%         2.15464731325216   \\
-%         2.08062517386829   \\
-%         2.07788241680274   \\
-%         2.08974364066811   \\
-%\tcr{Clearly, yo do NOT have these values.			Any reviewer can check this in 3 minutes. Stating we did it one way but doing it another way can hurt credibility. It makes sense to use the 2-pt formula when the exact solution is known, so please change the rates of tables 3-4 so that they are indeed computed with the 2-pt formula.}
-
 %---------------------------------------------------------------------------------------------------
 \subsection{Liquid water in a 1-D converging-diverging nozzle} \label{sec:liquid_nozzle}
 %---------------------------------------------------------------------------------------------------
@@ -1290,9 +1230,6 @@ The steady-state solution exhibits a shock around $x=0.8m$ and matches the exact
 the first-order and entropy viscosity coefficients are plotted at steady state (on a log scale): the entropy viscosity 
 coefficient is peaked in the shock region around $x=0.8m$ where it saturates to the first-order viscosity 
 coefficient. 
-%The graph also presents another peak at $x=0.5m$  corresponding to the position of the sonic point for the 
-%1-D converging-diverging nozzle. This particular point is known to exhibit small instabilities that are detected when 
-%computing the jumps of the pressure and density gradients. 
 Elsewhere, the entropy  viscosity coefficient is small. 
 In order to prove convergence of the numerical solution to the exact solution, a convergence study is performed. Because 
 of the presence of a shock, second-order accuracy is not expected and the convergence rate of a numerical solution 
@@ -1543,7 +1480,6 @@ The main features of the potential flow are the following:
 \item The spatial steady-state pressure variations are proportional to the square of inlet Mach number, i.e., 
 \begin{equation}
 \delta P = \frac{\max(P(\vec{r})) - \min(P(\vec{r}))}{\max(P(\vec{r}))}  \propto M_\infty^2
-%\|\tilde{\vec{u}}\| = \frac{\max(\|\vec{u}\|) - \min(\|\vec{u}\|)}{\max(\|\vec{u}\|)}  \propto M_\infty\nonumber 
 \end{equation}
 where $\delta P$ and $M_\infty$ denote the spatial steady-state pressure variations and the inlet Mach number, respectively.
 \end{itemize}
@@ -2042,7 +1978,6 @@ Finally, the right-hand side of the entropy residual \eqt{eq:ent_res_app} has no
 \section{Entropy residual for isentropic flows} \label{app:ise_equ}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\tcr{I cannot find a reference to this appendix in the main body of the manuscript. Add one.\\}
 This appendix shows that the entropy residual is zero for isentropic flows. For convenience, we recall
 here the entropy residual as a function of the pressure, density, velocity, and speed of sound:
 %
@@ -2065,7 +2000,7 @@ Using the chain rule, the entropy residual in \eqt{eq:app_entr} can be recast as
          = c^2                       \matder \rho - c^2  \matder  \rho  
          =  0 \,.
 \end{equation}
-
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \end{document}
