@@ -209,11 +209,16 @@ and thus need to be accurately resolved. Hence, there is a strong interest to de
 that can solve both compressible and incompressible flow problems.  
 
 When solving Euler equations for a wide range of Mach numbers, multiple questions must be addressed: stability, 
-accuracy and solution convergence in the low-Mach regime. Because of the hyperbolic nature of the equations, 
+shock calculations, accuracy and solution convergence in the low-Mach regime. Because of the hyperbolic nature of the equations, 
 shocks can form during transonic and supersonic flows and require the use of adequate numerical techniques to stabilize the solution
-and correctly resolve the discontinuities \cite{lax-peter, harten-hyman}. A wide range of stabilization methods are available in the literature: approximate Riemann solvers \cite{Toro}, flux-limiter techniques 
-\cite{FluxLimiter, FluxLimiter2, fct-zalesak, fct-kuzmin-lohner}, pressure-based viscosity methods \cite{PBV_book}, Lapidus method \cite{Lapidus_paper, LMP, Lapidus_book}, 
-and the entropy-viscosity method \cite{jlg1, jlg2}, among others. These numerical methods are usually developed using simple equations 
+and correctly resolve the discontinuities \cite{lax-peter, harten-hyman}. 
+A wide range of stabilization methods were developed through the years and can be distinguished into three main types: approximate Riemann or Godunov type solvers \cite{Toro}, flux-limiter techniques 
+\cite{FluxLimiter, FluxLimiter2, fct-zalesak, fct-kuzmin-lohner}, and artificial viscosity methods \cite{neumann} such as pressure-based viscosity methods \cite{PBV_book} and Lapidus method \cite{Lapidus_paper, LMP, Lapidus_book}, among others. The numerical method investigated in this paper belongs to the later type and is referred to as the Entropy-Viscosity Method \cite{jlg1, jlg2} in the literature.
+%A wide range of stabilization methods are available in the literature and can be typefied : approximate Riemann solvers \cite{Toro}, flux-limiter techniques 
+%\cite{FluxLimiter, FluxLimiter2, fct-zalesak, fct-kuzmin-lohner}, pressure-based viscosity methods \cite{PBV_book}, Lapidus method \cite{Lapidus_paper, LMP, Lapidus_book}, 
+%and the entropy-viscosity method \cite{jlg1, jlg2}, among others.
+
+These numerical methods are usually developed using simple equations 
 of state and tested for transonic and supersonic flows where the disparity between the acoustic wave speed and the fluid speed is not 
 excessively large and thus the Mach number is of order one. This approach, however, leads to a well-known accuracy problem in the low-Mach regime 
 where the fluid velocity is smaller that the speed of sound by multiple orders of magnitude. The numerical dissipative terms become 

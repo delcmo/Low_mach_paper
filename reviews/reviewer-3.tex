@@ -96,6 +96,7 @@ Zalesak, Steven T. "Introduction to "Flux-corrected transport. I. SHASTA,
 a fluid transport algorithm that works"." Journal of Computational Physics
 135.2 (1997): 170-171.}
 
+We rewrote the second paragraph of the introduction dealing with the different numerical method types. Thank you for pointing this out.
 \bigskip
 
 
@@ -113,6 +114,7 @@ Fiorina, Benoit, and Sanjiva K. Lele. "An artificial nonlinear diffusivity
 method for supersonic reacting flows with shocks." Journal of
 Computational Physics 222.1 (2007): 246-264.}
 
+Our understanding of the work of Cook and Cabot is that it was developed for both shock and turbulence capturing. The entropy viscosity method seems to be a good candidate for turbulence capturing as well. However, since this paper does not deal with turbulence capturing but only with shock capturing, we feel that the reader might get confused by adding the above references.
 \bigskip
 
 
@@ -127,7 +129,7 @@ conditions for shocks." Communications on pure and applied mathematics
 29.3 (1976): 297-322. 
 }
 
-We added the two above references to the introduction. Thank you for pointing this out.
+We added the two above references to the introduction. We had initially referenced Leveque's work. Thank you for pointing this out.
 \bigskip
 
 
@@ -172,7 +174,11 @@ This is correct and we thank the reviewer for this comment.
 method in this paper. I only see an extension to low-Mach flows.
 }
 
-The method was improved in two ways. First, the definition of the viscosity coefficients no longer require a function form of the entropy function and thus, can be used with a wide range of equation of states and table look-ups. Second, the definition of the viscosity coefficients was extended to transonic and subsonic flows.
+The method was improved in two ways: 
+\begin{itemize}
+\item the definition of the viscosity coefficients no longer requires a functional form of the entropy function and thus, can be used with a wide range of equation of states and table look-ups. This new definition was tested on 1- and 2-D supersonic flows.
+\item the definition of the viscosity coefficients was extended to transonic and subsonic flows.
+\end{itemize}
 \bigskip
 
 
