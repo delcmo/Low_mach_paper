@@ -71,28 +71,60 @@ Title: ``Entropy-based viscous regularization for the multi-dimensional Euler eq
 
 {
 \color{blue}
-This looks like it a revised manuscript modified on the basis of oneextensive review.This work is largely derivative of the work of Geurmond and Popov andproduces a reasonable extension of their work. The revision is largelysuccessful per the comments of that reviewer. A few issue remainunaddressed and I will highlight these below.
+This looks like it a revised manuscript modified on the basis of one
+extensive review.
+This work is largely derivative of the work of Geurmond and Popov and
+produces a reasonable extension of their work. The revision is largely
+successful per the comments of that reviewer. A few issue remain
+unaddressed and I will highlight these below.
 }
 
 \bigskip
 
 {
 \color{blue}
-1. In the introduction the description of the stabilization methodsavailable for hyperbolic PDEs is a bit pedestrian. There are dissipationapproaches typified by artificial viscosity and Riemann solvers, and"limiters" associated with high-order discretizations. Both are important,but they are quite different. Two major themes exist (Van 2006 coversthis topic well, as well as Zalesak 1997).Van Leer, B. (2006). Upwind and high-resolution methods forcompressible flow: From donor cell to residual-distribution schemes.Communications in Computational Physics, 1(192-206), 12.Zalesak, Steven T. "Introduction to "Flux-corrected transport. I. SHASTA,a fluid transport algorithm that works"." Journal of Computational Physics135.2 (1997): 170-171.}
+1. In the introduction the description of the stabilization methods
+available for hyperbolic PDEs is a bit pedestrian. There are dissipation
+approaches typified by artificial viscosity and Riemann solvers, and
+"limiters" associated with high-order discretizations. Both are important,
+but they are quite different. Two major themes exist (Van 2006 covers
+this topic well, as well as Zalesak 1997).
+Van Leer, B. (2006). Upwind and high-resolution methods for
+compressible flow: From donor cell to residual-distribution schemes.
+Communications in Computational Physics, 1(192-206), 12.
+Zalesak, Steven T. "Introduction to "Flux-corrected transport. I. SHASTA,
+a fluid transport algorithm that works"." Journal of Computational Physics
+135.2 (1997): 170-171.}
 
 \bigskip
 
 
 {
 \color{blue}
-2. The connections to the work of Cook and Cabot seem to be verystrong. These should be mentioned and examined.Cook, Andrew W., and William H. Cabot. "Hyperviscosity for shockturbulenceinteractions." Journal of Computational Physics 203.2 (2005):379-385.Cook, Andrew W., and William H. Cabot. "A high-wavenumber viscosityfor high-resolution numerical methods." Journal of Computational Physics195.2 (2004): 594-601.Fiorina, Benoit, and Sanjiva K. Lele. "An artificial nonlinear diffusivitymethod for supersonic reacting flows with shocks." Journal ofComputational Physics 222.1 (2007): 246-264.}
+2. The connections to the work of Cook and Cabot seem to be very
+strong. These should be mentioned and examined.
+Cook, Andrew W., and William H. Cabot. "Hyperviscosity for shockturbulence
+interactions." Journal of Computational Physics 203.2 (2005):
+379-385.
+Cook, Andrew W., and William H. Cabot. "A high-wavenumber viscosity
+for high-resolution numerical methods." Journal of Computational Physics
+195.2 (2004): 594-601.
+Fiorina, Benoit, and Sanjiva K. Lele. "An artificial nonlinear diffusivity
+method for supersonic reacting flows with shocks." Journal of
+Computational Physics 222.1 (2007): 246-264.}
 
 \bigskip
 
 
 {
 \color{blue}
-3. I'm surprised that Lax's work on vanishing viscosity is never mentionednor the numerical impact of it.Lax, Peter D. Hyperbolic systems of conservation laws and themathematical theory of shock waves. Vol. 11. SIAM, 1973.Harten, Amiram, et al. "On finite?difference approximations and entropyconditions for shocks." Communications on pure and applied mathematics29.3 (1976): 297-322. 
+3. I'm surprised that Lax's work on vanishing viscosity is never mentioned
+nor the numerical impact of it.
+Lax, Peter D. Hyperbolic systems of conservation laws and the
+mathematical theory of shock waves. Vol. 11. SIAM, 1973.
+Harten, Amiram, et al. "On finite?difference approximations and entropy
+conditions for shocks." Communications on pure and applied mathematics
+29.3 (1976): 297-322. 
 }
 
 We added the two above references to the introduction. Thank you for pointing this out.
@@ -101,7 +133,18 @@ We added the two above references to the introduction. Thank you for pointing th
 
 {
 \color{blue}
-4. The issue of maintaining high-order accuracy does not matter onceshocks are formed. (second-order barely meets this condition!). Theaccuracy drops to 1st order with shocks, and lower if the wave is linearlydiscontinuous. I find the reference here to be odd and suggest usingsomething more classical in the shock community.Majda, Andrew, and Stanley Osher. "Propagation of error into regions ofsmoothness for accurate difference approximations to hyperbolicequations." Communications on Pure and Applied Mathematics 30.6(1977): 671-705.Banks, Jeffrey W., T. Aslam, and W. J. Rider. "On sub-linear convergencefor linearly degenerate waves in capturing schemes." Journal ofComputational Physics 227.14 (2008): 6985-7002.
+4. The issue of maintaining high-order accuracy does not matter once
+shocks are formed. (second-order barely meets this condition!). The
+accuracy drops to 1st order with shocks, and lower if the wave is linearly
+discontinuous. I find the reference here to be odd and suggest using
+something more classical in the shock community.
+Majda, Andrew, and Stanley Osher. "Propagation of error into regions of
+smoothness for accurate difference approximations to hyperbolic
+equations." Communications on Pure and Applied Mathematics 30.6
+(1977): 671-705.
+Banks, Jeffrey W., T. Aslam, and W. J. Rider. "On sub-linear convergence
+for linearly degenerate waves in capturing schemes." Journal of
+Computational Physics 227.14 (2008): 6985-7002.
 }
 
 Thank you for pointing out the above references to us that we found vey interesting. We added these references to the paper in the numerical results section.
@@ -110,7 +153,13 @@ Thank you for pointing out the above references to us that we found vey interest
 
 {
 \color{blue}
-5. The bounding viscosity is actually larger than upwind, it is Rusunov orLocal Lax-Friedrichs viscosity determined by the largest wave speed in thesystem. This could become very large and potentially damaging as theflow becomes low-Mach. Is this problem encountered? Or is it mitigated?This would seem to be a major potential problem with the formulation.Most of the time the dissipation proportional to the material velocitywould seem to be the relevant one for the dynamics.
+5. The bounding viscosity is actually larger than upwind, it is Rusunov or
+Local Lax-Friedrichs viscosity determined by the largest wave speed in the
+system. This could become very large and potentially damaging as the
+flow becomes low-Mach. Is this problem encountered? Or is it mitigated?
+This would seem to be a major potential problem with the formulation.
+Most of the time the dissipation proportional to the material velocity
+would seem to be the relevant one for the dynamics.
 }
 
 This is correct and we thank the reviewer for this comment.
@@ -119,7 +168,8 @@ This is correct and we thank the reviewer for this comment.
 
 {
 \color{blue}
-6. It would be good to see some modification and improvement of themethod in this paper. I only see an extension to low-Mach flows.
+6. It would be good to see some modification and improvement of the
+method in this paper. I only see an extension to low-Mach flows.
 }
 
 The method was improved in two ways. First, the definition of the viscosity coefficients no longer require a function form of the entropy function and thus, can be used with a wide range of equation of states and table look-ups. Second, the definition of the viscosity coefficients was extended to transonic and subsonic flows.
@@ -128,16 +178,19 @@ The method was improved in two ways. First, the definition of the viscosity coef
 
 {
 \color{blue}
-7. I find the quality of the line plots to be quite poor and not up to thestandards of publication. These should be improved.
+7. I find the quality of the line plots to be quite poor and not up to the
+standards of publication. These should be improved.
 }
 
-We improved the quality of the 2-D plots that are presented in the section called numerical results.
+We improved the quality of the 2-D plots that are presented in the section called numerical results and hope they now up to the standards of publication.
 \bigskip
 
 
 {
 \color{blue}
-8. For the final few examples a more quantitative assessment of thenumerical accuracy and order of convergence of the method would bequite welcome.
+8. For the final few examples a more quantitative assessment of the
+numerical accuracy and order of convergence of the method would be
+quite welcome.
 }
 
 \bigskip
