@@ -174,7 +174,7 @@
 %-------------------------
 \begin{abstract}
 We present a new version of the entropy viscosity method, a viscous regularization technique for hyperbolic 
-conservation laws, that is well-suited to low-Mach flows. 
+conservation laws, that is well-suited for low-Mach flows. 
 By means of a low-Mach asymptotic study, new expressions for the entropy viscosity coefficients are derived.
 These definitions are valid for a wide range of Mach numbers, from subsonic flows (with very low Mach  numbers) to 
 supersonic flows, and no longer depend on an analytical expression for the entropy function.
@@ -183,7 +183,7 @@ In addition, the entropy viscosity method is extended to Euler equations with va
 The effectiveness of the method is demonstrated using various 1-D and 2-D benchmark tests: flow in a converging-diverging 
 nozzle; Leblanc shock tube; slow moving shock; strong shock for liquid phase; low-Mach flows around a 
 cylinder and over a circular hump; and supersonic flow in a compression corner. 
-Convergence studies are performed for both smooth solutions and solutions with shocks present. 
+Convergence studies are performed for smooth solutions and solutions with shocks present. 
 \end{abstract}
 %-------------------------
 %-------------------------
@@ -208,12 +208,12 @@ compressible effects cannot be neglected because of the intense heat source, and
 and thus need to be accurately resolved. Hence, there is a strong interest to develop computational methods 
 that can solve both compressible and incompressible flow problems.  
 
-When solving Euler equations for a wide range of Mach numbers, multiple questions must be addressed: stability, 
-shock calculations, accuracy and solution convergence in the low-Mach regime. Because of the hyperbolic nature of the equations, 
+When solving Euler equations for a wide range of Mach numbers, multiple questions must be addressed: stability of the numerical scheme, 
+the ability to capture and track shocks, accuracy and solution convergence in the low-Mach regime. Because of the hyperbolic nature of the equations, 
 shocks can form during transonic and supersonic flows and require the use of adequate numerical techniques to stabilize the solution
 and correctly resolve the discontinuities \cite{lax-peter, harten-hyman}. 
-A wide range of stabilization methods were developed through the years and can be distinguished into three main types: approximate Riemann or Godunov type solvers \cite{Toro}, flux-limiter techniques 
-\cite{FluxLimiter, FluxLimiter2, fct-zalesak, fct-kuzmin-lohner}, and artificial viscosity methods \cite{neumann} such as pressure-based viscosity methods \cite{PBV_book} and Lapidus method \cite{Lapidus_paper, LMP, Lapidus_book}, among others. The numerical method investigated in this paper belongs to the later type and is referred to as the Entropy-Viscosity Method \cite{jlg1, jlg2} in the literature.
+A wide range of stabilization methods exits  and can be classified into three main categories: approximate Riemann or Godunov type solvers \cite{Toro}, flux-limiter techniques \tcr{I do not consider FCT to be a stab. method}
+\cite{FluxLimiter, FluxLimiter2, fct-zalesak, fct-kuzmin-lohner}, and artificial viscosity methods \cite{neumann} such as pressure-based viscosity methods \cite{PBV_book} and Lapidus method \cite{Lapidus_paper, LMP, Lapidus_book}, among others. The numerical method investigated in this paper belongs to the later type and is referred to as the Entropy-Viscosity Method  in the literature \cite{jlg1, jlg2}.
 %A wide range of stabilization methods are available in the literature and can be typefied : approximate Riemann solvers \cite{Toro}, flux-limiter techniques 
 %\cite{FluxLimiter, FluxLimiter2, fct-zalesak, fct-kuzmin-lohner}, pressure-based viscosity methods \cite{PBV_book}, Lapidus method \cite{Lapidus_paper, LMP, Lapidus_book}, 
 %and the entropy-viscosity method \cite{jlg1, jlg2}, among others.
@@ -221,14 +221,14 @@ A wide range of stabilization methods were developed through the years and can b
 These numerical methods are usually developed using simple equations 
 of state and tested for transonic and supersonic flows where the disparity between the acoustic wave speed and the fluid speed is not 
 excessively large and thus the Mach number is of order one. This approach, however, leads to a well-known accuracy problem in the low-Mach regime 
-where the fluid velocity is smaller that the speed of sound by multiple orders of magnitude. The numerical dissipative terms become 
+where the fluid velocity is multiple orders of magnitude smaller than the speed of sound. The numerical dissipative terms become 
 ill-scaled in the low-Mach regime and lead to the wrong numerical solution by changing the nature of the equations solved. This 
 behavior is well documented in the literature \cite{LowMach1, LowMach2, LowMach3}.
 In \cite{LowMach1}, a low-Mach asymptotic study has demonstrated convergence of the 
 compressible Euler equations to the incompressible ones. 
 Many well-known stabilization techniques, for instance, the Roe scheme and the SUPG technique,
 do not yield the correct solution in the low-Mach regime and suitable modifications have been proposed (see \cite{Roe} for the Roe scheme and \cite{LowMach3} for the SUPG method)
-to ensure the convergence to the correct solution while preserving the original shock stabilization 
+to ensure convergence to the correct solution while preserving the original shock stabilization 
 properties of these schemes. 
 %
 Additionally, the time step size may be severely restricted when solving compressible fluid equations with an explicit time discretization 
@@ -237,9 +237,8 @@ To avoid an excessive number of explicit time steps, time preconditioners have b
 however, because they modify the time derivatives in the governing equations, such acceleration techniques can only be used to obtain
 steady-state solutions for low-Mach flows using explicit schemes.
 %
-To avoid modifying the time derivatives, 
-the temporal implicit capabilities of the MOOSE multiphysics framework \cite{MOOSE} are used. With such a choice, low-Mach steady-state solutions 
-can be obtained effectively while preserving the accuracy of the transient solution; however, it requires the use of nonlinear solvers.
+Here, we solve the fluid flow equations implicitly using the temporal capabilities of the MOOSE multiphysics framework \cite{MOOSE}. With such a choice, low-Mach steady-state solutions 
+can be obtained effectively while preserving the accuracy of the transient solution; however, this requires the use of nonlinear solvers.
 
 In this paper, we employ the entropy viscosity method as a numerical stabilization for the inviscid Euler equation and assess its performance 
 in the low-Mach regime. 
@@ -256,42 +255,46 @@ in the incompressible limit while ensuring that the viscosity coefficients scale
 %
 In \sct{sec:var_area_diss_terms}, we extend the entropy viscosity method to Euler equations with variable area in order to model nozzle flows: 
 the viscous dissipative terms are adapted so that the entropy minimum principle remains satisfied.
-Spatial and temporal discretizations and solution tehcniques are presented in \sct{sec:solution_tech}.
+Spatial and temporal discretizations and solution techniques are presented in \sct{sec:solution_tech}.
  1-D and 2-D numerical results 
 are provided in \sct{sec:results} for a wide range of Mach numbers: liquid and gas nozzle flow problems, 
 low-Mach flows over a cylinder and a circular bump (with Mach numbers as low as $10^{-7}$), and supersonic flows 
-in a compression corner \cite{CompressionCorner}. 
-Convergence studies are performed in 1-D in order to demonstrate the accuracy of the solution technique. 
+in a compression corner. % \cite{CompressionCorner} \tcr{why cite 1. cite them all, or none. 
+Convergence studies are performed in 1-D in order to demonstrate the accuracy of the solution technique for smooth 
+solutions as well as for solutions presenting shocks. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{The Entropy Viscosity Method} \label{sec:entro_visc}
+\section{A Review of the Entropy Viscosity Method} \label{sec:entro_visc}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In this Section, we recall the current formulation of the entropy viscosity method applied to Euler's equations
+and note some of its deficiencies in the low-Mach flow regime. 
 
 %===================================================================================================
 \subsection{Background} \label{sec:background}
 %===================================================================================================
 
-Euler equations in conservative form are given by
+Euler's equations in conservative form are given by
 \begin{subequations}
 \label{eq:euler_eq}
 %
 \begin{equation}
-\partial_t \rho  + \div \left( \rho \vec{u} \right) = 0
+\partial_t \rho  + \div \left( \rho \vec{u} \right) = 0 \,,
 \end{equation}
 %
 \begin{equation}
-\partial_t \left( \rho \vec{u} \right) + \div \left( \rho \vec{u} \otimes \vec{u} + P \mathbb{I} \right) = 0 
+\partial_t \left( \rho \vec{u} \right) + \div \left( \rho \vec{u} \otimes \vec{u} + P \mathbb{I} \right) = 0  \,,
 \end{equation}
 %
 \begin{equation}
-\partial_t \left( \rho E \right) + \div \left[ \vec{u} \left( \rho E + P \right) \right] = 0
+\partial_t \left( \rho E \right) + \div \left[ \vec{u} \left( \rho E + P \right) \right] = 0 \,,
 \end{equation}
 \end{subequations}
 %
-where $\rho$, $\rho \vec{u}$ and $E$ are the density, the momentum and the total specific energy, 
+where $\rho$, $\rho \vec{u}$ and $E$ are the density, the momentum, and the total specific energy, 
 respectively, and will be referred to as the conservative variables. $\vec{u}$ is the fluid's velocity and 
 its specific internal energy is denoted by $e=E-\tfrac{u^2}{2}$. An equation of state, dependent upon 
 $\rho$ and $e$, is used to compute the pressure $P$. The tensor product $\vec{a} \otimes \vec{b}$ is 
@@ -311,15 +314,15 @@ $e$ and the specific volume $1/\rho$.  The Euler equations with viscous regulari
 \label{eq:euler_visc}
 %
 \begin{equation}
-\partial_t \rho  + \div \left( \rho \vec{u} \right) = \div \left( \kappa \grad \rho \right) 
+\partial_t \rho  + \div \left( \rho \vec{u} \right) = \div \left( \kappa \grad \rho \right) \,,
 \end{equation}
 %
 \begin{equation}
-\partial_t \left( \rho \vec{u} \right) + \div \left( \rho \vec{u} \otimes \vec{u} + P \mathbb{I} \right) = \div \left( \mu \rho \grad^s \vec{u}  + \kappa \vec{u} \otimes \grad \rho \right)  
+\partial_t \left( \rho \vec{u} \right) + \div \left( \rho \vec{u} \otimes \vec{u} + P \mathbb{I} \right) = \div \left( \mu \rho \grad^s \vec{u}  + \kappa \vec{u} \otimes \grad \rho \right)   \,,
 \end{equation}
 %
 \begin{equation}
-\partial_t \left( \rho E \right) + \div \left[ \vec{u} \left( \rho E + P \right) \right] = \div \left( \kappa \grad \left( \rho e \right) + \frac{1}{2}\| \vec{u} \|^2 \kappa \grad \rho +  \rho \mu \vec{u} \grad \vec{u}  \right) 
+\partial_t \left( \rho E \right) + \div \left[ \vec{u} \left( \rho E + P \right) \right] = \div \left( \kappa \grad \left( \rho e \right) + \frac{1}{2}\| \vec{u} \|^2 \kappa \grad \rho +  \rho \mu \vec{u} \grad \vec{u}  \right)  \,,
 \end{equation}
 \end{subequations}
 %
@@ -335,7 +338,7 @@ peaked in shocks and vanishingly small elsewhere \cite{Toro}.
 %
 \begin{equation}
 \label{eq:ent_residual}
-\resi(\vec{r}, t) := \partial_t s + \vec{u} \cdot \grad s
+\resi(\vec{r}, t) := \partial_t s + \vec{u} \cdot \grad s \,.
 \end{equation}
 %
 In the current version of the method, the ratio of $\kappa$ to $\mu$ is defined through a numerical 
@@ -344,11 +347,12 @@ range $[ 0.001; 1 ]$. Since the entropy residual $\resi(\vec{r},t)$ may be extre
 the definition of the viscosity coefficients also includes a first-order viscosity coefficient that 
 serves as an upper bound for the entropy-based viscosity coefficients. The first-order viscosity 
 coefficients, denoted by $\mu_{\max}$ and $\kappa_{\max}$, are chosen so that the numerical scheme 
-becomes equivalent to a local Lax-Friedrichs scheme \cite{lf} when the first-order coefficients are employed. The local Lax-Friedrichs 
+becomes equivalent to a local Lax-Friedrichs scheme \cite{lf} when the first-order viscosities are employed. 
+The local Lax-Friedrichs 
 scheme is known to be over-dissipative but guarantees monotonicity \cite{Toro}. In practice, the 
 viscosity coefficients only saturate to the first-order viscosity coefficients in shocks and are 
-much smaller elsewhere, hence avoiding the over-dissipation of the local Lax-Friedrichs.  The first-order 
-viscosity coefficients $\mu_{\max}$ and $\kappa_{\max}$ are equal and set proportional to the 
+much smaller elsewhere, hence avoiding the over-dissipation of the local Lax-Friedrichs scheme. The first-order 
+viscosity coefficients $\mu_{\max}$ and $\kappa_{\max}$ are set equal and proportional to the 
 largest local eigenvalue $\| \vec{u} \| + c $:
 %
 \begin{equation}
@@ -376,7 +380,8 @@ as follows
 \begin{subequations}
 \label{eq:ent_visc_coeff}
 \begin{equation}
-\mu^K_e(\vec{r}_q,t) =  h_K^2 \frac{\max\left( | \resi^K(\vec{r}_q,t) |, J^K[s](t) \right)}{\| s - \bar{s} \|_\infty}  
+\label{eq:ent_visc_coeff_a}
+\mu^K_e(\vec{r}_q,t) =  h_K^2 \frac{\max\left( | \resi^K(\vec{r}_q,t) |, J^K[s](t) \right)}{\| s - \bar{s} \|_\infty}  \,,
 \end{equation}
 \begin{equation}
 \kappa^K_e(\vec{r}_q,t) = \Pr \, \mu^K_e(\vec{r}_q,t) \,,
@@ -386,8 +391,8 @@ as follows
 where $\| \cdot \|_\infty$ and $\bar{\cdot}$ denote the L$_\infty$-norm and the average operator over the entire 
 computational domain, respectively. The definition of the entropy jump $J[s]$ is spatial discretization-dependent 
 and examples of definitions can be found in \cite{valentin} for discontinuous Galerkin discretization. For 
-continuous finite element methods (FEM), the jump of a given quantity is defined as the change of its normal 
-derivative ($\partial_n ( \cdot ) =  \vec{n} \cdot \grad (\cdot)$) across the common face separating the two elements
+continuous finite element methods (FEM), the jump of a given quantity is defined as the change in its normal 
+derivative ($\partial_n ( \cdot ) =  \vec{n} \cdot \grad (\cdot)$) across the common face separating the two elements. 
 %, and will be further referred to as the inter-element jump. 
 We take the largest value over all faces $f$ present on the 
 boundary $\partial K$ of element $K$:
@@ -400,13 +405,13 @@ J^K[s](t) = \max_{f\in\partial K}  \max_{\vec{r}_q \in f} \Big( \| \vec{u}(\vec{
 where $\jmp{a(\vec{r}_q)}_f$ denotes the inter-element jump in $a(\vec{r})$ at quadrature point $\vec{r}_q$ on face $f$ 
 (the quadrature points $\vec{r}_q$ are taken on the faces $f$ of the element $K$). With the definition given in 
 \eqt{eq:jump_CFEM}, the jump is constant over each element $K$ of the computational domain. 
-The denominator $\| s - \bar{s} \|_\infty$ is used for dimensionality purposes.
+The denominator $\| s - \bar{s} \|_\infty$ in \eqt{eq:ent_visc_coeff_a} is used for dimensionality purposes.
 Currently, there are no theoretical justifications for choosing the denominator beyond a dimensionality argument. 
-Finally, the viscosity coefficients $\mu$ and $\kappa$ are as follows:
+Finally, the viscosity coefficients $\mu$ and $\kappa$ are computed as follows:
 %
 \begin{subequations}
 \begin{equation}
-\mu(\vec{r},t)    = \min\Big( \mu_e(\vec{r},t)   \,,\, \mu_{\max}(\vec{r},t)    \Big) 
+\mu(\vec{r},t)    = \min\Big( \mu_e(\vec{r},t)   \,,\, \mu_{\max}(\vec{r},t)    \Big) ,
 \end{equation}
 and
 \begin{equation}
@@ -434,10 +439,10 @@ small in that regime and so will be the denominator $\| s - \bar{s} \|_\infty$, 
 definition of the viscosity coefficients in \eqt{eq:ent_visc_coeff} undetermined and likely ill-scaled.  
 One possible approach would consist of expanding the numerator and denominator in terms of the Mach number 
 and deriving their limits when the Mach number tends to zero. Such derivation may not be straightforward, 
-especially for general equations of state. However, this approach can be avoided by noting that the entropy 
+especially for general equations of state. In this paper, we avoid this approach by noting that the entropy 
 residual $\resi$ can be recast as a function of pressure, density, velocity, and speed of sound as 
 will be shown in \eqt{eq:ent_res} of \sct{sec:new_ent_prod}. This alternate entropy residual definition 
-is the basis for the low-Mach analysis carried out in this paper and possesses several advantages that 
+is the basis for the low-Mach analysis carried out here and possesses several advantages that 
 are discussed next. %in \sct{sec:new_ent_prod}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -458,11 +463,11 @@ transonic and supersonic flows.
 The first step in defining viscosity coefficients that behave well in the low-Mach limit is to recast 
 the entropy residual in terms of thermodynamic variables. This provides physical insight on possible 
 normalization choices that can be valid in both low-Mach and transonic flows. The alternate definition 
-of the entropy residual, whose derivation is given in \app{app:ent_res}, is the following:
+of the entropy residual, whose derivation is given in \app{app:ent_res}, is as follows:
 %
 \begin{equation}
 \label{eq:ent_res}
-\resi(\vec{r},t) := \partial_t s + \vec{u} \cdot \grad s = \matder{s} = \frac{s_e}{P_e} \left( \underbrace{\matder{P} - c^2 \matder{\rho} }_{\resinew(\vec{r},t)} \right) ,
+\resi(\vec{r},t) := \partial_t s + \vec{u} \cdot \grad s = \matder{s} = \frac{s_e}{P_e} \times \underbrace{ \left(\matder{P} - c^2 \matder{\rho} \right)}_{\resinew(\vec{r},t)} ,
 \end{equation} 
 %
 where $\matder{\ }$ denotes the material derivative ($\matder{\ }:= \frac{\partial }{\partial t} + \vec{u} \cdot \grad $), and the form $x_y$ 
@@ -500,10 +505,12 @@ J^K( t) = \max_{f\in\partial K}  \max_{ \vec{r}_q \in f}  \Big( \| \vec{u}(\vec{
 \end{subequations}
 %
 The jump operator $J^K$ acts on the same variables that appear in $\resinew$, namely, pressure and density. The residual 
-$\resinew$ and the pressure jump will only contribute to the viscosity coefficients in a shock region. On the other hand, the density jump will contribute in both contact and shock regions. 
+$\resinew$ and the pressure jump will only contribute to the viscosity coefficients in a shock region. On the other hand, 
+the density jump will contribute in both contact and shock regions. 
 The $\mu$ and $\kappa$ coefficients are kinematic viscosities (units of $m^2/s$); the normalization 
-parameters ``$\norm_P$'' are thus in units of pressure, hence the use of the subscript $P$.  We emphasize that the same normalization is not required for both $\mu_e$ and $\kappa_e$ and thus the entropy viscosity 
-coefficients may be different. The low-Mach asymptotic study presented next will determine the proper normalization.
+parameters $\norm_P^\mu$ and $\norm_P^\kappa$ have units of pressure, hence the use of the subscript $P$.  
+We point out that the $\norm_P^\mu$ and $\norm_P^\kappa$ can be different, thus yielding different entropy viscosity 
+coefficients for $\mu_e$ and $\kappa_e$. The low-Mach asymptotic study presented next will determine the proper normalization.
 
 %===================================================================================================
 \subsection{Asymptotic Study in the Low-Mach Regime} \label{sec:lowMach}
@@ -522,12 +529,13 @@ viscosity coefficients so that the dissipative terms remain well-scaled for two 
 equations in the low-Mach limit and 
 (ii) the non-isentropic limit with formation of shocks. 
 The isentropic limit of the Euler equations with viscous regularization should yield incompressible 
-fluid flow solutions in the low-Mach limit, namely, that the spatial steady-state pressure variations are of the 
+fluid flow solutions in the low-Mach limit. Some important properties of low-Mach incompressible flows should be preserved, 
+namely, that the spatial steady-state pressure variations are of the 
 order $M^2$ and that the velocity satisfies the divergence constraint $\div \vec{u}_0 = 0$ 
 \cite{LowMach1, LowMach2, LowMach3}. For non-isentropic situations, shocks may form for any 
 value of Mach number and the minimum entropy principle should still be satisfied so that numerical 
 oscillations, if any, be controlled by the entropy viscosity method independently of the value of the Mach number.
-Our objective is to determine the appropriate scaling for ``$\norm_P^\kappa$'' and ``$\norm_P^\mu$'' in these two limit cases.
+Our objective is to determine the appropriate scaling for $\norm_P^\kappa$ and $\norm_P^\mu$ in these two limit cases.
 
 The first step in the study of the limit cases (i) and (ii) is to re-write \eqt{eq:euler_visc} in 
 a non-dimensional manner. To do so, the following variables are introduced:
@@ -629,7 +637,7 @@ if $\Re_\infty = \Pe_\infty = 1$. In this case, we have
 at order $M_\infty^{-2}$:
 \begin{equation}
 \label{eq:asympt_equ1_cont}
-\grad P_0 = 0
+\grad P_0 = 0 \, ,
 \end{equation}
 %
 and at order $M_\infty^{-1}$
@@ -730,9 +738,8 @@ regularization of the continuity equation unaffected because $\Pe_\infty = 1$.
 
 The study of the above limit cases yields two different possible scalings for the Reynolds number: 
 $\Re_\infty = 1$ in the low-Mach limit and $\Re_\infty  = M_\infty^2$ for non-isentropic flows, 
-whereas the numerical P\'eclet number always scales as one. In order to have a stabilization method 
-valid for a wide range of Mach numbers, from very low-Mach to supersonic flows, these two scalings should 
-be combined in a unique definition. 
+whereas the numerical P\'eclet number always scales as one. Here, we show how the knowledge of 
+such a scaling can inform a proper normalization of the new entropy residual \resinew for a wide range of Mach numbers.
 
 We begin with the  normalization parameter ``$\norm_P^\kappa$''. Using the 
 definition of the viscosity coefficients given in \eqt{eq:visc_definition} and the scaling of 
@@ -743,7 +750,7 @@ definition of the viscosity coefficients given in \eqt{eq:visc_definition} and t
 \kappa_\infty = \frac{ \rho_\infty c_\infty^2 u_\infty L }{ \norm_{P,\infty}^{\kappa} } \, ,
 \end{equation}
 %
-where ``$\norm_{P,\infty}$'' is the reference far-field quantity for the normalization parameter ``$\norm_P$''. 
+where $\norm_{P,\infty}$ is the reference far-field quantity for the normalization parameter $\norm_P$. 
 Substituting \eqt{eq:norm_relation} into \eqt{eq:ref_numb} and recalling that the numerical P\'eclet 
 number scales as unity, we obtain:
 %
@@ -754,7 +761,7 @@ number scales as unity, we obtain:
 %
 \eqt{eq:norm_relation_bis} provides a proper normalization factor to define the $\kappa$ viscosity coefficient.
 %
-The derivation for ``$\norm_P^\mu$'' is similar and yields
+The derivation for $\norm_P^\mu$ is similar and yields
 \begin{equation}
 \label{eq:norm_ent2}
 \norm_P^\mu = \Re_\infty \rho_\infty c_\infty^2 =  \left\{
@@ -764,15 +771,20 @@ The derivation for ``$\norm_P^\mu$'' is similar and yields
 \end{array}
 \right. \,.
 \end{equation}
+
+In order to have a stabilization method 
+valid for a wide range of Mach numbers, from very low-Mach to supersonic flows, these two scalings should 
+be combined in a unique definition. 
+%
 A smooth function to transition between these two states is obtained by employing a smoothed shifted Heaviside function
 defined as follows: % the shifted sigmoid function
 \begin{equation}
 \sigma(M) =
 \left\{
 \begin{array}{ll}
-0 & \text{if } M \le M^\text{thresh} - a \\
-1 & \text{if } M \ge M^\text{thresh} + a \\
-\tfrac{1}{2} \left( 1 + \tfrac{M-M^\text{thresh}}{a} + \tfrac{1}{\pi} \sin \left(\tfrac{\pi(M-M^\text{thresh})}{a}\right) \right) & \text{otherwise}
+0 & \text{if } M \le M^\text{thresh} - a, \\
+1 & \text{if } M \ge M^\text{thresh} + a, \\
+\tfrac{1}{2} \left( 1 + \tfrac{M-M^\text{thresh}}{a} + \tfrac{1}{\pi} \sin \left(\tfrac{\pi(M-M^\text{thresh})}{a}\right) \right) & \text{otherwise,}
 \end{array}
 \right.
 \end{equation}
@@ -833,7 +845,7 @@ and supersonic flows.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Fluid flows in nozzles and in pipes of varying cross-sectional area can be modeled using the ``variable-area 
-form'' of the Euler equations, where the conservative variables are now multiplied by the area $A$. 
+form'' of Euler's equations, where the conservative variables are now multiplied by the area $A$. 
 In addition, these equations differ from the standard Euler equations in that the momentum equation 
 \eqt{eq:euler_variable_A_mom} contains a non-conservative term proportional to the area gradient. 
 Here, the variable area is assumed to be a smooth function of space only. 
@@ -895,7 +907,7 @@ used to solve the system of equations \eqt{eq:euler_variable_A_bis}. For concise
 equations in the following form:
 \begin{equation}
 \label{eq:form}
-\partial_t \mathbf{U} + \div \vec{\mathbf{F}}\left( \mathbf{U} \right) = \mathbf{S} + \div \mathbf{D}(\mathbf{U}) \grad \mathbf{U}
+\partial_t \mathbf{U} + \div \vec{\mathbf{F}}\left( \mathbf{U} \right) = \mathbf{S} + \div D(\mathbf{U}) \grad \mathbf{U} ,
 \end{equation}
 where $\mathbf{U}=[\rho A,\, \rho \vec{u} A,\, \rho E A]^T$ is the solution vector, $\mathbf{F}$ denotes the inviscid flux 
 \begin{equation}
@@ -918,7 +930,7 @@ method and temporal integrators available through the MOOSE multiphysics framewo
 \subsubsection{Continuous Finite Elements} 
 %---------------------------------------------------------------------------------------------------
 In order to apply the continuous finite element method, \eqt{eq:form} is multiplied by a test function 
-$\mathbf W(\vec{r})$, integrated by parts and each integral is decomposed into a sum of integrals over 
+$\mathbf W(\vec{r})$, integrated by parts, and each integral is decomposed into a sum of integrals over 
 each element $K$ of the discrete mesh $\Omega$. The following weak form is obtained:
 \begin{multline}\label{eq:cfem}
 \sum_K \int_{K} \partial_t \mathbf U \, \mathbf W - \sum_K \int_{K} \vec{\mathbf F}(\mathbf U) \cdot \grad \mathbf W + \int_{\partial \Omega} \vec{\mathbf F}(\mathbf U) \cdot \vec{n} \, \mathbf W - \sum_K \int_{K} \mathbf S \, \mathbf W  \\
@@ -968,19 +980,21 @@ integration by parts of the artificial dissipative terms in \eqt{eq:cfem} is ign
 %---------------------------------------------------------------------------------------------------
 \subsection{Solver} \label{sec:solver}
 %---------------------------------------------------------------------------------------------------
-A Jacobian-Free-Newton-Krylov (JFNK) method is used to solve for the solution at the end of each time step. 
+A Jacobian-free Newton Krylov (JFNK) method is used to solve for the solution at the end of each time step. 
 An approximate Jacobian matrix of the discretized equations was derived and implemented. Obtaining the 
 matrix entries requires that the partial derivatives of pressure with respect to the conservative variables 
 be known (this is relatively simple for the stiffened and ideal gas equations of state but may be more 
 complex for general equations of state). The contributions of the artificial dissipative terms to the 
-Jacobian matrix are approximated by lagging the viscosity coefficients (computing them with the solution from the previous time). 
+Jacobian matrix are approximated by lagging the viscosity coefficients (i.e., using their values at the previous time step). 
 For instance, this is shown in \eqt{eq:jac_diss_term} for the dissipative terms present in the continuity equation:
 \begin{equation}
 \label{eq:jac_diss_term}
 \frac{\partial}{\partial \mathbf U} \left( \kappa \div \rho \grad W \right) \simeq \kappa \frac{\partial}{\partial \mathbf U} \left( \div \rho \grad W \right),
 \end{equation}  
 where $\mathbf  U$ denotes any of the conservative variables and $W$ denotes the component of $\mathbf  W$ associated with the 
-continuity equation. In the above, we have neglected $\frac{\partial \kappa}{\partial \mathbf U}$.
+continuity equation. Lagging the viscosity values in the evaluation of the Jacobian means that, in the above, 
+we have neglected $\frac{\partial \kappa}{\partial \mathbf U}$.
+\tcr{check}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1050,9 +1064,14 @@ P = (\gamma-1) \rho (e-q) - \gamma P_\infty
 %
 where the parameters $\gamma$, $q$, and $P_\infty$ are fluid-dependent and are given in \tbl{tbl:stff_gas_eos}. 
 The ideal gas equation of state is recovered by setting $q=P_\infty=0$ in \eqt{eq:eos}. 
+The entropy function for the stiffened gas equation of state is concave and given by
+%
+\begin{equation*}
+s = C_v \ln \left( \frac{P+P_\infty}{\rho^{\gamma-1}} \right) ,
+\end{equation*}
+where $C_v$ is the heat capacity at constant volume.
 %
 \begin{table}[!htbp]
-
 \begin{center}
 \caption{ Stiffened Gas Equation of State parameters for steam and liquid water.}
 \label{tbl:stff_gas_eos}
@@ -1065,14 +1084,6 @@ liquid water (\sct{sec:liquid_shock})  & 4.4      & 1000                       &
 \end{tabular}
 \end{center}
 \end{table}
-%
-The entropy function for the stiffened gas equation of state is concave 
-and given by
-%
-\begin{equation*}
-s = C_v \ln \left( \frac{P+P_\infty}{\rho^{\gamma-1}} \right) ,
-\end{equation*}
-where $C_v$ is the heat capacity at constant volume. \\
 
 Finally, the convergence rates are computed using the following relation 
 \begin{equation}
@@ -1086,7 +1097,7 @@ where $\| \cdot \|$ denotes either the L$_1$ or L$_2$ norms and $h$ is the chara
 %---------------------------------------------------------------------------------------------------
 
 A simulation for liquid flow through a 1-D converging-diverging nozzle is performed. The variable area expression is given by 
-$A(x) = 1 + 0.5 \cos(2 \pi x / L)$ with length $L=1m$.  At the inlet, the stagnation pressure and temperature are set 
+$A(x) = 1 + \tfrac{1}{2} \cos(2 \pi x / L)$ with length $L=1m$.  At the inlet, the stagnation pressure and temperature are set 
 to $P_0 = 1 MPa$ and $T_0 = 453 K$, respectively. At the outlet, only the static pressure is specified: $P_s = 0.5 MPa$. 
 Initially, the liquid is at rest, the temperature is uniform and equal to the stagnation temperature and the pressure 
 linearly decreases from the stagnation pressure inlet value to the static pressure outlet value. 
@@ -1180,7 +1191,7 @@ cells& density            & rate & pressure          & rate & velocity          
 \end{tabular}
 \end{center}
 \end{table}
-We note that the convergence rates measured in both the L$_1$ and L$_2$ norm of the error are equal to 2; the entropy viscosity method preserves 
+We note that the convergence rates measured in both the L$_1$ and L$_2$ norms of the error are equal to 2; the entropy viscosity method preserves 
 the high-order accuracy of the discretization used when the numerical solution is smooth. The new definition of the entropy viscosity coefficients behaves 
 appropriately in the low-Mach limit.
 
