@@ -1047,7 +1047,7 @@ are presented for various far-field Mach numbers (as low of $10^{-7}$). Numerica
 supersonic flow over a compression corner are provided to illustrate the ability of the new viscosity 
 definitions to handle supersonic flows. Convergence studies are performed when analytical solutions are available. 
 
-For each simulation, data relative to the boundary conditions, the Courant-Friedrichs-Lewy number ($CFL$), 
+For each simulation, data relative to the boundary conditions, the Courant-Friedrichs-Lewy number (CFL), 
 mesh and equation of state are provided. All of the numerical solutions presented are obtained using BDF2 
 as temporal integrator and linear (1-D mesh), $\mathbb{P}_1$ (2-D triangular mesh), and $\mathbb{Q}_1$ 
 (2-D quadrangular mesh) finite elements. The spatial integrals are numerically computed using a second-order 
@@ -1093,7 +1093,7 @@ Finally, the convergence rates are computed using the following relation
 where $\| \cdot \|$ denotes either the L$_1$ or L$_2$ norms and $h$ is the characteristic grid size.
 
 %---------------------------------------------------------------------------------------------------
-\subsection{Liquid water in a 1-D converging-diverging nozzle} \label{sec:liquid_nozzle}
+\subsection{Liquid Water in a 1-D Converging-Diverging Nozzle} \label{sec:liquid_nozzle}
 %---------------------------------------------------------------------------------------------------
 
 A simulation for liquid flow through a 1-D converging-diverging nozzle is performed. The variable area expression is given by 
@@ -1105,7 +1105,7 @@ The stiffened gas equation of state is used to model the liquid water with the p
 Because of the low pressure difference between the inlet and the outlet, the smooth initial conditions, 
 and the large value of $P_\infty$ in \eqt{eq:eos}, the flow remains subsonic and thus displays no shock. A detailed 
 derivation of the exact steady-state solution can be found in \cite{nozzle_exact}. A uniform mesh of 
-50 cells was used to obtain the numerical solution and the time step size was computed using a $CFL$ number of 750.
+50 cells was used to obtain the numerical solution and the time step size was computed using a CFL number of 750.
 Plots of the Mach number, density, and pressure are given at steady state in \fig{fig:1d_liq_nozzle} 
 for the numerical and exact solutions. The viscosity coefficients are also graphed in \fig{fig:1d_nozzle_liq_visc}. 
 %
@@ -1196,7 +1196,7 @@ the high-order accuracy of the discretization used when the numerical solution i
 appropriately in the low-Mach limit.
 
 %---------------------------------------------------------------------------------------------------
-\subsection{Steam in a 1-D converging-diverging nozzle} \label{sec:steam_nozzle}
+\subsection{Steam in a 1-D Converging-Diverging Nozzle} \label{sec:steam_nozzle}
 %---------------------------------------------------------------------------------------------------
 
 We use the same nozzle geometry, initial conditions and boundary conditions as in the previously example but replace liquid water 
@@ -1204,11 +1204,12 @@ with steam and use the steam parameters of the stiffened gas equation of state, 
 compressible effects will become dominant. 
 The pressure difference between the inlet and outlet is large enough to accelerate the steam through the nozzle which, upon deceleration, leads 
 to the formation of a shock in the diverging portion of the nozzle. The behavior is different from the one observed for the 
-liquid water phase in \sct{sec:liquid_nozzle} because of the liquid to gas density ratio is about $1,000$ and the compressibilities are much different. An exact 
-solution at steady state is available for the gas phase \cite{nozzle_exact}. The aim of this section is to show that 
+liquid phase in \sct{sec:liquid_nozzle} because of the liquid to gas density ratio is about $1,000$ 
+and the compressibilities are significantly different. An exact 
+solution at steady state is available for the gas phase \cite{nozzle_exact}. The goal of this numerical test is to show that 
 when using the new definitions of the viscosity coefficients (\eqt{eq:final_def_visc_coeff}), the shock can be 
 correctly resolved without spurious oscillations. The steady-state numerical solution, obtained using a uniform 
-mesh with $500$ cells, is shown in \fig{fig:1d_vap_nozzle}. The $CFL$ was set to $80$ (a high $CFL$ value can be used because the shock is stationary).
+mesh with $500$ cells, is shown in \fig{fig:1d_vap_nozzle}. The CFL was set to 80 (a high CFL value can be used because the shock is stationary).
 
 \begin{figure}[H]
         \centering
@@ -1241,17 +1242,17 @@ mesh with $500$ cells, is shown in \fig{fig:1d_vap_nozzle}. The $CFL$ was set to
 				\label{fig:1d_vap_nozzle}
 \end{figure}
 %
-The steady-state solution of the density, Mach number and pressure are given in \fig{fig:1d_vap_nozzle}. 
+The steady-state solution for density, Mach number, and pressure are given in \fig{fig:1d_vap_nozzle}. 
 The steady-state solution exhibits a shock around $x=0.8m$ and matches the exact solution. In \fig{fig:1d_nozzle_vap_visc}, 
 the first-order and entropy viscosity coefficients are plotted at steady state (on a log scale): the entropy viscosity 
 coefficient is peaked in the shock region around $x=0.8m$ where it saturates to the first-order viscosity 
 coefficient. 
 Elsewhere, the entropy  viscosity coefficient is small. 
-In order to prove convergence of the numerical solution to the exact solution, a convergence study is performed. Because 
+To demonstrate convergence of the numerical solution to the exact solution, a sequence of finer spatial meshes is employed. Because 
 of the presence of a shock, second-order accuracy is not expected and the convergence rate of a numerical solution 
 should be 1 and $1/2$ when measured in the L$_1$ and L$_2$ norms, respectively \cite{banks-jeffrey, majda-andrew}. 
-Results are reported in \tbl{tbl:l1_norm_vap} and \tbl{tbl:l2_norm_vap} for the primitive variables density, 
-velocity and pressure. The convergence rates for the L$_1$ and L$_2$ norms of the error computed using \eqt{eq:conv_rates} 
+Results are reported in \tbl{tbl:l1_norm_vap} and \tbl{tbl:l2_norm_vap} for the primitive variables (density, 
+velocity and pressure). The convergence rates for the L$_1$ and L$_2$ norms of the error computed using \eqt{eq:conv_rates} 
 are in good agreement with the theoretical values.
 %
 \begin{table}[!htbp]
@@ -1293,7 +1294,7 @@ $640$ & $5.2191$ $10^{-2}$  & $0.44$ & $9.4217$ $10^{3}$ & $0.44$ & $16.910$ & $
 \nonumber
 \end{table}
 %---------------------------------------------------------------------------------------------------
-\subsection{Leblanc shock tube} \label{sec:Leblanc}
+\subsection{Leblanc Shock Tube} \label{sec:Leblanc}
 %---------------------------------------------------------------------------------------------------
 
 The 1-D Leblanc shock tube is a Riemann problem designed to test the robustness and the accuracy of stabilization methods. 
@@ -1301,10 +1302,10 @@ The initial conditions are given in \tbl{tbl:ic_1d_tests}. The ideal gas equatio
 compute the pressure.
 This test is computationally challenging because of the large pressure ratio at the initial interface.
 The computational domain consists of a 1-D straight pipe of length $L=9m$ with the initial interface located at $x=2m$. 
-At $t=0\,s$, the interface is removed. The numerical solution is run until $t=4\,s$ and the density, momentum and 
+At $t=0\,s$, the interface is removed. The numerical solution is run until $t=4\,s$ and the density, momentum, and 
 total energy profiles are given in \fig{fig:1d_leblanc}, along with the exact solution. The viscosity coefficients 
 are also plotted in \fig{fig:1d_leblanc_visc}. These plots were run with three different uniform meshes of $800$, 
-$3200$, and $6000$ cells and a constant $CFL = 1$.
+$3200$, and $6000$ cells and a constant $\text{CFL} = 1$.
 \begin{figure}[H]
         \centering
         \begin{subfigure}[b]{0.495\textwidth}
@@ -1350,12 +1351,12 @@ smaller peak is observed and is due to the presence of the jump terms in the def
 viscosity coefficient (\eqt{eq:final_def_visc_coeff}).  The Mach number, not plotted, is of the order 
 of $1.3$ just before the shock and reaches a maximum value close to $5$ in the contact region.
 
-Once again, a convergence study is performed in order to prove convergence of the numerical solution to 
+Once again, a convergence study is performed to prove convergence of the numerical solution to 
 the exact solution. As in the previous example (vapor phase in the 1-D nozzle, \sct{sec:steam_nozzle}), 
 the expected convergence rates in the L$_1$ and L$_2$ norms are 1 and $1/2$, respectively. The exact 
 solution was obtained by running a 1-D Riemann solver and used as the reference solution to compute 
 the L$_1$ and L$_2$-norms that are reported in \tbl{tbl:l1_norm_leblanc} and \tbl{tbl:l2_norm_leblanc} 
-for the conservative variables: density, momentum and total energy. The convergence rates are again approaching their theoretical values.
+for the conservative variables: density, momentum, and total energy. The convergence rates are again approaching their theoretical values.
 
 \begin{table}[!htbp]
 \begin{center}
@@ -1395,7 +1396,7 @@ $6400$&$7.3309974$ $10^{-4}$    & $0.53$ & $4.4545754$ $10^{-4}$ & $0.49$ & $1.4
 \end{table}
 
 %---------------------------------------------------------------------------------------------------
-\subsection{1-D shock tube with a liquid phase} \label{sec:liquid_shock}
+\subsection{1-D Shock Tube with a Liquid Phase} \label{sec:liquid_shock}
 %---------------------------------------------------------------------------------------------------
 The purpose of this test is to investigate the ability of the entropy viscosity method to stabilize a strong 
 shock with a small Mach number \cite{abgrall} (this reference is for a two-phase flow model but we are only 
@@ -1408,10 +1409,12 @@ The stiffened gas equation of state is used to model a liquid flow with the para
 \tbl{tbl:stff_gas_eos}. The computational domain of length $L=1m$ is uniformly discretized using 500 cells. 
 The step initial conditions are given in \tbl{tbl:ic_1d_tests}.
 %
-The simulation is run with a $CFL=1$ until the final time $t_{\text{final}} = 7 \ 10^{-5}s$. Results 
-for pressure, density, velocity and the viscosity coefficients are given in \fig{fig:1d_strong_shock} 
+The simulation is run with a $\text{CFL}=1$ until the final time $t_{\text{final}} = 7 \ 10^{-5}\,s$. Results 
+for pressure, density, velocity, and artificial viscosity are given in \fig{fig:1d_strong_shock} 
 along with the exact solution for comparison purposes. The numerical solution is in good agreement 
-with exact solution in \fig{fig:1d_strong_shock_var}. The viscosity coefficients $\mu$ and $\kappa$ 
+with exact solution in \fig{fig:1d_strong_shock_var}. 
+\tcr{I can hardly see mu. What you email me that plot in log scale. do you change it yet in the paper}
+The viscosity coefficients $\mu$ and $\kappa$ 
 are not equal in the shock because the Mach number is of order $0.1$. The viscosity coefficient $\kappa$ 
 saturates to the first-order viscosity in the shock region around $x = 0.65m$ and is sufficient to 
 stabilize the numerical scheme. 
@@ -1436,7 +1439,7 @@ stabilize the numerical scheme.
 
 
 %---------------------------------------------------------------------------------------------------
-\subsection{1-D slow moving shock} \label{sec:slow_moving_shock}
+\subsection{1-D Slow Moving Shock} \label{sec:slow_moving_shock}
 %---------------------------------------------------------------------------------------------------
 
 Slow moving shocks are known to produce post-shock noise of low frequency that is not damped by some 
@@ -1449,8 +1452,8 @@ equal to $t=1.1\,s$. A pressure boundary condition is used at the left boundary 
 and contact waves exit the domain.   
 %
 The numerical solution, obtained with 200 equally-spaced cells, is given in \fig{fig:low_moving_shock} 
-and is compared to the exact solution obtained from a Riemann solver. We use a $CFL$ of 1. With this 
-$CFL$ value, it takes about 50 time steps for the shock to traverse one cell.
+and is compared to the exact solution obtained from a Riemann solver. We use a CFL of 1. With this 
+CFL value, it takes about 50 time steps for the shock to traverse one cell.
 %
 The numerical results are in good agreement with the exact solution and do not display any post-shock 
 noise. The rarefaction and contact waves are not visible on \fig{fig:profiles_sms} since they exited 
@@ -1482,18 +1485,18 @@ the \emph{local maximum eigenvalue} $\|\vec{u}\|+c$ and not to the eigenvalue of
 \end{figure} 
 
 %---------------------------------------------------------------------------------------------------
-\subsection{Subsonic flow over a 2-D cylinder} \label{sec:cylinder}
+\subsection{Subsonic Flow Around a Cylinder} \label{sec:cylinder}
 %---------------------------------------------------------------------------------------------------
 
-Fluid flow over a 2-D cylinder is often used as a benchmark case to test numerical schemes in the 
+Fluid flow over a cylinder is often used as a benchmark case to test numerical schemes in the 
 low-Mach regime \cite{LowMach1, LowMach2, LowMach3}. For this test, an analytical solution is available 
 in the incompressible limit and is often referred to as the potential steady-state flow solution. 
-The main features of the potential flow are the following:
+The main features of the potential flow are as follows:
 %
 \begin{itemize}
 \item The solution is symmetric: the iso-Mach contour lines are used to assess the symmetry of the numerical solution;
 \item The steady-state velocity at the top of the cylinder is twice the incoming velocity set at the inlet;
-\item The spatial steady-state pressure variations are proportional to the square of inlet Mach number, i.e., 
+\item The spatial steady-state pressure variations are proportional to the square of the inlet Mach number, i.e., 
 \begin{equation}
 \delta P = \frac{\max(P(\vec{r})) - \min(P(\vec{r}))}{\max(P(\vec{r}))}  \propto M_\infty^2
 \end{equation}
@@ -1515,10 +1518,10 @@ T_0 = T\left( 1 + \frac{\gamma-1}{2} M^2 \right)
 \right.
 \end{equation}
 %
-A static pressure boundary condition, with static pressure $P_s = 101,325$ $Pa$, is set at the outlet boundary. 
+A static pressure boundary condition, with static pressure $P_s = 101,325$ Pa, is set at the outlet boundary. 
 The implementation of the pressure boundary conditions is based on \cite{SEM}. A solid wall boundary condition 
 is set for the top and bottom walls of the computational domain. The simulations are run until a steady state 
-is reached (with a $CFL$ of $40$). When the residual norm (for all equations) is less than $10^{-12}$ the 
+is reached (with a CFL of 40). When the residual norm (for all equations) is less than $10^{-12}$ the 
 steady state is considered to have been reached.
 
 Several simulations are performed, with inlet Mach numbers $M_{\text{inlet}}$ ranging from $10^{-3}$ to $10^{-7}$, 
@@ -1566,7 +1569,7 @@ $2\times 10^{-10}$ to $M_{\text{inlet}}$.
 %
 The steady-state velocity at the top of the cylinder and at the inlet are given for different Mach-number values 
 (ranging from $10^{-3}$ to $10^{-7}$) in \tbl{tbl:velocity_ratio}. The ratio of the inlet velocity to 
-the velocity at the top of cylinder is also computed and is very close to the theoretical value of $2$ 
+the velocity at the top of cylinder is also computed and is very close to the theoretical value of 2 
 that is expected in the incompressible limit.
 %
 \begin{table}[H]
@@ -1601,12 +1604,13 @@ the correct orders in the low-Mach limit. For ease of comparison, reference line
 \end{figure}
 
 %---------------------------------------------------------------------------------------------------
-\subsection{Subsonic flow over a 2-D hump} \label{sec:hump}
+\subsection{Subsonic Flow Over a Circular Hump} \label{sec:hump}
 %---------------------------------------------------------------------------------------------------
 
-Subsonic 2-D hump flow is another example of an internal flow configuration. It consists of a channel of height $L=1$ $m$ 
-and length $3L$, with a circular bump of length $L$ and thickness $0.1L$. The bump is located on the bottom 
-wall at a distance $L$ from the inlet. The system is initialized with an uniform pressure $P=101,325$ $Pa$ 
+%Subsonic 2-D hump flow is another example of an internal flow configuration. 
+The geometry for this test case consists of a channel of height $L=1$ $m$ 
+and length $3L$, with a circular bump of length $L$ and thickness $0.1L$. The hump is located on the bottom 
+wall at a distance $L$ from the inlet. The system is initialized with an uniform pressure $P=101,325$ Pa
 and temperature $T=300$ $K$. The initial velocity is computed from the inlet Mach number, the pressure, the 
 temperature and the ideal gas equation of state (with  $\gamma=1.4$). Here,  $C_v = 717$ $J/kg-K$. At the inlet, a 
 subsonic stagnation boundary condition is used and the stagnation pressure and temperature are computed 
@@ -1615,10 +1619,10 @@ The static pressure $P_s = 101,325$ $Pa$ is set at the subsonic outlet. The resu
 \fig{fig:2d_hump_mach_0p01}, \fig{fig:2d_hump_mach_0p0001} and \fig{fig:2d_hump_mach_0p0000001} for the inlet 
 Mach numbers $M_{\infty}=0.7$, $M_{\infty}=0.01$, $M_{\infty}=10^{-4}$ and $M_{\infty}=10^{-7}$, respectively. 
 It is expected that, for low Mach numbers, the solution does not depend on the Mach number and is 
-identical to the incompressible flow solution. On the other hand, for a flow with $M=0.7$, 
+identical to the incompressible flow solution. On the other hand, for a flow with $M_{\infty}=0.7$, 
 the compressible effects become non negligible and a weak transonic shock can form. An uniform grid of $3352$ $Q_1$ elements 
 was used to obtain the numerical solution for Mach numbers less than and equal to $M_{\infty}=0.01$. A spatial mesh, once refined, was 
-employed for the $M_{\infty}=0.7$ simulation in order to better resolve the shock. A $CFL$ of 20 was employed 
+employed for the $M_{\infty}=0.7$ simulation in order to better resolve the shock. A CFL of 20 was employed 
 and the simulations were run until steady state.
 %
 \begin{figure}[H]
@@ -1676,7 +1680,7 @@ The initial velocity is computed from the upstream Mach number. The inlet is sup
 temperature and velocity are specified using Dirichlet boundary conditions. The outlet is also supersonic and none 
 of the characteristics enter the domain through this boundary; the values are computed by the solver.
 
-The simulation is run with $CFL=2$ until steady state is reached. A 2-D mesh made of $16,109$ $\mathbb{Q}_1$ elements 
+The simulation is run with $\text{CFL}=2$ until steady state is reached. A 2-D mesh made of $16,109$ $\mathbb{Q}_1$ elements 
 is used. The ratios for pressure, entropy and Mach number computed using the analytical (published with only two 
 significant digits) and the numerical solutions are given in \tbl{tbl:corner_exact_sol}; they are in excellent 
 agreement. The shock wave angle at steady state is also known and given by the so-called $\theta -\beta -M$ relation:
