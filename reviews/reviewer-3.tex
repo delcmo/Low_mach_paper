@@ -49,13 +49,14 @@
 \newcommand{\ud}{\,\mathrm{d}}
 
 \newcommand{\tcr}[1]{\textcolor{red}{#1}}
+\newcommand{\tcb}[1]{\textcolor{blue}{#1}}
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
-
+\bibliographystyle{elsarticle-num}
 \begin{center}
 { \Large Answers to Reviewer \#3}
 \end{center}
@@ -98,7 +99,7 @@ a fluid transport algorithm that works"." Journal of Computational Physics
 
 We rewrote the second paragraph of the introduction dealing with the stabilization tehcniques
 \tcr{in order to discuss and include additional references}. Thank you for pointing this out.
-\tcr{have you read Bram van Leer 2006 and added something related to this?}
+\tcr{have you read Bram van Leer 2006 and added something related to this?} \tcb{I added the paper by Bram van Leer}
 
 \bigskip
 
@@ -118,9 +119,9 @@ method for supersonic reacting flows with shocks." Journal of
 Computational Physics 222.1 (2007): 246-264.}
 
 Thank you for these references. In these articles, an artificial viscosity is added to the momentum
-and energy equations only, by means of grid-dependent viscosity coefficients. These techniques share some common thread and we have added some references to them in the introduction \tcr{Do it}.
-However, as Guermond \& Popov have shown in our Reference \tcr{12345}, viscosity should also be added to the continuity equation and, in that sense, the entropy-viscosity method differ from the others. \\
-We are also aware of some of ongoing work to employ entropy-viscosity for turbulence modeling \tcr{Travis Thomson dissertation} and added such a reference \tcr{Do it}.
+and energy equations only, by means of grid-dependent viscosity coefficients. These techniques share some common thread and we have added some references to them in the introduction \tcr{Do it}. \tcb{done}
+However, as Guermond \& Popov have shown in our References \cite{jlg1, jlg2}, viscosity should also be added to the continuity equation and, in that sense, the entropy-viscosity method differ from the others. \\
+We are also aware of some of ongoing work to employ entropy-viscosity for turbulence modeling \tcr{Travis Thomson dissertation} and added such a reference \tcr{Do it}. \tcb{not done}
  %understanding of the work of Cook and Cabot is that it was developed for both shock and turbulence capturing. The entropy viscosity method seems to be a good candidate for turbulence capturing as well . However, since this paper does not deal with turbulence capturing but only with shock capturing, we feel that the reader might get confused by adding the above references.
 \bigskip
 
@@ -174,7 +175,7 @@ would seem to be the relevant one for the dynamics.
 We have adopted this terminology for the bounding viscosity. This is more natural and
 will help the readership of our article. \\
 You are correct that only using this bounding viscosity for low-Mach flows is inappropriate.  
-The bounding viscosity is expected to kick in only in shocks; elsewhere the entropy viscosity is always orders of magnitude lower. Since this is only an upper bound, there are no issues in low-Mach flows. \tcr{We have added a sentence to emphasize this}.
+The bounding viscosity is expected to kick in only in shocks; elsewhere the entropy viscosity is always orders of magnitude lower. Since this is only an upper bound, there are no issues in low-Mach flows. \tcr{We have added a sentence to emphasize this}. \tcb{ok}
 \bigskip
 
 
@@ -209,8 +210,12 @@ We improved the quality of the 2-D plots that are presented in the numerical res
 numerical accuracy and order of convergence of the method would be
 quite welcome.
 }
-\tcr{??????????????}
+The compression corner yields a steady-state solution whose analytical values are known. We compare the numerical values agains the analytical ones and show that they match. We did not perform any convergence order as an analytical solution is not available to us. We could have performed a convergence test by using a numerical solution from a fine mesh as a reference and see if we recover the expected order of convergence, as it is done for some of the 1-d tests in the paper. \\
+
+The test of a flow over a hump is often used in the literature to assess the symmetry of the steady-state solution when plotting the iso-Mach line by using an eyeball norm. This is also commonly used for other test such as the NACA wing in \cite{LowMach1}.
 \bigskip
+
+\bibliography{mybibfile}
 
 \end{document}
 

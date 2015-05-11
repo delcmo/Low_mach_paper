@@ -211,14 +211,13 @@ that can solve both compressible and incompressible flow problems.
 When solving Euler equations for a wide range of Mach numbers, multiple questions must be addressed: stability of the numerical scheme, 
 the ability to capture and track shocks, accuracy and solution convergence in the low-Mach regime. Because of the hyperbolic nature of the equations, 
 shocks can form during transonic and supersonic flows and require the use of adequate numerical techniques to stabilize the solution
-and correctly resolve the discontinuities \cite{lax-peter, harten-hyman}. 
-A wide range of stabilization methods exits  and can be classified into three main categories: approximate Riemann or Godunov type solvers \cite{Toro}, flux-limiter techniques \tcr{I do not consider FCT to be a stab. method}
-\cite{FluxLimiter, FluxLimiter2, fct-zalesak, fct-kuzmin-lohner}, and artificial viscosity methods \cite{neumann} such as pressure-based viscosity methods \cite{PBV_book} and Lapidus method \cite{Lapidus_paper, LMP, Lapidus_book}, among others. The numerical method investigated in this paper belongs to the later type and is referred to as the Entropy-Viscosity Method  in the literature \cite{jlg1, jlg2}.
-%A wide range of stabilization methods are available in the literature and can be typefied : approximate Riemann solvers \cite{Toro}, flux-limiter techniques 
-%\cite{FluxLimiter, FluxLimiter2, fct-zalesak, fct-kuzmin-lohner}, pressure-based viscosity methods \cite{PBV_book}, Lapidus method \cite{Lapidus_paper, LMP, Lapidus_book}, 
-%and the entropy-viscosity method \cite{jlg1, jlg2}, among others.
+and correctly resolve the discontinuities \cite{lax-peter, harten-hyman}. These numerical methods can be typified into two categories. The first category consists of artificial viscosity methods and Riemann-based solvers and is widely described in the literature \cite{van-leer, neumann, Lapidus_paper, LMP, Lapidus_book, PBV_book, Toro}. The second category relies on flux limiters techniques that takes its origin to the paper by Zalesak \cite{fct-zalesak}. 
+%A wide range of stabilization methods exists and can be classified into two main categories: approximate Riemann or Godunov type solvers \cite{Toro}, flux-limiter techniques \tcr{I do not consider FCT to be a stab. metehod}
+%\cite{FluxLimiter, FluxLimiter2, fct-zalesak, fct-kuzmin-lohner}, and artificial viscosity methods \cite{neumann} such as pressure-based viscosity methods \cite{PBV_book} and Lapidus method \cite{Lapidus_paper, LMP, Lapidus_book}, among others. 
+The numerical method investigated in this paper belongs to the former type and is referred to as the Entropy-Viscosity Method  in the literature \cite{jlg1, jlg2}: it is a viscous regularization technique that satisfies the entropy minimum principle; adequate dissipation terms (viscous fluxes)
+are added to the all of the governing laws while ensuring the entropy minimum principle still holds. It somehow shares some common ground with the hyper-viscosity method that also adds artificial dissipative terms but only to the momentum and energy equations \cite{cabot, fiorani}.
 
-These numerical methods are usually developed using simple equations 
+Numerical methods are usually developed using simple equations 
 of state and tested for transonic and supersonic flows where the disparity between the acoustic wave speed and the fluid speed is not 
 excessively large and thus the Mach number is of order one. This approach, however, leads to a well-known accuracy problem in the low-Mach regime 
 where the fluid velocity is multiple orders of magnitude smaller than the speed of sound. The numerical dissipative terms become 
@@ -994,7 +993,7 @@ For instance, this is shown in \eqt{eq:jac_diss_term} for the dissipative terms 
 where $\mathbf  U$ denotes any of the conservative variables and $W$ denotes the component of $\mathbf  W$ associated with the 
 continuity equation. Lagging the viscosity values in the evaluation of the Jacobian means that, in the above, 
 we have neglected $\frac{\partial \kappa}{\partial \mathbf U}$.
-\tcr{check}
+\tcr{check} \tcb{done}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
