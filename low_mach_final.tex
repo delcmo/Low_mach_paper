@@ -741,7 +741,7 @@ $\Re_\infty = 1$ in the low-Mach limit and $\Re_\infty  = M_\infty^2$ for non-is
 whereas the numerical P\'eclet number always scales as one. Here, we show how the knowledge of 
 such a scaling can inform a proper normalization of the new entropy residual $\resinew$ for a wide range of Mach numbers.
 
-We begin with the  normalization parameter ``$\norm_P^\kappa$''. Using the 
+We begin with the  normalization parameter $\norm_P^\kappa$. Using the 
 definition of the viscosity coefficients given in \eqt{eq:visc_definition} and the scaling of 
 \eqt{eq:norm_param}, it can be shown that:
 %
@@ -1608,6 +1608,8 @@ the correct orders in the low-Mach limit. For ease of comparison, reference line
 %---------------------------------------------------------------------------------------------------
 
 %Subsonic 2-D hump flow is another example of an internal flow configuration. 
+In this example, the fluid enters the domain with a given uniform velocity and encounters an obstacle. Various
+inlet Mach values are employed, from $M_{\infty}=10^{-7}$ to $M_{\infty}=0.7$.
 The geometry for this test case consists of a channel of height $L=1$ $m$ 
 and length $3L$, with a circular bump of length $L$ and thickness $0.1L$. The hump is located on the bottom 
 wall at a distance $L$ from the inlet. The system is initialized with an uniform pressure $P=101,325$ Pa
@@ -1668,30 +1670,31 @@ are no longer small. The iso-Mach lines are also plotted with 50 intervals and r
 The shock is well resolved and does not display any instabilities or spurious oscillations. 
 
 %---------------------------------------------------------------------------------------------------
-\subsection{Supersonic flow in a compression corner} \label{sec:corner}
+\subsection{Supersonic Flow in a Compression Corner} \label{sec:corner}
 %---------------------------------------------------------------------------------------------------
 
 In this last example, we consider a supersonic flow at Mach 2.5 impinging on a corner with an angle of $15^\circ$. 
-From the oblique shock theory \cite{CompressionCorner}, an analytical solution for this supersonic flow is available 
-and gives the downstream-to-upstream pressure, entropy and Mach number ratios. 
-The initial conditions are chosen to be spatially uniform: the pressure and temperature are set to $P=101,325$ $Pa$ 
-and $T=300$ $K$, respectively.  The ideal gas equation of state is used with the same parameters as in \sct{sec:hump}. 
+From the oblique shock theory, an analytical solution for the ratios of 
+the pre- and post-shock values for pressure, entropy and Mach number ratios are available \cite{nasa1135,CompressionCorner}. 
+The initial conditions are chosen to be spatially uniform: the pressure and temperature are set to $P=101,325$ Pa 
+and $T=300$ K, respectively.  The ideal gas equation of state is used with the same parameters as in \sct{sec:hump}. 
 The initial velocity is computed from the upstream Mach number. The inlet is supersonic and therefore, the pressure, 
 temperature and velocity are specified using Dirichlet boundary conditions. The outlet is also supersonic and none 
-of the characteristics enter the domain through this boundary; the values are computed by the solver.
+of the characteristics enter the domain through this boundary; these values are computed by the solver.
 
 The simulation is run with $\text{CFL}=2$ until steady state is reached. A 2-D mesh made of $16,109$ $\mathbb{Q}_1$ elements 
-is used. The ratios for pressure, entropy and Mach number computed using the analytical (published with only two 
-significant digits) and the numerical solutions are given in \tbl{tbl:corner_exact_sol}; they are in excellent 
-agreement. The shock wave angle at steady state is also known and given by the so-called $\theta -\beta -M$ relation:
+is used. The ratios for pressure, entropy, and Mach number computed suing the numerical solution are compared with the analytical 
+values (published with only two significant digits); see \tbl{tbl:corner_exact_sol}. The numerical results in excellent 
+agreement with the known values. The shock wave angle at steady state can also be derived analytical and is 
+given by the so-called $\theta -\beta -M$ relation:
 %
 \begin{equation}
 \tan \theta = 2 \cot \beta \frac{M^2 \sin^2 \beta -1}{M^2 \left(\gamma+\cos^2 (2\beta)\right)+2} ,
 \end{equation}
 %
-where $\theta$, $\beta$ and $M$ denote the corner angle, the shock wave angle, and the upstream Mach number, respectively. 
-For Mach 2.5 and a 15$^\circ$ corner angle, the analytical value for the shock wave angle is $36.94^\circ$ 
-at steady state. From \fig{fig:2d_corner_mach}, the numerical value of the shock wave angle can be measured 
+where $\theta$, $\beta$ and $M$ denote the corner angle, the shock-wave angle, and the upstream Mach number, respectively. 
+For a Mach of 2.5 and a 15$^\circ$-corner angle, the analytical value for the shock-wave angle is $36.94^\circ$ 
+at steady state. From \fig{fig:2d_corner_mach}, the numerical value of the shock-wave angle can be measured 
 and is found to be equal to $36.9^{\circ}$ and thus is in excellent agreement with the theory.
 %
 \begin{table}[H]
@@ -1741,15 +1744,16 @@ The steady-state numerical solution is given in \fig{fig:2d_corner}; the Mach nu
 coefficients are plotted in \fig{fig:2d_corner_mach} and \fig{fig:2d_corner_visc}, respectively. The 
 steady-state solution is composed of two regions of constant state separated by an oblique shock. 
 \fig{fig:2d_corner_visc} shows that the viscosity coefficient is large in the shock and small elsewhere, 
-as expected. At the location of the corner ($x=-0.25m$, $y=-0.5m$), the viscosity coefficient is peaked 
-because of the treatment of the wall boundary condition: at this particular node, the normal is not well 
-defined and may cause some numerical errors. The 1-D graphs at $y=0$ for the pressure and the Mach number 
-are given in \fig{fig:2d_corner_isomach}: no spurious oscillations are observed and the shock is well resolved. 
+as expected. At the location of the corner ($x=-0.25m$, $y=-0.5m$), the viscosity coefficient is peaked. 
+%because of the treatment of the wall boundary condition: at this particular node, the normal is not well 
+%defined and may cause some numerical errors. 
+Values for pressure and Mach number are graphed in \fig{fig:2d_corner_isomach} at the location $y=0$: 
+no spurious oscillations are observed and the shock is well resolved. 
 Finally, the difference between the inlet and outlet mass flow rates is plotted in \fig{fig:2d_convergence} 
 and shows that a steady state has indeed been reached. 
 
 The results presented in this paper demonstrate the ability of the entropy viscosity method with the new definitions of the viscosity coefficients 
-to correctly simulate several types of flows (from very low Mach subsonic, to transonic, and to supersonic flows) without tuning parameters.
+to correctly simulate several types of flows (from very low Mach subsonic to supersonic flows) without tuning parameters.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1766,18 +1770,20 @@ for the entropy function, and is therefore applicable to a larger variety of flo
 low-Mach flows to supersonic flows. 
 The method has also been extended to Euler equation with variable area to solve nozzle flow problems.
 In 1-D, convergence of the numerical solution to 
-the exact solution was demonstrated by computing the convergence rates of the L$1$ and L$2$ norms 
+the exact solution was demonstrated by computing the convergence rates of the L$_1$ and L$_2$ norms 
 for flows in a converging-diverging nozzle and in straight pipes. For smooth solutions, second-order 
 convergence was verified; solutions with shocks converged with the expected theoretical rates of 1 (L$_1$-norm)
 and 0.5 (L$_2$-norm).
 
 The effectiveness of the method was also demonstrated in 2-D using a series of benchmark problems
 for both subsonic and supersonic flows in various geometries, with Mach numbers ranging from $10^{-7}$ to 
-2.5. For very low-Mach flows, we numerically verified that the spatial steady-state pressure variations were proportional to 
+2.5. For very low-Mach flows, we numerically verified that the steady-state pressure variations were proportional to 
 the square of the Mach number, as expected in the incompressible limit.
 
-In the future, we plan to investigate how the entropy viscosity method could be used as a high-order scheme with the concept of Flux-Corrected Transport. We also plan to further extend the entropy viscosity method to the seven-equation two-phase flow model \cite{SEM}. 
-This two-phase flow system of equations is a good candidate for two reasons: it is unconditionally hyperbolic and degenerates to the standard Euler equations when one phase disappears.
+In the future, we plan to further extend the entropy viscosity method 
+to the seven-equation two-phase flow model \cite{SEM}. 
+This two-phase flow system of equations is a good candidate for two reasons: it is unconditionally 
+hyperbolic and degenerates to the standard Euler equations when one phase disappears.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1786,7 +1792,7 @@ This two-phase flow system of equations is a good candidate for two reasons: it 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Acknowledgments} 
 The authors (M.D. and J.R.) would like to thank Bojan Popov and Jean-Luc Guermond for many fruitful discussions.  
-The research was carried out under the auspices of the Idaho National Laboratory for the US Department of Energy.
+The research was carried out under the auspices of the Idaho National Laboratory for the U.S. Department of Energy.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1906,19 +1912,19 @@ We first write the variable-area equations with dissipative terms:
 \label{app:euler_variable_A_diss}
 %
 \begin{equation}
-\partial_t \left( \rho A \right) + \div \left( \rho \vec{u} A \right) = \div f 
+\partial_t \left( \rho A \right) + \div \left( \rho \vec{u} A \right) = \div \vec{f} 
 \end{equation}
 %
 \begin{equation}
-\partial_t \left( \rho \vec{u} A \right) + \div \left[A\left( \rho \vec{u} \otimes \vec{u} + P \mathbb{I} \right) \right] = P \grad A + \div g
+\partial_t \left( \rho \vec{u} A \right) + \div \left[A\left( \rho \vec{u} \otimes \vec{u} + P \mathbb{I} \right) \right] = P \grad A + \div\mathbb{g}
 \end{equation}
 % 
 \begin{equation}
-\partial_t \left( \rho E A \right) + \div \left[ \vec{u} A \left( \rho E + P \right) \right] = \div ( h + \vec{u} \cdot g )  \,.
+\partial_t \left( \rho E A \right) + \div \left[ \vec{u} A \left( \rho E + P \right) \right] = \div (\vec{h}+ \vec{u} \cdot\mathbb{g})  \,.
 \end{equation}
 \end{subequations}
 %
-where $f$, $g$ and $h$ are dissipative fluxes yet to be determined. Starting from the modified system of equations 
+where $\vec{f}$, $\mathbb{g}$ and $\vec{h}$ are dissipative fluxes yet to be determined. Starting from the modified system of equations 
 given in \eqt{app:euler_variable_A_diss}, the entropy residual is derived again. The derivation requires the 
 following steps : express the governing laws in terms of primitive variables $(\rho, \vec{u}, e)$, multiply the 
 continuity equation by $\rho s_\rho$ and the internal energy equation by $s_e$, and invoke multivariate chain 
@@ -1927,24 +1933,25 @@ are similar to those used for the standard Euler equations \cite{jlg}. Some of t
 %
 \begin{equation}
 \label{eq:ent_res_app}
-A \rho \left( \partial_t s + \vec{u} \cdot \grad s \right) = s_e \left[ \div h + g : \grad u + \left( \frac{u^2}{2}-e \right) \div f \right] 
-+ \rho s_{\rho} \div f \,. 
+A \rho \left( \partial_t s + \vec{u} \cdot \grad s \right) = s_e \left[ \div\vec{h}+\mathbb{g}: \grad u + \left( \frac{u^2}{2}-e \right) \div\vec{f}\right] 
++ \rho s_{\rho} \div\vec{f}\,. 
 \end{equation}
 %
 The next step consists of choosing a definition for each of the dissipative terms so that the left hand-side is positive. 
-The right-hand side of \eqt{eq:ent_res_app} can be simplified using the relations $g = A \mu \grad^s \vec{u} + f \otimes \vec{u}$ and $h = \tilde{h} - 0.5 \| \vec{u} \|^2 f$ to give
+The right-hand side of \eqt{eq:ent_res_app} can be simplified using the relations $\mathbb{g} = A \mu \grad^s \vec{u} +\vec{f}\otimes \vec{u}$ 
+and $\vec{h} = \vec{\tilde{h}} - 0.5 \| \vec{u} \|^2 f$ to give
 %
 \begin{equation}
 \label{eq:ent_res_app2}
-A \rho \left( \partial_t s + \vec{u} \cdot \div s \right) = s_e \left[ \div \tilde{h}-e \div f \right] + \rho s_{\rho} \div f  + A s_e \mu \grad \vec{u}^s : \grad \vec{u} \,. 
+A \rho \left( \partial_t s + \vec{u} \cdot \div s \right) = s_e \left[ \div \vec{\tilde{h}}-e \div\vec{f}\right] + \rho s_{\rho} \div\vec{f} + A s_e \mu \grad \vec{u}^s : \grad \vec{u} \,. 
 \end{equation}
 %
 The right-hand side is now integrated by parts:
 %
 \begin{multline}
 \label{eq:ent_res_app3}
-A \rho \left( \partial_t s + \vec{u} \cdot \div s \right) = \div \left[ s_e \tilde{h}-s_e e f  + \rho s_{\rho} f \right]  \\
--\div \tilde{h} \grad s_e  + f \cdot \grad (e s_e) -  f \cdot \grad ( \rho s_{\rho} ) + A s_e \mu \grad^s \vec{u} : \grad \vec{u} 
+A \rho \left( \partial_t s + \vec{u} \cdot \div s \right) = \div \left[ s_e \vec{\tilde{h}}-s_e e\vec{f} + \rho s_{\rho}\vec{f}\right]  \\
+-\div \vec{\tilde{h}} \grad s_e  +\vec{f}\cdot \grad (e s_e) - \vec{f}\cdot \grad ( \rho s_{\rho} ) + A s_e \mu \grad^s \vec{u} : \grad \vec{u} 
 \end{multline}
 %
 where $\grad^s$ is the symmetric gradient. The term $A s_e \mu \grad^s \vec{u} : \grad \vec{u}$ is positive and thus, 
@@ -1952,16 +1959,16 @@ does not need any further modification. It %
 remains to treat the other terms of the right-hand side that we now call $rhs$:
 %
 \begin{equation}
-rhs = \div \left[ s_e \tilde{h}-s_e e f  + \rho s_{\rho} f \right] - \tilde{h} \cdot \grad s_e  + f \cdot \grad (e s_e) - f \cdot \grad ( \rho s_{\rho} )  \,. \nonumber
+rhs = \div \left[ s_e \vec{\tilde{h}}-s_e e\vec{f} + \rho s_{\rho}\vec{f}\right] - \vec{\tilde{h}} \cdot \grad s_e  +\vec{f}\cdot \grad (e s_e) -\vec{f}\cdot \grad ( \rho s_{\rho} )  \,. \nonumber
 \end{equation}
 %
-The first term in $rhs$ is a conservative term. By carefully choosing a definition for $\tilde{h}$ and $f$, the 
+The first term in $rhs$ is a conservative term. By carefully choosing a definition for $\vec{\tilde{h}}$ and $\vec{f}$, the 
 conservative term can be expressed as a function of the entropy $s$. The inclusion of the variable area in the 
 choice of the dissipative terms is also required so that, when assuming a constant area, the standard Euler 
-equations are recovered. The following definitions for $\tilde{h}$ and $f$ are chosen:
+equations are recovered. The following definitions for $\vec{\tilde{h}}$ and $\vec{f}$ are chosen:
 %
 \begin{equation}
-\tilde{h} = A \kappa \grad ( \rho e ) \text{  and  } f = A \kappa \grad \rho, \nonumber 
+\vec{\tilde{h}} = A \kappa \grad ( \rho e ) \text{  and  }\vec{f}= A \kappa \grad \rho, \nonumber 
 \end{equation}
 %
 which yields, using the chain rule,

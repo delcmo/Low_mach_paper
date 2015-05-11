@@ -96,7 +96,10 @@ Zalesak, Steven T. "Introduction to "Flux-corrected transport. I. SHASTA,
 a fluid transport algorithm that works"." Journal of Computational Physics
 135.2 (1997): 170-171.}
 
-We rewrote the second paragraph of the introduction dealing with the different numerical method types. Thank you for pointing this out.
+We rewrote the second paragraph of the introduction dealing with the stabilization tehcniques
+\tcr{in order to discuss and include additional references}. Thank you for pointing this out.
+\tcr{have you read Bram van Leer 2006 and added something related to this?}
+
 \bigskip
 
 
@@ -104,17 +107,21 @@ We rewrote the second paragraph of the introduction dealing with the different n
 \color{blue}
 2. The connections to the work of Cook and Cabot seem to be very
 strong. These should be mentioned and examined.
-Cook, Andrew W., and William H. Cabot. "Hyperviscosity for shockturbulence
+Cook, Andrew W., and William H. Cabot. "Hyper-viscosity for shock turbulence
 interactions." Journal of Computational Physics 203.2 (2005):
 379-385.
-Cook, Andrew W., and William H. Cabot. "A high-wavenumber viscosity
+Cook, Andrew W., and William H. Cabot. "A high-wave number viscosity
 for high-resolution numerical methods." Journal of Computational Physics
 195.2 (2004): 594-601.
 Fiorina, Benoit, and Sanjiva K. Lele. "An artificial nonlinear diffusivity
 method for supersonic reacting flows with shocks." Journal of
 Computational Physics 222.1 (2007): 246-264.}
 
-Our understanding of the work of Cook and Cabot is that it was developed for both shock and turbulence capturing. The entropy viscosity method seems to be a good candidate for turbulence capturing as well. However, since this paper does not deal with turbulence capturing but only with shock capturing, we feel that the reader might get confused by adding the above references.
+Thank you for these references. In these articles, an artificial viscosity is added to the momentum
+and energy equations only, by means of grid-dependent viscosity coefficients. These techniques share some common thread and we have added some references to them in the introduction \tcr{Do it}.
+However, as Guermond \& Popov have shown in our Reference \tcr{12345}, viscosity should also be added to the continuity equation and, in that sense, the entropy-viscosity method differ from the others. \\
+We are also aware of some of ongoing work to employ entropy-viscosity for turbulence modeling \tcr{Travis Thomson dissertation} and added such a reference \tcr{Do it}.
+ %understanding of the work of Cook and Cabot is that it was developed for both shock and turbulence capturing. The entropy viscosity method seems to be a good candidate for turbulence capturing as well . However, since this paper does not deal with turbulence capturing but only with shock capturing, we feel that the reader might get confused by adding the above references.
 \bigskip
 
 
@@ -124,7 +131,7 @@ Our understanding of the work of Cook and Cabot is that it was developed for bot
 nor the numerical impact of it.
 Lax, Peter D. Hyperbolic systems of conservation laws and the
 mathematical theory of shock waves. Vol. 11. SIAM, 1973.
-Harten, Amiram, et al. "On finite?difference approximations and entropy
+Harten, Amiram, et al. "On finite difference approximations and entropy
 conditions for shocks." Communications on pure and applied mathematics
 29.3 (1976): 297-322. 
 }
@@ -149,7 +156,7 @@ for linearly degenerate waves in capturing schemes." Journal of
 Computational Physics 227.14 (2008): 6985-7002.
 }
 
-Thank you for pointing out the above references to us that we found vey interesting. We added these references to the paper in the numerical results section.
+Thank you for pointing out the above references. We have added these references to the paper in the numerical results section. \tcr{will need to highlight this in the final PDF we re-submit}
 \bigskip
 
 
@@ -164,7 +171,10 @@ Most of the time the dissipation proportional to the material velocity
 would seem to be the relevant one for the dynamics.
 }
 
-This is correct and we thank the reviewer for this comment.
+We have adopted this terminology for the bounding viscosity. This is more natural and
+will help the readership of our article. \\
+You are correct that only using this bounding viscosity for low-Mach flows is inappropriate.  
+The bounding viscosity is expected to kick in only in shocks; elsewhere the entropy viscosity is always orders of magnitude lower. Since this is only an upper bound, there are no issues in low-Mach flows. \tcr{We have added a sentence to emphasize this}.
 \bigskip
 
 
@@ -174,10 +184,10 @@ This is correct and we thank the reviewer for this comment.
 method in this paper. I only see an extension to low-Mach flows.
 }
 
-The method was improved in two ways: 
+The method was improved in two significant ways: 
 \begin{itemize}
-\item the definition of the viscosity coefficients no longer requires a functional form of the entropy function and thus, can be used with a wide range of equation of states and table look-ups. This new definition was tested on 1- and 2-D supersonic flows.
-\item the definition of the viscosity coefficients was extended to transonic and subsonic flows.
+\item the definition of the viscosity coefficients \underline{no longer} requires a functional form of the entropy function and thus, can be used with a wide range of equation of states and table look-ups. 
+\item More importantly, a new entropy residual has been derived. It only depends on flow variables and enables to treatment of low-Mach flows with the entropy-viscosity formalism. This was not possible before.
 \end{itemize}
 \bigskip
 
@@ -188,7 +198,8 @@ The method was improved in two ways:
 standards of publication. These should be improved.
 }
 
-We improved the quality of the 2-D plots that are presented in the section called numerical results and hope they now up to the standards of publication.
+We improved the quality of the 2-D plots that are presented in the numerical results section. 
+%and hope they now up to the standards of publication.
 \bigskip
 
 
@@ -198,7 +209,7 @@ We improved the quality of the 2-D plots that are presented in the section calle
 numerical accuracy and order of convergence of the method would be
 quite welcome.
 }
-
+\tcr{??????????????}
 \bigskip
 
 \end{document}
