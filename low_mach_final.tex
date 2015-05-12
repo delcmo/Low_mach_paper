@@ -208,14 +208,39 @@ compressible effects cannot be neglected because of the intense heat source, and
 and thus need to be accurately resolved. Hence, there is a strong interest to develop computational methods 
 that can solve both compressible and incompressible flow problems.  
 
-When solving Euler equations for a wide range of Mach numbers, multiple questions must be addressed: stability of the numerical scheme, 
-the ability to capture and track shocks, accuracy and solution convergence in the low-Mach regime. Because of the hyperbolic nature of the equations, 
-shocks can form during transonic and supersonic flows and require the use of adequate numerical techniques to stabilize the solution
-and correctly resolve the discontinuities \cite{lax-peter, harten-hyman}. These numerical methods can be typified into two categories. The first category consists of artificial viscosity methods and Riemann-based solvers and is widely described in the literature \cite{van-leer, neumann, Lapidus_paper, LMP, Lapidus_book, PBV_book, Toro}. The second category relies on flux limiters techniques that takes its origin to the paper by Zalesak \cite{fct-zalesak}. 
+When solving Euler equations for a wide range of Mach numbers, several questions must be addressed: stability of the numerical scheme, 
+the ability to capture and track shocks, accuracy and solution convergence in the low-Mach regime. 
+%
+It is well known that, even with smooth initial data, the existence of a 
+globally smooth solution to hyperbolic conservative laws may not occur because of the nonlinearity of the flux functions. Spurious
+oscillations can occur with high order spatial discretization schemes due to shocks, discontinuities, or sharp changes in the solution.
+Adequate numerical techniques are required to stabilize the numerical solution
+and correctly resolve discontinuities \cite{lax-peter, harten-hyman} \tcr{should these reference stay here or go with the previous sentence?}.
+%
+ 
+%
+\tcr{what is below is likely what the reviewer didn't like and found pedestrian":\\
+These numerical methods can be typified into two categories. The first category consists of artificial viscosity methods and Riemann-based solvers and is widely described in the literature \cite{van-leer, neumann, Lapidus_paper, LMP, Lapidus_book, PBV_book, Toro}. The second category relies on flux limiters techniques that takes its origin to the paper by Zalesak \cite{fct-zalesak}.\\
+I am trying to change this, below. What do you think?\\}
+\tcb{
+A variety of discretization schemes have been developed and employed to solve hyperbolic conservation laws. These include, but are not limited to,
+total variation diminishing (TVD) schemes, weighted essentially non-oscillatory  (WENO) schemes, exact (Godunov) and approximate Riemann solvers, flux-corrected transport (FCT) schemes, artificial diffusion methods, etc.. Essentially non-oscillatory schemes and Riemann solvers differ in the reconstruction technique and the choice of numerical 
+fluxes employed to evolve cell-averaged quantities \cite{van-leer, neumann, Lapidus_paper, LMP, Lapidus_book, PBV_book, Toro}.  
+% 
+In order to ensure uniqueness of the weak (numerical) solution, an ``entropy condition'' is imposed. In practice, this is achieved
+by adding an appropriate amount of dissipation (artificial viscosity), either implied by the discretization or explicitly. Artificial viscosity 
+techniques explicitly introduce diffusion to stabilize numerical schemes, often in the form of a Laplacian operator acting on the solution variables with a viscosity coefficient that depends on the grid size and the wave speeds. This idea can be traced back to Von Neumann and Richtmyer \cite{VonNeumannRichtmyer}. Recently, Reisner et al. \cite{Reisner2013} and Barter and Darmofal \cite{darmofal2010} proposed PDE-based artificial viscosity methods, whereby an additional scalar PDE equations was coupled to the 
+system of conservation laws and whose solution was the local viscosity coefficient. 
+Guermond et al. \cite{jlg1, jlg2} have developed the entropy viscosity method, a residual-based artificial viscosity method where the viscosity coefficient 
+depends on the local entropy production; their viscous regularization method is constructed so as to satisfy the entropy minimum principle. 
+Hyper-viscosity techniques also fall in the category of artificial viscosity methods and have been applied to shock-turbulence stabilization \cite{cabot, fiorani}.
+%
 %A wide range of stabilization methods exists and can be classified into two main categories: approximate Riemann or Godunov type solvers \cite{Toro}, flux-limiter techniques \tcr{I do not consider FCT to be a stab. metehod}
 %\cite{FluxLimiter, FluxLimiter2, fct-zalesak, fct-kuzmin-lohner}, and artificial viscosity methods \cite{neumann} such as pressure-based viscosity methods \cite{PBV_book} and Lapidus method \cite{Lapidus_paper, LMP, Lapidus_book}, among others. 
-The numerical method investigated in this paper belongs to the former type and is referred to as the Entropy-Viscosity Method  in the literature \cite{jlg1, jlg2}: it is a viscous regularization technique that satisfies the entropy minimum principle; adequate dissipation terms (viscous fluxes)
-are added to the all of the governing laws while ensuring the entropy minimum principle still holds. It somehow shares some common ground with the hyper-viscosity method that also adds artificial dissipative terms but only to the momentum and energy equations \cite{cabot, fiorani}.
+In this paper, we improve upon the Entropy Viscosity Method (EVM) by extending it to low-Mach flows while keeping its shock-capturing properties 
+for transonic and supersonic flows. In the EVM, adequate dissipation terms (viscous fluxes)
+are added to the all of the governing laws while ensuring the entropy minimum principle still holds. 
+}
 
 Numerical methods are usually developed using simple equations 
 of state and tested for transonic and supersonic flows where the disparity between the acoustic wave speed and the fluid speed is not 
@@ -993,7 +1018,6 @@ For instance, this is shown in \eqt{eq:jac_diss_term} for the dissipative terms 
 where $\mathbf  U$ denotes any of the conservative variables and $W$ denotes the component of $\mathbf  W$ associated with the 
 continuity equation. Lagging the viscosity values in the evaluation of the Jacobian means that, in the above, 
 we have neglected $\frac{\partial \kappa}{\partial \mathbf U}$.
-\tcr{check} \tcb{done}
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1412,11 +1436,11 @@ The simulation is run with a $\text{CFL}=1$ until the final time $t_{\text{final
 for pressure, density, velocity, and artificial viscosity are given in \fig{fig:1d_strong_shock} 
 along with the exact solution for comparison purposes. The numerical solution is in good agreement 
 with exact solution in \fig{fig:1d_strong_shock_var}. 
-\tcr{I can hardly see mu. What you email me that plot in log scale. do you change it yet in the paper}
 The viscosity coefficients $\mu$ and $\kappa$ 
 are not equal in the shock because the Mach number is of order $0.1$. The viscosity coefficient $\kappa$ 
 saturates to the first-order viscosity in the shock region around $x = 0.65m$ and is sufficient to 
-stabilize the numerical scheme. Values of the viscosity coefficients below $10^{-5}$ are not plotted.
+stabilize the numerical scheme. Values of the viscosity not shown in \fig{fig:1d_strong_shock_visc} are 
+below $10^{-5}$.
 %
 \begin{figure}[H]
         \centering
@@ -1937,7 +1961,8 @@ A \rho \left( \partial_t s + \vec{u} \cdot \grad s \right) = s_e \left[ \div\vec
 \end{equation}
 %
 The next step consists of choosing a definition for each of the dissipative terms so that the left hand-side is positive. 
-The right-hand side of \eqt{eq:ent_res_app} can be simplified using the relations $\mathbb{g} = A \mu \grad^s \vec{u} +\vec{f}\otimes \vec{u}$ 
+The right-hand side of \eqt{eq:ent_res_app} can be simplified using the relations \tcr{($\rho$ was missing in  $\mathbb{g}$)}
+$\mathbb{g} = A \rho \mu \grad^s \vec{u} +\vec{f}\otimes \vec{u}$ 
 and $\vec{h} = \vec{\tilde{h}} - 0.5 \| \vec{u} \|^2 f$ to give
 %
 \begin{equation}
