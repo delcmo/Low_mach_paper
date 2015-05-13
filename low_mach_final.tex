@@ -1943,7 +1943,7 @@ We first write the variable-area equations with dissipative terms:
 \end{equation}
 % 
 \begin{equation}
-\partial_t \left( \rho E A \right) + \div \left[ \vec{u} A \left( \rho E + P \right) \right] = \div (\vec{h}+ \tcr{\mathbb{g} \cdot \vec{u}} )  \,.
+\partial_t \left( \rho E A \right) + \div \left[ \vec{u} A \left( \rho E + P \right) \right] = \div (\vec{h}+ \mathbb{g} \cdot \vec{u} )  \,.
 \end{equation}
 \end{subequations}
 %
@@ -1956,14 +1956,14 @@ are similar to those used for the standard Euler equations \cite{jlg}. Some of t
 %
 \begin{equation}
 \label{eq:ent_res_app}
-A \rho \left( \partial_t s + \vec{u} \cdot \grad s \right) = s_e \left[ \div\vec{h} + \mathbb{g}: \grad \tcr{\vec{u}} + \left( \frac{u^2}{2}-e \right) \div\vec{f}\right] 
+A \rho \left( \partial_t s + \vec{u} \cdot \grad s \right) = s_e \left[ \div\vec{h} + \mathbb{g}: \grad vec{u} + \left( \frac{u^2}{2}-e \right) \div\vec{f}\right] 
 + \rho s_{\rho} \div\vec{f}\,. 
 \end{equation}
 %
 The next step consists of choosing a definition for each of the dissipative terms so that the left hand-side is positive. 
-The right-hand side of \eqt{eq:ent_res_app} can be simplified using the relations \tcr{($\rho$ was missing in  $\mathbb{g}$)}
-$\mathbb{g} = A \tcr{\rho} \mu \grad^s \vec{u} +\vec{f}\otimes \vec{u}$ 
-and $\vec{h} = \vec{\tilde{h}} -\tfrac{1}{2} \| \vec{u} \|^2 \tcr{\vec{f}}$ to give
+The right-hand side of \eqt{eq:ent_res_app} can be simplified using the relations
+$\mathbb{g} = A \rho \mu \grad^s \vec{u} +\vec{f}\otimes \vec{u}$ 
+and $\vec{h} = \vec{\tilde{h}} -\tfrac{1}{2} \| \vec{u} \|^2 \vec{f}$ to give
 %
 \begin{equation}
 \label{eq:ent_res_app2}
@@ -1976,7 +1976,7 @@ The right-hand side is now integrated by parts:
 \begin{multline}
 \label{eq:ent_res_app3}
 A \rho \left( \partial_t s + \vec{u} \cdot \div s \right) = \div \left[ s_e \vec{\tilde{h}}-s_e e\vec{f} + \rho s_{\rho}\vec{f}\right]  \\
-- \tcr{ \vec{\tilde{h}} \cdot \grad s_e}  + \vec{f}\cdot \grad (e s_e) - \vec{f}\cdot \grad ( \rho s_{\rho} ) + A s_e \mu \grad^s \vec{u} : \grad \vec{u} 
+- \vec{\tilde{h} \cdot \grad s_e}  + \vec{f}\cdot \grad (e s_e) - \vec{f}\cdot \grad ( \rho s_{\rho} ) + A s_e \mu \grad^s \vec{u} : \grad \vec{u} 
 \end{multline}
 %
 The term $A s_e \mu \grad^s \vec{u} : \grad \vec{u}$ is positive and thus, 
