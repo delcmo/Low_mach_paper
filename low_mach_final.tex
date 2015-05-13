@@ -213,9 +213,9 @@ the ability to capture and track shocks, accuracy and solution convergence in th
 %
 It is well known that, even with smooth initial data, the existence of a 
 globally smooth solution to hyperbolic conservative laws may not occur because of the nonlinearity of the flux functions. Spurious
-oscillations can occur with high order spatial discretization schemes due to shocks, discontinuities, or sharp changes in the solution.
-Adequate numerical techniques are required to stabilize the numerical solution
-and correctly resolve discontinuities \cite{lax-peter, harten-hyman} \tcr{should these reference stay here or go with the previous sentence?}.
+oscillations can occur with high order spatial discretization schemes due to shocks, discontinuities, or sharp changes in the solution and thus,
+adequate numerical techniques are required to stabilize the numerical solution
+and correctly resolve discontinuities \cite{lax-peter, harten-hyman} \tcr{should these reference stay here or go with the previous sentence?}. \tcb{we should merge them into one sentence and add the references at the end}
 %
  
 %
@@ -231,7 +231,7 @@ In order to ensure uniqueness of the weak (numerical) solution, an ``entropy con
 by adding an appropriate amount of dissipation (artificial viscosity), either implied by the discretization or explicitly. Artificial viscosity 
 techniques explicitly introduce diffusion to stabilize numerical schemes, often in the form of a Laplacian operator acting on the solution variables with a viscosity coefficient that depends on the grid size and the wave speeds. This idea can be traced back to Von Neumann and Richtmyer \cite{VonNeumannRichtmyer}. Recently, Reisner et al. \cite{Reisner2013} and Barter and Darmofal \cite{darmofal2010} proposed PDE-based artificial viscosity methods, whereby an additional scalar PDE equations was coupled to the 
 system of conservation laws and whose solution was the local viscosity coefficient. 
-Guermond et al. \cite{jlg1, jlg2} have developed the entropy viscosity method, a residual-based artificial viscosity method where the viscosity coefficient 
+Guermond et al. \cite{jlg1, jlg2} have developed the entropy viscosity method, an entropy residual-based artificial viscosity method where the viscosity coefficient 
 depends on the local entropy production; their viscous regularization method is constructed so as to satisfy the entropy minimum principle. 
 Hyper-viscosity techniques also fall in the category of artificial viscosity methods and have been applied to shock-turbulence stabilization \cite{cabot, fiorani}.
 %
