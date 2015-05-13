@@ -219,10 +219,10 @@ and correctly resolve discontinuities \cite{lax-peter, harten-hyman}.
 %
  
 %
-\tcr{what is below is likely what the reviewer didn't like and found pedestrian":\\
-These numerical methods can be typified into two categories. The first category consists of artificial viscosity methods and Riemann-based solvers and is widely described in the literature \cite{van-leer, neumann, Lapidus_paper, LMP, Lapidus_book, PBV_book, Toro}. The second category relies on flux limiters techniques that takes its origin to the paper by Zalesak \cite{fct-zalesak}.\\
-I am trying to change this, below. What do you think?\\}
-\tcb{
+%\tcr{what is below is likely what the reviewer didn't like and found pedestrian":\\
+%These numerical methods can be typified into two categories. The first category consists of artificial viscosity methods and Riemann-based solvers and is widely described in the literature \cite{van-leer, neumann, Lapidus_paper, LMP, Lapidus_book, PBV_book, Toro}. The second category relies on flux limiters techniques that takes its origin to the paper by Zalesak \cite{fct-zalesak}.\\
+%I am trying to change this, below. What do you think?\\}
+%\tcb{
 A variety of discretization schemes have been developed and employed to solve hyperbolic conservation laws. These include 
 total variation diminishing (TVD) schemes, weighted essentially non-oscillatory  (WENO) schemes, exact (Godunov) and approximate Riemann solvers, flux-corrected transport (FCT) schemes, artificial diffusion methods, etc.. Essentially non-oscillatory schemes and Riemann solvers differ in the reconstruction technique and the choice of numerical 
 fluxes employed to evolve cell-averaged quantities \cite{van-leer, neumann, Lapidus_paper, LMP, Lapidus_book, PBV_book, Toro}.  
@@ -240,7 +240,6 @@ Hyper-viscosity techniques also fall in the category of artificial viscosity met
 In this paper, we improve upon the Entropy Viscosity Method (EVM) by extending it to low-Mach flows while keeping its shock-capturing properties 
 for transonic and supersonic flows. In the EVM, adequate dissipation terms (viscous fluxes)
 are added to all of the governing laws while ensuring the entropy minimum principle still holds. 
-}
 
 Numerical methods are usually developed using simple equations 
 of state and tested for transonic and supersonic flows where the disparity between the acoustic wave speed and the fluid speed is not 
@@ -1815,7 +1814,7 @@ hyperbolic and degenerates to the standard Euler equations when one phase disapp
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Acknowledgments} 
 The authors (M.D. and J.R.) would like to thank Bojan Popov and Jean-Luc Guermond for many fruitful discussions.  
-The research was carried out under the auspices of the Idaho National Laboratory for the U.S. Department of Energy.
+This research was carried out under the auspices of the Idaho National Laboratory, a contractor of the U.S. Government under contract No. DEAC07-05ID14517.  Accordingly, the U.S. Government retains a non-exclusive, royalty-free license to publish or reproduce the published form of this contribution, or allow others to do so, for U.S. Government purposes.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
