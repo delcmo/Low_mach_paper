@@ -224,7 +224,7 @@ and correctly resolve discontinuities \cite{lax-peter, harten-hyman}.
 %I am trying to change this, below. What do you think?\\}
 %\tcb{
 A variety of discretization schemes have been developed and employed to solve hyperbolic conservation laws. These include 
-total variation diminishing (TVD) schemes, weighted essentially non-oscillatory  (WENO) schemes, exact (Godunov) and approximate Riemann solvers, flux-corrected transport (FCT) schemes, artificial diffusion methods, etc.. Essentially non-oscillatory schemes and Riemann solvers differ in the reconstruction technique and the choice of numerical 
+total variation diminishing (TVD) schemes, weighted essentially non-oscillatory  (WENO) schemes, exact and approximate Riemann solvers with Godunov's method, flux-corrected transport (FCT) schemes, artificial diffusion methods, etc.. Essentially non-oscillatory schemes and Riemann solvers differ in the reconstruction technique and the choice of numerical 
 fluxes employed to evolve cell-averaged quantities \cite{van-leer, neumann, Lapidus_paper, LMP, Lapidus_book, PBV_book, Toro}.  
 % 
 In order to ensure uniqueness of the weak (numerical) solution, an ``entropy condition'' is imposed. In practice, this is achieved
@@ -264,7 +264,7 @@ Here, we solve the fluid flow equations implicitly using the temporal capabiliti
 can be obtained effectively while preserving the accuracy of the transient solution; however, this requires the use of nonlinear solvers.
 
 In this paper, we employ the entropy viscosity method as a numerical stabilization for the inviscid Euler equation and assess its performance 
-in the low-Mach regime. 
+over a broad range of Mach numbers, including in the low-Mach regime. 
 The entropy viscosity method is a viscous regularization technique introduced by Guermond et al. to solve hyperbolic systems of equations
 and has successfully been applied to multi-dimensional supersonic flows with various spatial discretization schemes \cite{jlg}. 
 It is fairly straightforward to implement, can be used with unstructured grids, and has dissipative terms that are consistent with the 
@@ -324,7 +324,7 @@ $\rho$ and $e$, is used to compute the pressure $P$. The tensor product $\vec{a}
 such that $(\vec{a} \otimes \vec{b})_{i,j} = a_i b_j$. The identity tensor is denoted by $\mathbb{I}$.
 
 Next, the entropy viscosity method \cite{jlg1, jlg2, jlg3, valentin} applied to \eqt{eq:euler_eq} is 
-recalled. The method consists of adding dissipative terms with a viscosity coefficient modulated by 
+recalled. The method consists of adding dissipative terms with a viscosity coefficient controlled by 
 the entropy production; this allows for a high-order accuracy when the solution is smooth (provided 
 that the spatial and temporal discretizations also are high order). 
 The derivation of the viscous regularization (or dissipative terms) is carried out to be consistent 
@@ -349,8 +349,9 @@ $e$ and the specific volume $1/\rho$.  The Euler equations with viscous regulari
 \end{equation}
 \end{subequations}
 %
-where $\kappa$ and $\mu$ are positive viscosity coefficients (in units of length$^2$/time). $\grad^s \vec{u}$ denotes the symmetric 
-gradient operator and  guarantees the method to be rotationally invariant \cite{jlg}. The viscosity 
+where $\kappa$ and $\mu$ are positive viscosity coefficients (in units of length$^2$/time). $\grad^s $ denotes the symmetric 
+gradient operator and  guarantees the method to be rotationally invariant \cite{jlg} ($\grad^s \vec{u}$ represents the rate of deformation). 
+The viscosity 
 coefficients are key ingredients in the viscous regularization of \eqt{eq:euler_visc}.  
 Other stabilization approaches have been proposed in the literature, for instance, the Lapidus method 
 \cite{Lapidus_book, Lapidus_paper} or pressure-based viscosity methods \cite{PBV_book}. Here, we follow 
@@ -364,7 +365,7 @@ peaked in shocks and vanishingly small elsewhere \cite{Toro}.
 \resi(\vec{r}, t) := \partial_t s + \vec{u} \cdot \grad s \,.
 \end{equation}
 %
-In the current version of the method, the ratio of $\kappa$ to $\mu$ is defined through a numerical 
+In the current version of the method \cite{jlg1,jlg2}, the ratio of $\kappa$ to $\mu$ is defined through a numerical 
 Prandlt number, $\Pr = \kappa / \mu$.  $\Pr$ is a user-defined parameter and is usually taken in the 
 range $[ 0.001; 1 ]$. Since the entropy residual $\resi(\vec{r},t)$ may be extremely large in shocks, 
 the definition of the viscosity coefficients also includes a first-order viscosity coefficient that 
@@ -429,7 +430,7 @@ where $\jmp{a(\vec{r}_q)}_f$ denotes the inter-element jump in $a(\vec{r})$ at q
 (the quadrature points $\vec{r}_q$ are taken on the faces $f$ of the element $K$). With the definition given in 
 \eqt{eq:jump_CFEM}, the jump is constant over each element $K$ of the computational domain. 
 The denominator $\| s - \bar{s} \|_\infty$ in \eqt{eq:ent_visc_coeff_a} is used for dimensionality purposes.
-Currently, there are no theoretical justifications for choosing the denominator beyond a dimensionality argument. 
+Currently, there are no theoretical justifications for choosing the denominator beyond a dimensionality argument \cite{jlg1,jlg2}. 
 Finally, the viscosity coefficients $\mu$ and $\kappa$ are computed as follows:
 %
 \begin{subequations}
@@ -1706,7 +1707,7 @@ of the characteristics enter the domain through this boundary; these values are 
 
 The simulation is run with $\text{CFL}=2$ until steady state is reached. A 2-D mesh made of $16,109$ $\mathbb{Q}_1$ elements 
 is used. The ratios for pressure, entropy, and Mach number computed suing the numerical solution are compared with the analytical 
-values (published with only two significant digits); see \tbl{tbl:corner_exact_sol}. The numerical results in excellent 
+values (published with only two significant digits); see \tbl{tbl:corner_exact_sol}. The numerical results are in excellent 
 agreement with the known values. The shock wave angle at steady state can also be derived analytical and is 
 given by the so-called $\theta -\beta -M$ relation:
 %
