@@ -232,14 +232,14 @@ by adding an appropriate amount of dissipation (artificial viscosity), either im
 techniques explicitly introduce diffusion to stabilize numerical schemes, often in the form of a Laplacian operator acting on the solution variables with a viscosity coefficient that depends on the grid size and the wave speeds. This idea can be traced back to Von Neumann and Richtmyer \cite{VonNeumannRichtmyer}. Recently, Reisner et al. \cite{Reisner2013} and Barter and Darmofal \cite{darmofal2010} proposed PDE-based artificial viscosity methods, whereby an additional scalar PDE equation is coupled to the 
 system of conservation laws and whose solution serves as the local viscosity coefficient. 
 Guermond et al. \cite{jlg1, jlg2} have developed the entropy viscosity method, an entropy residual-based artificial viscosity method where the viscosity coefficient 
-depends on the local entropy production; their viscous regularization method is constructed to satisfy the entropy minimum principle. 
+depends on the local entropy production; their viscous regularization method is constructed to satisfy the minimum entropy principle. 
 Hyper-viscosity techniques also fall in the category of artificial viscosity methods and have been applied to shock-turbulence stabilization \cite{cabot, fiorani}.
 %
 %A wide range of stabilization methods exists and can be classified into two main categories: approximate Riemann or Godunov type solvers \cite{Toro}, flux-limiter techniques \tcr{I do not consider FCT to be a stab. metehod}
 %\cite{FluxLimiter, FluxLimiter2, fct-zalesak, fct-kuzmin-lohner}, and artificial viscosity methods \cite{neumann} such as pressure-based viscosity methods \cite{PBV_book} and Lapidus method \cite{Lapidus_paper, LMP, Lapidus_book}, among others. 
 In this paper, we improve upon the Entropy Viscosity Method (EVM) by extending it to low-Mach flows while keeping its shock-capturing properties 
 for transonic and supersonic flows. In the EVM, adequate dissipation terms (viscous fluxes)
-are added to all of the governing laws while ensuring the entropy minimum principle still holds. 
+are added to all of the governing laws while ensuring the minimum entropy principle still holds. 
 
 Numerical methods are usually developed using simple equations 
 of state and tested for transonic and supersonic flows where the disparity between the acoustic wave speed and the fluid speed is not 
@@ -268,7 +268,7 @@ over a broad range of Mach numbers, including in the low-Mach regime.
 The entropy viscosity method is a viscous regularization technique introduced by Guermond et al. to solve hyperbolic systems of equations
 and has successfully been applied to multi-dimensional supersonic flows with various spatial discretization schemes \cite{jlg}. 
 It is fairly straightforward to implement, can be used with unstructured grids, and has dissipative terms that are consistent with the 
-entropy minimum principle. However, it has not been evaluated in the low-Mach regime.
+minimum entropy principle. However, it has not been evaluated in the low-Mach regime.
 
 This paper is organized as follows: in \sct{sec:entro_visc} the current definition of the entropy viscosity method is recalled and 
 its ill-scaled nature in the low-Mach regime is discussed. 
@@ -277,7 +277,7 @@ for the entropy function. A low-Mach asymptotic study is carried out to adapt th
 in the incompressible limit while ensuring that the viscosity coefficients scale appropriately for all flow speeds (from low-Mach to supersonic).
 %
 In \sct{sec:var_area_diss_terms}, we extend the entropy viscosity method to Euler equations with variable area in order to model nozzle flows: 
-the viscous dissipative terms are adapted so that the entropy minimum principle remains satisfied.
+the viscous dissipative terms are adapted so that the minimum entropy principle remains satisfied.
 Spatial and temporal discretizations and solution techniques are presented in \sct{sec:solution_tech}.
  1-D and 2-D numerical results 
 are provided in \sct{sec:results} for a wide range of Mach numbers: liquid and gas nozzle flow problems, 
@@ -328,7 +328,7 @@ recalled. The method consists of adding dissipative terms with a viscosity coeff
 the entropy production; this allows for a high-order accuracy when the solution is smooth (provided 
 that the spatial and temporal discretizations also are high order). 
 The derivation of the viscous regularization (or dissipative terms) is carried out to be consistent 
-with the entropy minimum principle; details and proofs of the derivation can be found in \cite{jlg}. 
+with the minimum entropy principle; details and proofs of the derivation can be found in \cite{jlg}. 
 The viscous regularization thus obtained is valid for any equation of state as long as the physical 
 entropy function $s$ is concave (or $-s$ is a convex function) with respect to the internal energy 
 $e$ and the specific volume $1/\rho$.  The Euler equations with viscous regularization become %are given in \eqt{eq:euler_visc}:
@@ -893,7 +893,7 @@ Here, the variable area is assumed to be a smooth function of space only.
 %
 The application of the entropy viscosity method to the Euler equations with variable area is not 
 fundamentally different from its application to the standard Euler equations. However, we need to 
-derive the associated dissipative terms and verify that the entropy minimum principle is still satisfied.  
+derive the associated dissipative terms and verify that the minimum entropy principle is still satisfied.  
 The variable-area Euler equations with viscous regularization are given below; details of the derivation are provided in \app{app:diss_terms}.
 %
 \begin{subequations}
@@ -1887,7 +1887,7 @@ below for completeness:
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Derivation of the dissipative terms for the Euler equations with variable area using the entropy minimum principle} \label{app:diss_terms}
+\section{Derivation of the dissipative terms for the Euler equations with variable area using the minimum entropy principle} \label{app:diss_terms}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -2020,7 +2020,7 @@ can be simply determined by studying the positiveness of matrix $\Sigma$. In thi
 to prove that this matrix is negative definite since the quadratic form is on the right-hand side of the residual expression and it is preceded by a negative 
 sign. According to \cite{jlg}, the convexity of the opposite of the entropy function, i..e, $-s$, with respect to the internal energy $e$ 
 and the specific volume $1/ \rho$ is sufficient to ensure that matrix $\Sigma$ is negative definite. \\
-Finally, the right-hand side of the entropy residual \eqt{eq:ent_res_app} has now been expressed as the sum of a conservative term and another term known to be positive. Thus, the entropy minimum principle holds.
+Finally, the right-hand side of the entropy residual \eqt{eq:ent_res_app} has now been expressed as the sum of a conservative term and another term known to be positive. Thus, the minimum entropy principle holds.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
