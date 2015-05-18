@@ -240,6 +240,23 @@ Hyper-viscosity techniques also fall in the category of artificial viscosity met
 In this paper, we improve upon the Entropy Viscosity Method (EVM) by extending it to low-Mach flows while keeping its shock-capturing properties 
 for transonic and supersonic flows. In the EVM, adequate dissipation terms (viscous fluxes)
 are added to all of the governing laws while ensuring the minimum entropy principle still holds. 
+%%
+\tcr{
+The minimum entropy principle states that the entropy of a material particle in a flow field is constant along its pathline
+and only increases upon crossing a shock wave, viscous layer, or thermal conduction region.  Numerically computing 
+shockwave solutions without proper stabilization leads to non physical spurious oscillations. When viscosity is added locally in the vicinity 
+of the shockwave, one replaces the physical effect of the entropy production of the shockwave with the equivalent entropy increase of a viscous layer.  
+Ideally this will give the correct energy partitioning between kinetic and internal energy. However, if the viscous coefficient is not set appropriately 
+the resulting entropy production will not be equivalent to that of the true shock and the numerical scheme, if conservative, may even create a train of 
+oscillations in the solution, radiating away from the shock/viscous layer, and whose gradients will indeed attempt to produce an entropy production equivalent 
+to that of the shock jump. One needs to properly set the viscosity coefficient along with the jump conditions for the given mesh size in order 
+to produce a monotonic increase through the viscous layer with as little smearing as possible, but with entropy production matching that of the true shock.
+Tadmor \cite{tadmor_minimum_entropy_principle} gives an alternative statement (more useful for constructing numerical methods and proofs) of the minimum 
+entropy principle by transforming the Lagrangian statement above into that of an Eulerian reference frame.
+Tadmor [appl. num. math. 2 (1986) 211-219] gives an alternative statement (more useful for constructing numerical methods and proofs) of the entropy minimum 
+principle by transforming the Lagrangian statement above into that of an Eulerian reference frame.  Further discussion may be found in Guermond and Popov \cite{jlg}.
+}
+%%
 
 Numerical methods are usually developed using simple equations 
 of state and tested for transonic and supersonic flows where the disparity between the acoustic wave speed and the fluid speed is not 
