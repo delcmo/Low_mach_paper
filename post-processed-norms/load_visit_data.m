@@ -88,6 +88,7 @@ if ~show_plot
     return
 end
 
+figure(50);
 for icell=1:n_cells
     vert_IDs = connectivity(icell,:);
     xcoord = coordinates(vert_IDs,1);
@@ -97,4 +98,4 @@ for icell=1:n_cells
     
     patch(xcoord, ycoord, values, values); 
 end
-    
+title('visit data');    

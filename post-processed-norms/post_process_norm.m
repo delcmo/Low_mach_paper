@@ -1,5 +1,6 @@
 % clear all; close all; clc;
-function [normL1, normL2_squared] = post_process_norm(nquad,visit_filename,csv_file,update_vtk_data_with_csv,show_plot)
+function [normL1, normL2] = post_process_norm(nquad,visit_filename,csv_file,...
+                                              update_vtk_data_with_csv,show_plot)
 
 % update_vtk_data_with_csv = true;
 % read vtk file from visit
@@ -67,7 +68,7 @@ fprintf('max diff in nodal data between vtk and csv: %15.10e \n',max_diff);
 n_cells = size(connectivity,1);
 
 if show_plot
-    figure(1)
+    figure(61)
     if exact_is_present_in_csv
         subplot(2,1,1)
     end
@@ -80,7 +81,8 @@ if show_plot
         
         patch(xcoord, ycoord, values, values);
     end
-    
+    title('plot numerical solution');
+    %
     if exact_is_present_in_csv
         subplot(2,1,2)
         for icell=1:n_cells
@@ -93,6 +95,7 @@ if show_plot
             patch(xcoord, ycoord, values, values);
         end
     end
+    title('plot exact solution');
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -172,17 +175,22 @@ for icell=1:n_cells
     end
     
 end
+if show_plot
+    hold off
+end
 
-fprintf('L1 norm in domain %12.7e \n',normL1)
-fprintf('L2 norm in domain %12.7e\n\n',sqrt(normL2_squared))
+fprintf('L1 norm in domain %12.7e \n',normL1);
+normL2 = sqrt(normL2_squared);
+fprintf('L2 norm in domain %12.7e\n\n',normL2);
 
 diffL1=normL1 - normL1_in_shock - normL1_outside_shock;
 fprintf('L1 norm in domain %12.7e \t in shock %12.7e \t outside shock %12.7e \t difference: %12.7e \n',...
-    normL1,normL1_in_shock,normL1_outside_shock,diffL1)
+    normL1,normL1_in_shock,normL1_outside_shock,diffL1);
 
 diffL2=normL2_squared - normL2_in_shock - normL2_outside_shock;
 fprintf('L2 norm^2 in domain %12.7e \t in shock %12.7e \t outside shock %12.7e \t difference: %12.7e \n\n',...
-    normL2_squared,normL2_in_shock,normL2_outside_shock,diffL2)
+    normL2_squared,normL2_in_shock,normL2_outside_shock,diffL2);
+
 
 
 %%% end of function
