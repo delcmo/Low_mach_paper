@@ -1,8 +1,11 @@
 function [coordinates, connectivity, data] = load_visit_data(visit_filename, show_plot)
 
 % open the edge file and read in values
-visit_filename = 'density-visit.vtk';
 fid=fopen(visit_filename);
+if fid<0
+    fid
+    visit_filename
+end
 q=textscan(fid,'%s','commentStyle','#');
 d=q{1};clear q;
 fclose(fid);
@@ -88,6 +91,7 @@ if ~show_plot
     return
 end
 
+figure(50);
 for icell=1:n_cells
     vert_IDs = connectivity(icell,:);
     xcoord = coordinates(vert_IDs,1);
@@ -97,4 +101,4 @@ for icell=1:n_cells
     
     patch(xcoord, ycoord, values, values); 
 end
-    
+title('visit data');    
