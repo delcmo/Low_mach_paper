@@ -67,6 +67,7 @@ figure(30)
 plot(log(n_cells(2:end,end)), log(L1(2:end,end)) ,'-+'); hold all
 plot(log(n_cells(2:end,end)), log(L2(2:end,end)) ,'-o');
 legend(['L1';'L2']);
+
 if length(nquad_list) > 1
     figure(21)
     for iq=1:length(nquad_list)
