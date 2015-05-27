@@ -62,7 +62,7 @@ figure(20)
 plot(log(n_cells(:,end)), log(L1(:,end)) ,'-+'); hold all
 plot(log(n_cells(:,end)), log(L2(:,end)) ,'-o');
 legend(['L1';'L2']);
-% exclude coraest mesh
+% exclude coarsest mesh
 figure(30)
 plot(log(n_cells(2:end,end)), log(L1(2:end,end)) ,'-+'); hold all
 plot(log(n_cells(2:end,end)), log(L2(2:end,end)) ,'-o');
