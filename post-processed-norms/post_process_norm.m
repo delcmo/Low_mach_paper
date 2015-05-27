@@ -1,5 +1,5 @@
 % clear all; close all; clc;
-function [normL1, normL2] = post_process_norm(nquad,visit_filename,csv_file,...
+function [n_cells, normL1, normL2] = post_process_norm(nquad,visit_filename,csv_file,...
                                               update_vtk_data_with_csv,show_plot)
 
 % update_vtk_data_with_csv = true;
@@ -191,7 +191,9 @@ diffL2=normL2_squared - normL2_in_shock - normL2_outside_shock;
 fprintf('L2 norm^2 in domain %12.7e \t in shock %12.7e \t outside shock %12.7e \t difference: %12.7e \n\n',...
     normL2_squared,normL2_in_shock,normL2_outside_shock,diffL2);
 
-
+% % % just to try ...
+% % normL1 = normL1_outside_shock;
+% % normL2 = sqrt(normL2_outside_shock);
 
 %%% end of function
 return
