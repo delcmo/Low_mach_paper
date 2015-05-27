@@ -81,7 +81,15 @@ else
     [n_cells(:,1) L1(:,1) L2(:,1)]
 end
 
-save compression_corner.mat 
+% save compression_corner.mat 
+
+% just to see the finest mesh solution
+% show_plot=true;
+% [~,~]=post_process_norm(nquad_list(iq),...
+    % sprintf('%s%s',dir_name,vtk_file_list{end}),...
+    % sprintf('%s%s',dir_name,csv_file_list{end}),...
+    % update_vtk_data_with_csv,...
+    % show_plot);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 return
 

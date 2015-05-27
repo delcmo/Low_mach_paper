@@ -55,6 +55,9 @@ for i=1:n_vert
     % overwrite vtk data with more accurate csv data
     if update_vtk_data_with_csv
         data(vert_ID_in_vtk) = value_csv;
+        if exact_is_present_in_csv
+            data(vert_ID_in_vtk,2) = M(i,2);
+        end
         coordinates(vert_ID_in_vtk,1)=x_csv;
         coordinates(vert_ID_in_vtk,2)=y_csv;
     end
