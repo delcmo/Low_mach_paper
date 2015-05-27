@@ -16,12 +16,14 @@ i=i+1; csv_file_list{i}='density-ref-1-data0.csv';
 i=i+1; csv_file_list{i}='density-ref-2-data0.csv';
 % i=i+1; csv_file_list{i}='density-paraview0.csv';
 i=i+1; csv_file_list{i}='density-ref-3-data0.csv';
+i=i+1; csv_file_list{i}='density-ref-4-data0.csv';
 i=0;
 i=i+1; vtk_file_list{i}='density-ref-0-data.vtk';
 i=i+1; vtk_file_list{i}='density-ref-1-data.vtk';
 i=i+1; vtk_file_list{i}='density-ref-2-data.vtk';
 % i=i+1; vtk_file_list{i}='density-visit.vtk';
 i=i+1; vtk_file_list{i}='density-ref-3-data.vtk';
+i=i+1; vtk_file_list{i}='density-ref-4-data.vtk';
 % check
 if length(vtk_file_list) ~= length(csv_file_list)
     error('number of result files is not consistent between vtk and csv filenames');
@@ -59,7 +61,12 @@ end
 figure(20)
 plot(log(n_cells(:,end)), log(L1(:,end)) ,'-+'); hold all
 plot(log(n_cells(:,end)), log(L2(:,end)) ,'-o');
-
+legend(['L1';'L2']);
+% exclude coraest mesh
+figure(30)
+plot(log(n_cells(2:end,end)), log(L1(2:end,end)) ,'-+'); hold all
+plot(log(n_cells(2:end,end)), log(L2(2:end,end)) ,'-o');
+legend(['L1';'L2']);
 if length(nquad_list) > 1
     figure(21)
     for iq=1:length(nquad_list)
@@ -69,8 +76,11 @@ if length(nquad_list) > 1
     for iq=1:length(nquad_list)
         plot(log(n_cells(:,iq)), log(L2(:,iq)) ,'-+'); hold all
     end
+else
+    [n_cells(:,1) L1(:,1) L2(:,1)]
 end
 
+save compression_corner.mat 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 return
 
