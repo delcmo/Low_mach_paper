@@ -3,7 +3,7 @@ function E = compute_exact(xx,yy,b, show_plot,U)
 % Beta (in degree): 36.94490033
 % pre-shock density value: 1.222212286
 % Post-shock density value 2.281318668
-teta = 15./180*pi;
+theta = 15./180*pi;
 beta = 1.; % 36.94490033/180*pi;
 M_left = 2.5;
 gamma = 1.4;
@@ -13,19 +13,19 @@ left = 1.2222122856;
 % compute the oblique shock angle 'beta'
 resi = 1.; resi_prime = 1.;
 while(abs(resi/resi_prime) > 1.e-15)
-    resi = tan(teta)*tan(beta);
-    resi = resi*(M_left*M_left*(gamma+cos(2*beta))+2);
-    resi = resi - (2*M_left*M_left*sin(beta)*sin(beta)-2);
-    resi_prime = tan(teta)*(1.+tan(beta)*tan(beta));
-    resi_prime = resi_prime*(M_left*M_left*(gamma+cos(2*beta))+2);
-    resi_prime = resi_prime-tan(teta)*tan(beta)*M_left*M_left*2*sin(2*beta);
-    resi_prime = resi_prime-4*M_left*M_left*sin(beta)*cos(beta);
-    beta = beta-resi/resi_prime;
+    resi = tan(theta)*tan(beta);
+    resi = resi*(M_left^2*(gamma+cos(2*beta))+2);
+    resi = resi - (2*M_left^2*sin(beta)*sin(beta)-2);
+    resi_prime = tan(theta)*(1.+tan(beta)*tan(beta));
+    resi_prime = resi_prime*(M_left^2*(gamma+cos(2*beta))+2);
+    resi_prime = resi_prime-tan(theta)*tan(beta)*M_left^2*2*sin(2*beta);
+    resi_prime = resi_prime-4*M_left^2*sin(beta)*cos(beta);
+    beta = beta - resi/resi_prime;
 end
 
 % Compute density ratio
-rho_ratio = (gamma+1.)*M_left*M_left*sin(beta)*sin(beta);
-rho_ratio = rho_ratio/((gamma-1)*M_left*M_left*sin(beta)*sin(beta)+2.);
+rho_ratio = (gamma+1.)*M_left^2*(sin(beta))^2;
+rho_ratio = rho_ratio/((gamma-1)*M_left^2*(sin(beta))^2+2.);
 
 % Compute the right density called 'rite'
 rite = left*rho_ratio;

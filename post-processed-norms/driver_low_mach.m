@@ -17,6 +17,7 @@ i=i+1; csv_file_list{i}='density-ref-2-data0.csv';
 % i=i+1; csv_file_list{i}='density-paraview0.csv';
 i=i+1; csv_file_list{i}='density-ref-3-data0.csv';
 i=i+1; csv_file_list{i}='density-ref-4-data0.csv';
+i=i+1; csv_file_list{i}='density-ref-5-data0.csv';
 i=0;
 i=i+1; vtk_file_list{i}='density-ref-0-data.vtk';
 i=i+1; vtk_file_list{i}='density-ref-1-data.vtk';
@@ -24,6 +25,7 @@ i=i+1; vtk_file_list{i}='density-ref-2-data.vtk';
 % i=i+1; vtk_file_list{i}='density-visit.vtk';
 i=i+1; vtk_file_list{i}='density-ref-3-data.vtk';
 i=i+1; vtk_file_list{i}='density-ref-4-data.vtk';
+i=i+1; vtk_file_list{i}='density-ref-5-data.vtk';
 % check
 if length(vtk_file_list) ~= length(csv_file_list)
     error('number of result files is not consistent between vtk and csv filenames');
@@ -38,8 +40,8 @@ show_plot=false;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% quadrature choice
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-nquad_list = 2:10;
-nquad_list = 4;
+nquad_list = 2:6;
+% nquad_list = 4;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for ifile=1:length(vtk_file_list)
@@ -77,19 +79,25 @@ if length(nquad_list) > 1
     for iq=1:length(nquad_list)
         plot(log(n_cells(:,iq)), log(L2(:,iq)) ,'-+'); hold all
     end
+    for iq=1:length(nquad_list)
+        L1_rate = log(L1(1:end-1,iq)./L1(2:end,iq)) / log(2)
+        L2_rate = log(L2(1:end-1,iq)./L2(2:end,iq)) / log(2)
+    end
 else
     [n_cells(:,1) L1(:,1) L2(:,1)]
+    L1_rate = log(L1(1:end-1)./L1(2:end,1)) / log(2)
+    L2_rate = log(L2(1:end-1)./L2(2:end,1)) / log(2)
 end
 
-% save compression_corner.mat 
+save compression_corner_5ref_more_quad.mat 
 
 % just to see the finest mesh solution
 % show_plot=true;
 % [~,~]=post_process_norm(nquad_list(iq),...
-    % sprintf('%s%s',dir_name,vtk_file_list{end}),...
-    % sprintf('%s%s',dir_name,csv_file_list{end}),...
-    % update_vtk_data_with_csv,...
-    % show_plot);
+%     sprintf('%s%s',dir_name,vtk_file_list{end-2}),...
+%     sprintf('%s%s',dir_name,csv_file_list{end-2}),...
+%     update_vtk_data_with_csv,...
+%     show_plot);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 return
 
