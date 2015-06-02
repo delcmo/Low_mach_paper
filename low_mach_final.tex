@@ -219,10 +219,6 @@ and correctly resolve discontinuities \cite{lax-peter, harten-hyman}.
 %
  
 %
-%\tcr{what is below is likely what the reviewer didn't like and found pedestrian":\\
-%These numerical methods can be typified into two categories. The first category consists of artificial viscosity methods and Riemann-based solvers and is widely described in the literature \cite{van-leer, neumann, Lapidus_paper, LMP, Lapidus_book, PBV_book, Toro}. The second category relies on flux limiters techniques that takes its origin to the paper by Zalesak \cite{fct-zalesak}.\\
-%I am trying to change this, below. What do you think?\\}
-%\tcb{
 A variety of discretization schemes have been developed and employed to solve hyperbolic conservation laws. These include 
 total variation diminishing (TVD) schemes, weighted essentially non-oscillatory  (WENO) schemes, exact and approximate Riemann solvers with Godunov's method, flux-corrected transport (FCT) schemes, artificial diffusion methods, etc.. Essentially non-oscillatory schemes and Riemann solvers differ in the reconstruction technique and the choice of numerical 
 fluxes employed to evolve cell-averaged quantities \cite{van-leer, neumann, Lapidus_paper, LMP, Lapidus_book, PBV_book, Toro}.  
@@ -233,15 +229,13 @@ techniques explicitly introduce diffusion to stabilize numerical schemes, often 
 system of conservation laws and whose solution serves as the local viscosity coefficient. 
 Guermond et al. \cite{jlg1, jlg2} have developed the entropy viscosity method, an entropy residual-based artificial viscosity method where the viscosity coefficient 
 depends on the local entropy production; their viscous regularization method is constructed to satisfy the minimum entropy principle. 
+Recently, the entropy viscisoty method method has been used as an LES model \cite{guermond_thompson}. 
 Hyper-viscosity techniques also fall in the category of artificial viscosity methods and have been applied to shock-turbulence stabilization \cite{cabot, fiorani}.
 %
-%A wide range of stabilization methods exists and can be classified into two main categories: approximate Riemann or Godunov type solvers \cite{Toro}, flux-limiter techniques \tcr{I do not consider FCT to be a stab. metehod}
-%\cite{FluxLimiter, FluxLimiter2, fct-zalesak, fct-kuzmin-lohner}, and artificial viscosity methods \cite{neumann} such as pressure-based viscosity methods \cite{PBV_book} and Lapidus method \cite{Lapidus_paper, LMP, Lapidus_book}, among others. 
 In this paper, we improve upon the Entropy Viscosity Method (EVM) by extending it to low-Mach flows while keeping its shock-capturing properties 
 for transonic and supersonic flows. In the EVM, adequate dissipation terms (viscous fluxes)
 are added to all of the governing laws while ensuring the minimum entropy principle still holds. 
 %%
-\tcr{
 The minimum entropy principle states that the entropy of a material particle in a flow field is constant along its pathline
 and only increases upon crossing a shock wave, viscous layer, or thermal conduction region.  Numerically computing 
 shockwave solutions without proper stabilization leads to non physical spurious oscillations. When viscosity is added locally in the vicinity 
@@ -253,7 +247,6 @@ to that of the shock jump. One needs to properly set the viscosity coefficient a
 to produce a monotonic solution increase through the viscous layer with as little smearing as possible, but with entropy production matching that of the true shock.
 Tadmor \cite{tadmor_minimum_entropy_principle} gives an alternative statement (more useful for constructing numerical methods and proofs) of the minimum 
 entropy principle by transforming the Lagrangian statement above into that of an Eulerian reference frame. Further discussion may be found in Guermond and Popov \cite{jlg}.
-}
 %%
 
 Numerical methods are usually developed using simple equations 
@@ -298,7 +291,7 @@ Spatial and temporal discretizations and solution techniques are presented in \s
 are provided in \sct{sec:results} for a wide range of Mach numbers: liquid and gas nozzle flow problems, 
 low-Mach flows over a cylinder and a circular bump (with Mach numbers as low as $10^{-7}$), and supersonic flows 
 in a compression corner. % \cite{CompressionCorner} \tcr{why cite 1. cite them all, or none. 
-Convergence studies are performed in 1-D in order to demonstrate the accuracy of the solution technique for smooth 
+Convergence studies are performed in 1-D and 2-D in order to demonstrate the accuracy of the solution technique for smooth 
 solutions as well as for solutions presenting shocks. 
 
 
@@ -1188,7 +1181,7 @@ Note that the entropy viscosity coefficient is very small compared to the first-
 (i) the numerical solution is smooth as shown in \fig{fig:1d_liq_nozzle} and (ii) the flow is in a isentropic low-Mach regime. 
 %and thus isentropic 
 A convergence study was performed using the exact solution as a reference: the L$_1$ and L$_2$ norms of the 
-error and the corresponding convergence rates are computed at steady state on various uniform meshes from 4 to 256 cells.
+error and the corresponding convergence rates are computed at steady state on various uniform meshes from 4 to 1024 cells.
 Spatial convergence results using linear finite elements are reported in \tbl{tbl:l1_norm_liq} and \tbl{tbl:l2_norm_liq} 
 for the primitive variables~: density, velocity and pressure.
 %
@@ -1711,19 +1704,20 @@ The shock is well resolved and does not display any instabilities or spurious os
 \subsection{Supersonic Flow in a Compression Corner} \label{sec:corner}
 %---------------------------------------------------------------------------------------------------
 
-In this last example, we consider a supersonic flow at Mach 2.5 impinging on a corner with an angle of $15^\circ$. 
-From the oblique shock theory, an analytical solution for the ratios of 
-the pre- and post-shock values for pressure, entropy and Mach number ratios are available \cite{nasa1135,CompressionCorner}. 
+In this last example, we consider a supersonic flow at Mach 2.5 impinging on a corner with an angle of $\theta=15^\circ$. 
+A shock will form at an angle $\beta > \theta$. From the oblique shock theory, 
+an analytical solution for pre- and post-shock states is available \cite{nasa1135,CompressionCorner} and will be employed
+to perform a convergence study. 
 The initial conditions are chosen to be spatially uniform: the pressure and temperature are set to $P=101,325$ Pa 
 and $T=300$ K, respectively.  The ideal gas equation of state is used with the same parameters as in \sct{sec:hump}. 
-The initial velocity is computed from the upstream Mach number. The inlet is supersonic and therefore, the pressure, 
-temperature and velocity are specified using Dirichlet boundary conditions. The outlet is also supersonic and none 
-of the characteristics enter the domain through this boundary; these values are computed by the solver.
+The initial velocity is computed from the upstream Mach number. The inlet is supersonic and, therefore, the pressure, 
+temperature and velocity can be specified using Dirichlet boundary conditions. The outlet is also supersonic and none 
+of the characteristics enter the domain through this boundary. %; these values are computed by the solver.
 
-The simulation is run with $\text{CFL}=2$ until steady state is reached. A 2-D mesh made of $16,109$ $\mathbb{Q}_1$ elements 
-is used. The ratios for pressure, entropy, and Mach number computed suing the numerical solution are compared with the analytical 
-values (published with only two significant digits); see \tbl{tbl:corner_exact_sol}. The numerical results are in excellent 
-agreement with the known values. The shock wave angle at steady state can also be derived analytical and is 
+The simulation is run with $\text{CFL}=2$ until steady state is reached. A sequence of uniformly 2-D meshes, composed $\mathbb{Q}_1$ elements 
+is used (48 elements at the coarsest level, 49,152 elements at the finest level). In \tbl{tbl:corner_exact_sol}, the compare the ratios for pressure, 
+entropy, and density computed using both the analytical solution and the numerical solution using a mesh with 3,072 elements; 
+the numerical results are in excellent agreement with the exact values. The shock wave angle at steady state can be derived analytical and is 
 given by the so-called $\theta -\beta -M$ relation:
 %
 \begin{equation}
@@ -1731,32 +1725,37 @@ given by the so-called $\theta -\beta -M$ relation:
 \end{equation}
 %
 where $\theta$, $\beta$ and $M$ denote the corner angle, the shock-wave angle, and the upstream Mach number, respectively. 
-For a Mach of 2.5 and a 15$^\circ$-corner angle, the analytical value for the shock-wave angle is $36.94^\circ$ 
+For a Mach of 2.5 and a 15$^\circ$-corner angle, the analytical value for the shock-wave angle is $36.9449^\circ$ 
 at steady state. From \fig{fig:2d_corner_mach}, the numerical value of the shock-wave angle can be measured 
 and is found to be equal to $36.9^{\circ}$ and thus is in excellent agreement with the theory.
 %
 \begin{table}[H]
 \begin{center}
 \begin{tabular}{|c|c|c|}  \hline
+            %& analytical & numerical\\ \hline
+%Pressure    &  2.46750012784148      & 2.46822899802994    \\ \hline
+%Mach number &  0.74941040270010      & 0.74918036987472    \\ \hline
+%Density     &  1.86654863046077      & 1.86754966717355    \\ \hline 
             & analytical & numerical\\ \hline
-Pressure    & 2.47       & 2.467    \\ \hline
-Mach number &  0.74      & 0.741    \\ \hline
-Entropy     & 1.03       & 1.026    \\ \hline 
+Pressure    &  2.4675      & 2.4682    \\ \hline
+Mach number &  0.7494      & 0.7492   \\ \hline
+Density     &  1.8665      & 1.8675    \\ \hline 
 \end{tabular}
 \caption{\label{tbl:corner_exact_sol} Ratio of analytical and numerical downstream to upstream quantities for 
-the compression corner problems (corner angle of $15^\circ$ and inlet $M=2.5$ (analytical values from \cite{CompressionCorner}).}
+the compression corner problems (corner angle of $15^\circ$ and inlet $M=2.5$ (mesh with 3,072 elements).}
 \end{center}
 \end{table}
 %
 \begin{figure}[H]
         \centering
-        \begin{subfigure}[b]{0.52\textwidth}
+        \begin{subfigure}[b]{0.72\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{figures/CompressionCorner2D_mach.png}
                 \caption{Mach number}
                 \label{fig:2d_corner_mach}
-        \end{subfigure}%
-        \begin{subfigure}[b]{0.52\textwidth}
+        \end{subfigure} 
+				\\
+        \begin{subfigure}[b]{0.72\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{figures/CompressionCorner2D_viscosity.png}
                 \caption{Viscosity coefficients}
@@ -1775,20 +1774,70 @@ the compression corner problems (corner angle of $15^\circ$ and inlet $M=2.5$ (a
                 \caption{Difference between inlet and outlet mass flow rates as a function of time.}
                 \label{fig:2d_convergence}
         \end{subfigure}
-        \caption{Steady-state solution for a flow in a 2-D compression corner.}\label{fig:2d_corner}
+        \caption{Steady-state solution for a flow in a 2-D compression corner (mesh with 3,072 elements).}\label{fig:2d_corner}
 \end{figure}
 %
 The steady-state numerical solution is given in \fig{fig:2d_corner}; the Mach number and the viscosity 
 coefficients are plotted in \fig{fig:2d_corner_mach} and \fig{fig:2d_corner_visc}, respectively. The 
 steady-state solution is composed of two regions of constant state separated by an oblique shock. 
-\fig{fig:2d_corner_visc} shows that the viscosity coefficient is large in the shock and small elsewhere, 
-as expected. At the location of the corner ($x=-0.25m$, $y=-0.5m$), the viscosity coefficient is peaked. 
+\fig{fig:2d_corner_visc} shows that the viscosity coefficient is large in the shock and extremely small elsewhere, 
+as expected. At the location of the corner ($x=-0.25m$, $y=-0.5m$), a peak in the viscosity coefficient can be noted. 
 %because of the treatment of the wall boundary condition: at this particular node, the normal is not well 
 %defined and may cause some numerical errors. 
 Values for pressure and Mach number are graphed in \fig{fig:2d_corner_isomach} at the location $y=0$: 
 no spurious oscillations are observed and the shock is well resolved. 
-Finally, the difference between the inlet and outlet mass flow rates is plotted in \fig{fig:2d_convergence} 
+The difference between the inlet and outlet mass flow rates is plotted in \fig{fig:2d_convergence} (log scale)
 and shows that a steady state has indeed been reached. 
+
+We conclude by presenting a convergence study for this test case. We employ a series of uniformly refined grids
+using $\mathbb{Q}_1$ finite elements. The L$_1$ and L$_2$ norms of the error in the density are computed 
+using a two-dimensional Gauss-Legendre quadrature as follows
+%\be
+%\| u - u_h \|_r = \left( \int_{\text{domain}} \left[u(x,y)-u_h(x,y)\right]^r dxdy \right)^{1/r} =  \left( \sum_K \sum_q w_q \left[ u(x_q,y_q)-u_h(x_q,y_q) \right]^r \right)^{1/r} 
+%\ee
+\begin{subequations}
+\be
+\| \rho - \rho_h \|_1 = \int_{\text{domain}} | \rho(x,y)-\rho_h(x,y)| dxdy =  \sum_K \sum_q w_q | \rho(x_q,y_q)-\rho_h(x_q,y_q)| 
+\ee
+\be
+\| \rho - \rho_h \|_2 = \sqrt{\int_{\text{domain}} \left[\rho(x,y)-\rho_h(x,y)\right]^2 dxdy} =  \sqrt{\sum_K \sum_q w_q \left[ \rho(x_q,y_q)-\rho_h(x_q,y_q) \right]^2 } 
+\ee
+\end{subequations}
+where $\rho$ and $\rho_h$ denote the exact and numerical density solutions, $q$ is the summation index over the quadrature points, $K$ is a mesh cell, and $w_q$ is the jacobian of the mapping from the physical cell $K$ to the reference element $[-1,1]^2$ evaluated at quadrature points $(x_q, y_q)$ and multiplied by the quadrature weight. 
+When a fine-enough mesh is employed, the error is expected to be proportional to $h^p$, where $h$ is the typical mesh size and $p$ the convergence rate. In 2D, $h^2$ is proportional to the number of elements, $N_\text{el}$, so that the error is expected to be proportional to $\left(N_\text{el}\right)^{p/2}$. Since the solution contains a shock, the theoretical estimates of the convergence rates $p$ in the L$_1$ and L$_2$ norms are 1 and $1/2$, respectively.
+The results of this convergence study are presented in \tbl{tbl:corner_convergence}; we observe that the convergence rates are 
+1 and $1/2$ in the L$_1$ and L$_2$ norms, respectively, as expected.
+%
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{|r|r|c|r|c|}  \hline
+$N_\text{el}$   &  L$_1$ error   &  L$_1$ rate  &  L$_2$ error   &  L$_2$ rate  \\ \hline
+     %48  &   0.219076478314102    &          -           &     0.271554019689942    &             -          \\ \hline
+    %192  &   0.129061065669841    &   0.763380751017214  &     0.200809351033798    &     0.435412766538997  \\ \hline
+    %768  &   0.0730967024280946   &   0.820175613878837  &     0.147764481642899    &     0.442526923924373  \\ \hline
+  %3,072  &   0.0391538639846831   &   0.900651634069645  &     0.106545580588655    &      0.47182877579512  \\ \hline
+ %12,288  &   0.0203278442067009   &   0.945697466375151  &     0.0758696121024894   &     0.489876685909544  \\ \hline
+ %49,152  &   0.0104106275866897   &   0.965400182045967  &     0.0539588859596159   &     0.491661599122136  \\ \hline
+     %48  &   219.076478314102E-03   &          -           &    271.554019689942E-03   &             -          \\ \hline
+    %192  &   129.061065669841E-03   &   0.763380751017214  &    200.809351033798E-03   &     0.435412766538997  \\ \hline
+    %768  &   73.0967024280946E-03   &   0.820175613878837  &    147.764481642899E-03   &     0.442526923924373  \\ \hline
+  %3,072  &   39.1538639846831E-03   &   0.900651634069645  &    106.545580588655E-03   &      0.47182877579512  \\ \hline
+ %12,288  &   20.3278442067009E-03   &   0.945697466375151  &    75.8696121024894E-03   &     0.489876685909544  \\ \hline
+ %49,152  &   10.4106275866897E-03   &   0.965400182045967  &    53.9588859596159E-03   &     0.491661599122136  \\ \hline
+     48  &   219.08E-03   &    -    &    271.55E-03   &     -     \\ \hline
+    192  &   129.06E-03   &   0.76  &    200.81E-03   &     0.43  \\ \hline
+    768  &    73.10E-03   &   0.82  &    147.76E-03   &     0.44  \\ \hline
+  3,072  &    39.15E-03   &   0.90  &    106.55E-03   &     0.47  \\ \hline
+ 12,288  &    20.33E-03   &   0.95  &     75.87E-03   &     0.49  \\ \hline
+ 49,152  &    10.41E-03   &   0.97  &     53.96E-03   &     0.49  \\ \hline
+  \end{tabular}
+\caption{\label{tbl:corner_convergence} Convergence study for the compression corner test case.}
+\end{center}
+\end{table}
+%left = 1.2222122856;
+%rite = 2.281318668;
+
+
 
 The results presented in this paper demonstrate the ability of the entropy viscosity method with the new definitions of the viscosity coefficients 
 to correctly simulate several types of flows (from very low Mach subsonic to supersonic flows) without tuning parameters.
@@ -1811,12 +1860,13 @@ In 1-D, convergence of the numerical solution to
 the exact solution was demonstrated by computing the convergence rates of the L$_1$ and L$_2$ norms 
 for flows in a converging-diverging nozzle and in straight pipes. For smooth solutions, second-order 
 convergence was verified; solutions with shocks converged with the expected theoretical rates of 1 (L$_1$-norm)
-and 0.5 (L$_2$-norm).
+and 1/2 (L$_2$-norm).
 
 The effectiveness of the method was also demonstrated in 2-D using a series of benchmark problems
 for both subsonic and supersonic flows in various geometries, with Mach numbers ranging from $10^{-7}$ to 
 2.5. For very low-Mach flows, we numerically verified that the steady-state pressure variations were proportional to 
-the square of the Mach number, as expected in the incompressible limit.
+the square of the Mach number, as expected in the incompressible limit. A convergence study was carried out for a
+2D supersonic compression corner test case and rates of convergence of 1 (L$_1$-norm) and 1/2 (L$_2$-norm) were observed.
 
 In the future, we plan to further extend the entropy viscosity method 
 to the seven-equation two-phase flow model \cite{SEM}. 
