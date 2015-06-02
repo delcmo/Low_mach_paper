@@ -80,8 +80,8 @@ if length(nquad_list) > 1
         plot(log(n_cells(:,iq)), log(L2(:,iq)) ,'-+'); hold all
     end
     for iq=1:length(nquad_list)
-        L1_rate = log(L1(1:end-1,iq)./L1(2:end,iq)) / log(2)
-        L2_rate = log(L2(1:end-1,iq)./L2(2:end,iq)) / log(2)
+        L1_rate(1:length(vtk_file_list)-1,iq) = log(L1(1:end-1,iq)./L1(2:end,iq)) / log(2);
+        L2_rate(1:length(vtk_file_list)-1,iq) = log(L2(1:end-1,iq)./L2(2:end,iq)) / log(2);
     end
 else
     [n_cells(:,1) L1(:,1) L2(:,1)]
@@ -89,7 +89,7 @@ else
     L2_rate = log(L2(1:end-1)./L2(2:end,1)) / log(2)
 end
 
-save compression_corner_5ref_more_quad.mat 
+save compression_corner_5ref_several_quad.mat 
 
 % just to see the finest mesh solution
 % show_plot=true;

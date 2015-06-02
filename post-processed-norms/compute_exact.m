@@ -27,6 +27,19 @@ end
 rho_ratio = (gamma+1.)*M_left^2*(sin(beta))^2;
 rho_ratio = rho_ratio/((gamma-1)*M_left^2*(sin(beta))^2+2.);
 
+% mach_ratio ratio
+press_ratio = 1 +2*gamma/(gamma+1)*(M_left^2*(sin(beta))^2-1);
+
+% pressure ratio
+Msin2 = M_left^2*(sin(beta))^2;
+num = 1+(gamma-1)/2*Msin2;
+den = gamma*Msin2-(gamma-1)/2;
+mach_ratio = 1/sin(beta-theta)*sqrt(num/den)/M_left;
+
+P_left=101325;
+entro_ratio = log(press_ratio*P_left/(rho_ratio*left)^gamma) / log(P_left/left^gamma);
+
+
 % Compute the right density called 'rite'
 rite = left*rho_ratio;
 
