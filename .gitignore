@@ -43,3 +43,4 @@ CAF*
 *.pdf
 *initial_submit*
 numerical-results-outputs/
+post-processed-norms/moose_output_files/
