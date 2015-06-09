@@ -1796,9 +1796,9 @@ using a two-dimensional Gauss-Legendre quadrature as follows
 %\| u - u_h \|_r = \left( \int_{\text{domain}} \left[u(x,y)-u_h(x,y)\right]^r dxdy \right)^{1/r} =  \left( \sum_K \sum_q w_q \left[ u(x_q,y_q)-u_h(x_q,y_q) \right]^r \right)^{1/r} 
 %\ee
 \begin{subequations}
-\be
+\begin{align}
 \| \rho - \rho_h \|_1 = \int_{\text{domain}} | \rho(x,y)-\rho_h(x,y)| dxdy =  \sum_K \sum_q w_q | \rho(x_q,y_q)-\rho_h(x_q,y_q)| 
-\ee
+\end{align}
 \be
 \| \rho - \rho_h \|_2 = \sqrt{\int_{\text{domain}} \left[\rho(x,y)-\rho_h(x,y)\right]^2 dxdy} =  \sqrt{\sum_K \sum_q w_q \left[ \rho(x_q,y_q)-\rho_h(x_q,y_q) \right]^2 } 
 \ee
